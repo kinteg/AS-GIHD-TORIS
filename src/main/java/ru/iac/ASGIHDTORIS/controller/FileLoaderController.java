@@ -1,34 +1,39 @@
 package ru.iac.ASGIHDTORIS.controller;
 
+import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.iac.ASGIHDTORIS.parser.csv.SimpleCsvParser;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-@Slf4j
 @RestController
 @RequestMapping("api/")
+@Slf4j
 public class FileLoaderController {
 
-    @PostMapping("select-files")
+    @PostMapping("single-file")
     @ResponseBody
-    public String upload(@RequestParam("files") MultipartFile[] files, HttpServletRequest request) {
+    public String uploadFile(@RequestParam("file") MultipartFile multipartFile) throws IOException, CsvValidationException {
 
-        log.info(files.length+"");
-//        for(MultipartFile file : files) {
-//            log.info(file.getContentType() + "ъуъ");
-//        }
-        return "ok";
+        if (multipartFile == null)
+            return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND).toString();
+        else {
+            //TODO временный код для проверки работоспособности
+            SimpleCsvParser simpleCsvParser = new SimpleCsvParser();
+            File file = new File(multipartFile.getOriginalFilename());
+            file.createNewFile();
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(multipartFile.getBytes());
+            fileOutputStream.close();
+            log.info(simpleCsvParser.getJSON(file).toJSONString());
+            return "OK";
+        }
+
     }
-
-//    public String uploadFile(@RequestParam("file") MultipartFile multipartFile) {
-//
-//        if (multipartFile == null)
-//            return new ResponseEntity<String>("Error", HttpStatus.NOT_FOUND).toString();
-//        else {
-//            System.out.println(multipartFile.getContentType());
-//            return "";
-//        }
-//    }
 }

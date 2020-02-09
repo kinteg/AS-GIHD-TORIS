@@ -1,9 +1,38 @@
+<style>
+    input[type="file"]{
+        position: absolute;
+        top: -500px;
+    }
+
+    div.file-listing{
+        width: 200px;
+    }
+
+    span.remove-file{
+        color: red;
+        cursor: pointer;
+        float: right;
+    }
+</style>
+
 <template>
-    <div>
-        <label>File
-            <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-        </label>
-        <button v-on:click="submitFile()">Submit</button>
+    <div class="container">
+        <div class="large-12 medium-12 small-12 cell">
+            <label>Files
+                <input type="file" id="files" ref="files" multiple v-on:change="handleFilesUpload()"/>
+            </label>
+        </div>
+        <div class="large-12 medium-12 small-12 cell">
+            <div v-for="(file, key) in files" class="file-listing">{{ file.name }} <span class="remove-file" v-on:click="removeFile( key )">Remove</span></div>
+        </div>
+        <br>
+        <div class="large-12 medium-12 small-12 cell">
+            <button v-on:click="addFiles()">Add Files</button>
+        </div>
+        <br>
+        <div class="large-12 medium-12 small-12 cell">
+            <button v-on:click="submitFiles()">Submit</button>
+        </div>
     </div>
 </template>
 
@@ -16,29 +45,47 @@
         */
         data(){
             return {
-                file: ''
+                files: []
             }
         },
 
+        /*
+          Defines the method used by the component
+        */
         methods: {
             /*
-              Submits the file to the server
+              Adds a file
             */
-            submitFile(){
+            addFiles(){
+                this.$refs.files.click();
+            },
+
+            /*
+              Submits files to the server
+            */
+            submitFiles(){
                 /*
-                        Initialize the form data
-                    */
+                  Initialize the form data
+                */
                 let formData = new FormData();
 
                 /*
-                    Add the form data we need to submit
+                  Iteate over any file sent over appending the files
+                  to the form data.
                 */
-                formData.append('file', this.file);
 
+                for( var i = 0; i < this.files.length; i++ ){
+                    let file = this.files[i];
+
+                    formData.append('file[' + i + ']', file);
+                }
+               // formData.append('files', this.files);
+               // console.log(this.files.length);
+                console.log(formData.getAll("files").length);
                 /*
-                  Make the request to the POST /single-file URL
+                  Make the request to the POST /select-files URL
                 */
-                AXIOS.post( '/single-file',
+                AXIOS.post( '/select-files?files='+this.files,
                     formData,
                     {
                         headers: {
@@ -54,22 +101,25 @@
             },
 
             /*
-              Handles a change on the file upload
+              Handles the uploading of files
             */
-            handleFileUpload(){
-                this.file = this.$refs.file.files[0];
+            handleFilesUpload(){
+                let uploadedFiles = this.$refs.files.files;
+
+                /*
+                  Adds the uploaded file to the files array
+                */
+                for( var i = 0; i < uploadedFiles.length; i++ ){
+                    this.files.push( uploadedFiles[i] );
+                }
+            },
+
+            /*
+              Removes a select file the user has uploaded
+            */
+            removeFile( key ){
+                this.files.splice( key, 1 );
             }
         }
     }
 </script>
-
-<style scoped>
-    .el-header {
-        margin: auto;
-        display: block;
-        padding: 10px;
-    }
-    .el-menu-item {
-        text-decoration: none;
-    }
-</style>

@@ -1,18 +1,16 @@
 <template>
     <div>
-        <Header/>
-        <el-container>
-            <router-view/>
-        </el-container>
+        <search-source/>
+        <create-source/>
     </div>
 </template>
 
 <script>
-    import Header from "../components/Header.vue";
-    import FileLoader from "../components/UploadFile.vue";
+    import SearchSource from "../components/SearchSource.vue";
+    import CreateSource from "../components/CreateSource.vue";
     export default {
-        name: "App",
-        components: {FileLoader, Header},
+        name: "Source",
+        components: {CreateSource, SearchSource}
     }
 </script>
 

@@ -7,12 +7,12 @@ import net.minidev.json.JSONObject;
 import org.apache.commons.io.FilenameUtils;
 import ru.iac.ASGIHDTORIS.api.ParserApi;
 import ru.iac.ASGIHDTORIS.api.factory.impl.ParserFactoryImpl;
+import ru.iac.ASGIHDTORIS.parser.Parser;
 import ru.iac.ASGIHDTORIS.parser.zip.ZipParser;
 import ru.iac.ASGIHDTORIS.parser.zip.ZipParserImpl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -37,7 +37,11 @@ public class ParserApiImpl implements ParserApi {
 
         for (File file:
              files) {
-            array.add(ParserFactoryImpl.getParser(file.getName()).getJSON(file, limit));
+            Parser parser = ParserFactoryImpl.getParser(file.getName());
+
+            if (parser != null) {
+                array.add(parser.getJSON(file, limit));
+            }
         }
 
         object.put("content", array);

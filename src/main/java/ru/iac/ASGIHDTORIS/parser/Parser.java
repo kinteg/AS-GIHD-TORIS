@@ -4,7 +4,6 @@ import com.opencsv.exceptions.CsvValidationException;
 import net.minidev.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface Parser {

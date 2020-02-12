@@ -1,16 +1,16 @@
-package ru.iac.ASGIHDTORIS.parser.csv;
+package ru.iac.ASGIHDTORIS.parser.csv.impl;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import ru.iac.ASGIHDTORIS.parser.Parser;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
-public class SimpleCsvParser implements Parser {
+@Slf4j
+public class CsvParserImpl implements ru.iac.ASGIHDTORIS.parser.csv.CsvParser {
 
     private CSVReader reader;
     private final long CUSTOM_LIMIT = 20;
@@ -23,7 +23,9 @@ public class SimpleCsvParser implements Parser {
 
     @Override
     public JSONObject getJSON(File file, long limit) throws IOException, CsvValidationException {
-        return isNull(file) ? null : csvReader(file, limit);
+        return isNull(file)
+                ? new JSONObject()
+                : csvReader(file, limit);
     }
 
     private boolean isNull(File file) {
@@ -35,14 +37,14 @@ public class SimpleCsvParser implements Parser {
 
         String[] nameColumn = getNameColumn();
 
-        return createJson(nameColumn, limit);
+        return createJson(file.getName(), nameColumn, limit);
     }
 
     private String[] getNameColumn() throws IOException, CsvValidationException {
         return reader.readNext();
     }
 
-    private JSONObject createJson(String[] nameColumn, long limit) throws IOException, CsvValidationException {
+    private JSONObject createJson(String filename, String[] nameColumn, long limit) throws IOException, CsvValidationException {
         JSONObject parsed = new JSONObject();
         JSONArray array;
 
@@ -52,7 +54,8 @@ public class SimpleCsvParser implements Parser {
             array = getWithLimit(nameColumn, limit);
         }
 
-        parsed.put("content", array);
+        parsed.put("nameTable", filename);
+        parsed.put("table", array);
 
         return parsed;
     }
@@ -60,7 +63,6 @@ public class SimpleCsvParser implements Parser {
     private JSONArray getWithoutLimit(String[] nameColumn) throws IOException, CsvValidationException {
         JSONArray array = new JSONArray();
         String[] nextRecord;
-
         while ((nextRecord = reader.readNext()) != null) {
             array.add(getJsonObject(nameColumn, nextRecord));
         }
@@ -71,8 +73,7 @@ public class SimpleCsvParser implements Parser {
     private JSONArray getWithLimit(String[] nameColumn, long limit) throws IOException, CsvValidationException {
         JSONArray array = new JSONArray();
         String[] nextRecord;
-
-        for (int i = 0; (nextRecord = reader.readNext()) != null || i < limit; i++) {
+        for (int j = 0; (nextRecord = reader.readNext()) != null && j < limit; j++) {
             array.add(getJsonObject(nameColumn, nextRecord));
         }
 

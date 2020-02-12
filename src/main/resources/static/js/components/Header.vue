@@ -1,11 +1,12 @@
 <template>
-    <el-header>
-        <el-menu class="el-menu-demo" mode="horizontal">
-            <router-link class="el-menu-item" to="/">Создать шаблон</router-link>
-            <router-link class="el-menu-item" to="/source">Источники</router-link>
-
-        </el-menu>
-    </el-header>
+    <div>
+        <el-header>
+            <el-menu class="el-menu-demo" mode="horizontal">
+                <router-link class="el-menu-item" to="/">Создать шаблон</router-link>
+                <router-link class="el-menu-item" to="/source">Источники</router-link>
+            </el-menu>
+        </el-header>
+    </div>
 </template>
 
 <script>

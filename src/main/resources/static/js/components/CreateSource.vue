@@ -1,14 +1,13 @@
 <template>
     <div>
-        <el-form ref="form" :model="form" label-width="120px">
-            <el-form-item label="Activity name">
-                <el-input v-model="form.name"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="onSubmit">Create</el-button>
-                <el-button>Cancel</el-button>
-            </el-form-item>
-        </el-form>
+        <div class="sub-title">Введите название источника</div>
+        <el-form-item>
+            <el-input placeholder="Введите название источника" v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button  type="primary" @click="onSubmit">Создать</el-button>
+            <el-button>Cancel</el-button>
+        </el-form-item>
     </div>
 </template>
 
@@ -26,7 +25,7 @@
         },
         methods: {
             onSubmit() {
-                AXIOS.post( '/create',
+                AXIOS.post( '/source/create',
                     {name: this.form.name}
                 )
             }

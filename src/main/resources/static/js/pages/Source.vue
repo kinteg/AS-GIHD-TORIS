@@ -1,7 +1,15 @@
 <template>
     <div>
-        <search-source/>
-        <create-source/>
+        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+            <el-form-item>
+                <h2>Поиск источника</h2>
+                <search-source/>
+            </el-form-item>
+            <el-form-item >
+                <h2>Создание источника</h2>
+                <create-source/>
+            </el-form-item>
+        </el-form>
     </div>
 </template>
 

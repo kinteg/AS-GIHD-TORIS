@@ -34,6 +34,5 @@ public class FileLoaderController {
             log.info(simpleCsvParser.getJSON(file).toJSONString());
             return "OK";
         }
-
     }
 }

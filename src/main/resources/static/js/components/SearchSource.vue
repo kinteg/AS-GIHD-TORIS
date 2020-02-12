@@ -5,11 +5,11 @@
                 class="inline-input"
                 v-model="state2"
                 :fetch-suggestions="querySearch"
-                placeholder="Please Input"
+                placeholder="Введите название источника"
                 :trigger-on-focus="false"
                 @select="handleSelect">
         </el-autocomplete>
-        <el-button type="primary">Primary</el-button>
+        <el-button type="primary">Найти</el-button>
     </div>
 </template>
 <script>

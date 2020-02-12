@@ -1,18 +1,14 @@
 <template>
     <div>
-        <Header/>
-        <el-container>
-            <router-view/>
-        </el-container>
+        <upload-file/>
     </div>
 </template>
 
 <script>
-    import Header from "../components/Header.vue";
-    import FileLoader from "../components/UploadFile.vue";
+    import UploadFile from "../components/UploadFile.vue";
     export default {
-        name: "App",
-        components: {FileLoader, Header},
+        name: "FileLoader",
+        components: {UploadFile}
     }
 </script>
 

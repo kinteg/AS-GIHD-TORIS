@@ -8,9 +8,10 @@
 </template>
 
 <script>
-    import {AXIOS} from "../AXIOS/http-common";
 
+    import {AXIOS} from "../AXIOS/http-common";
     export default {
+        name: "UploadFile",
         /*
           Defines the data used by the component
         */
@@ -19,7 +20,6 @@
                 file: ''
             }
         },
-
         methods: {
             /*
               Submits the file to the server
@@ -29,12 +29,10 @@
                         Initialize the form data
                     */
                 let formData = new FormData();
-
                 /*
                     Add the form data we need to submit
                 */
                 formData.append('file', this.file);
-
                 /*
                   Make the request to the POST /single-file URL
                 */
@@ -52,7 +50,6 @@
                         console.log('FAILURE!!');
                     });
             },
-
             /*
               Handles a change on the file upload
             */

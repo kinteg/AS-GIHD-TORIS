@@ -1,14 +1,16 @@
 <template>
     <div>
         <upload-file/>
+        <show-collapse/>
     </div>
 </template>
 
 <script>
     import UploadFile from "../components/UploadFile.vue";
+    import ShowCollapse from "../components/ShowCollapse.vue";
     export default {
         name: "FileLoader",
-        components: {UploadFile}
+        components: {ShowCollapse, UploadFile}
     }
 </script>
 

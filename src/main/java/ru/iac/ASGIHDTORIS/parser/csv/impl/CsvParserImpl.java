@@ -84,7 +84,7 @@ public class CsvParserImpl implements ru.iac.ASGIHDTORIS.parser.csv.CsvParser {
         JSONObject jsonObject = new JSONObject();
 
         for (int i = 0; i < nameColumn.length; i++) {
-            jsonObject.put(nameColumn[i], record[i]);
+            jsonObject.put(nameColumn[i].trim(), record[i].trim());
         }
 
         return jsonObject;

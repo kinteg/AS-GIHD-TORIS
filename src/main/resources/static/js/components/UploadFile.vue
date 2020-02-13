@@ -4,11 +4,17 @@
             <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
         </label>
         <button v-on:click="submitFile()">Submit</button>
+        <div
+                v-for="currency in data"
+                class="currency"
+        >
+
+            {{currency.table}}
+        </div>
     </div>
 </template>
 
 <script>
-
     import {AXIOS} from "../AXIOS/http-common";
     export default {
         name: "UploadFile",
@@ -17,7 +23,9 @@
         */
         data(){
             return {
-                file: ''
+                file: '',
+                data: '',
+                keys: []
             }
         },
         methods: {
@@ -43,12 +51,14 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }
-                ).then(function(){
-                    console.log('SUCCESS!!');
+                ).then(response=>{
+                    this.data = response.data.content;
+                    for(var k in this.data[0].table[0]) this.keys.push(k);
+                    console.log(this.keys);
+                }).catch(error=>{
+                    console.log("ERROR"+error);
                 })
-                    .catch(function(){
-                        console.log('FAILURE!!');
-                    });
+
             },
             /*
               Handles a change on the file upload

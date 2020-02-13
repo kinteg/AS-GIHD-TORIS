@@ -35,7 +35,6 @@ public class ZipParserImpl implements ZipParser {
         ZipEntry zipEntry;
 
         while ((zipEntry = zis.getNextEntry()) != null) {
-            log.info("type: " + zipEntry.getName());
 
             if (!targetFiles.isTargetFile(zipEntry.getName())) {
                 break;

@@ -25,16 +25,18 @@ public class FileLoaderController {
     @PostMapping("single-file")
     @ResponseBody
     public String uploadFile(
-            @RequestParam(value = "file", required = false) MultipartFile multipartFile,
-            @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT_VALUE) Long limit
-    ) throws
+            @RequestParam(value = "file", required = false)
+                    MultipartFile multipartFile,
+            @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT_VALUE)
+                    Long limit) throws
             IOException,
             CsvValidationException {
 
-        if (multipartFile == null)
+        if (multipartFile == null) {
             return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND).toString();
-        else {
+        } else {
             return parserService.getWithParser(multipartFile, limit);
         }
+
     }
 }

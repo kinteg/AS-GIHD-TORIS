@@ -73,6 +73,7 @@ public class CsvParserImpl implements ru.iac.ASGIHDTORIS.parser.csv.CsvParser {
     private JSONArray getWithLimit(String[] nameColumn, long limit) throws IOException, CsvValidationException {
         JSONArray array = new JSONArray();
         String[] nextRecord;
+
         for (int j = 0; (nextRecord = reader.readNext()) != null && j < limit; j++) {
             array.add(getJsonObject(nameColumn, nextRecord));
         }
@@ -83,7 +84,7 @@ public class CsvParserImpl implements ru.iac.ASGIHDTORIS.parser.csv.CsvParser {
     private JSONObject getJsonObject(String[] nameColumn, String[] record) {
         JSONObject jsonObject = new JSONObject();
 
-        for (int i = 0; i < nameColumn.length; i++) {
+        for (int i = 0; i < nameColumn.length && i < record.length; i++) {
             jsonObject.put(nameColumn[i].trim(), record[i].trim());
         }
 

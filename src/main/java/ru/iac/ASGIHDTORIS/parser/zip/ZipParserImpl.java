@@ -15,10 +15,13 @@ import java.util.zip.ZipInputStream;
 @Slf4j
 public class ZipParserImpl implements ZipParser {
 
+    List<File> files;
+    byte[] buffer;
     private final TargetFiles targetFiles;
 
     public ZipParserImpl() {
         this.targetFiles = new TargetFiles();
+        buffer = new byte[1024];
     }
 
     @Override
@@ -28,39 +31,44 @@ public class ZipParserImpl implements ZipParser {
 
 
     private List<File> unzipFiles(File zip) throws IOException {
-        List<File> files = new ArrayList<>();
-        byte[] buffer = new byte[1024];
+        zip.deleteOnExit();
+        files = new ArrayList<>();
 
         ZipInputStream zis = new ZipInputStream(new FileInputStream(zip));
         ZipEntry zipEntry;
 
         while ((zipEntry = zis.getNextEntry()) != null) {
-
-            if (!targetFiles.isTargetFile(zipEntry.getName())) {
-                break;
+            if (targetFiles.isTargetFile(zipEntry.getName())) {
+                files.add(createFile(zipEntry.getName(), zis));
             }
-
-            File newFile = new File(zipEntry.getName());
-            newFile.deleteOnExit();
-
-
-            FileOutputStream fos = new FileOutputStream(newFile);
-
-            int len;
-
-            while ((len = zis.read(buffer)) > 0) {
-                fos.write(buffer, 0, len);
-            }
-
-            fos.close();
-            files.add(newFile);
         }
 
-        zis.closeEntry();
-        zis.close();
+        exist(zis, zip);
 
         return files;
     }
 
+    private File createFile(String name, ZipInputStream zis) throws IOException {
+        File newFile = new File(name);
+        newFile.deleteOnExit();
+
+        FileOutputStream fos = new FileOutputStream(newFile);
+
+        int len;
+
+        while ((len = zis.read(buffer)) > 0) {
+            fos.write(buffer, 0, len);
+        }
+
+        fos.close();
+
+        return newFile;
+    }
+
+    private void exist(ZipInputStream zis, File zip) throws IOException {
+        zis.closeEntry();
+        zis.close();
+        zip.delete();
+    }
 
 }

@@ -1,6 +1,7 @@
 package ru.iac.ASGIHDTORIS.parser.zip;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.iac.ASGIHDTORIS.api.TargetFiles;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +15,12 @@ import java.util.zip.ZipInputStream;
 @Slf4j
 public class ZipParserImpl implements ZipParser {
 
+    private final TargetFiles targetFiles;
+
+    public ZipParserImpl() {
+        this.targetFiles = new TargetFiles();
+    }
+
     @Override
     public List<File> getFiles(File zip) throws IOException {
         return unzipFiles(zip);
@@ -25,12 +32,18 @@ public class ZipParserImpl implements ZipParser {
         byte[] buffer = new byte[1024];
 
         ZipInputStream zis = new ZipInputStream(new FileInputStream(zip));
-        ZipEntry zipEntry = zis.getNextEntry();
+        ZipEntry zipEntry;
 
-        while (zipEntry != null) {
+        while ((zipEntry = zis.getNextEntry()) != null) {
             log.info("type: " + zipEntry.getName());
+
+            if (!targetFiles.isTargetFile(zipEntry.getName())) {
+                break;
+            }
+
             File newFile = new File(zipEntry.getName());
             newFile.deleteOnExit();
+
 
             FileOutputStream fos = new FileOutputStream(newFile);
 
@@ -39,15 +52,16 @@ public class ZipParserImpl implements ZipParser {
             while ((len = zis.read(buffer)) > 0) {
                 fos.write(buffer, 0, len);
             }
+
             fos.close();
-            zipEntry = zis.getNextEntry();
-            log.info("size: " + newFile.length());
             files.add(newFile);
         }
+
         zis.closeEntry();
         zis.close();
 
         return files;
     }
+
 
 }

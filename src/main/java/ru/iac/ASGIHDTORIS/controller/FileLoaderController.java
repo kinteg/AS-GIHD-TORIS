@@ -23,11 +23,12 @@ public class FileLoaderController {
 
     @PostMapping("single-file")
     @ResponseBody
-    public String uploadFile(@RequestParam("file") MultipartFile multipartFile) throws IOException, CsvValidationException {
+    public String uploadFile(@RequestParam(value = "file", required = false) MultipartFile multipartFile) throws IOException, CsvValidationException {
 
         if (multipartFile == null)
             return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND).toString();
         else {
+            log.info(parserService.getWithParser(multipartFile, 2));
             return parserService.getWithParser(multipartFile, 2);
         }
     }

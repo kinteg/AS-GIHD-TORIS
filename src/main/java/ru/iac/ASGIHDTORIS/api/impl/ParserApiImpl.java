@@ -13,6 +13,9 @@ import ru.iac.ASGIHDTORIS.parser.zip.ZipParserImpl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -26,7 +29,8 @@ public class ParserApiImpl implements ParserApi {
             return getFormFiles(zipParser.getFiles(file), limit);
         }
 
-        return ParserFactoryImpl.getParser(file.getName()).getJSON(file);
+
+        return getFormFiles(new ArrayList<>(Collections.singletonList(file)), limit);
     }
 
     @Override

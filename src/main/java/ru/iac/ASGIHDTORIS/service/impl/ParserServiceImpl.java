@@ -5,6 +5,7 @@ import net.minidev.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.api.ParserApi;
+import ru.iac.ASGIHDTORIS.parser.converter.FileConverter;
 import ru.iac.ASGIHDTORIS.service.ParserService;
 
 import java.io.File;
@@ -23,22 +24,13 @@ public class ParserServiceImpl implements ParserService {
 
     @Override
     public String getWithParser(MultipartFile multipartFile, long limit) throws IOException, CsvValidationException {
-        File file = multipartIntoFile(multipartFile);
+        File file = FileConverter.multipartIntoFile(multipartFile);
 
-        JSONObject jsonObject = parserApi.getFromFile(file, limit);
+        JSONObject fromFile = parserApi.getFromFile(file, limit);
 
-        return jsonObject.toJSONString();
+        return fromFile.toJSONString();
 
     }
 
-    private File multipartIntoFile(MultipartFile multipartFile) throws IOException {
-        File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        file.deleteOnExit();
-        file.createNewFile();
-        FileOutputStream fileOutputStream = new FileOutputStream(file);
-        fileOutputStream.write(multipartFile.getBytes());
-        fileOutputStream.close();
 
-        return file;
-    }
 }

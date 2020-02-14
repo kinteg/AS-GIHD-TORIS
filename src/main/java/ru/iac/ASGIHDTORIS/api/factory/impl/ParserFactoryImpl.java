@@ -5,7 +5,6 @@ import ru.iac.ASGIHDTORIS.parser.Parser;
 import org.apache.commons.io.FilenameUtils;
 import ru.iac.ASGIHDTORIS.parser.csv.impl.CsvParserImpl;
 
-
 public class ParserFactoryImpl implements ParserFactory {
 
     public static Parser getParser(String filename) {

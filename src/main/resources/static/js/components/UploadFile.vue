@@ -8,11 +8,13 @@
                 v-for="currency in data"
                 class="currency"
         >
-            Таблица {{currency.nameTable}}
+            <h3>Таблица {{currency.nameTable}}</h3>
             <div v-for="dataTable in currency.table">
-                <div v-for="key in keys">
-                    ------Поле: {{dataTable[key]}}
+                <div v-for="key in getKeys(dataTable)">
+                    <input type="text" :value="key  ">
+                        {{dataTable[key]}}
                 </div>
+                <h2>------------</h2>
             </div>
         </div>
     </div>
@@ -29,7 +31,6 @@
             return {
                 file: '',
                 data: '',
-                keys: []
             }
         },
         methods: {
@@ -57,9 +58,6 @@
                     }
                 ).then(response=>{
                     this.data = response.data.content;
-                    for(var k in this.data[0].table[0]) this.keys.push(k);
-                    console.log(this.keys);
-
                 }).catch(error=>{
                     console.log("ERROR"+error);
                 })
@@ -72,8 +70,10 @@
                 this.file = this.$refs.file.files[0];
             },
 
-            listLimit(){
-                return this.data.slice(0,this.n)
+            getKeys(table){
+                let keys = [];
+                for(let k in table) keys.push(k);
+                return keys;
             }
         }
     }

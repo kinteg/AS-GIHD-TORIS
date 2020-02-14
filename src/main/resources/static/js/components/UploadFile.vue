@@ -8,8 +8,12 @@
                 v-for="currency in data"
                 class="currency"
         >
-
-            {{currency.table}}
+            Таблица {{currency.nameTable}}
+            <div v-for="dataTable in currency.table">
+                <div v-for="key in keys">
+                    ------Поле: {{dataTable[key]}}
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -55,6 +59,7 @@
                     this.data = response.data.content;
                     for(var k in this.data[0].table[0]) this.keys.push(k);
                     console.log(this.keys);
+
                 }).catch(error=>{
                     console.log("ERROR"+error);
                 })
@@ -65,6 +70,10 @@
             */
             handleFileUpload(){
                 this.file = this.$refs.file.files[0];
+            },
+
+            listLimit(){
+                return this.data.slice(0,this.n)
             }
         }
     }

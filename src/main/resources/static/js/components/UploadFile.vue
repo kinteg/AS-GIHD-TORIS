@@ -4,18 +4,55 @@
             <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
         </label>
         <button v-on:click="submitFile()">Submit</button>
+        <br>
+        <br>
+        <el-collapse v-model="activeNames" @change="handleChange">
+            <div v-for="currency in data" class="currency">
+                <el-collapse-item :title=currency.nameTable >
+                    Название поля <span style=" float: right">Тип поля</span>
+                    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                        <div v-for="key in getKeys(currency.table[0])">
+
+                            <el-form-item  style="margin-right: 200px;">
+                                <input style="
+                            color: #606266;
+                            height: 32px;
+                            border-radius: 4px;
+                            border: 1px solid #dcdfe6;
+                            width: 100%;
+                            padding: 0 15px;
+                            margin: 8px 0;
+                            box-sizing: border-box;" type="text" :value="key">
+                            </el-form-item>
+                            <el-form-item >
+                                <select style="
+                                background-color: white;
+                                border: 1px solid #dcdfe6;
+                                border-radius: 4px;
+                                height: 32px;
+                                color: #606266;
+                                width: 100%;
+                                padding: 0 15px;
+                                margin: 8px 0;
+                                                ">
+                                    <option class="select" :value="key">test</option>
+                                    <option :value="key">test</option>
+                                    <option :value="key">test</option>
+                                    <option :value="key">test</option>
+                                    <option :value="key">test</option>
+                                </select>
+                            </el-form-item>
+                        </div>
+                    </el-form>
+                    <el-button type="primary" @click="onSubmit">Query</el-button>
+                </el-collapse-item>
+            </div>
+        </el-collapse>
         <div
                 v-for="currency in data"
                 class="currency"
         >
-            <h3>Таблица {{currency.nameTable}}</h3>
-            <div v-for="dataTable in currency.table">
-                <div v-for="key in getKeys(dataTable)">
-                    <input type="text" :value="key  ">
-                        {{dataTable[key]}}
-                </div>
-                <h2>------------</h2>
-            </div>
+
         </div>
     </div>
 </template>
@@ -29,11 +66,19 @@
         */
         data(){
             return {
+                input: {},
                 file: '',
                 data: '',
+                formInline: {
+                    user: '',
+                    region: ''
+                }
             }
         },
         methods: {
+            handleChange(val) {
+                console.log(val);
+            },
             /*
               Submits the file to the server
             */
@@ -73,6 +118,7 @@
             getKeys(table){
                 let keys = [];
                 for(let k in table) keys.push(k);
+                console.log(keys);
                 return keys;
             }
         }

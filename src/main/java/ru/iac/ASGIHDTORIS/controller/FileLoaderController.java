@@ -15,7 +15,7 @@ import java.io.IOException;
 @Slf4j
 public class FileLoaderController {
 
-    private final String DEFAULT_LIMIT_VALUE = "20";
+    private final String DEFAULT_LIMIT_VALUE = "2";
     private final ParserService parserService;
 
     public FileLoaderController(ParserService parserService) {

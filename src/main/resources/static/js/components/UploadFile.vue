@@ -13,8 +13,8 @@
                     <el-form :inline="true" :model="formInline" class="demo-form-inline">
                         <div v-for="key in getKeys(currency.table[0])">
 
-                            <el-form-item  style="margin-right: 200px;">
-                                <input style="
+                            <el-form-item   style="margin-right: 200px;">
+                                <input  :id="key" style="
                             color: #606266;
                             height: 32px;
                             border-radius: 4px;
@@ -37,14 +37,14 @@
                                                 ">
                                     <option class="select" :value="key">test</option>
                                     <option :value="key">test</option>
-                                    <option :value="key">test</option>
+                                    <option :value="key">fghijok</option>
                                     <option :value="key">test</option>
                                     <option :value="key">test</option>
                                 </select>
                             </el-form-item>
                         </div>
                     </el-form>
-                    <el-button type="primary" @click="onSubmit">Query</el-button>
+                    <el-button type="primary" @click="submit(currency.table[0])">Query</el-button>
                 </el-collapse-item>
             </div>
         </el-collapse>
@@ -69,10 +69,6 @@
                 input: {},
                 file: '',
                 data: '',
-                formInline: {
-                    user: '',
-                    region: ''
-                }
             }
         },
         methods: {
@@ -116,10 +112,22 @@
             },
 
             getKeys(table){
-                let keys = [];
-                for(let k in table) keys.push(k);
-                console.log(keys);
+                let keys =[];
+                for(let k in table)
+                {
+                    keys.push(k);
+                    //console.log(k);
+                }
+
                 return keys;
+            },
+            submit(keys){
+                for(let key in keys)
+                {
+                    let val = document.getElementById(key).value;
+                    console.log(val);
+                }
+
             }
         }
     }

@@ -1,7 +1,6 @@
 <template>
     <div>
         <upload-file/>
-<!--        <show-collapse/>-->
     </div>
 </template>
 

@@ -15,13 +15,17 @@ public class SourceController {
     public SourceController(SourceRepo sourceRepo) {
         this.sourceRepo = sourceRepo;
     }
+
 //TODO подгружать сразу все шаблоны в поле ввода в поиске
+
     @PostMapping("/create")
     public Source createSource (@RequestBody Source name){
         log.info(name.toString());
         return sourceRepo.save(name);
     }
+
 //TODO ДОДЕЛАТЬ
+
     @GetMapping("{name}")
     public Source findByName(@PathVariable String name) {
         return sourceRepo.findByName(name);

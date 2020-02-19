@@ -16,7 +16,7 @@
                             <el-form-item   style="margin-right: 200px;">
                                 <input  :id="key+currency.nameTable" class="inputText" type="text" :value="key">
                             </el-form-item>
-                            <el-form-item >
+                            <el-form-item>
                                 <select :id="'select'+key+currency.nameTable" class="inputSelect">
                                     <option value="integer">integer</option>
                                     <option value="text">text</option>
@@ -27,8 +27,15 @@
                             </el-form-item>
                         </div>
                     </el-form>
-                    <!--                    <el-button type="primary" @click="submit(currency.table[0],currency.nameTable)">Query</el-button>-->
+                    <table >
+                        <tr v-for="pole in currency.table">
+                            <td  style="border-bottom: 1px solid #dcdfe6" v-for="kek in pole">
+                                {{kek}}
+                            </td>
+                        </tr>
+                    </table>
                 </el-collapse-item>
+
             </div>
         </el-collapse>
         <el-button type="primary" @click="submit">Query</el-button>
@@ -73,6 +80,7 @@
                 })
 
             },
+
             handleFileUpload(){
                 this.file = this.$refs.file.files[0];
             },
@@ -87,36 +95,18 @@
 
                 return keys;
             },
+
             submit(){
                 let tables = [];
                 let allKeys = [];
                 let JsonStr;
-                // let jsonObj = {
-                //     "content":[
-                //         {
-                //             "nameFile":"file",
-                //             "nameTable":"table",
-                //             "columnTable":[
-                //                 {
-                //                     "name":"name",
-                //                     "type":"type"
-                //                 },
-                //                 {
-                //                     "name":"name",
-                //                     "type":"type"
-                //                 }
-                //             ]
-                //         }
-                //     ]
-                // };
                 for(let i = 0; i<this.data.length; i++) {
 
                     tables.push(this.data[i].nameTable);
                     allKeys.push(this.getKeys(this.data[i].table[0]));
 
                 }
-                // console.log(keys[0]);
-                // console.log(tables);
+
                 for(let i = 0; i< tables.length; i++) {
                     let keys = allKeys[i];
                     let nameTable = document.getElementById(tables[i]).value;

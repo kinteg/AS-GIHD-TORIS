@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.parser;
+package ru.iac.ASGIHDTORIS.api.parser;
 
 import com.opencsv.exceptions.CsvValidationException;
 import net.minidev.json.JSONObject;

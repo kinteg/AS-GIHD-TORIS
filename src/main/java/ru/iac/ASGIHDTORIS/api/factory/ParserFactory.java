@@ -1,6 +1,6 @@
 package ru.iac.ASGIHDTORIS.api.factory;
 
-import ru.iac.ASGIHDTORIS.parser.Parser;
+import ru.iac.ASGIHDTORIS.api.parser.Parser;
 
 public interface ParserFactory {
 

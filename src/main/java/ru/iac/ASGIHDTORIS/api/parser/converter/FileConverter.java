@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.parser.converter;
+package ru.iac.ASGIHDTORIS.api.parser.converter;
 
 import org.springframework.web.multipart.MultipartFile;
 

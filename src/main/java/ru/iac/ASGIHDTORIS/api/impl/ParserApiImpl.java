@@ -4,11 +4,10 @@ import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import ru.iac.ASGIHDTORIS.api.ParserApi;
+import ru.iac.ASGIHDTORIS.api.Parser;
 import ru.iac.ASGIHDTORIS.api.TargetFiles;
 import ru.iac.ASGIHDTORIS.api.factory.impl.ParserFactoryImpl;
-import ru.iac.ASGIHDTORIS.parser.Parser;
-import ru.iac.ASGIHDTORIS.parser.zip.ZipParserImpl;
+import ru.iac.ASGIHDTORIS.api.parser.zip.ZipParserImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Slf4j
-public class ParserApiImpl implements ParserApi {
+public class ParserApiImpl implements Parser {
 
     private final TargetFiles targetFiles;
 
@@ -26,12 +25,22 @@ public class ParserApiImpl implements ParserApi {
 
     @Override
     public JSONObject getFromFile(File file, long limit) throws IOException, CsvValidationException {
-
         List<File> files = targetFiles.isArchive(file.getName()) ?
                 new ZipParserImpl().getFiles(file)
                 : Collections.singletonList(file);
 
         return getFormFiles(files, limit);
+    }
+
+    @Override
+    public JSONObject getFromFile(File file, String fileName) throws IOException, CsvValidationException {
+        List<File> files = Collections.singletonList(
+                targetFiles.isArchive(file.getName()) ?
+                new ZipParserImpl().findByFileName(file, fileName)
+                : file
+        );
+
+        return getFormFiles(files, -1);
     }
 
     @Override
@@ -45,11 +54,12 @@ public class ParserApiImpl implements ParserApi {
 
         for (File file :
                 files) {
-            Parser parser = ParserFactoryImpl.getParser(file.getName());
+            ru.iac.ASGIHDTORIS.api.parser.Parser parser = ParserFactoryImpl.getParser(file.getName());
 
             if (parser != null) {
                 array.add(parser.getJSON(file, limit));
             }
+
             file.delete();
         }
 

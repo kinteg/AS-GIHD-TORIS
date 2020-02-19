@@ -10,8 +10,8 @@
                     </el-form-item>
                     <el-form-item >
                         <select id="select" class="inputSelect">
-                            <option value="key1">test1</option>
-                            <option value="key2">test2</option>
+                            <option value="key1">integer</option>
+                            <option value="key2">text</option>
                             <option value="key3">fghijok3</option>
                             <option value="key4">test4</option>
                             <option value="key5">tes5t</option>

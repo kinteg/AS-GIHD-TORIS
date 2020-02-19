@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.parser.zip;
+package ru.iac.ASGIHDTORIS.api.parser.zip;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.iac.ASGIHDTORIS.api.TargetFiles;
@@ -29,6 +29,27 @@ public class ZipParserImpl implements ZipParser {
         return unzipFiles(zip);
     }
 
+    @Override
+    public File findByFileName(File zip, String filename) throws IOException {
+        return unzipFile(zip, filename);
+    }
+
+    private File unzipFile(File zip, String filename) throws IOException {
+        zip.deleteOnExit();
+
+        ZipInputStream zis = new ZipInputStream(new FileInputStream(zip));
+        ZipEntry zipEntry;
+
+        while ((zipEntry = zis.getNextEntry()) != null) {
+            if (targetFiles.isTargetFile(zipEntry.getName())
+                    && zipEntry.getName().equals(filename)) {
+
+                return createFile(zipEntry.getName(), zis);
+            }
+        }
+
+        return null;
+    }
 
     private List<File> unzipFiles(File zip) throws IOException {
         zip.deleteOnExit();

@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.parser.csv.impl;
+package ru.iac.ASGIHDTORIS.api.parser.csv.impl;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 @Slf4j
-public class CsvParserImpl implements ru.iac.ASGIHDTORIS.parser.csv.CsvParser {
+public class CsvParserImpl implements ru.iac.ASGIHDTORIS.api.parser.csv.CsvParser {
 
     private CSVReader reader;
     private final long CUSTOM_LIMIT = 20;

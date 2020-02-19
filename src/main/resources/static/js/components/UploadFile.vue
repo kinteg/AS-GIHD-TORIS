@@ -18,8 +18,8 @@
                             </el-form-item>
                             <el-form-item >
                                 <select :id="'select'+key+currency.nameTable" class="inputSelect">
-                                    <option value="integer">test1</option>
-                                    <option value="integer">test2</option>
+                                    <option value="integer">integer</option>
+                                    <option value="text">text</option>
                                     <option value="integer">fghijok3</option>
                                     <option value="integer">test4</option>
                                     <option value="integer">tes5t</option>
@@ -151,7 +151,7 @@
                         this.data = response.data.content;
                     }).catch(error=>{
                         console.log("ERROR"+error);
-                    })
+                    });
                     JsonStr = '';
                 }
             }

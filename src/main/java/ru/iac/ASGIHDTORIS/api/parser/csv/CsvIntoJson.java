@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.api.parser.csv.impl;
+package ru.iac.ASGIHDTORIS.api.parser.csv;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -9,8 +9,12 @@ import net.minidev.json.JSONObject;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 @Slf4j
-public class CsvParserImpl implements ru.iac.ASGIHDTORIS.api.parser.csv.CsvParser {
+public class CsvIntoJson implements ru.iac.ASGIHDTORIS.api.parser.csv.CsvParser {
 
     private CSVReader reader;
     private final long CUSTOM_LIMIT = 20;
@@ -25,33 +29,40 @@ public class CsvParserImpl implements ru.iac.ASGIHDTORIS.api.parser.csv.CsvParse
     public JSONObject getJSON(File file, long limit) throws IOException, CsvValidationException {
         return isNull(file)
                 ? new JSONObject()
-                : csvReader(file, limit);
+                : csvReader(file, limit, Collections.emptyList());
+    }
+
+    @Override
+    public JSONObject getJSON(File file, long limit, List<String> names) throws IOException, CsvValidationException {
+        return csvReader(file, limit, names);
     }
 
     private boolean isNull(File file) {
         return file == null;
     }
 
-    private JSONObject csvReader(File file, long limit) throws IOException, CsvValidationException {
+    private JSONObject csvReader(File file, long limit, List<String> nameColumn) throws IOException, CsvValidationException {
         reader = new CSVReader(new FileReader(file));
 
-        String[] nameColumn = getNameColumn();
+        if (nameColumn.isEmpty()) {
+            nameColumn = getNamesColumn();
+        }
 
         return createJson(file.getName(), nameColumn, limit);
     }
 
-    private String[] getNameColumn() throws IOException, CsvValidationException {
-        return reader.readNext();
+    private List<String> getNamesColumn() throws IOException, CsvValidationException {
+        return Arrays.asList(reader.readNext());
     }
 
-    private JSONObject createJson(String filename, String[] nameColumn, long limit) throws IOException, CsvValidationException {
+    private JSONObject createJson(String filename, List<String> namesColumn, long limit) throws IOException, CsvValidationException {
         JSONObject parsed = new JSONObject();
         JSONArray array;
 
         if (limit == WITHOUT_LIMIT) {
-            array = getWithoutLimit(nameColumn);
+            array = getWithoutLimit(namesColumn);
         } else {
-            array = getWithLimit(nameColumn, limit);
+            array = getWithLimit(namesColumn, limit);
         }
 
         parsed.put("nameTable", filename);
@@ -60,9 +71,10 @@ public class CsvParserImpl implements ru.iac.ASGIHDTORIS.api.parser.csv.CsvParse
         return parsed;
     }
 
-    private JSONArray getWithoutLimit(String[] nameColumn) throws IOException, CsvValidationException {
+    private JSONArray getWithoutLimit(List<String> nameColumn) throws IOException, CsvValidationException {
         JSONArray array = new JSONArray();
         String[] nextRecord;
+
         while ((nextRecord = reader.readNext()) != null) {
             array.add(getJsonObject(nameColumn, nextRecord));
         }
@@ -70,7 +82,7 @@ public class CsvParserImpl implements ru.iac.ASGIHDTORIS.api.parser.csv.CsvParse
         return array;
     }
 
-    private JSONArray getWithLimit(String[] nameColumn, long limit) throws IOException, CsvValidationException {
+    private JSONArray getWithLimit(List<String> nameColumn, long limit) throws IOException, CsvValidationException {
         JSONArray array = new JSONArray();
         String[] nextRecord;
 
@@ -81,11 +93,11 @@ public class CsvParserImpl implements ru.iac.ASGIHDTORIS.api.parser.csv.CsvParse
         return array;
     }
 
-    private JSONObject getJsonObject(String[] nameColumn, String[] record) {
+    private JSONObject getJsonObject(List<String> nameColumn, String[] record) {
         JSONObject jsonObject = new JSONObject();
 
-        for (int i = 0; i < nameColumn.length && i < record.length; i++) {
-            jsonObject.put(nameColumn[i].trim(), record[i].trim());
+        for (int i = 0; i < nameColumn.size() && i < record.length; i++) {
+            jsonObject.put(nameColumn.get(i).trim(), record[i].trim());
         }
 
         return jsonObject;

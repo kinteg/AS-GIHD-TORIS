@@ -6,7 +6,38 @@
         <button v-on:click="submitFile()">Загрузить файлы</button>
         <br>
         <br>
-        <collapse-show :data="data"/>
+        <el-collapse v-model="activeNames" @change="handleChange">
+            <div v-for="currency in data" class="currency">
+                <el-collapse-item :title=currency.nameTable >
+                    Название таблицы<input  :id="currency.nameTable" class="inputText" type="text" :value="currency.nameTable">
+                    <br><br>Название поля <span style=" float: right">Тип поля</span>
+                    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                        <div v-for="key in getKeys(currency.table[0])">
+                            <el-form-item   style="margin-right: 200px;">
+                                <input  :id="key+currency.nameTable" class="inputText" type="text" :value="key">
+                            </el-form-item>
+                            <el-form-item>
+                                <select :id="'select'+key+currency.nameTable" class="inputSelect">
+                                    <option value="integer">integer</option>
+                                    <option value="text">text</option>
+                                    <option value="integer">fghijok3</option>
+                                    <option value="integer">test4</option>
+                                    <option value="integer">tes5t</option>
+                                </select>
+                            </el-form-item>
+                        </div>
+                    </el-form>
+                    <table >
+                        <tr v-for="pole in currency.table">
+                            <td  style="border-bottom: 1px solid #dcdfe6; padding: 10px" v-for="value in pole">
+                                {{value}}
+                            </td>
+                        </tr>
+                    </table>
+                </el-collapse-item>
+
+            </div>
+        </el-collapse>
         <el-button type="primary" @click="submit">Загрузить</el-button>
     </div>
 </template>

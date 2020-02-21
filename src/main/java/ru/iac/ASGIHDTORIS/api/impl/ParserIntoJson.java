@@ -6,7 +6,7 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import ru.iac.ASGIHDTORIS.api.Parser;
 import ru.iac.ASGIHDTORIS.api.TargetFiles;
-import ru.iac.ASGIHDTORIS.api.factory.impl.ParserFactoryImpl;
+import ru.iac.ASGIHDTORIS.api.factory.impl.SimpleFileFactory;
 import ru.iac.ASGIHDTORIS.api.parser.zip.ZipParserImpl;
 
 import java.io.File;
@@ -15,11 +15,11 @@ import java.util.Collections;
 import java.util.List;
 
 @Slf4j
-public class ParserApiImpl implements Parser {
+public class ParserIntoJson implements Parser {
 
     private final TargetFiles targetFiles;
 
-    public ParserApiImpl() {
+    public ParserIntoJson() {
         targetFiles = new TargetFiles();
     }
 
@@ -54,7 +54,7 @@ public class ParserApiImpl implements Parser {
 
         for (File file :
                 files) {
-            ru.iac.ASGIHDTORIS.api.parser.Parser parser = ParserFactoryImpl.getParser(file.getName());
+            ru.iac.ASGIHDTORIS.api.parser.Parser parser = SimpleFileFactory.getParser(file.getName());
 
             if (parser != null) {
                 array.add(parser.getJSON(file, limit));

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <label>File
+        <label>Выберите файл для загрузки
             <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
         </label>
         <button v-on:click="submitFile()">Submit</button>
@@ -29,8 +29,8 @@
                     </el-form>
                     <table >
                         <tr v-for="pole in currency.table">
-                            <td  style="border-bottom: 1px solid #dcdfe6" v-for="kek in pole">
-                                {{kek}}
+                            <td  style="border-bottom: 1px solid #dcdfe6; padding: 10px" v-for="value in pole">
+                                {{value}}
                             </td>
                         </tr>
                     </table>
@@ -38,7 +38,7 @@
 
             </div>
         </el-collapse>
-        <el-button type="primary" @click="submit">Query</el-button>
+        <el-button type="primary" @click="submit">Загрузить</el-button>
 
     </div>
 </template>
@@ -65,19 +65,19 @@
                 let formData = new FormData();
 
                 formData.append('file', this.file);
-
-                AXIOS.post( '/single-file',
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    }
-                ).then(response=>{
-                    this.data = response.data.content;
-                }).catch(error=>{
-                    console.log("ERROR"+error);
-                })
+                this.postData('/single-file',formData);
+                // AXIOS.post( '/single-file',
+                //     formData,
+                //     {
+                //         headers: {
+                //             'Content-Type': 'multipart/form-data'
+                //         }
+                //     }
+                // ).then(response=>{
+                //     this.data = response.data.content;
+                // }).catch(error=>{
+                //     console.log("ERROR"+error);
+                // })
 
             },
 
@@ -90,10 +90,32 @@
                 for(let k in table)
                 {
                     keys.push(k);
-                    //console.log(k);
                 }
 
                 return keys;
+            },
+
+            postData(controller, data) {
+                AXIOS.post(controller,
+                    data,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then(response=>{
+                    this.data = response.data.content;
+                }).catch(error=>{
+                    console.log("ERROR"+error);
+                })
+            },
+
+            getElement(keys,tables,JsonStr){
+                let inputTextValue = document.getElementById(keys+tables).value;
+                let e = document.getElementById("select"+keys+tables);
+                let inputSelectValue = e.options[e.selectedIndex].value;
+                JsonStr = JsonStr.concat('{"name":"' + inputTextValue + '","type":"' + inputSelectValue + '"}');
+                return JsonStr;
             },
 
             submit(){
@@ -112,36 +134,36 @@
                     let nameTable = document.getElementById(tables[i]).value;
                     JsonStr = '{"content":{"nameFile":"' + tables[i] + '","nameTable":"' + nameTable + '","columnTable":[';
                     for(let j = 0; j< keys.length; j++) {
+                        // let inputTextValue = document.getElementById(keys[j]+tables[i]).value;
+                        //
+                        // let e = document.getElementById("select"+keys[j]+tables[i]);
+                        // let inputSelectValue = e.options[e.selectedIndex].value;
+                        // JsonStr = JsonStr.concat('{"name":"' + inputTextValue + '","type":"' + inputSelectValue + '"}');
+                        JsonStr = this.getElement(keys[j],tables[i],JsonStr);
 
-                        let inputTextValue = document.getElementById(keys[j]+tables[i]).value;
-                        console.log(inputTextValue);
-
-                        let e = document.getElementById("select"+keys[j]+tables[i]);
-                        let inputSelectValue = e.options[e.selectedIndex].value;
-                        console.log(inputSelectValue);
-                        JsonStr = JsonStr.concat('{"name":"' + inputTextValue + '","type":"' + inputSelectValue + '"}');
-                        if(j !== keys.length - 1) {
+                        if(j !== keys.length - 1)
                             JsonStr = JsonStr.concat(',');
-                        }
                     }
                     JsonStr = JsonStr.concat(']}}');
 
+                    console.log(JsonStr);
                     let formData = new FormData();
 
                     formData.append('file', this.file);
                     formData.append('json',JsonStr);
-                    AXIOS.post( '/sendData',
-                        formData,
-                        {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        }
-                    ).then(response=>{
-                        this.data = response.data.content;
-                    }).catch(error=>{
-                        console.log("ERROR"+error);
-                    });
+                    this.postData('/sendData',formData);
+                    // AXIOS.post( '/sendData',
+                    //     formData,
+                    //     {
+                    //         headers: {
+                    //             'Content-Type': 'multipart/form-data'
+                    //         }
+                    //     }
+                    // ).then(response=>{
+                    //     this.data = response.data.content;
+                    // }).catch(error=>{
+                    //     console.log("ERROR"+error);
+                    // });
                     JsonStr = '';
                 }
             }

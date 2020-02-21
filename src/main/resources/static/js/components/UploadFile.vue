@@ -27,7 +27,7 @@
                             </el-form-item>
                         </div>
                     </el-form>
-                    <table >
+                    <table >fpujd
                         <tr v-for="pole in currency.table">
                             <td  style="border-bottom: 1px solid #dcdfe6" v-for="kek in pole">
                                 {{kek}}

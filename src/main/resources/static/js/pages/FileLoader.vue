@@ -6,10 +6,9 @@
 
 <script>
     import UploadFile from "../components/UploadFile.vue";
-    import ShowCollapse from "../components/ShowCollapse.vue";
     export default {
         name: "FileLoader",
-        components: {ShowCollapse, UploadFile}
+        components: {UploadFile}
     }
 </script>
 

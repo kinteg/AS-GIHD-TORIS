@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+        <el-form status-icon  ref="ruleForm" label-width="120px" class="demo-ruleForm">
             <el-form-item>
                 <h2>Поиск источника</h2>
                 <search-source/>

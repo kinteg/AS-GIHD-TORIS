@@ -9,7 +9,7 @@
                 :trigger-on-focus="false"
                 @select="handleSelect">
         </el-autocomplete>
-        <el-button type="primary">Найти</el-button>
+        <el-button  type="primary">Найти</el-button>
     </div>
 </template>
 <script>
@@ -51,6 +51,10 @@
         },
         mounted() {
             this.links = this.loadAll();
+        },
+
+        searchSource(name){
+
         }
     }
 </script>

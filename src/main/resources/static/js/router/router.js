@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Source from "pages/Source.vue";
 import FileLoader from "../pages/FileLoader.vue";
-import Pattern from "../pages/Pattern.vue";
+import Pattern from "../pages/CreatePatternPage.vue";
 
 Vue.use(VueRouter)
 

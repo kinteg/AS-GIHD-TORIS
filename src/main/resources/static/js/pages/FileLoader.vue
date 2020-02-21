@@ -1,6 +1,6 @@
 <template>
     <div>
-        <upload-file/>
+        <upload-file :controller="'/sendData'"/>
     </div>
 </template>
 

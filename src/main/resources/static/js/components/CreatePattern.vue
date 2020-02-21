@@ -11,11 +11,14 @@
         </el-form-item>
     </el-form>
 
+    <upload-file :controller=""/>
 </template>
 
 <script>
+    import UploadFile from "./UploadFile.vue";
     export default {
         name: "CreatePattern",
+        components: {UploadFile},
         data() {
             return {
                 labelPosition: 'left',

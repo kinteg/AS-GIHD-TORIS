@@ -1,11 +1,13 @@
 <template>
-    <create-pattern/>
+    <div>
+        <create-pattern/>
+    </div>
 </template>
 
 <script>
     import CreatePattern from "../components/CreatePattern.vue";
     export default {
-        name: "Pattern",
+        name: "CreatePatternPage",
         components: {CreatePattern}
     }
 </script>

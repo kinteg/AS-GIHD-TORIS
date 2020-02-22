@@ -3,52 +3,22 @@
         <label>Выберите файл для загрузки
             <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
         </label>
-        <button v-on:click="submitFile()">Submit</button>
+        <button v-on:click="submitFile()">Загрузить файлы</button>
         <br>
         <br>
-        <el-collapse v-model="activeNames" @change="handleChange">
-            <div v-for="currency in data" class="currency">
-                <el-collapse-item :title=currency.nameTable >
-                    Название таблицы<input  :id="currency.nameTable" class="inputText" type="text" :value="currency.nameTable">
-                    <br><br>Название поля <span style=" float: right">Тип поля</span>
-                    <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                        <div v-for="key in getKeys(currency.table[0])">
-                            <el-form-item   style="margin-right: 200px;">
-                                <input  :id="key+currency.nameTable" class="inputText" type="text" :value="key">
-                            </el-form-item>
-                            <el-form-item>
-                                <select :id="'select'+key+currency.nameTable" class="inputSelect">
-                                    <option value="integer">integer</option>
-                                    <option value="text">text</option>
-                                    <option value="integer">fghijok3</option>
-                                    <option value="integer">test4</option>
-                                    <option value="integer">tes5t</option>
-                                </select>
-                            </el-form-item>
-                        </div>
-                    </el-form>
-                    <table >fpujd
-                        <tr v-for="pole in currency.table">
-                            <td  style="border-bottom: 1px solid #dcdfe6; padding: 10px" v-for="value in pole">
-                                {{value}}
-                            </td>
-                        </tr>
-                    </table>
-                </el-collapse-item>
-
-            </div>
-        </el-collapse>
+        <collapse-show :data="data" />
         <el-button type="primary" @click="submit">Загрузить</el-button>
-
     </div>
 </template>
 
 <script>
     import {AXIOS} from "../AXIOS/http-common";
+    import CollapseShow from "./CollapseShow.vue";
 
     export default {
         name: "UploadFile",
-
+        components: {CollapseShow},
+        props:['controller'],
         data(){
             return {
                 input: {},
@@ -57,28 +27,12 @@
             }
         },
         methods: {
-            handleChange(val) {
-                console.log(val);
-            },
 
             submitFile(){
                 let formData = new FormData();
 
                 formData.append('file', this.file);
                 this.postData('/single-file',formData);
-                // AXIOS.post( '/single-file',
-                //     formData,
-                //     {
-                //         headers: {
-                //             'Content-Type': 'multipart/form-data'
-                //         }
-                //     }
-                // ).then(response=>{
-                //     this.data = response.data.content;
-                // }).catch(error=>{
-                //     console.log("ERROR"+error);
-                // })
-
             },
 
             handleFileUpload(){
@@ -91,7 +45,6 @@
                 {
                     keys.push(k);
                 }
-
                 return keys;
             },
 
@@ -111,10 +64,14 @@
             },
 
             getElement(keys,tables,JsonStr){
+                let primaryKey = false;
                 let inputTextValue = document.getElementById(keys+tables).value;
                 let e = document.getElementById("select"+keys+tables);
                 let inputSelectValue = e.options[e.selectedIndex].value;
-                JsonStr = JsonStr.concat('{"name":"' + inputTextValue + '","type":"' + inputSelectValue + '"}');
+                if(document.getElementById("primary"+keys+tables).checked){
+                    primaryKey = true;
+                }
+                JsonStr = JsonStr.concat('{"name":"' + inputTextValue + '","type":"' + inputSelectValue + '","primary":' + primaryKey +'}');
                 return JsonStr;
             },
 
@@ -134,11 +91,6 @@
                     let nameTable = document.getElementById(tables[i]).value;
                     JsonStr = '{"content":{"nameFile":"' + tables[i] + '","nameTable":"' + nameTable + '","columnTable":[';
                     for(let j = 0; j< keys.length; j++) {
-                        // let inputTextValue = document.getElementById(keys[j]+tables[i]).value;
-                        //
-                        // let e = document.getElementById("select"+keys[j]+tables[i]);
-                        // let inputSelectValue = e.options[e.selectedIndex].value;
-                        // JsonStr = JsonStr.concat('{"name":"' + inputTextValue + '","type":"' + inputSelectValue + '"}');
                         JsonStr = this.getElement(keys[j],tables[i],JsonStr);
 
                         if(j !== keys.length - 1)
@@ -150,20 +102,8 @@
                     let formData = new FormData();
 
                     formData.append('file', this.file);
-                    formData.append('json',JsonStr);
-                    this.postData('/sendData',formData);
-                    // AXIOS.post( '/sendData',
-                    //     formData,
-                    //     {
-                    //         headers: {
-                    //             'Content-Type': 'multipart/form-data'
-                    //         }
-                    //     }
-                    // ).then(response=>{
-                    //     this.data = response.data.content;
-                    // }).catch(error=>{
-                    //     console.log("ERROR"+error);
-                    // });
+                    formData.append('json', JsonStr);
+                    this.postData(this.controller,formData);
                     JsonStr = '';
                 }
             }
@@ -173,33 +113,4 @@
 </script>
 
 <style scoped>
-    .el-header {
-        margin: auto;
-        display: block;
-        padding: 10px;
-    }
-    .el-menu-item {
-        text-decoration: none;
-    }
-    .inputText{
-        color: #606266;
-        height: 32px;
-        border-radius: 4px;
-        border: 1px solid #dcdfe6;
-        width: 100%;
-        padding: 0 15px;
-        margin: 8px 0;
-        box-sizing: border-box;
-    }
-
-    .inputSelect{
-        background-color: white;
-        border: 1px solid #dcdfe6;
-        border-radius: 4px;
-        height: 32px;
-        color: #606266;
-        width: 100%;
-        padding: 0 15px;
-        margin: 8px 0;
-    }
 </style>

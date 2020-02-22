@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.api.db.creator;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.iac.ASGIHDTORIS.api.db.DataModel;
 
 import java.sql.Connection;
@@ -7,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+@Slf4j
 public class DbPostgreSQLCreator implements Creator{
 
     private final String SQL_CREATE =
@@ -39,7 +41,7 @@ public class DbPostgreSQLCreator implements Creator{
 
         String query = SQL_CREATE.replaceFirst(TABLE_NAME_REGEX, tableName);
         String keys = keysCreator(models);
-
+        log.info(keys);
         query = query.replaceFirst(KEYS_REGEX, keys);
 
         return query;

@@ -2,12 +2,15 @@ package ru.iac.ASGIHDTORIS.service;
 
 import com.jayway.jsonpath.JsonPath;
 import com.opencsv.exceptions.CsvValidationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.api.db.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.creator.Creator;
 import ru.iac.ASGIHDTORIS.api.db.creator.DbPostgreSQLCreator;
 import ru.iac.ASGIHDTORIS.api.db.loader.Loader;
+import ru.iac.ASGIHDTORIS.api.db.sender.DataSender;
+import ru.iac.ASGIHDTORIS.api.db.sender.FileSender;
 import ru.iac.ASGIHDTORIS.api.factory.archive.ArchiveFactory;
 import ru.iac.ASGIHDTORIS.api.factory.loader.LoaderFactory;
 import ru.iac.ASGIHDTORIS.api.parser.Parser;
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class DbService implements DBService {
 
     private final String QUERY = "$.content.columnTable[${i}]${key}";
@@ -36,47 +40,50 @@ public class DbService implements DBService {
     }
 
     @Override
-    public String parseIntoBd(MultipartFile multipartFile, String tableInfo) throws IOException, SQLException {
-        File file = FileConverter.multipartIntoFile(multipartFile);
+    public String sendData(MultipartFile multipartFile, String tableInfo) throws IOException, SQLException {
+        return send(multipartFile, tableInfo) ? "ok" : "error";
+    }
+
+    private boolean send(MultipartFile multipartFile, String tableInfo) throws IOException, SQLException {
         String nameFile = JsonPath.read(tableInfo, "$.content.nameFile");
         String nameTable = JsonPath.read(tableInfo, "$.content.nameTable");
 
-        ArchiveParser parser = ArchiveFactory.getParser(file.getName());
-
-        File targetFile = parser.findByFileName(file, nameFile);
+        File file = parseFile(multipartFile, nameFile);
 
         List<DataModel> models = getModels(tableInfo);
 
-        Creator creator = new DbPostgreSQLCreator(dataSource.getConnection());
-        creator.createTable(nameTable, models);
+        DataSender sender = new FileSender(file, dataSource.getConnection());
 
-        Loader loader = LoaderFactory.getParser(targetFile.getName(), dataSource.getConnection());
-        boolean result = loader.insert(targetFile, nameTable, models);
+        return sender.send(models, nameTable);
+    }
 
-        return result ? "ok" : "error";
+    private File parseFile(MultipartFile multipartFile, String nameFile) throws IOException {
+        File file = FileConverter.multipartIntoFile(multipartFile);
 
+        if (ArchiveFactory.isArchive(file.getName())) {
+            ArchiveParser parser = ArchiveFactory.getParser(file.getName());
+            return parser.findByFileName(file, nameFile);
+        } else {
+            return file;
+        }
     }
 
     private List<DataModel> getModels(String tableInfo) {
         List<DataModel> models = new ArrayList<>();
-
-        String columnTable = QUERY.replaceFirst(ITERATOR_REGEX, "");
-        columnTable = columnTable.replaceFirst(KEY_REGEX, "");
-        List<String> columns = JsonPath.read(tableInfo, columnTable);
+        List<String> columns = JsonPath.read(tableInfo, "$.content.columnTable");
 
         String modelQuery;
-        String key;
+        String name;
         String type;
         boolean primary;
 
         for (int i = 0; i < columns.size(); i++) {
             modelQuery = QUERY.replaceFirst(ITERATOR_REGEX, String.valueOf(i));
+            name = JsonPath.read(tableInfo, modelQuery.replaceFirst(KEY_REGEX, ".name"));
+            type = JsonPath.read(tableInfo, modelQuery.replaceFirst(KEY_REGEX, ".type"));
+            primary = JsonPath.read(tableInfo, modelQuery.replaceFirst(KEY_REGEX, ".primary"));
 
-            key = modelQuery.replaceFirst(KEY_REGEX, ".key");
-            type = modelQuery.replaceFirst(KEY_REGEX, ".type");
-            primary = Boolean.parseBoolean(modelQuery.replaceFirst(KEY_REGEX, ".primary"));
-
-            DataModel model = new DataModel(key, type, primary);
+            DataModel model = new DataModel(name, type, primary);
 
             models.add(model);
 

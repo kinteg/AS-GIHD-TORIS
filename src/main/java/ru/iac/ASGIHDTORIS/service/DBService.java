@@ -7,6 +7,6 @@ import java.sql.SQLException;
 
 public interface DBService {
 
-    String parseIntoBd(MultipartFile multipartFile, String tableInfo) throws IOException, SQLException;
+    String sendData(MultipartFile multipartFile, String tableInfo) throws IOException, SQLException;
 
 }

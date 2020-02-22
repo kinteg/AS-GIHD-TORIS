@@ -1,7 +1,8 @@
-package ru.iac.ASGIHDTORIS.api.parser.zip;
+package ru.iac.ASGIHDTORIS.api.parser.archive.zip;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.iac.ASGIHDTORIS.api.TargetFiles;
+import ru.iac.ASGIHDTORIS.api.parser.archive.ArchiveParser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,13 +14,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 @Slf4j
-public class ZipParserImpl implements ZipParser {
+public class ZipParser implements ArchiveParser {
 
     List<File> files;
     byte[] buffer;
     private final TargetFiles targetFiles;
 
-    public ZipParserImpl() {
+    public ZipParser() {
         this.targetFiles = new TargetFiles();
         buffer = new byte[1024];
     }

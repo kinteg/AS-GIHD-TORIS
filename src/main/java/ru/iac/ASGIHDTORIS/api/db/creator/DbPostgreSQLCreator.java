@@ -1,11 +1,13 @@
-package ru.iac.ASGIHDTORIS.api.parser.db;
+package ru.iac.ASGIHDTORIS.api.db.creator;
+
+import ru.iac.ASGIHDTORIS.api.db.DataModel;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-public class DbCreator {
+public class DbPostgreSQLCreator implements Creator{
 
     private final String SQL_CREATE =
             "CREATE TABLE IF NOT EXISTS ${table_name} (${keys})";
@@ -17,10 +19,11 @@ public class DbCreator {
 
     private Connection connection;
 
-    public DbCreator(Connection connection) {
+    public DbPostgreSQLCreator(Connection connection) {
         this.connection = connection;
     }
 
+    @Override
     public boolean createTable(String tableName, List<DataModel> models) {
 
         try (Statement stmt = connection.createStatement()) {

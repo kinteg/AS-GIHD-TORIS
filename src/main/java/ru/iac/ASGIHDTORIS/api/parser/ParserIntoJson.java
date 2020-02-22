@@ -1,13 +1,13 @@
-package ru.iac.ASGIHDTORIS.api.impl;
+package ru.iac.ASGIHDTORIS.api.parser;
 
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import ru.iac.ASGIHDTORIS.api.Parser;
 import ru.iac.ASGIHDTORIS.api.TargetFiles;
-import ru.iac.ASGIHDTORIS.api.factory.impl.SimpleFileFactory;
-import ru.iac.ASGIHDTORIS.api.parser.zip.ZipParserImpl;
+import ru.iac.ASGIHDTORIS.api.factory.archive.ArchiveFactory;
+import ru.iac.ASGIHDTORIS.api.factory.file.FileParserFactory;
+import ru.iac.ASGIHDTORIS.api.parser.archive.ArchiveParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class ParserIntoJson implements Parser {
     @Override
     public JSONObject getFromFile(File file, long limit) throws IOException, CsvValidationException {
         List<File> files = targetFiles.isArchive(file.getName()) ?
-                new ZipParserImpl().getFiles(file)
+                getParser(file.getName()).getFiles(file)
                 : Collections.singletonList(file);
 
         return getFormFiles(files, limit);
@@ -36,8 +36,8 @@ public class ParserIntoJson implements Parser {
     public JSONObject getFromFile(File file, String fileName) throws IOException, CsvValidationException {
         List<File> files = Collections.singletonList(
                 targetFiles.isArchive(file.getName()) ?
-                new ZipParserImpl().findByFileName(file, fileName)
-                : file
+                        getParser(file.getName()).findByFileName(file, fileName)
+                        : file
         );
 
         return getFormFiles(files, -1);
@@ -48,16 +48,20 @@ public class ParserIntoJson implements Parser {
         return createJSON(files, limit);
     }
 
+    private ArchiveParser getParser(String filename) {
+        return ArchiveFactory.getParser(filename);
+    }
+
     private JSONObject createJSON(List<File> files, long limit) throws IOException, CsvValidationException {
         JSONObject object = new JSONObject();
         JSONArray array = new JSONArray();
 
         for (File file :
                 files) {
-            ru.iac.ASGIHDTORIS.api.parser.Parser parser = SimpleFileFactory.getParser(file.getName());
+            FileParser fileParser = FileParserFactory.getParser(file.getName());
 
-            if (parser != null) {
-                array.add(parser.getJSON(file, limit));
+            if (fileParser != null) {
+                array.add(fileParser.getJSON(file, limit));
             }
 
             file.delete();

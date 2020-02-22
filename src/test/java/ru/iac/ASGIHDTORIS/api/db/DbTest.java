@@ -1,8 +1,11 @@
-package ru.iac.ASGIHDTORIS.api.parser.db;
+package ru.iac.ASGIHDTORIS.api.db;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.iac.ASGIHDTORIS.api.db.creator.DbPostgreSQLCreator;
+import ru.iac.ASGIHDTORIS.api.db.loader.CSVLoader;
+
 import static org.junit.Assert.*;
 
 import javax.sql.DataSource;
@@ -22,10 +25,10 @@ class DbTest {
 
     @Test
     void createTable() throws SQLException {
-        DbCreator dbCreator = new DbCreator(dataSource.getConnection());
+        DbPostgreSQLCreator dbPostgreSQLCreator = new DbPostgreSQLCreator(dataSource.getConnection());
         createDataModels();
 
-        assertTrue(dbCreator.createTable(TABLE_NAME, createDataModels()));
+        assertTrue(dbPostgreSQLCreator.createTable(TABLE_NAME, createDataModels()));
     }
 
     @Test

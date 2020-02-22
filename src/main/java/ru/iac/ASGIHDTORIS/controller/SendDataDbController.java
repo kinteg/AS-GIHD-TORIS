@@ -4,6 +4,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.iac.ASGIHDTORIS.service.DBService;
 import ru.iac.ASGIHDTORIS.service.ParserService;
 
 import java.io.IOException;
@@ -14,10 +15,10 @@ import java.sql.SQLException;
 @Slf4j
 public class SendDataDbController {
 
-    private final ParserService parserService;
+    private final DBService dbService;
 
-    public SendDataDbController(ParserService parserService) {
-        this.parserService = parserService;
+    public SendDataDbController(DBService dbService) {
+        this.dbService = dbService;
     }
 
     @PostMapping("/sendData")
@@ -27,7 +28,7 @@ public class SendDataDbController {
             @RequestParam(value = "json") String json) throws IOException, CsvValidationException, SQLException {
 
         long start = System.currentTimeMillis();
-        String status = parserService.parseIntoBd(multipartFile, json);
+        String status = dbService.parseIntoBd(multipartFile, json);
         log.info(status);
         long end = System.currentTimeMillis() - start;
         log.info("time: " + end);

@@ -1,10 +1,10 @@
-package ru.iac.ASGIHDTORIS.api.parser.zip;
+package ru.iac.ASGIHDTORIS.api.parser.archive;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public interface ZipParser {
+public interface ArchiveParser {
 
     List<File> getFiles(File file) throws IOException;
 

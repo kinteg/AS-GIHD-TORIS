@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.api.parser.db;
+package ru.iac.ASGIHDTORIS.api.db;
 
 import lombok.Data;
 

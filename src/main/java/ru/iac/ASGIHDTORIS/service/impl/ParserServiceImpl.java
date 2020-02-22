@@ -5,15 +5,13 @@ import com.opencsv.exceptions.CsvValidationException;
 import net.minidev.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.iac.ASGIHDTORIS.api.Parser;
+import ru.iac.ASGIHDTORIS.api.parser.Parser;
 import ru.iac.ASGIHDTORIS.api.parser.converter.FileConverter;
-import ru.iac.ASGIHDTORIS.api.parser.db.ParseJsonInBd;
 import ru.iac.ASGIHDTORIS.service.ParserService;
 
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 @Service
@@ -43,11 +41,11 @@ public class ParserServiceImpl implements ParserService {
 
         String table = parserApi.getFromFile(file, nameFile).toJSONString();
 
-        ParseJsonInBd parseJsonInBd = new ParseJsonInBd(dataSource.getConnection());
+//        ParseJsonInBd parseJsonInBd = new ParseJsonInBd(dataSource.getConnection());
 
-        boolean status = parseJsonInBd.push(table, tableInfo);
+//        boolean status = parseJsonInBd.push(table, tableInfo);
 
-        return status ? "ok" : "error";
+        return true ? "ok" : "error";
 
     }
 

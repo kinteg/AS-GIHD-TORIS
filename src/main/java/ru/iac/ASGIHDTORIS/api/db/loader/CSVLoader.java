@@ -1,8 +1,9 @@
-package ru.iac.ASGIHDTORIS.api.parser.db;
+package ru.iac.ASGIHDTORIS.api.db.loader;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
+import ru.iac.ASGIHDTORIS.api.db.DataModel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class CSVLoader {
+public class CSVLoader implements Loader{
 
     private final String SQL_INSERT =
             "INSERT INTO ${table} (${keys}) VALUES (${values}) ";
@@ -23,11 +24,11 @@ public class CSVLoader {
     private final String SQL_UPDATE =
             "ON CONFLICT (${id}) DO UPDATE SET ${keys_values}";
 
-    private static final String TABLE_REGEX = "\\$\\{table\\}";
-    private static final String KEYS_REGEX = "\\$\\{keys\\}";
-    private static final String VALUES_REGEX = "\\$\\{values\\}";
-    private static final String ID_REGEX = "\\$\\{id\\}";
-    private static final String KEYS_VALUES_REGEX = "\\$\\{keys_values\\}";
+    private final String TABLE_REGEX = "\\$\\{table\\}";
+    private final String KEYS_REGEX = "\\$\\{keys\\}";
+    private final String VALUES_REGEX = "\\$\\{values\\}";
+    private final String ID_REGEX = "\\$\\{id\\}";
+    private final String KEYS_VALUES_REGEX = "\\$\\{keys_values\\}";
 
     private Connection connection;
 
@@ -35,6 +36,7 @@ public class CSVLoader {
         this.connection = connection;
     }
 
+    @Override
     public boolean insert(File file, String tableName, List<DataModel> keys) {
         return createExecuteQuery(file, tableName, keys);
     }
@@ -109,7 +111,6 @@ public class CSVLoader {
     }
 
     private String createValue(List<String> values) {
-
         return values
                 .stream()
                 .map((v) -> "'" + v.trim() + "'")

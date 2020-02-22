@@ -31,7 +31,7 @@ class DbTest {
     @Test
     void testInsert() throws SQLException {
         CSVLoader csvLoader = new CSVLoader(dataSource.getConnection());
-        File file = new File("/home/kinteg/Загрузки/qwe/qwe/data-20200120T140800-structure-20141226T1550271.csv");
+        File file = new File("/home/nikita/Загрузки/Telegram Desktop/data-20200120T140800-structure-20141226T1550271.csv");
 
         long start = System.currentTimeMillis();
         System.out.println("start: " + start);

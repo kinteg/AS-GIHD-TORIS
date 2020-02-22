@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.domain.Source;
 import ru.iac.ASGIHDTORIS.repo.SourceRepo;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/source/")
 @Slf4j
@@ -25,6 +27,12 @@ public class SourceController {
     }
 
 //TODO ДОДЕЛАТЬ
+
+    @GetMapping("/getAll")
+    public List<Source> getAllSource(){
+        log.info(sourceRepo.findAll().toString());
+        return sourceRepo.findAll();
+    }
 
     @GetMapping("{name}")
     public Source findByName(@PathVariable String name) {

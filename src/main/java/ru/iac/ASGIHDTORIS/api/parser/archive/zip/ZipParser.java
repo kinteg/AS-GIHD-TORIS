@@ -40,16 +40,19 @@ public class ZipParser implements ArchiveParser {
 
         ZipInputStream zis = new ZipInputStream(new FileInputStream(zip));
         ZipEntry zipEntry;
+        File file = null;
 
         while ((zipEntry = zis.getNextEntry()) != null) {
             if (targetFiles.isTargetFile(zipEntry.getName())
                     && zipEntry.getName().equals(filename)) {
 
-                return createFile(zipEntry.getName(), zis);
+                file = createFile(zipEntry.getName(), zis);
             }
         }
 
-        return null;
+        exist(zis, zip);
+
+        return file;
     }
 
     private List<File> unzipFiles(File zip) throws IOException {

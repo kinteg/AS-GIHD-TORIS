@@ -59,13 +59,16 @@ public class DbService implements DBService {
 
     private File parseFile(MultipartFile multipartFile, String nameFile) throws IOException {
         File file = FileConverter.multipartIntoFile(multipartFile);
+        file.deleteOnExit();
 
         if (ArchiveFactory.isArchive(file.getName())) {
             ArchiveParser parser = ArchiveFactory.getParser(file.getName());
-            return parser.findByFileName(file, nameFile);
-        } else {
-            return file;
+            file = parser.findByFileName(file, nameFile);
         }
+
+        file.delete();
+
+        return file;
     }
 
     private List<DataModel> getModels(String tableInfo) {

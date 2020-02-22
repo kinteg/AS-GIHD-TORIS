@@ -6,7 +6,6 @@
         </el-form-item>
         <el-form-item>
             <el-button  type="primary" @click="onSubmit">Создать</el-button>
-            <el-button>Cancel</el-button>
         </el-form-item>
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-form :label-position="labelPosition" label-width="100px" :model="formLabelAlign">
-            <el-form-item label="Описание">
+            <el-form-item label="Источник">
                 <search-source/>
             </el-form-item>
             <el-form-item label="Описание">
@@ -98,8 +98,6 @@
                 return JsonStr;
             },
 
-
-
             submit(){
                 let tables = [];
                 let allKeys = [];
@@ -108,6 +106,7 @@
                 this.direction = document.getElementById("direction").value;
                 this.management = document.getElementById("management").value;
                 this.source = document.getElementById("sourceList").value;
+
                 for(let i = 0; i<this.data.length; i++) {
 
                     tables.push(this.data[i].nameTable);

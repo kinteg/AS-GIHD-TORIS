@@ -3,9 +3,9 @@ package ru.iac.ASGIHDTORIS.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table
 @Data
 public class Pattern {
 
@@ -13,13 +13,11 @@ public class Pattern {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String fileCount;
+    private String name;
     private String description;
     private String direction;
     private String management;
+    private LocalDateTime dateCreation;
 
-
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "source_id")
-    private Source source;
+    private long sourceId;
 }

@@ -10,27 +10,31 @@
                 </el-collapse-item>
             </div>
         </el-collapse>
+
     </div>
 </template>
 
 <script>
     import CollapseForm from "./CollapseForm.vue";
+    import validation from  "../methods/validation";
     export default {
         name: "CollapseShow",
         components: {CollapseForm},
         props: ['data'],
-        // data(){
-        //     let validateText = (rule, value, callback) => {
-        //         if (value === '') {
-        //             callback(new Error('Пожалуйста введите название таблицы'));
-        //         } else {
-        //             if (this.ruleForm.checkPass !== '') {
-        //                 this.$refs.ruleForm.validateField('checkPass');
-        //             }
-        //             callback();
-        //         }
-        //     };
-        // }
+        data(){
+
+            let validateText = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('Пожалуйста введите название таблицы'));
+                } else {
+                    if (this.ruleForm.checkPass !== '') {
+                        this.$refs.ruleForm.validateField('checkPass');
+                    }
+                    callback();
+                }
+            };
+            return{}
+        }
     }
 </script>
 

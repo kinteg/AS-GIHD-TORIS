@@ -92,6 +92,9 @@
             },
 
             submit(){
+                let symbol = new RegExp( "[~!@#$%^&*()\\-+=|\/';:,.]");
+                let str = symbol.exec("asdasdlkas-fjdasdasdasd");
+                console.log(str);
                 let tables = [];
                 let allKeys = [];
                 let JsonStr;
@@ -119,7 +122,6 @@
 
                     formData.append('file', this.file);
                     formData.append('json', JsonStr);
-                    formData.append('sourceId', sourceId);
                     // this.postData(this.controller,formData);
                     JsonStr = '';
                 }

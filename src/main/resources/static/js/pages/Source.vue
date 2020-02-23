@@ -1,25 +1,20 @@
 <template>
     <div>
-        <el-form status-icon  ref="ruleForm" label-width="120px" class="demo-ruleForm">
-            <el-form-item >
-                <el-collapse>
-                    <el-collapse-item title="Создать шаблон">
-                        <h2>Создание источника</h2>
-                        <create-source/>
-                    </el-collapse-item>
-                </el-collapse>
-            </el-form-item>
+        <el-collapse>
+            <el-collapse-item title="Создать источник">
+                <h2>Создание источника</h2>
+                <create-source/>
+            </el-collapse-item>
+        </el-collapse>
+        <h2>Поиск источника</h2>
+        <search-source/>
+        <el-form>
             <el-form-item>
-                <h2>Поиск источника</h2>
-                <search-source/>
                 <el-button style="margin-top: 10px" type="primary" @click="submit">Найти</el-button>
-
             </el-form-item>
         </el-form>
         <h3>{{data.name}}</h3>
-
         <show-source :data="pattern"/>
-
     </div>
 </template>
 

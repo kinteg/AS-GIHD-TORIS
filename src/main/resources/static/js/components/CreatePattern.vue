@@ -1,17 +1,15 @@
 <template>
     <div>
-        <el-form :label-position="labelPosition" label-width="100px" :model="formLabelAlign">
-            <el-form-item label="Источник">
+        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm"  :label-position="labelPosition" label-width="100px">
                 <search-source/>
+            <el-form-item prop="description" label="Описание">
+                <el-input id="description" v-model="ruleForm.description"></el-input>
             </el-form-item>
-            <el-form-item label="Описание">
-                <el-input id="description" v-model="formLabelAlign.description"></el-input>
+            <el-form-item prop="direction" label="Направление">
+                <el-input id="direction" v-model="ruleForm.direction"></el-input>
             </el-form-item>
-            <el-form-item label="Направление">
-                <el-input id="direction" v-model="formLabelAlign.direction"></el-input>
-            </el-form-item>
-            <el-form-item label="Ответственный за ведение">
-                <el-input id="management" v-model="formLabelAlign.management"></el-input>
+            <el-form-item prop="management" label="Ответственный за ведение">
+                <el-input id="management" v-model="ruleForm.management"></el-input>
             </el-form-item>
         </el-form>
 
@@ -36,7 +34,36 @@
         name: "CreatePattern",
         components: {SearchSource, CollapseShow, UploadFile},
         data() {
+            let symbol = new RegExp( "[~!@#$%^&*()\\-+=|\/';:,.]");
+            let validatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('Заполните поле'));
+                } else {
+                    if(symbol.exec(value)!==null){
+                        callback(new Error('Недопустимые символы: ~!@#$%^&*()-+=|  / \';:,.'));
+                    }else
+                        callback();
+                }
+            };
+
             return {
+                ruleForm: {
+                    text: '',
+                    description:'',
+                    direction: '',
+                    management: ''
+                },
+                rules: {
+                    text: [
+                        { validator: validatePass, trigger: 'blur' }
+                    ], description: [
+                        { validator: validatePass, trigger: 'blur' }
+                    ], direction: [
+                        { validator: validatePass, trigger: 'blur' }
+                    ], management: [
+                        { validator: validatePass, trigger: 'blur' }
+                    ],
+                },
                 labelPosition: 'left',
                 input: {},
                 file: '',
@@ -128,7 +155,7 @@
 
                     console.log(JsonStr);
                     let formData = new FormData();
-
+                    //TODO отправить id источника и количество файлов. Добавить поле name
                     formData.append('file', this.file);
                     formData.append('json', JsonStr);
                     formData.append('description', this.description);

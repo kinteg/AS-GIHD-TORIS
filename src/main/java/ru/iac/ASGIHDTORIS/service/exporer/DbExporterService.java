@@ -8,6 +8,7 @@ import ru.iac.ASGIHDTORIS.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.repo.PatternTableRepo;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,20 +19,23 @@ public class DbExporterService implements DbParserService {
     private final PatternTableRepo patternTableRepo;
     private final DataSource dataSource;
 
-    public DbExporterService(PatternTableRepo patternTableRepo, DataSource dataSource) {
+    public DbExporterService(PatternTableRepo patternTableRepo, DataSource dataSource) throws SQLException {
         this.patternTableRepo = patternTableRepo;
         this.dataSource = dataSource;
     }
 
     @Override
-    public String getData(Long patternId, long limit) throws SQLException {
+    public String getData(Long patternId, long limit) {
         return exportData(patternId, limit).toJSONString();
     }
 
-    private JSONObject exportData(Long patternId, long limit) throws SQLException {
-        DbParser dbParser = new DbDataParser(dataSource.getConnection());
-
-        return dbParser.getFromDb(getTableNames(patternId), limit);
+    private JSONObject exportData(Long patternId, long limit) {
+        try (Connection connection = dataSource.getConnection()) {
+            DbParser dbParser = new DbDataParser(connection);
+            return dbParser.getFromDb(getTableNames(patternId), limit);
+        } catch (Exception ex) {
+            return new JSONObject();
+        }
     }
 
     private List<String> getTableNames(Long patternId) {

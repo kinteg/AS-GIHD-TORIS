@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.iac.ASGIHDTORIS.api.db.exporter.parser.DbDataParser;
+import ru.iac.ASGIHDTORIS.api.db.exporter.parser.DbParser;
 import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.model.TableModel;
 import ru.iac.ASGIHDTORIS.api.db.exporter.column.ColumnExporter;
@@ -19,6 +21,7 @@ import ru.iac.ASGIHDTORIS.repo.PatternTableRepo;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,13 +67,18 @@ public class ParserFileService implements ParserService {
     }
 
     private TableModel createTableModel(PatternTable patternTable) throws SQLException {
-        ColumnExporter exporter = new PostgreSqlColumnExporter(dataSource.getConnection());
+        try (Connection connection = dataSource.getConnection()) {
+            ColumnExporter exporter = new PostgreSqlColumnExporter(connection);
 
-        List<DataModel> dataModels = exporter.exportDataModel(patternTable.getNameTable());
-        String tableName = patternTable.getNameTable();
-        String fileName = patternTable.getNameFile();
+            List<DataModel> dataModels = exporter.exportDataModel(patternTable.getNameTable());
+            String tableName = patternTable.getNameTable();
+            String fileName = patternTable.getNameFile();
 
-        return new TableModel(fileName, tableName, dataModels);
+            return new TableModel(fileName, tableName, dataModels);
+        } catch (Exception ex) {
+            return null;
+        }
+
     }
 
 }

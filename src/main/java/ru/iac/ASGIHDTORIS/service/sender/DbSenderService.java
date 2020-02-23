@@ -2,8 +2,11 @@ package ru.iac.ASGIHDTORIS.service.sender;
 
 import com.jayway.jsonpath.JsonPath;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.iac.ASGIHDTORIS.api.db.exporter.parser.DbDataParser;
+import ru.iac.ASGIHDTORIS.api.db.exporter.parser.DbParser;
 import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.sender.DataSender;
 import ru.iac.ASGIHDTORIS.api.db.sender.FileSender;
@@ -14,6 +17,7 @@ import ru.iac.ASGIHDTORIS.api.parser.converter.FileConverter;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +50,13 @@ public class DbSenderService implements DbService {
 
         List<DataModel> models = getModels(tableInfo);
 
-        DataSender sender = new FileSender(file, dataSource.getConnection());
+        try (Connection connection = dataSource.getConnection()) {
+            DataSender sender = new FileSender(file, connection);
+            return sender.send(models, nameTable);
+        } catch (Exception ex) {
+            return false;
+        }
 
-        return sender.send(models, nameTable);
     }
 
     private File parseFile(MultipartFile multipartFile, String nameFile) throws IOException {

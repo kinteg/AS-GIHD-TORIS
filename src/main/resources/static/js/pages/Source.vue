@@ -35,6 +35,7 @@
             return{
                 data:'',
                 pattern:'',
+                table:'',
             }
         },
         methods:{
@@ -56,7 +57,19 @@
                 AXIOS.get('/pattern/'+ id,
                 ).then(response=>{
                     this.pattern = response.data;
-                    console.log(this.pattern);
+                    for(let i = 0; i<this.pattern.length; i++){
+                        this.getTable(this.pattern[i].id);
+                    }
+                }).catch(error=>{
+                    console.log("ERROR"+error);
+                });
+            },
+
+            getTable(id){
+                AXIOS.get('/source/getTable/'+ id,
+                ).then(response=>{
+                    this.table = response.data;
+                    console.log(this.table);
                 }).catch(error=>{
                     console.log("ERROR"+error);
                 });

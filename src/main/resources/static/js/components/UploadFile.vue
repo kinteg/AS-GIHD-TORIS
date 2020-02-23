@@ -28,16 +28,14 @@
                 input: {},
                 file: '',
                 data: '',
-                source:''
+                source:'',
+                sourceId:'',
             }
         },
         methods: {
 
             submitFile(){
-                let formData = new FormData();
-
-                formData.append('file', this.file);
-                this.postData('/single-file',formData);
+                this.getSourceId();
             },
 
             handleFileUpload(){
@@ -70,16 +68,16 @@
 
             getSourceId(){
                 let sourceName = document.getElementById('sourceList').value;
-                // console.log(sourceName);
                 AXIOS.get('/source/'+ sourceName,
                 ).then(response=>{
-                    this.source = response.data;
-                    return this.source.id;
+                    let formData = new FormData();
+                    formData.append('sourceId', response.data.id);
+                    formData.append('file', this.file);
+                    this.postData('/single-file',formData);
                 }).catch(error=>{
                     console.log("ERROR"+error);
                 });
             },
-
 
             getElement(keys,tables,JsonStr){
                 let primaryKey = false;
@@ -97,14 +95,13 @@
                 let tables = [];
                 let allKeys = [];
                 let JsonStr;
-                let sourceId = this.getSourceId();
+
                 for(let i = 0; i<this.data.length; i++) {
 
                     tables.push(this.data[i].nameTable);
                     allKeys.push(this.getKeys(this.data[i].table[0]));
 
                 }
-
                 for(let i = 0; i< tables.length; i++) {
                     let keys = allKeys[i];
                     let nameTable = document.getElementById(tables[i]).value;
@@ -122,6 +119,7 @@
 
                     formData.append('file', this.file);
                     formData.append('json', JsonStr);
+                    formData.append('sourceId', sourceId);
                     // this.postData(this.controller,formData);
                     JsonStr = '';
                 }

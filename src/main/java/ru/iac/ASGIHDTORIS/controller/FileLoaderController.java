@@ -36,6 +36,7 @@ public class FileLoaderController {
         if (multipartFile == null) {
             return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND).toString();
         } else {
+            log.info(sourceId);
             System.out.println(parserService.getWithParser(multipartFile, limit));
             return parserService.getWithParser(multipartFile, limit);
         }

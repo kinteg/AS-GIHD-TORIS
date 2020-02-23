@@ -1,8 +1,8 @@
 package ru.iac.ASGIHDTORIS.api.factory.file;
 
 import org.apache.commons.io.FilenameUtils;
-import ru.iac.ASGIHDTORIS.api.parser.FileParser;
-import ru.iac.ASGIHDTORIS.api.parser.csv.CsvParser;
+import ru.iac.ASGIHDTORIS.api.parser.json.FileParser;
+import ru.iac.ASGIHDTORIS.api.parser.json.csv.CsvParser;
 
 public class FileParserFactory {
 

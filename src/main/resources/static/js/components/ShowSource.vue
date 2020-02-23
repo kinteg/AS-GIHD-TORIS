@@ -8,11 +8,7 @@
                 <p>Направление: {{curSource.direction}}</p>
                 <p>Ответственный за ведение: {{curSource.management}}</p>
                 <p>Дата создания: {{curSource.dateCreation}}</p>
-                <el-collapse>
-                    <el-collapse-item title="Шаблоны">
                         <collapse-show :data="table"/>
-                    </el-collapse-item>
-                </el-collapse>
             </el-collapse-item>
         </el-collapse>
         </div>

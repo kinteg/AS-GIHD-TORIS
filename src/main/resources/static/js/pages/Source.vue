@@ -14,7 +14,9 @@
             </el-form-item>
         </el-form>
         <h3>{{data.name}}</h3>
-        <show-source :table="table.content" :data="pattern"/>
+        <div v-for="table in tables">
+            <show-source :table="table.content" :data="pattern"/>
+        </div>
     </div>
 </template>
 
@@ -30,7 +32,8 @@
             return{
                 data:'',
                 pattern:'',
-                table:'',
+                tables:[],
+                preTable:[]
             }
         },
         methods:{
@@ -55,6 +58,8 @@
                     for(let i = 0; i<this.pattern.length; i++){
                         this.getTable(this.pattern[i].id);
                     }
+                    this.tables = this.preTable;
+                    console.log(this.preTable);
                 }).catch(error=>{
                     console.log("ERROR"+error);
                 });
@@ -63,8 +68,8 @@
             getTable(id){
                 AXIOS.get('/source/getTable/'+ id,
                 ).then(response=>{
-                    this.table = response.data;
-                    console.log(this.table.content);
+                    this.preTable.push(response.data);
+                    // console.log(this.tables);
                 }).catch(error=>{
                     console.log("ERROR"+error);
                 });

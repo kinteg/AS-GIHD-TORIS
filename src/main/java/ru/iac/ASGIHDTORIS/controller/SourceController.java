@@ -26,7 +26,7 @@ public class SourceController {
  
     @PostMapping("/create")
     public Source createSource (@RequestBody Source name){
-        log.info(name.toString());
+//        log.info(name.toString());
         return sourceRepo.save(name);
     }
 
@@ -34,7 +34,7 @@ public class SourceController {
 
     @GetMapping("/getAll")
     public List<Source> getAllSource(){
-        log.info(sourceRepo.findAll().toString());
+//        log.info(sourceRepo.findAll().toString());
         return sourceRepo.findAll();
     }
 

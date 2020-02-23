@@ -18,17 +18,8 @@
         </el-form>
         <h3>{{data.name}}</h3>
 
-        <el-collapse>
-            <el-collapse-item title="Создать шаблон">
-                <el-collapse>
-                    <el-collapse-item title="Создать шаблон">
-                        asdasdsa
-                    </el-collapse-item>
-                    <el-collapse-item title="Создать шаблон">
-                        asdasdsa
-                    </el-collapse-item></el-collapse>
-            </el-collapse-item>
-        </el-collapse>
+        <show-source :data="pattern"/>
+
     </div>
 </template>
 
@@ -36,9 +27,10 @@
     import SearchSource from "../components/SearchSource.vue";
     import CreateSource from "../components/CreateSource.vue";
     import {AXIOS} from "../AXIOS/http-common";
+    import ShowSource from "../components/ShowSource.vue";
     export default {
         name: "Source",
-        components: {CreateSource, SearchSource},
+        components: {ShowSource, CreateSource, SearchSource},
         data(){
             return{
                 data:'',

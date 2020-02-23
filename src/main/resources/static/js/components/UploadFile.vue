@@ -1,5 +1,8 @@
 <template>
     <div>
+        Выберите источник <search-source/>
+        <br>
+        <br>
         <label>Выберите файл для загрузки
             <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
         </label>
@@ -14,16 +17,18 @@
 <script>
     import {AXIOS} from "../AXIOS/http-common";
     import CollapseShow from "./CollapseShow.vue";
+    import SearchSource from "./SearchSource.vue";
 
     export default {
         name: "UploadFile",
-        components: {CollapseShow},
+        components: {SearchSource, CollapseShow},
         props:['controller'],
         data(){
             return {
                 input: {},
                 file: '',
                 data: '',
+                source:''
             }
         },
         methods: {
@@ -63,6 +68,19 @@
                 })
             },
 
+            getSourceId(){
+                let sourceName = document.getElementById('sourceList').value;
+                // console.log(sourceName);
+                AXIOS.get('/source/'+ sourceName,
+                ).then(response=>{
+                    this.source = response.data;
+                    return this.source.id;
+                }).catch(error=>{
+                    console.log("ERROR"+error);
+                });
+            },
+
+
             getElement(keys,tables,JsonStr){
                 let primaryKey = false;
                 let inputTextValue = document.getElementById(keys+tables).value;
@@ -79,6 +97,7 @@
                 let tables = [];
                 let allKeys = [];
                 let JsonStr;
+                let sourceId = this.getSourceId();
                 for(let i = 0; i<this.data.length; i++) {
 
                     tables.push(this.data[i].nameTable);
@@ -103,7 +122,7 @@
 
                     formData.append('file', this.file);
                     formData.append('json', JsonStr);
-                    this.postData(this.controller,formData);
+                    // this.postData(this.controller,formData);
                     JsonStr = '';
                 }
             }

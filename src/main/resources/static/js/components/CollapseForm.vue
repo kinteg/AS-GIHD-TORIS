@@ -1,20 +1,21 @@
 <template>
     <div >
         <el-form :inline="true" class="demo-form-inline">
-            <div v-for="key in getKeys(currencyTable.table[0])">
+            <div v-for="key in currencyTable.columnTable">
                 <table>
                     <tr>
                         <td>
                             <el-form-item style="padding-top: 10px">
-                                <input checked="true" :id="'primary'+key+currencyTable.nameTable" type="radio" :name="currencyTable.nameTable" :value="key+currencyTable.nameTable" />
+                                <input checked="true" :id="'primary'+key.name+currencyTable.nameTable" type="radio" :name="currencyTable.nameTable" :value="key.name+currencyTable.nameTable" />
                             </el-form-item></td>
                         <td>
                             <el-form-item   style="margin-right: 200px;">
-                                <input  :id="key+currencyTable.nameTable" class="inputText" type="text" :value="key">
+                                <el-input :id="key.name+currencyTable.nameTable" :value="key.name" v-model="key.name" type="text" autocomplete="off"></el-input>
+<!--                                <input  :id="key+currencyTable.nameTable" class="inputText" type="text" :value="key">-->
                             </el-form-item></td>
                         <td>
                             <el-form-item>
-                                <select :id="'select'+key+currencyTable.nameTable" class="inputSelect">
+                                <select :id="'select'+key.name+currencyTable.nameTable" class="inputSelect">
                                     <option value="integer">integer</option>
                                     <option value="text">text</option>
                                     <option value="integer">fghijok3</option>
@@ -24,9 +25,8 @@
                             </el-form-item></td>
                     </tr>
                 </table>
-
             </div>
-            <table >
+            <table>
                 <tr v-for="pole in currencyTable.table">
                     <td  style="border-bottom: 1px solid #dcdfe6; padding: 10px" v-for="value in pole">
                         {{value}}

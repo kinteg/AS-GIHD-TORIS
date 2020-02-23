@@ -1,13 +1,22 @@
 <template>
     <div>
-        <div class="sub-title">Введите название источника</div>
-        <el-form-item>
-            <el-input placeholder="Введите название источника" v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item>
-            <el-button  type="primary" @click="onSubmit">Создать</el-button>
-        </el-form-item>
+        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+            <el-form-item label="Password" prop="text">
+                <el-input placeholder="Введите название источника" v-model="ruleForm.text"></el-input>
+                <el-button style="margin-top: 10px" type="primary" @click="onSubmit">Создать</el-button>
+            </el-form-item>
+        </el-form>
     </div>
+
+    <!--    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">-->
+    <!--        <el-form-item label="Password" prop="pass">-->
+    <!--            <el-input type="text" v-model="ruleForm.pass" autocomplete="off"></el-input>-->
+    <!--        </el-form-item>-->
+    <!--        <el-form-item>-->
+    <!--            <el-button type="primary" @click="submitForm('ruleForm')">Submit</el-button>-->
+    <!--            <el-button @click="resetForm('ruleForm')">Reset</el-button>-->
+    <!--        </el-form-item>-->
+    <!--    </el-form>-->
 </template>
 
 <script>
@@ -16,7 +25,28 @@
     export default {
         name: "CreateSource",
         data() {
+            let symbol = new RegExp( "[~!@#$%^&*()\\-+=|\/';:,.]");
+            let validatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('Заполните поле'));
+                } else {
+                    if(symbol.exec(value)!==null){
+                        callback(new Error('Недопустимые символы: ~!@#$%^&*()-+=|  / \';:,.'));
+                    }else
+                        callback();
+                }
+            };
+
             return {
+                ruleForm: {
+                    text: '',
+                },
+                rules: {
+                    text: [
+                        { validator: validatePass, trigger: 'blur' }
+                    ],
+                },
+
                 form: {
                     name: '',
                 }

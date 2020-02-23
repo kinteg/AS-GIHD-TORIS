@@ -1,14 +1,18 @@
 <template>
     <div>
-        <el-autocomplete
-                id="sourceList"
-                class="inline-input"
-                v-model="state2"
-                :fetch-suggestions="querySearch"
-                placeholder="Введите название источника"
-                :trigger-on-focus="false"
-                @select="handleSelect">
-        </el-autocomplete>
+        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px">
+            <el-form-item label="Источник" prop="text">
+                <el-autocomplete
+                        id="sourceList"
+                        class="inline-input"
+                        v-model="ruleForm.text"
+                        :fetch-suggestions="querySearch"
+                        placeholder="Введите название источника"
+                        :trigger-on-focus="false"
+                        @select="handleSelect">
+                </el-autocomplete>
+            </el-form-item>
+        </el-form>
     </div>
 </template>
 <script>
@@ -17,7 +21,27 @@
     export default {
         name: "SearchSource",
         data() {
+            let symbol = new RegExp( "[~!@#$%^&*()\\-+=|\/';:,.]");
+            let validatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('Заполните поле'));
+                } else {
+                    if(symbol.exec(value)!==null){
+                        callback(new Error('Недопустимые символы: ~!@#$%^&*()-+=|  / \';:,.'));
+                    }else
+                        callback();
+                }
+            };
+
             return {
+                ruleForm: {
+                    text: '',
+                },
+                rules: {
+                    text: [
+                        { validator: validatePass, trigger: 'blur' }
+                    ],
+                },
                 links: [],
                 state1: '',
                 state2: '',

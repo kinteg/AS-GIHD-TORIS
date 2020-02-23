@@ -5,12 +5,13 @@ import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import ru.iac.ASGIHDTORIS.api.db.DataModel;
 import ru.iac.ASGIHDTORIS.api.parser.FileParser;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,75 +31,115 @@ public class CsvParser implements FileParser {
     public JSONObject getJSON(File file, long limit) throws IOException, CsvValidationException {
         return isNull(file)
                 ? new JSONObject()
-                : csvReader(file, limit, Collections.emptyList());
+                : getJSON(file, limit, Collections.emptyList());
     }
 
     @Override
-    public JSONObject getJSON(File file, long limit, List<String> names) throws IOException, CsvValidationException {
-        return csvReader(file, limit, names);
+    public JSONObject getJSON(File file, long limit, List<DataModel> models) throws IOException, CsvValidationException {
+        return getJSON(file, limit, models, "");
     }
+
+    @Override
+    public JSONObject getJSON(File file, long limit, List<DataModel> models, String tableName) throws IOException, CsvValidationException {
+        return csvReader(file, limit, models, "default");
+    }
+
 
     private boolean isNull(File file) {
         return file == null;
     }
 
-    private JSONObject csvReader(File file, long limit, List<String> nameColumn) throws IOException, CsvValidationException {
+    private JSONObject csvReader(File file, long limit, List<DataModel> models, String tableName) throws IOException, CsvValidationException {
         reader = new CSVReader(new FileReader(file));
 
-        if (nameColumn.isEmpty()) {
-            nameColumn = getNamesColumn();
+        if (models.isEmpty()) {
+            models = getNamesColumn();
         }
 
-        return createJson(file.getName(), nameColumn, limit);
+        return createJson(file.getName(), models, limit, tableName);
     }
 
-    private List<String> getNamesColumn() throws IOException, CsvValidationException {
-        return Arrays.asList(reader.readNext());
+    private List<DataModel> getNamesColumn() throws IOException, CsvValidationException {
+        String[] nameColumn = reader.readNext();
+        List<DataModel> models = new ArrayList<>();
+
+        for (String column :
+                nameColumn) {
+
+            DataModel model = new DataModel(column);
+            models.add(model);
+        }
+
+        return models;
     }
 
-    private JSONObject createJson(String filename, List<String> namesColumn, long limit) throws IOException, CsvValidationException {
+    private JSONObject createJson(String filename, List<DataModel> models, long limit, String tableName) throws IOException, CsvValidationException {
         JSONObject parsed = new JSONObject();
-        JSONArray array;
+        JSONArray columnTable = getColumnTable(models);
+        JSONArray values;
 
         if (limit == WITHOUT_LIMIT) {
-            array = getWithoutLimit(namesColumn);
+            values = getWithoutLimit(models);
         } else {
-            array = getWithLimit(namesColumn, limit);
+            values = getWithLimit(models, limit);
         }
 
         parsed.put("nameTable", filename);
-        parsed.put("table", array);
+        parsed.put("nameFile", tableName);
+        parsed.put("table", values);
+        parsed.put("columnTable", columnTable);
 
         return parsed;
     }
 
-    private JSONArray getWithoutLimit(List<String> nameColumn) throws IOException, CsvValidationException {
+    private JSONArray getColumnTable(List<DataModel> models) {
+        JSONArray array = new JSONArray();
+
+        for (DataModel model :
+                models) {
+            array.add(getColumnData(model));
+        }
+
+        return array;
+    }
+
+    private JSONObject getColumnData(DataModel model) {
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("name", model.getKey());
+        jsonObject.put("type", model.getType());
+        jsonObject.put("primary", model.isPrimary());
+
+        return jsonObject;
+    }
+
+    private JSONArray getWithoutLimit(List<DataModel> models) throws IOException, CsvValidationException {
         JSONArray array = new JSONArray();
         String[] nextRecord;
 
         while ((nextRecord = reader.readNext()) != null) {
-            array.add(getJsonObject(nameColumn, nextRecord));
+            array.add(getJsonObject(models, nextRecord));
         }
 
         return array;
     }
 
-    private JSONArray getWithLimit(List<String> nameColumn, long limit) throws IOException, CsvValidationException {
+    private JSONArray getWithLimit(List<DataModel> models, long limit) throws IOException, CsvValidationException {
         JSONArray array = new JSONArray();
         String[] nextRecord;
 
         for (int j = 0; (nextRecord = reader.readNext()) != null && j < limit; j++) {
-            array.add(getJsonObject(nameColumn, nextRecord));
+            array.add(getJsonObject(models, nextRecord));
         }
 
         return array;
     }
 
-    private JSONObject getJsonObject(List<String> nameColumn, String[] record) {
+    private JSONObject getJsonObject(List<DataModel> models, String[] record) {
         JSONObject jsonObject = new JSONObject();
 
-        for (int i = 0; i < nameColumn.size() && i < record.length; i++) {
-            jsonObject.put(nameColumn.get(i).trim(), record[i].trim());
+        for (int i = 0; i < models.size() && i < record.length; i++) {
+            jsonObject.put(models.get(i).getKey().trim(), record[i].trim());
         }
 
         return jsonObject;

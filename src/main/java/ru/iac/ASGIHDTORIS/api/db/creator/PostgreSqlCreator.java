@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.List;
 
 @Slf4j
-public class DbPostgreSQLCreator implements Creator{
+public class PostgreSqlCreator implements Creator{
 
     private final String SQL_CREATE =
             "CREATE TABLE IF NOT EXISTS ${table_name} (${keys})";
@@ -21,7 +21,7 @@ public class DbPostgreSQLCreator implements Creator{
 
     private Connection connection;
 
-    public DbPostgreSQLCreator(Connection connection) {
+    public PostgreSqlCreator(Connection connection) {
         this.connection = connection;
     }
 
@@ -41,7 +41,6 @@ public class DbPostgreSQLCreator implements Creator{
 
         String query = SQL_CREATE.replaceFirst(TABLE_NAME_REGEX, tableName);
         String keys = keysCreator(models);
-        log.info(keys);
         query = query.replaceFirst(KEYS_REGEX, keys);
 
         return query;

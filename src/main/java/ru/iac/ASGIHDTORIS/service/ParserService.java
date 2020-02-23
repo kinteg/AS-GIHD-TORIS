@@ -12,6 +12,4 @@ public interface ParserService {
 
     String getWithParser(MultipartFile multipartFile, long limit) throws IOException, CsvValidationException;
 
-    String parseIntoBd(MultipartFile multipartFile, String tableInfo) throws IOException, CsvValidationException, SQLException;
-
 }

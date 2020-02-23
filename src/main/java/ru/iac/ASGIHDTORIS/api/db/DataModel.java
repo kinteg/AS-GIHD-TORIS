@@ -9,9 +9,12 @@ public class DataModel {
     private String type;
     private boolean primary;
 
+    public DataModel(String key) {
+        this(key, "TEXT");
+    }
+
     public DataModel(String key, String type) {
-        this.key = key;
-        this.type = type;
+        this(key, type, false);
     }
 
     public DataModel(String key, String type, boolean primary) {

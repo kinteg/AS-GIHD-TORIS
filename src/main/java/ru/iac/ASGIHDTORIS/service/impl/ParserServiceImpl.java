@@ -18,11 +18,9 @@ import java.sql.SQLException;
 public class ParserServiceImpl implements ParserService {
 
     private final Parser parserApi;
-    private final DataSource dataSource;
 
-    public ParserServiceImpl(Parser parserApi, DataSource dataSource) {
+    public ParserServiceImpl(Parser parserApi) {
         this.parserApi = parserApi;
-        this.dataSource = dataSource;
     }
 
     @Override
@@ -34,20 +32,5 @@ public class ParserServiceImpl implements ParserService {
         return fromFile.toJSONString();
 
     }
-
-    public String parseIntoBd(MultipartFile multipartFile, String tableInfo) throws IOException, CsvValidationException, SQLException {
-        File file = FileConverter.multipartIntoFile(multipartFile);
-        String nameFile = JsonPath.read(tableInfo, "$.content.nameFile");
-
-        String table = parserApi.getFromFile(file, nameFile).toJSONString();
-
-//        ParseJsonInBd parseJsonInBd = new ParseJsonInBd(dataSource.getConnection());
-
-//        boolean status = parseJsonInBd.push(table, tableInfo);
-
-        return true ? "ok" : "error";
-
-    }
-
 
 }

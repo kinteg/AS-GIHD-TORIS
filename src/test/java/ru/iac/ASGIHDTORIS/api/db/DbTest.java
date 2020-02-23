@@ -3,7 +3,7 @@ package ru.iac.ASGIHDTORIS.api.db;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.iac.ASGIHDTORIS.api.db.creator.DbPostgreSQLCreator;
+import ru.iac.ASGIHDTORIS.api.db.creator.PostgreSqlCreator;
 import ru.iac.ASGIHDTORIS.api.db.loader.CSVLoader;
 
 import static org.junit.Assert.*;
@@ -25,7 +25,7 @@ class DbTest {
 
     @Test
     void createTable() throws SQLException {
-        DbPostgreSQLCreator dbPostgreSQLCreator = new DbPostgreSQLCreator(dataSource.getConnection());
+        PostgreSqlCreator dbPostgreSQLCreator = new PostgreSqlCreator(dataSource.getConnection());
         createDataModels();
 
         assertTrue(dbPostgreSQLCreator.createTable(TABLE_NAME, createDataModels()));

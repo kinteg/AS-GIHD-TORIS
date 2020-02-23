@@ -2,6 +2,7 @@ package ru.iac.ASGIHDTORIS.api.parser;
 
 import com.opencsv.exceptions.CsvValidationException;
 import net.minidev.json.JSONObject;
+import ru.iac.ASGIHDTORIS.api.db.DataModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,8 @@ public interface FileParser {
 
     JSONObject getJSON(File file, long limit) throws IOException, CsvValidationException;
 
-    JSONObject getJSON(File file, long limit, List<String> nameColumn) throws IOException, CsvValidationException;
+    JSONObject getJSON(File file, long limit, List<DataModel> models) throws IOException, CsvValidationException;
+
+    JSONObject getJSON(File file, long limit, List<DataModel> models, String tableName) throws IOException, CsvValidationException;
 
 }

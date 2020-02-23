@@ -3,7 +3,7 @@ package ru.iac.ASGIHDTORIS.api.db.sender;
 import lombok.Data;
 import ru.iac.ASGIHDTORIS.api.db.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.creator.Creator;
-import ru.iac.ASGIHDTORIS.api.db.creator.DbPostgreSQLCreator;
+import ru.iac.ASGIHDTORIS.api.db.creator.PostgreSqlCreator;
 import ru.iac.ASGIHDTORIS.api.db.loader.Loader;
 import ru.iac.ASGIHDTORIS.api.factory.loader.LoaderFactory;
 
@@ -33,7 +33,7 @@ public class FileSender implements DataSender {
     }
 
     private boolean createTable(List<DataModel> models, String nameTable) {
-        Creator creator = new DbPostgreSQLCreator(connection);
+        Creator creator = new PostgreSqlCreator(connection);
 
         return creator.createTable(nameTable, models);
     }

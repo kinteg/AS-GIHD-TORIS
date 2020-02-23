@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import ru.iac.ASGIHDTORIS.api.TargetFiles;
+import ru.iac.ASGIHDTORIS.api.db.DataModel;
 import ru.iac.ASGIHDTORIS.api.factory.archive.ArchiveFactory;
 import ru.iac.ASGIHDTORIS.api.factory.file.FileParserFactory;
 import ru.iac.ASGIHDTORIS.api.parser.archive.ArchiveParser;
@@ -25,34 +26,33 @@ public class ParserIntoJson implements Parser {
 
     @Override
     public JSONObject getFromFile(File file, long limit) throws IOException, CsvValidationException {
+        return getFromFile(file, limit, Collections.emptyList());
+    }
+
+    @Override
+    public JSONObject getFromFile(File file, long limit, List<DataModel> models) throws IOException, CsvValidationException {
+        return getFromFile(file, limit, models, "default");
+    }
+
+    @Override
+    public JSONObject getFromFile(File file, long limit, List<DataModel> models, String tableName) throws IOException, CsvValidationException {
         List<File> files = targetFiles.isArchive(file.getName()) ?
                 getParser(file.getName()).getFiles(file)
                 : Collections.singletonList(file);
 
-        return getFormFiles(files, limit);
+        return getFormFiles(files, limit, models, tableName);
     }
 
     @Override
-    public JSONObject getFromFile(File file, String fileName) throws IOException, CsvValidationException {
-        List<File> files = Collections.singletonList(
-                targetFiles.isArchive(file.getName()) ?
-                        getParser(file.getName()).findByFileName(file, fileName)
-                        : file
-        );
-
-        return getFormFiles(files, -1);
-    }
-
-    @Override
-    public JSONObject getFormFiles(List<File> files, long limit) throws IOException, CsvValidationException {
-        return createJSON(files, limit);
+    public JSONObject getFormFiles(List<File> files, long limit, List<DataModel> models, String tableName) throws IOException, CsvValidationException {
+        return createJSON(files, limit, models, tableName);
     }
 
     private ArchiveParser getParser(String filename) {
         return ArchiveFactory.getParser(filename);
     }
 
-    private JSONObject createJSON(List<File> files, long limit) throws IOException, CsvValidationException {
+    private JSONObject createJSON(List<File> files, long limit, List<DataModel> models, String tableName) throws IOException, CsvValidationException {
         JSONObject object = new JSONObject();
         JSONArray array = new JSONArray();
 
@@ -61,7 +61,7 @@ public class ParserIntoJson implements Parser {
             FileParser fileParser = FileParserFactory.getParser(file.getName());
 
             if (fileParser != null) {
-                array.add(fileParser.getJSON(file, limit));
+                array.add(fileParser.getJSON(file, limit, models, tableName));
             }
 
             file.delete();

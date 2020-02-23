@@ -1,9 +1,10 @@
 package ru.iac.ASGIHDTORIS.api.db.exporter.data;
 
-import java.util.List;
+
+import net.minidev.json.JSONObject;
 
 public interface DataExporter {
 
-    List<String> exportData(String tableName, long limit) ;
+    JSONObject exportData(String tableName, long limit) ;
 
 }

@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.api.parser.csv;
+package ru.iac.ASGIHDTORIS.api.parser.json.csv;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import ru.iac.ASGIHDTORIS.api.db.DataModel;
-import ru.iac.ASGIHDTORIS.api.parser.FileParser;
+import ru.iac.ASGIHDTORIS.api.parser.json.FileParser;
 
 import java.io.File;
 import java.io.FileReader;

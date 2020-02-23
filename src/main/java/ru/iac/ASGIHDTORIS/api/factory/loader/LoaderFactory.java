@@ -3,8 +3,6 @@ package ru.iac.ASGIHDTORIS.api.factory.loader;
 import org.apache.commons.io.FilenameUtils;
 import ru.iac.ASGIHDTORIS.api.db.loader.CSVLoader;
 import ru.iac.ASGIHDTORIS.api.db.loader.Loader;
-import ru.iac.ASGIHDTORIS.api.parser.FileParser;
-import ru.iac.ASGIHDTORIS.api.parser.csv.CsvParser;
 
 import java.sql.Connection;
 

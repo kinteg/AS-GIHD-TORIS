@@ -9,6 +9,7 @@ import ru.iac.ASGIHDTORIS.api.db.DataModel;
 import ru.iac.ASGIHDTORIS.api.factory.archive.ArchiveFactory;
 import ru.iac.ASGIHDTORIS.api.factory.file.FileParserFactory;
 import ru.iac.ASGIHDTORIS.api.parser.archive.ArchiveParser;
+import ru.iac.ASGIHDTORIS.api.parser.json.FileParser;
 
 import java.io.File;
 import java.io.IOException;

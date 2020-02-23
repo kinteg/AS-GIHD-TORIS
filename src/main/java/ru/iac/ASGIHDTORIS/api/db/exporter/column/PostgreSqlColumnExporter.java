@@ -32,11 +32,11 @@ public class PostgreSqlColumnExporter implements ColumnExporter {
     }
 
     @Override
-    public List<DataModel> exportDataModel(String tableName) throws SQLException {
+    public List<DataModel> exportDataModel(String tableName) {
         return createDataModel(tableName);
     }
 
-    private List<DataModel> createDataModel(String tableName) throws SQLException {
+    private List<DataModel> createDataModel(String tableName) {
         List<DataModel> models = new ArrayList<>();
         List<String> columns = getColumnNames(tableName);
         List<String> types = getDataType(tableName);
@@ -49,42 +49,16 @@ public class PostgreSqlColumnExporter implements ColumnExporter {
         return models;
     }
 
-    private List<String> getColumnNames(String tableName) throws SQLException {
-        List<String> list = new ArrayList<>();
-
-        try (Statement stmt = connection.createStatement()) {
-            log.info(createColumnSql(tableName));
-            ResultSet resultSet = stmt.executeQuery(createColumnSql(tableName));
-            while (resultSet.next()) {
-                list.add(resultSet.getString(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
-
-        return list;
-    }
-
-    private List<String> getDataType(String tableName) throws SQLException {
-        List<String> list = new ArrayList<>();
-
-        try (Statement stmt = connection.createStatement()) {
-            log.info(createColumnSql(tableName));
-            ResultSet resultSet = stmt.executeQuery(createTypeSql(tableName));
-            while (resultSet.next()) {
-                list.add(resultSet.getString(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
-
-        return list;
+    private List<String> getColumnNames(String tableName) {
+        return parse(createColumnSql(tableName));
     }
 
     private String createColumnSql(String tableName) {
         return setTableName(tableName).replaceFirst(COLUMN_NAME_REGEX, COLUMN_NAME);
+    }
+
+    private List<String> getDataType(String tableName) {
+        return parse(createTypeSql(tableName));
     }
 
     private String createTypeSql(String tableName) {
@@ -93,6 +67,22 @@ public class PostgreSqlColumnExporter implements ColumnExporter {
 
     private String setTableName(String tableName) {
         return SQL_SELECT.replaceFirst(TABLE_NAME_REGEX, tableName);
+    }
+
+    private List<String> parse(String query) {
+        List<String> list = new ArrayList<>();
+
+        try (Statement stmt = connection.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                list.add(resultSet.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+
+        return list;
     }
 
 }

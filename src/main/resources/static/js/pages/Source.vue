@@ -14,7 +14,7 @@
             </el-form-item>
         </el-form>
         <h3>{{data.name}}</h3>
-        <show-source :data="pattern"/>
+        <show-source :table="table.content" :data="pattern"/>
     </div>
 </template>
 
@@ -64,7 +64,7 @@
                 AXIOS.get('/source/getTable/'+ id,
                 ).then(response=>{
                     this.table = response.data;
-                    console.log(this.table);
+                    console.log(this.table.content);
                 }).catch(error=>{
                     console.log("ERROR"+error);
                 });

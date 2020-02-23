@@ -93,7 +93,6 @@ public class PostgreSqlDataExporter implements DataExporter {
                 array.add(createRow(resultSet, models));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             return new JSONArray();
         }
 

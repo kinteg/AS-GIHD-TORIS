@@ -9,8 +9,8 @@
                 <p>Ответственный за ведение: {{curSource.management}}</p>
                 <p>Дата создания: {{curSource.dateCreation}}</p>
                 <el-collapse>
-                    <el-collapse-item title="шаблон">
-
+                    <el-collapse-item title="Шаблоны">
+                        <collapse-show :data="table"/>
                     </el-collapse-item>
                 </el-collapse>
             </el-collapse-item>
@@ -20,9 +20,11 @@
 </template>
 
 <script>
+    import CollapseShow from "./CollapseShow.vue";
     export default {
         name: "ShowSource",
-        props:['data'],
+        components: {CollapseShow},
+        props:['data','table'],
         methods:{
 
         }

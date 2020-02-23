@@ -38,53 +38,7 @@
             return {}
         },
         methods:{
-            getAllElement(){
-                for(let i = 0;i<this.currencyTable.length; i++){
-                    console.log()
-                }
-            },
-            validation(){
-                let email = document.getElementById('mail');
 
-
-                let error = email;
-                while ((error = error.nextSibling).nodeType != 1);
-
-                let emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-                function addEvent(element, event, callback) {
-                    let previousEventCallBack = element["on"+event];
-                    element["on"+event] = function (e) {
-                        let output = callback(e);
-
-
-                        if (output === false) return false;
-
-                        if (typeof previousEventCallBack === 'function') {
-                            output = previousEventCallBack(e);
-                            if(output === false) return false;
-                        }
-                    }
-                };
-
-                addEvent(window, "load", function () {
-
-                    let test = email.value.length === 0 || emailRegExp.test(email.value);
-
-                    email.className = test ? "valid" : "invalid";
-                });
-
-                addEvent(email, "input", function () {
-                    let test = email.value.length === 0 || emailRegExp.test(email.value);
-                    if (test) {
-                        email.className = "valid";
-                        error.innerHTML = "";
-                        error.className = "error";
-                    } else {
-                        email.className = "invalid";
-                    }
-                });
-            },
             getKeys(table){
                 let keys =[];
                 for(let k in table)

@@ -20,21 +20,7 @@
     export default {
         name: "CollapseShow",
         components: {CollapseForm},
-        props: ['data'],
-        data(){
-
-            let validateText = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('Пожалуйста введите название таблицы'));
-                } else {
-                    if (this.ruleForm.checkPass !== '') {
-                        this.$refs.ruleForm.validateField('checkPass');
-                    }
-                    callback();
-                }
-            };
-            return{}
-        }
+        props: ['data']
     }
 </script>
 

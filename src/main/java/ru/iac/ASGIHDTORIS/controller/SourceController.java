@@ -42,7 +42,7 @@ public class SourceController {
     }
 
     @GetMapping("/getTable/{id}")
-    public List<Table> findtableById(@PathVariable Long id){
+    public List<Table> findTableById(@PathVariable Long id){
         return tableRepo.findByPatternId(id);
     }
 

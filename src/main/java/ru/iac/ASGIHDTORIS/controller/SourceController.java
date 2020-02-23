@@ -3,7 +3,7 @@ package ru.iac.ASGIHDTORIS.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.domain.Source;
-import ru.iac.ASGIHDTORIS.domain.Table;
+import ru.iac.ASGIHDTORIS.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.repo.SourceRepo;
 import ru.iac.ASGIHDTORIS.repo.TableRepo;
@@ -42,7 +42,7 @@ public class SourceController {
     }
 
     @GetMapping("/getTable/{id}")
-    public List<Table> findTableById(@PathVariable Long id){
+    public List<PatternTable> findTableById(@PathVariable Long id){
         return tableRepo.findByPatternId(id);
     }
 

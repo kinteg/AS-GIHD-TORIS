@@ -1,8 +1,12 @@
 package ru.iac.ASGIHDTORIS.domain;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
-public class Table {
+@Entity
+@Data
+public class PatternTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

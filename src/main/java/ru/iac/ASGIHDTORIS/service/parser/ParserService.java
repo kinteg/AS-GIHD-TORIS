@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.service;
+package ru.iac.ASGIHDTORIS.service.parser;
 
 import com.opencsv.exceptions.CsvValidationException;
 import org.springframework.stereotype.Service;
@@ -10,6 +10,6 @@ import java.sql.SQLException;
 @Service
 public interface ParserService {
 
-    String getWithParser(MultipartFile multipartFile, long limit) throws IOException, CsvValidationException;
+    String getWithParser(MultipartFile multipartFile, long limit, String sourceId) throws IOException, CsvValidationException, SQLException;
 
 }

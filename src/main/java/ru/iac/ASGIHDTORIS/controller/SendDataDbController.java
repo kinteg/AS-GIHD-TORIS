@@ -3,7 +3,7 @@ package ru.iac.ASGIHDTORIS.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.iac.ASGIHDTORIS.service.DbService;
+import ru.iac.ASGIHDTORIS.service.sender.DbService;
 
 import java.io.IOException;
 import java.sql.SQLException;

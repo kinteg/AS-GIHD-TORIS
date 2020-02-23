@@ -1,6 +1,6 @@
 package ru.iac.ASGIHDTORIS.api.db.exporter.column;
 
-import ru.iac.ASGIHDTORIS.api.db.DataModel;
+import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
 
 import java.util.List;
 

@@ -5,6 +5,6 @@ import ru.iac.ASGIHDTORIS.domain.PatternTable;
 
 import java.util.List;
 
-public interface TableRepo  extends JpaRepository<PatternTable,Long> {
+public interface PatternTableRepo extends JpaRepository<PatternTable,Long> {
     List<PatternTable> findByPatternId(long id);
 }

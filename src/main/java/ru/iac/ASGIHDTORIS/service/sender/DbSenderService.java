@@ -1,10 +1,10 @@
-package ru.iac.ASGIHDTORIS.service;
+package ru.iac.ASGIHDTORIS.service.sender;
 
 import com.jayway.jsonpath.JsonPath;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.iac.ASGIHDTORIS.api.db.DataModel;
+import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.sender.DataSender;
 import ru.iac.ASGIHDTORIS.api.db.sender.FileSender;
 import ru.iac.ASGIHDTORIS.api.factory.archive.ArchiveFactory;

@@ -9,8 +9,5 @@ public class Table {
     private long id;
     private String nameTable;
     private String nameFile;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pattern_id")
-    private Pattern pattern_id;
+    private long patternId;
 }

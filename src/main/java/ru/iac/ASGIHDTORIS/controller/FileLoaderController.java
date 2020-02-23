@@ -29,13 +29,14 @@ public class FileLoaderController {
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT_VALUE)
                     Long limit,
-            @RequestParam(value = "sourceId") String sourceId) throws
+            @RequestParam(value = "sourceId", required = false, defaultValue = "") String sourceId) throws
             IOException,
             CsvValidationException {
 
         if (multipartFile == null) {
             return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND).toString();
         } else {
+            log.info(sourceId);
             System.out.println(parserService.getWithParser(multipartFile, limit));
             return parserService.getWithParser(multipartFile, limit);
         }

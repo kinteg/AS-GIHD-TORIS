@@ -3,7 +3,8 @@
         <el-collapse>
             <div v-for="currency in data" class="currency">
                 <el-collapse-item :title=currency.nameTable >
-                    Название таблицы<input  :id="currency.nameTable" class="inputText" type="text" :value="currency.nameTable">
+<!--                   <input  :id="currency.nameTable" class="inputText" type="text" :value="currency.nameTable">-->
+                    Название таблицы<el-input :id="currency.nameTable" :value="currency.nameTable" v-model="currency.nameTable" type="text" autocomplete="off"></el-input>
                     <br><br><span style="padding: 5px; border-right: 1px solid #dcdfe6">Ключ</span> Название поля <span style=" float: right">Тип поля</span>
                     <collapse-form :currency-table="currency"/>
                 </el-collapse-item>
@@ -29,6 +30,7 @@
         //             callback();
         //         }
         //     };
+        // }
     }
 </script>
 

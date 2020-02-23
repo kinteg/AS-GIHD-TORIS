@@ -34,7 +34,6 @@ public class PatternController {
 
     @GetMapping("{id}")
     public List<Pattern> getPattern(@PathVariable Long id){
-        log.info(patternRepo.findBySourceId(id).toString());
         return patternRepo.findBySourceId(id);
     }
 }

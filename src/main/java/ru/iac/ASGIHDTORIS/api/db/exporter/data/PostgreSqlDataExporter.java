@@ -2,7 +2,7 @@ package ru.iac.ASGIHDTORIS.api.db.exporter.data;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import ru.iac.ASGIHDTORIS.api.db.DataModel;
+import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.exporter.column.ColumnExporter;
 import ru.iac.ASGIHDTORIS.api.db.exporter.column.PostgreSqlColumnExporter;
 
@@ -26,8 +26,7 @@ public class PostgreSqlDataExporter implements DataExporter {
     private ColumnExporter columnExporter;
 
     public PostgreSqlDataExporter(Connection connection) {
-        this.connection = connection;
-        this.columnExporter = new PostgreSqlColumnExporter(connection);
+        this(connection, new PostgreSqlColumnExporter(connection));
     }
 
     public PostgreSqlDataExporter(Connection connection, ColumnExporter columnExporter) {
@@ -54,11 +53,9 @@ public class PostgreSqlDataExporter implements DataExporter {
         JSONArray columnTable = getColumnTable(models);
         JSONArray values;
 
-
         values = getValue(limit, tableName, models);
 
-
-        parsed.put("nameFile", tableName);
+        parsed.put("nameTable", tableName);
         parsed.put("table", values);
         parsed.put("columnTable", columnTable);
 

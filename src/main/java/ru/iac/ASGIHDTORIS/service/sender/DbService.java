@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.service;
+package ru.iac.ASGIHDTORIS.service.sender;
 
 import org.springframework.web.multipart.MultipartFile;
 

@@ -6,9 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.iac.ASGIHDTORIS.service.ParserService;
+import ru.iac.ASGIHDTORIS.service.parser.ParserService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 @RestController
 @RequestMapping("api/")
@@ -31,14 +32,13 @@ public class FileLoaderController {
                     Long limit,
             @RequestParam(value = "sourceId", required = false, defaultValue = "") String sourceId) throws
             IOException,
-            CsvValidationException {
+            CsvValidationException, SQLException {
 
         if (multipartFile == null) {
             return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND).toString();
         } else {
-            log.info(sourceId);
-            System.out.println(parserService.getWithParser(multipartFile, limit));
-            return parserService.getWithParser(multipartFile, limit);
+            System.out.println(parserService.getWithParser(multipartFile, limit, sourceId));
+            return parserService.getWithParser(multipartFile, limit, sourceId);
         }
 
     }

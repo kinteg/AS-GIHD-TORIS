@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PatternRepo  extends JpaRepository<Pattern, Long> {
     List<Pattern> findBySourceId(Long id);
+
+    Pattern findTopBySourceId(Long id);
 }

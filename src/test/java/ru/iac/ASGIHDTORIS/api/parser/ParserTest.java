@@ -33,9 +33,9 @@ public class ParserTest {
     void test() throws IOException, CsvValidationException, SQLException {
         File file = new File("/home/kinteg/Загрузки/qwe/qwe2.zip");
         ColumnExporter columnExporter = new PostgreSqlColumnExporter(dataSource.getConnection());
-        ParserIntoJson parser = new ParserIntoJson();
+        FilesParser parser = new FilesParser();
 
-        System.out.println(parser.getFromFile(file, 2, columnExporter.exportDataModel(TABLE_NAME1), TABLE_NAME1).toJSONString());
+//        System.out.println(parser.getFromFile(file, 2, columnExporter.exportDataModel(TABLE_NAME1), TABLE_NAME1).toJSONString());
     }
 
     @Test

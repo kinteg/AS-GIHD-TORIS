@@ -1,7 +1,7 @@
 package ru.iac.ASGIHDTORIS.api.db.sender;
 
 import lombok.Data;
-import ru.iac.ASGIHDTORIS.api.db.DataModel;
+import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.creator.Creator;
 import ru.iac.ASGIHDTORIS.api.db.creator.PostgreSqlCreator;
 import ru.iac.ASGIHDTORIS.api.db.loader.Loader;

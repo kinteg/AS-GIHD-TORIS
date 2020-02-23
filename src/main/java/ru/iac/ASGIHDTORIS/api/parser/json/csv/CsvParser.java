@@ -5,7 +5,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import ru.iac.ASGIHDTORIS.api.db.DataModel;
+import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
 import ru.iac.ASGIHDTORIS.api.parser.json.FileParser;
 
 import java.io.File;
@@ -36,12 +36,12 @@ public class CsvParser implements FileParser {
 
     @Override
     public JSONObject getJSON(File file, long limit, List<DataModel> models) throws IOException, CsvValidationException {
-        return getJSON(file, limit, models, "");
+        return getJSON(file, limit, models, "default");
     }
 
     @Override
     public JSONObject getJSON(File file, long limit, List<DataModel> models, String tableName) throws IOException, CsvValidationException {
-        return csvReader(file, limit, models, "default");
+        return csvReader(file, limit, models, tableName);
     }
 
 
@@ -73,7 +73,7 @@ public class CsvParser implements FileParser {
         return models;
     }
 
-    private JSONObject createJson(String filename, List<DataModel> models, long limit, String tableName) throws IOException, CsvValidationException {
+    private JSONObject createJson(String fileName, List<DataModel> models, long limit, String tableName) throws IOException, CsvValidationException {
         JSONObject parsed = new JSONObject();
         JSONArray columnTable = getColumnTable(models);
         JSONArray values;
@@ -84,8 +84,8 @@ public class CsvParser implements FileParser {
             values = getWithLimit(models, limit);
         }
 
-        parsed.put("nameTable", filename);
-        parsed.put("nameFile", tableName);
+        parsed.put("nameTable", tableName);
+        parsed.put("nameFile", fileName);
         parsed.put("table", values);
         parsed.put("columnTable", columnTable);
 

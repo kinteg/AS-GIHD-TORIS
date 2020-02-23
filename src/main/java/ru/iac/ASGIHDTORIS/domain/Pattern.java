@@ -20,4 +20,5 @@ public class Pattern {
     private LocalDateTime dateCreation;
 
     private long sourceId;
+
 }

@@ -78,7 +78,6 @@ public class PostgreSqlColumnExporter implements ColumnExporter {
                 list.add(resultSet.getString(1));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             return Collections.emptyList();
         }
 

@@ -50,7 +50,6 @@
         },
         methods: {
             querySearch(queryString, cb) {
-
                 let source = this.source;
                 let results = queryString ? source.filter(this.createFilter(queryString)) : source;
                 cb(results);

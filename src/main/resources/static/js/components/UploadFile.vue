@@ -1,20 +1,20 @@
 <template>
     <div>
         <el-form :label-position="labelPosition"  label-width="100px">
-            <search-source/>
+            <search-source />
 
             <input class="custom-file-input" type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-                <button v-on:click="submitFile()">Загрузить файлы</button>
-                <br>
-                <br>
-                <collapse-show :data="data" />
-                <el-button type="primary" class="submit" @click="submit">Загрузить</el-button>
+            <el-button type="primary"  @click="submitFile()">Загрузить</el-button><br>
+            <br>
+            <collapse-show :data="data" />
+            <el-button disabled="true" type="primary"  @click="submit">Загрузить</el-button>
         </el-form>
 
     </div>
 </template>
 
 <script>
+
     import {AXIOS} from "../AXIOS/http-common";
     import CollapseShow from "./CollapseShow.vue";
     import SearchSource from "./SearchSource.vue";
@@ -23,8 +23,10 @@
         name: "UploadFile",
         components: {SearchSource, CollapseShow},
         props:['controller'],
+
         data(){
             return {
+                text:'',
                 input: {},
                 file: '',
                 data: '',
@@ -33,7 +35,12 @@
                 labelPosition: 'left',
             }
         },
+        updated() {
+           this.text = document.getElementById('sourceList').value;
+           console.log('ll');
+        },
         methods: {
+
             submitFile(){
                 this.getSourceId();
             },
@@ -91,35 +98,39 @@
             },
 
             submit(){
-                let tables = [];
-                let allKeys = [];
-                let files = [];
-                let JsonStr;
+                if(document.getElementById('sourceList').value!==''){
+                    let tables = [];
+                    let allKeys = [];
+                    let files = [];
+                    let JsonStr;
 
-                for(let i = 0; i<this.data.length; i++) {
-                    tables.push(this.data[i].nameTable);
-                    files.push(this.data[i].nameFile);
-                    allKeys.push(this.getKeys(this.data[i].table[0]));
+                    for(let i = 0; i<this.data.length; i++) {
+                        tables.push(this.data[i].nameTable);
+                        files.push(this.data[i].nameFile);
+                        allKeys.push(this.getKeys(this.data[i].table[0]));
 
-                }
-                for(let i = 0; i< tables.length; i++) {
-                    let keys = allKeys[i];
-                    let nameTable = document.getElementById(tables[i]).value;
-                    JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
-                    for(let j = 0; j< keys.length; j++) {
-                        JsonStr = this.getElement(keys[j],tables[i],JsonStr);
-
-                        if(j !== keys.length - 1)
-                            JsonStr = JsonStr.concat(',');
                     }
-                    JsonStr = JsonStr.concat(']}}');
+                    for(let i = 0; i< tables.length; i++) {
+                        let keys = allKeys[i];
+                        let nameTable = document.getElementById(tables[i]).value;
+                        JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
+                        for(let j = 0; j< keys.length; j++) {
+                            JsonStr = this.getElement(keys[j],tables[i],JsonStr);
 
-                    let formData = new FormData();
+                            if(j !== keys.length - 1)
+                                JsonStr = JsonStr.concat(',');
+                        }
+                        JsonStr = JsonStr.concat(']}}');
 
-                    formData.append('file', this.file);
-                    formData.append('json', JsonStr);
-                    this.postData(this.controller,formData);
-                    JsonStr = '';
+                        let formData = new FormData();
+
+                        formData.append('file', this.file);
+                        formData.append('json', JsonStr);
+                        this.postData(this.controller,formData);
+                        JsonStr = '';
+                    }
+                } else{
+                    alert('hui');
                 }
             }
         }
@@ -131,23 +142,16 @@
     .custom-file-input::-webkit-file-upload-button {
         visibility: hidden;
     }
-    .submit{
-        background:#409EFF;
-        border: 1px solid #409EFF;
-        border-radius: 3px;
-        padding: 9px 15px;
-        cursor: pointer;
-        color: white;
-        -webkit-appearance: button;
-    }
     .custom-file-input{
+        text-align: right;
     }
+
     .custom-file-input::before {
         content: 'Выберите Файл';
         background:#409EFF;
         border: 1px solid #409EFF;
         border-radius: 3px;
-        padding: 9px 15px;
+        padding: 9px ;
         cursor: pointer;
         color: white;
         -webkit-appearance: button;
@@ -156,6 +160,6 @@
         background-color: #66b1ff;
     }
     .custom-file-input:active::before {
-        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+        background: -webkit-linear-gradient(top, #66b1ff, #66b1ff);
     }
 </style>

@@ -172,19 +172,20 @@
                             JsonStr = JsonStr.concat(',');
                     }
                     JsonStr = JsonStr.concat(']}}');
+                    arrJson.push(JsonStr);
+                    JsonStr = '';
+                }
 
                     let formData = new FormData();
                     //TODO отправить id источника и количество файлов. Добавить поле name
                     formData.append('file', this.file);
-                    formData.append('json', JsonStr);
+                    formData.append('json', arrJson);
                     formData.append('name', this.name);
                     formData.append('description', this.description);
                     formData.append('direction', this.direction);
                     formData.append('management', this.management);
                     formData.append('sourceId', this.sourceId);
-                    // this.postData('pattern/create',formData);
-                    JsonStr = '';
-                }
+                    this.postData('pattern/create',formData);
             }
         }
     }

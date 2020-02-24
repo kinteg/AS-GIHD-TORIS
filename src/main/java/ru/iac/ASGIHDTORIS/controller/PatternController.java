@@ -23,7 +23,7 @@ public class PatternController {
     @ResponseBody
     public String createPattern(
             @RequestParam(value = "file") MultipartFile multipartFile,
-            @RequestParam(value = "json") String json,
+            @RequestParam(value = "json") List<String> json,
             @RequestParam(value = "name") String name,
             @RequestParam(value = "description") String description,
             @RequestParam(value = "direction") String direction,

@@ -4,7 +4,7 @@
             <el-collapse-item title="Создать источник">
                 <h2>Создание источника</h2>
                 <create-source/>
-            </el-collapse-item>/
+            </el-collapse-item>
         </el-collapse>
         <h2>Поиск источника</h2>
         <search-source/>

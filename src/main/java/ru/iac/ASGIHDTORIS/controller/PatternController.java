@@ -22,13 +22,13 @@ public class PatternController {
     @PostMapping("/create")
     @ResponseBody
     public String createPattern(
-            @RequestParam(value = "file") MultipartFile multipartFile,
-            @RequestParam(value = "json") String json,
-            @RequestParam(value = "description") String description,
-            @RequestParam(value = "direction") String direction,
-            @RequestParam(value = "management") String management,
-            @RequestParam(value = "sourceId") Integer sourceId
+            @RequestParam(value = "file", required = false) MultipartFile multipartFile,
+            @RequestParam(value = "json", required = false) String json,
+            @RequestBody Pattern pattern
             ){
+
+        log.info(pattern.toString());
+
         return "ok";
     }
 

@@ -185,6 +185,7 @@
                     formData.append('direction', this.direction);
                     formData.append('management', this.management);
                     formData.append('sourceId', this.sourceId);
+                    console.log(formData.get('json'));
                     this.postData('pattern/create',formData);
             }
         }

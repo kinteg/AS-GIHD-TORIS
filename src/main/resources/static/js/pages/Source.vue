@@ -4,7 +4,7 @@
             <el-collapse-item title="Создать источник">
                 <h2>Создание источника</h2>
                 <create-source/>
-            </el-collapse-item>
+            </el-collapse-item>/
         </el-collapse>
         <h2>Поиск источника</h2>
         <search-source/>
@@ -14,8 +14,8 @@
             </el-form-item>
         </el-form>
         <h3>{{data.name}}</h3>
-        <div v-for="table in tables">
-            <show-source :table="table.content" :data="pattern"/>
+        <div v-for="map in patternMap">
+            <show-source :table="map.data" :pattern="map.pattern"/>
         </div>
     </div>
 </template>
@@ -31,20 +31,18 @@
         data(){
             return{
                 data:'',
-                pattern:'',
+                pattern:[],
                 tables:[],
-                preTable:[]
+                patternMap:[]
             }
         },
         methods:{
 
             submit(){
                 let sourceName = document.getElementById('sourceList').value;
-                // console.log(sourceName);
                 AXIOS.get('/source/'+ sourceName,
                 ).then(response=>{
                     this.data = response.data;
-                    // console.log(this.data);
                     this.getPattern(this.data.id)
                 }).catch(error=>{
                     console.log("ERROR"+error);
@@ -56,25 +54,19 @@
                 ).then(response=>{
                     this.pattern = response.data;
                     for(let i = 0; i<this.pattern.length; i++){
-                        this.getTable(this.pattern[i].id);
+                        AXIOS.get('/source/getTable/'+ this.pattern[i].id,
+                        ).then(response1=>{
+                            let kek = response1.data.content;
+                            this.patternMap.push({pattern:this.pattern[i],data:kek});
+                            console.log(this.patternMap);
+                        }).catch(error=>{
+                            console.log("ERROR"+error);
+                        });
                     }
-                    this.tables = this.preTable;
-                    console.log(this.preTable);
                 }).catch(error=>{
                     console.log("ERROR"+error);
                 });
             },
-
-            getTable(id){
-                AXIOS.get('/source/getTable/'+ id,
-                ).then(response=>{
-                    this.preTable.push(response.data);
-                    // console.log(this.tables);
-                }).catch(error=>{
-                    console.log("ERROR"+error);
-                });
-            }
-
         }
     }
 </script>

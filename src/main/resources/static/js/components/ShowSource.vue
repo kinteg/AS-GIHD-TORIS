@@ -1,17 +1,19 @@
 <template>
     <div>
-        <div  v-for="curSource in data">
         <el-collapse >
-            <el-collapse-item :title="curSource.name">
-                <p>Количество файлов: {{curSource.fileCount}}</p>
-                <p>Описание: {{curSource.description}}</p>
-                <p>Направление: {{curSource.direction}}</p>
-                <p>Ответственный за ведение: {{curSource.management}}</p>
-                <p>Дата создания: {{curSource.dateCreation}}</p>
+            <el-collapse-item :title="pattern.name">
+                <p>Количество файлов: {{pattern.fileCount}}</p>
+                <p>Описание: {{pattern.description}}</p>
+                <p>Направление: {{pattern.direction}}</p>
+                <p>Ответственный за ведение: {{pattern.management}}</p>
+                <p>Дата создания: {{pattern.dateCreation}}</p>
+                <el-collapse >
+                    <el-collapse-item title="Шаблоны">
                         <collapse-show :data="table"/>
+                    </el-collapse-item>
+                </el-collapse>
             </el-collapse-item>
         </el-collapse>
-        </div>
     </div>
 </template>
 
@@ -20,7 +22,7 @@
     export default {
         name: "ShowSource",
         components: {CollapseShow},
-        props:['data','table'],
+        props:['pattern','table'],
         methods:{
 
         }

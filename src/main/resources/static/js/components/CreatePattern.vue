@@ -1,7 +1,8 @@
 <template>
     <div>
-        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm"  :label-position="labelPosition" label-width="100px">
-                <search-source/>
+        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" :label-position="labelPosition"
+                 label-width="100px">
+            <search-source/>
             <el-form-item prop="description" label="Название">
                 <el-input id="name" v-model="ruleForm.name"></el-input>
             </el-form-item>
@@ -37,14 +38,14 @@
         name: "CreatePattern",
         components: {SearchSource, CollapseShow, UploadFile},
         data() {
-            let symbol = new RegExp( "[~!@#$%^&*()\\-+=|\/';:,.]");
+            let symbol = new RegExp("[~!@#$%^&*()\\-+=|\/';:,.]");
             let validatePass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('Заполните поле'));
                 } else {
-                    if(symbol.exec(value)!==null){
+                    if (symbol.exec(value) !== null) {
                         callback(new Error('Недопустимые символы: ~!@#$%^&*()-+=|  / \';:,.'));
-                    }else
+                    } else
                         callback();
                 }
             };
@@ -52,28 +53,28 @@
             return {
                 ruleForm: {
                     text: '',
-                    name:'',
-                    description:'',
+                    name: '',
+                    description: '',
                     direction: '',
                     management: ''
                 },
                 rules: {
                     text: [
-                        { validator: validatePass, trigger: 'blur' }
+                        {validator: validatePass, trigger: 'blur'}
                     ], description: [
-                        { validator: validatePass, trigger: 'blur' }
+                        {validator: validatePass, trigger: 'blur'}
                     ], direction: [
-                        { validator: validatePass, trigger: 'blur' }
+                        {validator: validatePass, trigger: 'blur'}
                     ], management: [
-                        { validator: validatePass, trigger: 'blur' }
+                        {validator: validatePass, trigger: 'blur'}
                     ],
                 },
                 labelPosition: 'left',
                 input: {},
                 file: '',
                 data: '',
-                source:'',
-                sourceId:'',
+                source: '',
+                sourceId: '',
                 formLabelAlign: {
                     description: '',
                     direction: '',
@@ -83,34 +84,33 @@
         },
         methods: {
 
-            submitFile(){
+            submitFile() {
                 this.getSourceId();
             },
 
-            getSourceId(){
+            getSourceId() {
                 let sourceName = document.getElementById('sourceList').value;
-                if(sourceName === ''){
+                if (sourceName === '') {
                     console.log("error");
                 }
-                AXIOS.get('/source/'+ sourceName,
-                ).then(response=>{
+                AXIOS.get('/source/' + sourceName,
+                ).then(response => {
                     this.sourceId = response.data.id;
                     let formData = new FormData();
                     formData.append('sourceId', response.data.id);
                     formData.append('file', this.file);
-                    this.postData('/single-file',formData);
-                }).catch(error=>{
-                    console.log("ERROR"+error);
+                    this.postData('/single-file', formData);
+                }).catch(error => {
+                    console.log("ERROR" + error);
                 });
             },
-            handleFileUpload(){
+            handleFileUpload() {
                 this.file = this.$refs.file.files[0];
             },
 
-            getKeys(table){
-                let keys =[];
-                for(let k in table)
-                {
+            getKeys(table) {
+                let keys = [];
+                for (let k in table) {
                     keys.push(k);
                 }
                 return keys;
@@ -124,29 +124,29 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }
-                ).then(response=>{
+                ).then(response => {
                     this.data = response.data.content;
-                }).catch(error=>{
-                    console.log("ERROR"+error);
+                }).catch(error => {
+                    console.log("ERROR" + error);
                 })
             },
 
-            getElement(keys,tables,JsonStr){
+            getElement(keys, tables, JsonStr) {
                 let primaryKey = false;
-                let inputTextValue = document.getElementById(keys+tables).value;
-                let inputTypeValue = document.getElementById("select"+keys+tables).value;
-                if(document.getElementById("primary"+keys+tables).checked){
+                let inputTextValue = document.getElementById(keys + tables).value;
+                let inputTypeValue = document.getElementById("select" + keys + tables).value;
+                if (document.getElementById("primary" + keys + tables).checked) {
                     primaryKey = true;
                 }
-                JsonStr = JsonStr.concat('{"name":"' + inputTextValue + '","type":"' + inputTypeValue + '","primary":' + primaryKey +'}');
+                JsonStr = JsonStr.concat('{"name":"' + inputTextValue + '","type":"' + inputTypeValue + '","primary":' + primaryKey + '}');
                 return JsonStr;
             },
 
-            submit(){
+            submit() {
                 let tables = [];
                 let allKeys = [];
                 let JsonStr;
-                let arrJson =[];
+                let arrJson = [];
                 this.name = document.getElementById("name").value;
                 this.description = document.getElementById("description").value;
                 this.direction = document.getElementById("direction").value;
@@ -154,21 +154,21 @@
                 this.source = document.getElementById("sourceList").value;
                 this.source = document.getElementById("sourceList").value;
                 console.log(this.sourceId);
-                for(let i = 0; i<this.data.length; i++) {
+                for (let i = 0; i < this.data.length; i++) {
 
                     tables.push(this.data[i].nameTable);
                     allKeys.push(this.getKeys(this.data[i].table[0]));
 
                 }
 
-                for(let i = 0; i< tables.length; i++) {
+                for (let i = 0; i < tables.length; i++) {
                     let keys = allKeys[i];
                     let nameTable = document.getElementById(tables[i]).value;
                     JsonStr = '{"content":{"nameFile":"' + tables[i] + '","nameTable":"' + nameTable + '","columnTable":[';
-                    for(let j = 0; j< keys.length; j++) {
-                        JsonStr = this.getElement(keys[j],tables[i],JsonStr);
+                    for (let j = 0; j < keys.length; j++) {
+                        JsonStr = this.getElement(keys[j], tables[i], JsonStr);
 
-                        if(j !== keys.length - 1)
+                        if (j !== keys.length - 1)
                             JsonStr = JsonStr.concat(',');
                     }
                     JsonStr = JsonStr.concat(']}}');
@@ -176,21 +176,32 @@
                     JsonStr = '';
                 }
 
-                    let formData = new FormData();
-                    //TODO отправить id источника и количество файлов. Добавить поле name
-                    formData.append('file', this.file);
-                    formData.append('json', JsonStr);
-                    formData.append('name', this.name);
-                    formData.append('description', this.description);
-                    formData.append('direction', this.direction);
-                    formData.append('management', this.management);
-                    formData.append('sourceId', this.sourceId);
-                    formData.append('id', "1");
-                    this.postData('pattern/create', formData);
-                    JsonStr = '';
-                }
+                let formData = new FormData();
+                //TODO отправить id источника и количество файлов. Добавить поле name
+                formData.append('file', this.file);
+                formData.append('json', JsonStr);
+                // let obj = {
+                //     "id": 1,
+                //     "fileCount": 0,
+                //     "name": this.name,
+                //     "description": this.description,
+                //     "direction": this.direction,
+                //     "management": this.management,
+                //     "dateCreation": null,
+                //     "sourceId": 1,
+                // };
+                // console.log(obj);
+                formData.append('name', this.name);
+                formData.append('description', this.description);
+                formData.append('direction', this.direction);
+                formData.append('management', this.management);
+                formData.append('sourceId', this.sourceId);
+                formData.append('id', 1);
+                this.postData('pattern/create', formData);
+                JsonStr = '';
             }
         }
+
     }
 
 </script>

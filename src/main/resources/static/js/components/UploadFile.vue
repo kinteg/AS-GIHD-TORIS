@@ -6,7 +6,7 @@
             <input class="custom-file-input" type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
             <el-button type="primary"  @click="submitFile()">Загрузить</el-button><br>
             <br>
-            <collapse-show :data="data" />
+            <collapse-show :disabled="true" :data="data" />
             <el-button disabled="true" type="primary"  @click="submit">Загрузить</el-button>
         </el-form>
 

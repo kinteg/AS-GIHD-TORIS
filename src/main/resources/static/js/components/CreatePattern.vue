@@ -172,6 +172,9 @@
                             JsonStr = JsonStr.concat(',');
                     }
                     JsonStr = JsonStr.concat(']}}');
+                    arrJson.push(JsonStr);
+                    JsonStr = '';
+                }
 
                     let formData = new FormData();
                     //TODO отправить id источника и количество файлов. Добавить поле name

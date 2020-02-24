@@ -1,8 +1,6 @@
 <template>
     <div>
-        Выберите источник <search-source/>
-        <br>
-        <br>
+        <search-source/>
         <label>Выберите файл для загрузки
             <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
         </label>

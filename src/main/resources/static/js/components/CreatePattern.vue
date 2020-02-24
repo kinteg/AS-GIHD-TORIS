@@ -134,12 +134,11 @@
             getElement(keys,tables,JsonStr){
                 let primaryKey = false;
                 let inputTextValue = document.getElementById(keys+tables).value;
-                let e = document.getElementById("select"+keys+tables);
-                let inputSelectValue = e.options[e.selectedIndex].value;
+                let inputTypeValue = document.getElementById("select"+keys+tables).value;
                 if(document.getElementById("primary"+keys+tables).checked){
                     primaryKey = true;
                 }
-                JsonStr = JsonStr.concat('{"name":"' + inputTextValue + '","type":"' + inputSelectValue + '","primary":' + primaryKey +'}');
+                JsonStr = JsonStr.concat('{"name":"' + inputTextValue + '","type":"' + inputTypeValue + '","primary":' + primaryKey +'}');
                 return JsonStr;
             },
 
@@ -147,6 +146,7 @@
                 let tables = [];
                 let allKeys = [];
                 let JsonStr;
+                let arrJson =[];
                 this.name = document.getElementById("name").value;
                 this.description = document.getElementById("description").value;
                 this.direction = document.getElementById("direction").value;
@@ -182,7 +182,7 @@
                     formData.append('direction', this.direction);
                     formData.append('management', this.management);
                     formData.append('sourceId', this.sourceId);
-                    this.postData('pattern/create',formData);
+                    // this.postData('pattern/create',formData);
                     JsonStr = '';
                 }
             }

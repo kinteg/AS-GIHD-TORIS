@@ -1,14 +1,16 @@
 <template>
     <div>
-        <search-source/>
-        <label>Выберите файл для загрузки
-            <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-        </label>
-        <button v-on:click="submitFile()">Загрузить файлы</button>
-        <br>
-        <br>
-        <collapse-show :data="data" />
-        <el-button type="primary" @click="submit">Загрузить</el-button>
+        <el-form :label-position="labelPosition"  label-width="100px">
+            <search-source/>
+
+            <input class="custom-file-input" type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                <button v-on:click="submitFile()">Загрузить файлы</button>
+                <br>
+                <br>
+                <collapse-show :data="data" />
+                <el-button type="primary" class="submit" @click="submit">Загрузить</el-button>
+        </el-form>
+
     </div>
 </template>
 
@@ -28,6 +30,7 @@
                 data: '',
                 source:'',
                 sourceId:'',
+                labelPosition: 'left',
             }
         },
         methods: {
@@ -125,4 +128,34 @@
 </script>
 
 <style scoped>
+    .custom-file-input::-webkit-file-upload-button {
+        visibility: hidden;
+    }
+    .submit{
+        background:#409EFF;
+        border: 1px solid #409EFF;
+        border-radius: 3px;
+        padding: 9px 15px;
+        cursor: pointer;
+        color: white;
+        -webkit-appearance: button;
+    }
+    .custom-file-input{
+    }
+    .custom-file-input::before {
+        content: 'Выберите Файл';
+        background:#409EFF;
+        border: 1px solid #409EFF;
+        border-radius: 3px;
+        padding: 9px 15px;
+        cursor: pointer;
+        color: white;
+        -webkit-appearance: button;
+    }
+    .custom-file-input:hover::before {
+        background-color: #66b1ff;
+    }
+    .custom-file-input:active::before {
+        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+    }
 </style>

@@ -147,6 +147,7 @@
                 let allKeys = [];
                 let JsonStr;
                 let arrJson =[];
+                let files = [];
                 this.name = document.getElementById("name").value;
                 this.description = document.getElementById("description").value;
                 this.direction = document.getElementById("direction").value;
@@ -158,13 +159,13 @@
 
                     tables.push(this.data[i].nameTable);
                     allKeys.push(this.getKeys(this.data[i].table[0]));
-
+                    files.push(this.data[i].nameFile);
                 }
 
                 for(let i = 0; i< tables.length; i++) {
                     let keys = allKeys[i];
                     let nameTable = document.getElementById(tables[i]).value;
-                    JsonStr = '{"content":{"nameFile":"' + tables[i] + '","nameTable":"' + nameTable + '","columnTable":[';
+                    JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
                     for(let j = 0; j< keys.length; j++) {
                         JsonStr = this.getElement(keys[j],tables[i],JsonStr);
 

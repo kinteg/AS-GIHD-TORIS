@@ -2,6 +2,9 @@
     <div>
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm"  :label-position="labelPosition" label-width="100px">
                 <search-source/>
+            <el-form-item prop="description" label="Название">
+                <el-input id="name" v-model="ruleForm.name"></el-input>
+            </el-form-item>
             <el-form-item prop="description" label="Описание">
                 <el-input id="description" v-model="ruleForm.description"></el-input>
             </el-form-item>
@@ -49,6 +52,7 @@
             return {
                 ruleForm: {
                     text: '',
+                    name:'',
                     description:'',
                     direction: '',
                     management: ''
@@ -143,6 +147,7 @@
                 let tables = [];
                 let allKeys = [];
                 let JsonStr;
+                this.name = document.getElementById("name").value;
                 this.description = document.getElementById("description").value;
                 this.direction = document.getElementById("direction").value;
                 this.management = document.getElementById("management").value;
@@ -172,6 +177,7 @@
                     //TODO отправить id источника и количество файлов. Добавить поле name
                     formData.append('file', this.file);
                     formData.append('json', JsonStr);
+                    formData.append('name', this.name);
                     formData.append('description', this.description);
                     formData.append('direction', this.direction);
                     formData.append('management', this.management);

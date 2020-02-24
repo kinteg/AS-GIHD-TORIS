@@ -3,11 +3,10 @@
         <el-form :inline="true" class="demo-form-inline">
             <div v-for="key in currencyTable.columnTable">
                 <el-form-item style="padding-top: 10px">
-                    <input checked="true" :id="'primary'+key.name+currencyTable.nameTable" type="radio" :name="currencyTable.nameTable" :value="key.name+currencyTable.nameTable" />
+                    <input :checked="key.primary" :id="'primary'+key.name+currencyTable.nameTable" type="radio" :name="currencyTable.nameTable" :value="key.name+currencyTable.nameTable" />
                 </el-form-item>
                 <el-form-item style="margin-right: 200px;">
                     <el-input :id="key.name+currencyTable.nameTable" :value="key.name" v-model="key.name" type="text" autocomplete="off"></el-input>
-                    <!--<input :id="key+currencyTable.nameTable" class="inputText" type="text" :value="key">-->
                 </el-form-item>
                 <el-form-item>
                     <el-autocomplete
@@ -19,13 +18,6 @@
                             placeholder="Please Input"
                             @select="handleSelect"
                     ></el-autocomplete>
-<!--                    <select :id="'select'+key.name+currencyTable.nameTable" class="inputSelect">-->
-<!--                        <option value="integer">integer</option>-->
-<!--                        <option value="text">text</option>-->
-<!--                        <option value="integer">fghijok3</option>-->
-<!--                        <option value="integer">test4</option>-->
-<!--                        <option value="integer">tes5t</option>-->
-<!--                    </select>-->
                 </el-form-item>
             </div>
             <table>

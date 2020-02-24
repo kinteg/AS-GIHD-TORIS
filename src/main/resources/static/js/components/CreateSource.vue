@@ -7,16 +7,6 @@
             </el-form-item>
         </el-form>
     </div>
-
-    <!--    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">-->
-    <!--        <el-form-item label="Password" prop="pass">-->
-    <!--            <el-input type="text" v-model="ruleForm.pass" autocomplete="off"></el-input>-->
-    <!--        </el-form-item>-->
-    <!--        <el-form-item>-->
-    <!--            <el-button type="primary" @click="submitForm('ruleForm')">Submit</el-button>-->
-    <!--            <el-button @click="resetForm('ruleForm')">Reset</el-button>-->
-    <!--        </el-form-item>-->
-    <!--    </el-form>-->
 </template>
 
 <script>

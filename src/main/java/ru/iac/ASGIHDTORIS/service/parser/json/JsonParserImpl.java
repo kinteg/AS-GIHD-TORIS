@@ -14,7 +14,9 @@ import java.util.List;
 public class JsonParserImpl implements JsonParser {
 
     private final String QUERY = "$.content.${item}";
+    private final String BIG_QUERY = "$.[${i}].content.${item}";
     private final String COLUMN_TABLE_QUERY = "$.content.columnTable[${i}].${key}";
+    private final String BIG_COLUMN_TABLE_QUERY = "$.[${i}].content.columnTable[${i}].${key}";
 
     private final String ITERATOR_REGEX = "\\$\\{i\\}";
     private final String KEY_REGEX = "\\$\\{key\\}";
@@ -41,8 +43,22 @@ public class JsonParserImpl implements JsonParser {
     }
 
     @Override
+    public String getFileName(String tableInfo, int position) {
+        String query = BIG_QUERY.replaceFirst(ITERATOR_REGEX, String.valueOf(position));
+        query = query.replaceFirst(ITEM_REGEX, FILE_NAME);
+        return JsonPath.read(tableInfo, query);
+    }
+
+    @Override
     public String getTableName(String tableInfo) {
         String query = QUERY.replaceFirst(ITEM_REGEX, TABLE_NAME);
+        return JsonPath.read(tableInfo, query);
+    }
+
+    @Override
+    public String getTableName(String tableInfo, int position) {
+        String query = BIG_QUERY.replaceFirst(ITERATOR_REGEX, String.valueOf(position));
+        query = query.replaceFirst(ITEM_REGEX, TABLE_NAME);
         return JsonPath.read(tableInfo, query);
     }
 
@@ -52,6 +68,17 @@ public class JsonParserImpl implements JsonParser {
         List<String> columns = JsonPath.read(tableInfo, columnTable);
 
         String modelQuery = createColumnTableQuery();
+
+        return dataModels(tableInfo, columns, modelQuery);
+    }
+
+    @Override
+    public List<DataModel> getModels(String tableInfo, int position) {
+        String columnTable = BIG_QUERY.replaceFirst(ITERATOR_REGEX, String.valueOf(position));
+        columnTable = columnTable.replaceFirst(ITEM_REGEX, COLUMNS_TABLE);
+        List<String> columns = JsonPath.read(tableInfo, columnTable);
+
+        String modelQuery = createColumnTableQuery(position);
 
         return dataModels(tableInfo, columns, modelQuery);
     }
@@ -77,6 +104,10 @@ public class JsonParserImpl implements JsonParser {
 
     private String createColumnTableQuery() {
         return COLUMN_TABLE_QUERY;
+    }
+
+    private String createColumnTableQuery(int position) {
+        return BIG_COLUMN_TABLE_QUERY.replaceFirst(ITERATOR_REGEX, String.valueOf(position));
     }
 
     private String getName(String tableInfo, String modelQuery) {

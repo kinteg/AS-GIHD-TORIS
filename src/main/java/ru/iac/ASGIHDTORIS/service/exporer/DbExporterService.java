@@ -16,7 +16,7 @@ public class DbExporterService implements DbParserService {
     private final PatternTableRepo patternTableRepo;
     private final DbParser dbParser;
 
-    public DbExporterService(PatternTableRepo patternTableRepo, DataSource dataSource, DbParser dbParser) {
+    public DbExporterService(PatternTableRepo patternTableRepo, DbParser dbParser) {
         this.patternTableRepo = patternTableRepo;
         this.dbParser = dbParser;
     }

@@ -24,6 +24,7 @@ public class PatternController {
     public String createPattern(
             @RequestParam(value = "file") MultipartFile multipartFile,
             @RequestParam(value = "json") String json,
+            @RequestParam(value = "name") String name,
             @RequestParam(value = "description") String description,
             @RequestParam(value = "direction") String direction,
             @RequestParam(value = "management") String management,

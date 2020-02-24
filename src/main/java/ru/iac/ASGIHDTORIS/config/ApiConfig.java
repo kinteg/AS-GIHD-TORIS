@@ -3,6 +3,8 @@ package ru.iac.ASGIHDTORIS.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.iac.ASGIHDTORIS.api.db.creator.Creator;
+import ru.iac.ASGIHDTORIS.api.db.creator.PostgreSqlCreator;
 import ru.iac.ASGIHDTORIS.api.db.exporter.column.ColumnExporter;
 import ru.iac.ASGIHDTORIS.api.db.exporter.column.PostgreSqlColumnExporter;
 import ru.iac.ASGIHDTORIS.api.db.exporter.parser.DbDataParser;
@@ -50,6 +52,11 @@ public class ApiConfig {
     @Bean
     public DataSender getDataSender(Connection connection) {
         return new FileSender(connection);
+    }
+
+    @Bean
+    public Creator getCreator(Connection connection) {
+        return new PostgreSqlCreator(connection);
     }
 
 }

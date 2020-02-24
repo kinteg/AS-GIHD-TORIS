@@ -1,13 +1,12 @@
 package ru.iac.ASGIHDTORIS.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.domain.Pattern;
 import ru.iac.ASGIHDTORIS.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.service.pattern.PatternCreatorService;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -26,14 +25,15 @@ public class PatternController {
     @PostMapping("/create")
     @ResponseBody
     public String createPattern(
-            @RequestParam(value = "json") List<String> json,
+            @RequestParam List<String> json,
             @ModelAttribute Pattern pattern
             ) {
 
         log.info(pattern.toString());
         log.info(json.toString());
-
-        return patternCreatorService.create(json, pattern);
+//        log.info(json.split("},\\{")[0]);
+//        patternCreatorService.create(json.get(o), pattern)
+        return patternCreatorService.create(json.toString(), pattern);
     }
 
     @GetMapping("{id}")

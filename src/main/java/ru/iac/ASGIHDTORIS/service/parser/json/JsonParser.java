@@ -12,4 +12,8 @@ public interface JsonParser {
     String getTableName(String tableInfo);
     List<DataModel> getModels(String tableInfo);
 
+    String getFileName(String tableInfo, int position);
+    String getTableName(String tableInfo, int position);
+    List<DataModel> getModels(String tableInfo, int position);
+
 }

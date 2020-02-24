@@ -3,7 +3,7 @@ package ru.iac.ASGIHDTORIS.api.db.loader;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
-import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
+import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 
 import java.io.File;
 import java.io.FileNotFoundException;

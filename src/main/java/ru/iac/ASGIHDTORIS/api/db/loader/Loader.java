@@ -1,6 +1,6 @@
 package ru.iac.ASGIHDTORIS.api.db.loader;
 
-import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
+import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 
 import java.io.File;
 import java.util.List;

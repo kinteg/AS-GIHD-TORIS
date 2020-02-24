@@ -45,4 +45,5 @@ public class DbDataParser implements DbParser {
         DataExporter exporter = new PostgreSqlDataExporter(connection);
         return exporter.exportData(tableName, limit);
     }
+    
 }

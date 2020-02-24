@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.iac.ASGIHDTORIS.service.parser.ParserService;
+import ru.iac.ASGIHDTORIS.service.parser.file.ParserService;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -30,7 +30,7 @@ public class FileLoaderController {
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT_VALUE)
                     Long limit,
-            @RequestParam(value = "sourceId", required = false, defaultValue = "") String sourceId) throws
+            @RequestParam(value = "sourceId") Long sourceId) throws
             IOException,
             CsvValidationException, SQLException {
 

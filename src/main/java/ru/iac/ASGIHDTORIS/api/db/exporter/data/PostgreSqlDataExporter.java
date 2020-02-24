@@ -2,7 +2,7 @@ package ru.iac.ASGIHDTORIS.api.db.exporter.data;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
+import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.exporter.column.ColumnExporter;
 import ru.iac.ASGIHDTORIS.api.db.exporter.column.PostgreSqlColumnExporter;
 

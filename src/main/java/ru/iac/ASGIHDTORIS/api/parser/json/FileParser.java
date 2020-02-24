@@ -2,7 +2,7 @@ package ru.iac.ASGIHDTORIS.api.parser.json;
 
 import com.opencsv.exceptions.CsvValidationException;
 import net.minidev.json.JSONObject;
-import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
+import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 
 import java.io.File;
 import java.io.IOException;

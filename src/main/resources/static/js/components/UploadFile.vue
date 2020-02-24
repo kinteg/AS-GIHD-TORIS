@@ -122,7 +122,7 @@
 
                     formData.append('file', this.file);
                     formData.append('json', JsonStr);
-                    // this.postData(this.controller,formData);
+                    this.postData(this.controller,formData);
                     JsonStr = '';
                 }
             }

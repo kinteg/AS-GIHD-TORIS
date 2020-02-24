@@ -1,6 +1,7 @@
 package ru.iac.ASGIHDTORIS.api.db.model;
 
 import lombok.Data;
+import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 
 import java.util.List;
 

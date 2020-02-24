@@ -1,7 +1,7 @@
 package ru.iac.ASGIHDTORIS.api.db.sender;
 
 import lombok.Data;
-import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
+import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.creator.Creator;
 import ru.iac.ASGIHDTORIS.api.db.creator.PostgreSqlCreator;
 import ru.iac.ASGIHDTORIS.api.db.loader.Loader;
@@ -17,16 +17,15 @@ public class FileSender implements DataSender {
     private File file;
     private Connection connection;
 
-    public FileSender(File file, Connection connection) {
-        this.file = file;
+    public FileSender(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public boolean send(List<DataModel> models, String nameTable) {
+    public boolean send(File file, List<DataModel> models, String nameTable) {
 
         if (createTable(models, nameTable)) {
-            return sendData(models, nameTable);
+            return sendData(file, models, nameTable);
         }
 
         return false;
@@ -38,7 +37,7 @@ public class FileSender implements DataSender {
         return creator.createTable(nameTable, models);
     }
 
-    private boolean sendData(List<DataModel> models, String nameTable) {
+    private boolean sendData(File file, List<DataModel> models, String nameTable) {
         Loader loader = LoaderFactory.getParser(file.getName(), connection);
 
         return loader.insert(file, nameTable, models);

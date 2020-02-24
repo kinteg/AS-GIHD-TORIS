@@ -1,7 +1,7 @@
 package ru.iac.ASGIHDTORIS.api.db.exporter.column;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.iac.ASGIHDTORIS.api.db.model.DataModel;
+import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

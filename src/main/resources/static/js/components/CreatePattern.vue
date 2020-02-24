@@ -182,7 +182,8 @@
                     formData.append('direction', this.direction);
                     formData.append('management', this.management);
                     formData.append('sourceId', this.sourceId);
-                    // this.postData('pattern/create',formData);
+                    formData.append('id', "1");
+                    this.postData('pattern/create', formData);
                     JsonStr = '';
                 }
             }

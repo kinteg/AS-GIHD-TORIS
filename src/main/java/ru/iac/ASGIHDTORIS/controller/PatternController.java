@@ -24,10 +24,11 @@ public class PatternController {
     public String createPattern(
             @RequestParam(value = "file", required = false) MultipartFile multipartFile,
             @RequestParam(value = "json", required = false) String json,
-            @RequestBody Pattern pattern
+            @RequestParam Pattern id
             ){
 
-        log.info(pattern.toString());
+        log.info("хуй");
+        log.info(id.toString());
 
         return "ok";
     }

@@ -27,7 +27,7 @@ public class PatternController {
             @RequestParam(value = "description") String description,
             @RequestParam(value = "direction") String direction,
             @RequestParam(value = "management") String management,
-            @RequestParam(value = "source") String source
+            @RequestParam(value = "sourceId") Integer sourceId
             ){
         return "ok";
     }

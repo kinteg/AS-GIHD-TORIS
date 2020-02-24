@@ -26,7 +26,6 @@ public class SendDataDbController {
             @RequestParam(value = "json") String json) throws IOException, SQLException {
 
         long start = System.currentTimeMillis();
-        log.error(json);
         String status = dbService.sendData(multipartFile, json);
         log.info(status);
         long end = System.currentTimeMillis() - start;

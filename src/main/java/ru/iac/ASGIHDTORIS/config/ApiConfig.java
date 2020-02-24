@@ -28,14 +28,8 @@ public class ApiConfig {
     }
 
     @Bean
-    public Connection getConnection(DataSource dataSource) {
-        try (Connection connection = dataSource.getConnection();
-        ) {
-            return connection;
-        } catch (SQLException ex) {
-            log.error(ex.getMessage());
-        }
-        return null;
+    public Connection getConnection(DataSource dataSource) throws SQLException {
+        return dataSource.getConnection();
     }
 
     @Bean

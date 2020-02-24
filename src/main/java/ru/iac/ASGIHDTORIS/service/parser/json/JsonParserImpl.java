@@ -61,11 +61,13 @@ public class JsonParserImpl implements JsonParser {
         List<String> types = new ArrayList<>();
         List<Boolean> primaries = new ArrayList<>();
 
+        String query;
+
         for (int i = 0; i < columns.size(); i++) {
-            modelQuery = modelQuery.replaceFirst(ITERATOR_REGEX, String.valueOf(i));
-            names.add(getName(tableInfo, modelQuery));
-            types.add(getType(tableInfo, modelQuery));
-            primaries.add(getPrimary(tableInfo, modelQuery));
+            query = modelQuery.replaceFirst(ITERATOR_REGEX, String.valueOf(i));
+            names.add(getName(tableInfo, query));
+            types.add(getType(tableInfo, query));
+            primaries.add(getPrimary(tableInfo, query));
         }
 
         dataModelCreator.setDataModel(names, types, primaries);
@@ -86,6 +88,7 @@ public class JsonParserImpl implements JsonParser {
     }
 
     private boolean getPrimary(String tableInfo, String modelQuery) {
+
         return JsonPath.read(tableInfo, modelQuery.replaceFirst(KEY_REGEX, PRIMARY));
     }
 }

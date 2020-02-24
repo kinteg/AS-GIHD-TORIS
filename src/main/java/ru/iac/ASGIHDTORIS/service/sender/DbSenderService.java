@@ -36,9 +36,7 @@ public class DbSenderService implements DbService {
 
     private boolean send(MultipartFile multipartFile, String tableInfo) throws IOException {
         String nameFile = jsonParser.getFileName(tableInfo);
-        log.error(nameFile);
         String nameTable = jsonParser.getTableName(tableInfo);
-        log.error(nameTable);
 
         File file = parseFile(multipartFile, nameFile);
 

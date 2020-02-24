@@ -27,10 +27,10 @@ public class PostgreSqlCreator implements Creator{
 
     @Override
     public boolean createTable(String tableName, List<DataModel> models) {
-
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createSql(tableName, models));
         } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
 

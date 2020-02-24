@@ -54,7 +54,6 @@ public class CSVLoader implements Loader{
             }
 
         } catch (Exception ex) {
-            ex.printStackTrace();
             return false;
         }
 

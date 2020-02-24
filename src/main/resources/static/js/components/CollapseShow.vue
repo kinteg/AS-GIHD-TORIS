@@ -15,7 +15,6 @@
 
 <script>
     import CollapseForm from "./CollapseForm.vue";
-    import validation from  "../methods/validation";
     export default {
         name: "CollapseShow",
         components: {CollapseForm},

@@ -88,15 +88,12 @@
             },
 
             submit(){
-                // let symbol = new RegExp( "[~!@#$%^&*()\\-+=|\/';:,.]");
-                // let str = symbol.exec("asdasdlkas-fjdasdasdasd");
                 let tables = [];
                 let allKeys = [];
                 let files = [];
                 let JsonStr;
 
                 for(let i = 0; i<this.data.length; i++) {
-                    // console.log(this.data[i].nameFile);
                     tables.push(this.data[i].nameTable);
                     files.push(this.data[i].nameFile);
                     allKeys.push(this.getKeys(this.data[i].table[0]));
@@ -114,7 +111,6 @@
                     }
                     JsonStr = JsonStr.concat(']}}');
 
-                    console.log(JsonStr);
                     let formData = new FormData();
 
                     formData.append('file', this.file);

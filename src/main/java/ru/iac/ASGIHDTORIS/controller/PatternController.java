@@ -30,6 +30,7 @@ public class PatternController {
             @RequestParam(value = "management") String management,
             @RequestParam(value = "sourceId") Integer sourceId
             ){
+        log.info(json.toString());
         return "ok";
     }
 

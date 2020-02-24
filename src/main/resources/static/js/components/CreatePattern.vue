@@ -180,17 +180,6 @@
                 //TODO отправить id источника и количество файлов. Добавить поле name
                 formData.append('file', this.file);
                 formData.append('json', JsonStr);
-                // let obj = {
-                //     "id": 1,
-                //     "fileCount": 0,
-                //     "name": this.name,
-                //     "description": this.description,
-                //     "direction": this.direction,
-                //     "management": this.management,
-                //     "dateCreation": null,
-                //     "sourceId": 1,
-                // };
-                // console.log(obj);
                 formData.append('name', this.name);
                 formData.append('description', this.description);
                 formData.append('direction', this.direction);

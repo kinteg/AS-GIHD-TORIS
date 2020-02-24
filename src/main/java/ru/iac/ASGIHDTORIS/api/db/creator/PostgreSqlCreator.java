@@ -30,7 +30,7 @@ public class PostgreSqlCreator implements Creator{
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createSql(tableName, models));
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return false;
         }
 

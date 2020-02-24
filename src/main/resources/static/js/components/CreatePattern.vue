@@ -142,22 +142,17 @@
                 return JsonStr;
             },
 
-            getAllPole(){
+            submit(){
+                let tables = [];
+                let allKeys = [];
+                let JsonStr;
+                let arrJson =[];
                 this.name = document.getElementById("name").value;
                 this.description = document.getElementById("description").value;
                 this.direction = document.getElementById("direction").value;
                 this.management = document.getElementById("management").value;
                 this.source = document.getElementById("sourceList").value;
                 this.source = document.getElementById("sourceList").value;
-            },
-
-            submit(){
-                let tables = [];
-                let allKeys = [];
-                let JsonStr;
-                let arrJson =[];
-                let formData = new FormData();
-                this.getAllPole();
                 console.log(this.sourceId);
                 for(let i = 0; i<this.data.length; i++) {
 
@@ -167,22 +162,22 @@
                 }
 
                 for(let i = 0; i< tables.length; i++) {
-
                     let keys = allKeys[i];
                     let nameTable = document.getElementById(tables[i]).value;
                     JsonStr = '{"content":{"nameFile":"' + tables[i] + '","nameTable":"' + nameTable + '","columnTable":[';
-
                     for(let j = 0; j< keys.length; j++) {
-
                         JsonStr = this.getElement(keys[j],tables[i],JsonStr);
-                        if(j !== keys.length - 1) {JsonStr = JsonStr.concat(',');}
-                    }
 
+                        if(j !== keys.length - 1)
+                            JsonStr = JsonStr.concat(',');
+                    }
                     JsonStr = JsonStr.concat(']}}');
                     arrJson.push(JsonStr);
                     JsonStr = '';
                 }
-                    console.log(arrJson);
+
+                    let formData = new FormData();
+                    //TODO отправить id источника и количество файлов. Добавить поле name
                     formData.append('file', this.file);
                     formData.append('json', arrJson);
                     formData.append('name', this.name);

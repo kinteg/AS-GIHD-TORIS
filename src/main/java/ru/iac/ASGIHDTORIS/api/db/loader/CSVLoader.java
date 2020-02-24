@@ -54,6 +54,7 @@ public class CSVLoader implements Loader{
             }
 
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return false;
         }
 
@@ -65,6 +66,7 @@ public class CSVLoader implements Loader{
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(query);
         } catch (SQLException e) {
+            log.error(e.getMessage());
             return false;
         }
 

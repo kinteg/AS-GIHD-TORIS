@@ -69,6 +69,7 @@
                 file: '',
                 data: '',
                 source:'',
+                sourceId:'',
                 formLabelAlign: {
                     description: '',
                     direction: '',
@@ -79,12 +80,25 @@
         methods: {
 
             submitFile(){
-                let formData = new FormData();
-
-                formData.append('file', this.file);
-                this.postData('/single-file',formData);
+                this.getSourceId();
             },
 
+            getSourceId(){
+                let sourceName = document.getElementById('sourceList').value;
+                if(sourceName === ''){
+                    console.log("error");
+                }
+                AXIOS.get('/source/'+ sourceName,
+                ).then(response=>{
+                    this.sourceId = response.data.id;
+                    let formData = new FormData();
+                    formData.append('sourceId', response.data.id);
+                    formData.append('file', this.file);
+                    this.postData('/single-file',formData);
+                }).catch(error=>{
+                    console.log("ERROR"+error);
+                });
+            },
             handleFileUpload(){
                 this.file = this.$refs.file.files[0];
             },
@@ -133,7 +147,8 @@
                 this.direction = document.getElementById("direction").value;
                 this.management = document.getElementById("management").value;
                 this.source = document.getElementById("sourceList").value;
-
+                this.source = document.getElementById("sourceList").value;
+                console.log(this.sourceId);
                 for(let i = 0; i<this.data.length; i++) {
 
                     tables.push(this.data[i].nameTable);
@@ -153,7 +168,6 @@
                     }
                     JsonStr = JsonStr.concat(']}}');
 
-                    console.log(JsonStr);
                     let formData = new FormData();
                     //TODO отправить id источника и количество файлов. Добавить поле name
                     formData.append('file', this.file);
@@ -161,8 +175,8 @@
                     formData.append('description', this.description);
                     formData.append('direction', this.direction);
                     formData.append('management', this.management);
-                    formData.append('source', this.source);
-                    // this.postData('',formData);
+                    formData.append('sourceId', this.sourceId);
+                    this.postData('pattern/create',formData);
                     JsonStr = '';
                 }
             }

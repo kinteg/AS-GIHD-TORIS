@@ -6,7 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.domain.Pattern;
 import ru.iac.ASGIHDTORIS.repo.PatternRepo;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -24,13 +23,9 @@ public class PatternController {
     @ResponseBody
     public String createPattern(
             @RequestParam(value = "file", required = false) MultipartFile multipartFile,
-            @RequestParam(value = "json") String json,
+            @RequestParam(value = "json") List<String> json,
             @ModelAttribute Pattern pattern
             ){
-
-        log.info(pattern.toString());
-        log.info(json);
-
         return "ok";
     }
 

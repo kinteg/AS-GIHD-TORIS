@@ -33,7 +33,6 @@
             }
         },
         methods: {
-
             submitFile(){
                 this.getSourceId();
             },
@@ -97,18 +96,20 @@
                 console.log(str);
                 let tables = [];
                 let allKeys = [];
+                let files = [];
                 let JsonStr;
 
                 for(let i = 0; i<this.data.length; i++) {
-
+                    // console.log(this.data[i].nameFile);
                     tables.push(this.data[i].nameTable);
+                    files.push(this.data[i].nameFile);
                     allKeys.push(this.getKeys(this.data[i].table[0]));
 
                 }
                 for(let i = 0; i< tables.length; i++) {
                     let keys = allKeys[i];
                     let nameTable = document.getElementById(tables[i]).value;
-                    JsonStr = '{"content":{"nameFile":"' + tables[i] + '","nameTable":"' + nameTable + '","columnTable":[';
+                    JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
                     for(let j = 0; j< keys.length; j++) {
                         JsonStr = this.getElement(keys[j],tables[i],JsonStr);
 
@@ -122,7 +123,7 @@
 
                     formData.append('file', this.file);
                     formData.append('json', JsonStr);
-                    // this.postData(this.controller,formData);
+                    this.postData(this.controller,formData);
                     JsonStr = '';
                 }
             }

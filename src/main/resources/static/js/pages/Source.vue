@@ -56,8 +56,8 @@
                     for(let i = 0; i<this.pattern.length; i++){
                         AXIOS.get('/source/getTable/'+ this.pattern[i].id,
                         ).then(response1=>{
-                            let kek = response1.data.content;
-                            this.patternMap.push({pattern:this.pattern[i],data:kek});
+                            let patternData = response1.data.content;
+                            this.patternMap.push({pattern:this.pattern[i],data:patternData});
                             console.log(this.patternMap);
                         }).catch(error=>{
                             console.log("ERROR"+error);

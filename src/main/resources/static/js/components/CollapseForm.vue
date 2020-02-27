@@ -3,13 +3,13 @@
         <el-form :inline="true" class="demo-form-inline">
             <div v-for="key in currencyTable.columnTable">
                 <el-form-item style="padding-top: 10px">
-                    <input :checked="key.primary" :id="'primary'+key.name+currencyTable.nameTable" type="radio" :name="currencyTable.nameTable" :value="key.name+currencyTable.nameTable" />
+                    <input :disabled="disabled" :checked="key.primary" :id="'primary'+key.name+currencyTable.nameTable" type="radio" :name="currencyTable.nameTable" :value="key.name+currencyTable.nameTable" />
                 </el-form-item>
                 <el-form-item style="margin-right: 200px;">
-                    <el-input :id="key.name+currencyTable.nameTable" :value="key.name" v-model="key.name" type="text" autocomplete="off"></el-input>
+                    <el-input :disabled="disabled" :id="key.name+currencyTable.nameTable" :value="key.name" v-model="key.name" type="text" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-autocomplete
+                    <el-autocomplete :disabled="disabled"
                             :id="'select'+key.name+currencyTable.nameTable"
                             :value="key.type"
                             class="inline-input"
@@ -20,13 +20,18 @@
                     ></el-autocomplete>
                 </el-form-item>
             </div>
-            <table>
-                <tr v-for="pole in currencyTable.table">
-                    <td  style="border-bottom: 1px solid #dcdfe6; padding: 10px" v-for="value in pole">
-                        {{value}}
-                    </td>
-                </tr>
-            </table>
+            <el-collapse>
+                <el-collapse-item title="Данные">
+                    <table>
+                        <tr v-for="pole in currencyTable.table">
+                            <td  style="border-bottom: 1px solid #dcdfe6; padding: 10px" v-for="value in pole">
+                                {{value}}
+                            </td>
+                        </tr>
+                    </table>
+                </el-collapse-item>
+            </el-collapse>
+
         </el-form>
     </div>
 </template>
@@ -34,7 +39,7 @@
 <script>
     export default {
         name: "CollapseForm",
-        props: ['currencyTable'],
+        props: ['currencyTable','disabled'],
         data(){
             return {}
         },

@@ -24,7 +24,8 @@
         <br>
         <br>
         <collapse-show :data="data"/>
-        <el-button type="primary" @click="submit">Создать шаблон</el-button>
+        <div v-if="ruleForm.name !=='' && ruleForm.description !=='' && ruleForm.direction !=='' && ruleForm.management !==''" >
+        <el-button type="primary" @click="submit">Создать шаблон</el-button></div>
     </div>
 </template>
 
@@ -176,6 +177,7 @@
                     JsonStr = JsonStr.concat(']}}');
                     console.log(JsonStr);
                     arrJson.push(JsonStr);
+                    console.log(arrJson[i]);
                     JsonStr = '';
                 }
 

@@ -11,6 +11,8 @@ import ru.iac.ASGIHDTORIS.api.db.exporter.parser.DbDataParser;
 import ru.iac.ASGIHDTORIS.api.db.exporter.parser.DbParser;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModelCreator;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModelCreatorImpl;
+import ru.iac.ASGIHDTORIS.api.db.model.table.TableModelCreator;
+import ru.iac.ASGIHDTORIS.api.db.model.table.TableModelCreatorImpl;
 import ru.iac.ASGIHDTORIS.api.db.sender.DataSender;
 import ru.iac.ASGIHDTORIS.api.db.sender.FileSender;
 import ru.iac.ASGIHDTORIS.api.parser.Parser;
@@ -47,6 +49,11 @@ public class ApiConfig {
     @Bean
     public DataModelCreator getDataModelCreator() {
         return new DataModelCreatorImpl();
+    }
+
+    @Bean
+    public TableModelCreator getTableModelCreator() {
+        return new TableModelCreatorImpl();
     }
 
     @Bean

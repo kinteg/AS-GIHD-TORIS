@@ -5,7 +5,7 @@ import ru.iac.ASGIHDTORIS.api.TargetFiles;
 import ru.iac.ASGIHDTORIS.api.parser.archive.ArchiveParser;
 import ru.iac.ASGIHDTORIS.api.parser.archive.zip.ZipParser;
 
-public class ArchiveFactory {
+public final class ArchiveFactory {
 
     private ArchiveFactory() {}
 

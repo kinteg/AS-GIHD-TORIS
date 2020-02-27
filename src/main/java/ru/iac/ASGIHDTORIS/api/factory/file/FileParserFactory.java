@@ -4,7 +4,7 @@ import org.apache.commons.io.FilenameUtils;
 import ru.iac.ASGIHDTORIS.api.parser.json.FileParser;
 import ru.iac.ASGIHDTORIS.api.parser.json.csv.CsvParser;
 
-public class FileParserFactory {
+public final class FileParserFactory {
 
     private FileParserFactory() {}
 

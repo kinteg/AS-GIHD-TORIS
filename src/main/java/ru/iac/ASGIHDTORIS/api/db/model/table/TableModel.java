@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.api.db.model;
+package ru.iac.ASGIHDTORIS.api.db.model.table;
 
 import lombok.Data;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;

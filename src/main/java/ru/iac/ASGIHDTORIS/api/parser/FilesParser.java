@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import ru.iac.ASGIHDTORIS.api.TargetFiles;
-import ru.iac.ASGIHDTORIS.api.db.model.TableModel;
+import ru.iac.ASGIHDTORIS.api.db.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.api.factory.archive.ArchiveFactory;
 import ru.iac.ASGIHDTORIS.api.factory.file.FileParserFactory;
 import ru.iac.ASGIHDTORIS.api.parser.archive.ArchiveParser;

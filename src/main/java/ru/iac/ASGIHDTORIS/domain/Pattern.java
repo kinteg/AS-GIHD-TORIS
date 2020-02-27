@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,6 +18,8 @@ public class Pattern {
     private String description;
     private String direction;
     private String management;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime dateCreation;
 
     private long sourceId;

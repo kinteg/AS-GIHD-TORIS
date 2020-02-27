@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.api.db.exporter.column.ColumnExporter;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
-import ru.iac.ASGIHDTORIS.api.db.model.TableModel;
+import ru.iac.ASGIHDTORIS.api.db.model.table.TableModel;
+import ru.iac.ASGIHDTORIS.api.db.model.table.TableModelCreator;
 import ru.iac.ASGIHDTORIS.api.parser.Parser;
 import ru.iac.ASGIHDTORIS.api.parser.converter.FileConverter;
 import ru.iac.ASGIHDTORIS.domain.Pattern;
@@ -15,7 +16,6 @@ import ru.iac.ASGIHDTORIS.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.repo.PatternTableRepo;
 
-import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,44 +29,46 @@ public class ParserFileService implements ParserService {
     private final PatternRepo patternRepo;
     private final PatternTableRepo patternTableRepo;
     private final ColumnExporter columnExporter;
+    private final TableModelCreator tableModelCreator;
 
-    public ParserFileService(Parser parserApi, PatternRepo patternRepo, PatternTableRepo patternTableRepo, DataSource dataSource, ColumnExporter columnExporter) {
+    public ParserFileService(Parser parserApi, PatternRepo patternRepo, PatternTableRepo patternTableRepo, ColumnExporter columnExporter, TableModelCreator tableModelCreator) {
         this.parserApi = parserApi;
         this.patternRepo = patternRepo;
         this.patternTableRepo = patternTableRepo;
         this.columnExporter = columnExporter;
+        this.tableModelCreator = tableModelCreator;
     }
 
     @Override
     public String getWithParser(MultipartFile multipartFile, long limit, long sourceId) throws IOException, CsvValidationException {
         File file = FileConverter.multipartIntoFile(multipartFile);
-        List<TableModel> tableModels = tableModels(sourceId);
+        List<TableModel> tableModels = createTableModels(sourceId);
+
         JSONObject fromFile = parserApi.getFromFile(file, limit, tableModels);
 
         return fromFile.toJSONString();
     }
 
-    private List<TableModel> tableModels(long sourceId) {
+    private List<TableModel> createTableModels(long sourceId) {
         Pattern pattern = patternRepo.findTopBySourceId(sourceId);
 
         List<PatternTable> patternTables = patternTableRepo.findByPatternId(pattern.getId());
-        List<TableModel> tableModels = new ArrayList<>();
+
+        List<List<DataModel>> modelList = new ArrayList<>();
+        List<String> tableNames = new ArrayList<>();
+        List<String> fileNames = new ArrayList<>();
 
         for (PatternTable patternTable :
                 patternTables) {
 
-            tableModels.add(createTableModel(patternTable));
+            modelList.add(columnExporter.exportDataModel(patternTable.getNameTable()));
+            tableNames.add(patternTable.getNameTable());
+            fileNames.add(patternTable.getNameFile());
         }
 
-        return tableModels;
-    }
+        tableModelCreator.setTableModel(fileNames, tableNames, modelList);
 
-    private TableModel createTableModel(PatternTable patternTable) {
-        List<DataModel> dataModels = columnExporter.exportDataModel(patternTable.getNameTable());
-        String tableName = patternTable.getNameTable();
-        String fileName = patternTable.getNameFile();
-
-        return new TableModel(fileName, tableName, dataModels);
+        return tableModelCreator.getTableModel();
     }
 
 }

@@ -6,7 +6,7 @@ import ru.iac.ASGIHDTORIS.api.db.loader.Loader;
 
 import java.sql.Connection;
 
-public class LoaderFactory {
+public final class LoaderFactory {
 
     private LoaderFactory() {}
 

@@ -17,11 +17,6 @@
 </script>
 
 <style scoped>
-    .el-header {
-        margin: auto;
-        display: block;
-        padding: 10px;
-    }
     .el-menu-item {
         text-decoration: none;
     }

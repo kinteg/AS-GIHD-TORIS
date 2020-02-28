@@ -7,7 +7,7 @@
             <el-button type="primary"  @click="submitFile()">Загрузить</el-button><br>
             <br>
             <collapse-show :disabled="true" :data="data" />
-            <el-button disabled="true" type="primary"  @click="submit">Загрузить</el-button>
+            <el-button  type="primary"  @click="submit">Загрузить</el-button>
         </el-form>
 
     </div>
@@ -130,7 +130,7 @@
                         JsonStr = '';
                     }
                 } else{
-                    alert('hui');
+                    alert('Выберите источник');
                 }
             }
         }

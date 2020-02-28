@@ -3,24 +3,22 @@
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" :label-position="labelPosition"
                  label-width="100px">
             <search-source/>
-            <el-form-item prop="description" label="Название">
-                <el-input id="name" v-model="ruleForm.name"/>
+            <el-form-item prop="name" label="Название">
+                <el-input id="name" v-model="ruleForm.name"></el-input>
             </el-form-item>
             <el-form-item prop="description" label="Описание">
-                <el-input id="description" v-model="ruleForm.description"/>
+                <el-input id="description" v-model="ruleForm.description"></el-input>
             </el-form-item>
             <el-form-item prop="direction" label="Направление">
-                <el-input id="direction" v-model="ruleForm.direction"/>
+                <el-input id="direction" v-model="ruleForm.direction"></el-input>
             </el-form-item>
             <el-form-item prop="management" label="Ответственный за ведение">
-                <el-input id="management" v-model="ruleForm.management"/>
+                <el-input id="management" v-model="ruleForm.management"></el-input>
             </el-form-item>
         </el-form>
 
-        <label>Выберите файл для загрузки
-            <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-        </label>
-        <button v-on:click="submitFile()">Загрузить файлы</button>
+        <input class="custom-file-input" type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+        <el-button type="primary"  @click="submitFile()">Загрузить</el-button><br>
         <br>
         <br>
         <collapse-show :data="data"/>
@@ -60,7 +58,7 @@
                     management: ''
                 },
                 rules: {
-                    text: [
+                    name: [
                         {validator: validatePass, trigger: 'blur'}
                     ], description: [
                         {validator: validatePass, trigger: 'blur'}
@@ -76,6 +74,7 @@
                 data: '',
                 source: '',
                 sourceId: '',
+                arrJson: [],
                 formLabelAlign: {
                     description: '',
                     direction: '',
@@ -147,15 +146,7 @@
                 let tables = [];
                 let allKeys = [];
                 let JsonStr;
-                let arrJson = [];
                 let files = [];
-                this.name = document.getElementById("name").value;
-                this.description = document.getElementById("description").value;
-                this.direction = document.getElementById("direction").value;
-                this.management = document.getElementById("management").value;
-                this.source = document.getElementById("sourceList").value;
-                this.source = document.getElementById("sourceList").value;
-                console.log(this.sourceId);
                 for (let i = 0; i < this.data.length; i++) {
 
                     tables.push(this.data[i].nameTable);
@@ -175,22 +166,21 @@
                             JsonStr = JsonStr.concat(',');
                     }
                     JsonStr = JsonStr.concat(']}}');
-                    console.log(JsonStr);
-                    arrJson.push(JsonStr);
-                    console.log(arrJson[i]);
+                    this.arrJson.push(JsonStr);
                     JsonStr = '';
                 }
 
-
+                console.log(this.ruleForm.management);
+                console.log(this.ruleForm.direction);
                 let formData = new FormData();
+                //TODO отправить id источника и количество файлов. Добавить поле name
                 formData.append('file', this.file);
-                formData.append('json', arrJson);
-                formData.append('name', this.name);
-                formData.append('description', this.description);
-                formData.append('direction', this.direction);
-                formData.append('management', this.management);
+                formData.append('json', this.arrJson);
+                formData.append('name', this.ruleForm.name);
+                formData.append('description', this.ruleForm.description);
+                formData.append('direction', this.ruleForm.direction);
+                formData.append('management', this.ruleForm.management);
                 formData.append('sourceId', this.sourceId);
-                console.log(formData.get('json'));
                 this.postData('pattern/create', formData);
             }
         }
@@ -199,5 +189,27 @@
 </script>
 
 <style scoped>
+    .custom-file-input::-webkit-file-upload-button {
+        visibility: hidden;
+    }
+    .custom-file-input{
+        text-align: right;
+    }
 
+    .custom-file-input::before {
+        content: 'Выберите Файл';
+        background:#409EFF;
+        border: 1px solid #409EFF;
+        border-radius: 3px;
+        padding: 9px ;
+        cursor: pointer;
+        color: white;
+        -webkit-appearance: button;
+    }
+    .custom-file-input:hover::before {
+        background-color: #66b1ff;
+    }
+    .custom-file-input:active::before {
+        background: -webkit-linear-gradient(top, #66b1ff, #66b1ff);
+    }
 </style>

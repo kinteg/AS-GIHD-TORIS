@@ -183,7 +183,6 @@
 
 
                 let formData = new FormData();
-                //TODO отправить id источника и количество файлов. Добавить поле name
                 formData.append('file', this.file);
                 formData.append('json', arrJson);
                 formData.append('name', this.name);

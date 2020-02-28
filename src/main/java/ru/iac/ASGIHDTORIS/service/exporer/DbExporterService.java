@@ -6,7 +6,6 @@ import ru.iac.ASGIHDTORIS.api.db.exporter.parser.DbParser;
 import ru.iac.ASGIHDTORIS.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.repo.PatternTableRepo;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.stream.Collectors;
 

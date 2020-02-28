@@ -147,11 +147,6 @@
                 let allKeys = [];
                 let JsonStr;
                 let files = [];
-                // this.name = document.getElementById("name").value;
-                // this.description = document.getElementById("description").value;
-                // this.direction = document.getElementById("direction").value;
-                // this.management = document.getElementById("management").value;
-                // this.source = document.getElementById("sourceList").value;
                 for (let i = 0; i < this.data.length; i++) {
 
                     tables.push(this.data[i].nameTable);

@@ -45,7 +45,7 @@
         methods: {
             onSubmit() {
                 AXIOS.post( '/source/create',
-                    {name: this.form.name}
+                    {name: this.ruleForm.text}
                 )
             }
         }

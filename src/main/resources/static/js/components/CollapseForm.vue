@@ -3,15 +3,14 @@
         <el-form :inline="true" class="demo-form-inline">
             <div v-for="key in currencyTable.columnTable">
                 <el-form-item style="padding-top: 10px">
-                    <input :disabled="disabled" :checked="key.primary" :id="'primary'+key.name+currencyTable.nameTable" type="radio" :name="currencyTable.nameTable" />
+                    <input :disabled="disabled" :checked="key.primary" :id="'primary'+key.name+currencyTable.nameTable" type="radio" :name="currencyTable.nameTable" :value="key.name+currencyTable.nameTable" />
                 </el-form-item>
                 <el-form-item style="margin-right: 200px;">
-                    <el-input :disabled="disabled" :id="key.name+currencyTable.nameTable" v-model="key.name" type="text" autocomplete="off"></el-input>
+                    <el-input :disabled="disabled" :id="key.name+currencyTable.nameTable"  v-model="key.name" type="text" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-autocomplete :disabled="disabled"
                             :id="'select'+key.name+currencyTable.nameTable"
-                            :value="key.type"
                             class="inline-input"
                             v-model="key.type"
                             :fetch-suggestions="querySearch"

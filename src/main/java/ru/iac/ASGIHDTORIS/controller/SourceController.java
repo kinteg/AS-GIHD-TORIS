@@ -28,6 +28,7 @@ public class SourceController {
 
     @PostMapping("/create")
     public Source createSource (@RequestBody Source name){
+        log.info(name.toString());
         return sourceRepo.save(name);
     }
 

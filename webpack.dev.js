@@ -10,6 +10,8 @@ module.exports = merge(common, {
         port: 8001,
         allowedHosts: [
             'localhost:8080'
-        ]
+        ],
+        stats: 'errors-only',
+        clientLogLevel: 'error',
     },
 });

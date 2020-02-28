@@ -4,16 +4,16 @@
                  label-width="100px">
             <search-source/>
             <el-form-item prop="description" label="Название">
-                <el-input id="name" v-model="ruleForm.name"></el-input>
+                <el-input id="name" v-model="ruleForm.name"/>
             </el-form-item>
             <el-form-item prop="description" label="Описание">
-                <el-input id="description" v-model="ruleForm.description"></el-input>
+                <el-input id="description" v-model="ruleForm.description"/>
             </el-form-item>
             <el-form-item prop="direction" label="Направление">
-                <el-input id="direction" v-model="ruleForm.direction"></el-input>
+                <el-input id="direction" v-model="ruleForm.direction"/>
             </el-form-item>
             <el-form-item prop="management" label="Ответственный за ведение">
-                <el-input id="management" v-model="ruleForm.management"></el-input>
+                <el-input id="management" v-model="ruleForm.management"/>
             </el-form-item>
         </el-form>
 

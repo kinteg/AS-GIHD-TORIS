@@ -1,30 +1,32 @@
 <template>
-    <div >
+    <div>
         <el-form :inline="true" class="demo-form-inline">
             <div v-for="key in currencyTable.columnTable">
                 <el-form-item style="padding-top: 10px">
-                    <input :disabled="disabled" :checked="key.primary" :id="'primary'+key.name+currencyTable.nameTable" type="radio" :name="currencyTable.nameTable" :value="key.name+currencyTable.nameTable" />
+                    <input :disabled="disabled" :checked="key.primary" :id="'primary'+key.name+currencyTable.nameTable"
+                           type="radio" :name="currencyTable.nameTable" :value="key.name+currencyTable.nameTable"/>
                 </el-form-item>
                 <el-form-item style="margin-right: 200px;">
-                    <el-input :disabled="disabled" :id="key.name+currencyTable.nameTable" :value="key.name" v-model="key.name" type="text" autocomplete="off"></el-input>
+                    <el-input :disabled="disabled" :id="key.name+currencyTable.nameTable" :value="key.name"
+                              v-model="key.name" type="text" autocomplete="off"/>
                 </el-form-item>
                 <el-form-item>
                     <el-autocomplete :disabled="disabled"
-                            :id="'select'+key.name+currencyTable.nameTable"
-                            :value="key.type"
-                            class="inline-input"
-                            v-model="key.type"
-                            :fetch-suggestions="querySearch"
-                            placeholder="Please Input"
-                            @select="handleSelect"
-                    ></el-autocomplete>
+                                     :id="'select'+key.name+currencyTable.nameTable"
+                                     :value="key.type"
+                                     class="inline-input"
+                                     v-model="key.type"
+                                     :fetch-suggestions="querySearch"
+                                     placeholder="Please Input"
+                                     @select="handleSelect"
+                    />
                 </el-form-item>
             </div>
             <el-collapse>
                 <el-collapse-item title="Данные">
                     <table>
                         <tr v-for="pole in currencyTable.table">
-                            <td  style="border-bottom: 1px solid #dcdfe6; padding: 10px" v-for="value in pole">
+                            <td style="border-bottom: 1px solid #dcdfe6; padding: 10px" v-for="value in pole">
                                 {{value}}
                             </td>
                         </tr>
@@ -39,16 +41,15 @@
 <script>
     export default {
         name: "CollapseForm",
-        props: ['currencyTable','disabled'],
-        data(){
+        props: ['currencyTable', 'disabled'],
+        data() {
             return {}
         },
-        methods:{
+        methods: {
 
-            getKeys(table){
-                let keys =[];
-                for(let k in table)
-                {
+            getKeys(table) {
+                let keys = [];
+                for (let k in table) {
                     keys.push(k);
                 }
 
@@ -67,12 +68,12 @@
             },
             loadAll() {
                 return [
-                    { "value": "bigint"},
-                    { "value": "boolean"},
-                    { "value": "date"},
-                    { "value": "integer"},
-                    { "value": "text"},
-                    { "value": "timestamp"},
+                    {"value": "bigint"},
+                    {"value": "boolean"},
+                    {"value": "date"},
+                    {"value": "integer"},
+                    {"value": "text"},
+                    {"value": "timestamp"},
                 ];
             },
             handleSelect(item) {
@@ -87,7 +88,7 @@
 
 <style scoped>
 
-    .inputText{
+    .inputText {
         color: #606266;
         height: 32px;
         border-radius: 4px;
@@ -98,7 +99,7 @@
         box-sizing: border-box;
     }
 
-    .inputSelect{
+    .inputSelect {
         background-color: white;
         border: 1px solid #dcdfe6;
         border-radius: 4px;

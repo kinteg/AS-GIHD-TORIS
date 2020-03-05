@@ -8,7 +8,6 @@
         </el-form>
     </div>
 </template>
-
 <script>
     import {AXIOS} from "../AXIOS/http-common";
 

@@ -64,15 +64,13 @@ public class FilesParser implements Parser {
             String fileName = files.get(i).getName();
             FileParser fileParser = FileParserFactory.getParser(fileName);
 
-            if (!tableModels.isEmpty() && fileParser != null) {
-                List<TableModel> tableModel = createTableModel(tableModels, fileName);
+            List<TableModel> tableModel = createTableModel(tableModels, fileName);
 
-                if (!tableModel.isEmpty()) {
-                    TableModel model = tableModel.get(0);
-                    array.add(fileParser.getJSON(files.get(i), limit, model.getModels(), model.getTableName()));
-                } else {
-                    array.add(fileParser.getJSON(files.get(i), limit, Collections.emptyList(), "default" + i));
-                }
+            if (!tableModel.isEmpty()) {
+                TableModel model = tableModel.get(0);
+                array.add(fileParser.getJSON(files.get(i), limit, model.getModels(), model.getTableName()));
+            } else {
+                array.add(fileParser.getJSON(files.get(i), limit));
             }
 
             files.get(i).delete();

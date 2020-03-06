@@ -10,10 +10,10 @@ class AsGihdTorisApplicationTests {
 
 
 
-
-	@Test
-	void contextLoads() throws SQLException {
-
-	}
+//
+//	@Test
+//	void contextLoads() throws SQLException {
+//
+//	}
 
 }

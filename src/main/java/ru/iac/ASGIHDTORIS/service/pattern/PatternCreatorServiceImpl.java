@@ -32,9 +32,25 @@ public class PatternCreatorServiceImpl implements PatternCreatorService {
 
     @Override
     public String create(String json, Pattern pattern) {
+        if (isValid(pattern)) {
+            build(json, pattern);
+            return "ok";
+        }
+
+        return "failed";
+    }
+
+    private boolean isValid(Pattern pattern) {
+        String name = pattern.getName();
+        return name != null &&
+                !name.isEmpty() &&
+                patternRepo
+                        .findByName(name) == null;
+    }
+
+    private void build(String json, Pattern pattern) {
         int size = getSize(json);
         long id = createPattern(pattern, size).getId();
-
         for (int i = 0; i < size; i++) {
             String tableName = jsonParser.getTableName(json, i);
             String fileName = jsonParser.getFileName(json, i);
@@ -43,8 +59,6 @@ public class PatternCreatorServiceImpl implements PatternCreatorService {
             creator.createTable(tableName, dataModels);
             createPatternTable(id, tableName, fileName);
         }
-
-        return "ok";
     }
 
     private int getSize(String json) {
@@ -55,8 +69,6 @@ public class PatternCreatorServiceImpl implements PatternCreatorService {
     private Pattern createPattern(Pattern pattern, int size) {
         pattern.setFileCount(String.valueOf(size));
         pattern.setDateCreation(LocalDateTime.now());
-
-        log.info(String.valueOf(size));
 
         return patternRepo.save(pattern);
     }

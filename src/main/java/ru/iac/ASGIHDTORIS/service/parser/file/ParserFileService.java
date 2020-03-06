@@ -9,7 +9,9 @@ import ru.iac.ASGIHDTORIS.api.db.exporter.column.ColumnExporter;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.api.db.model.table.TableModelCreator;
+import ru.iac.ASGIHDTORIS.api.factory.archive.ArchiveFactory;
 import ru.iac.ASGIHDTORIS.api.parser.Parser;
+import ru.iac.ASGIHDTORIS.api.parser.archive.ArchiveParser;
 import ru.iac.ASGIHDTORIS.api.parser.converter.FileConverter;
 import ru.iac.ASGIHDTORIS.domain.Pattern;
 import ru.iac.ASGIHDTORIS.domain.PatternTable;
@@ -19,6 +21,7 @@ import ru.iac.ASGIHDTORIS.repo.PatternTableRepo;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -42,17 +45,29 @@ public class ParserFileService implements ParserService {
     @Override
     public String getWithParser(MultipartFile multipartFile, long limit, long sourceId) throws IOException, CsvValidationException {
         File file = FileConverter.multipartIntoFile(multipartFile);
+
         List<TableModel> tableModels = createTableModels(sourceId);
 
+        if (tableModels == null) {
+            return "";
+        }
+
         JSONObject fromFile = parserApi.getFromFile(file, limit, tableModels);
+
+        file.delete();
 
         return fromFile.toJSONString();
     }
 
     private List<TableModel> createTableModels(long sourceId) {
-        Pattern pattern = patternRepo.findTopBySourceId(sourceId);
+        Pattern pattern = patternRepo.findTopBySourceIdOrderByDateCreationDesc(sourceId);
+        List<PatternTable> patternTables;
 
-        List<PatternTable> patternTables = patternTableRepo.findByPatternId(pattern.getId());
+        if (pattern != null) {
+            patternTables = patternTableRepo.findByPatternId(pattern.getId());
+        } else {
+            patternTables = Collections.emptyList();
+        }
 
         List<List<DataModel>> modelList = new ArrayList<>();
         List<String> tableNames = new ArrayList<>();

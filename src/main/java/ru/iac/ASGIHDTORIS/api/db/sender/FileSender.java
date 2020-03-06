@@ -23,12 +23,13 @@ public class FileSender implements DataSender {
 
     @Override
     public boolean send(File file, List<DataModel> models, String nameTable) {
-
+        boolean result = false;
         if (createTable(models, nameTable)) {
-            return sendData(file, models, nameTable);
+            result = sendData(file, models, nameTable);
         }
+        file.delete();
 
-        return false;
+        return result;
     }
 
     private boolean createTable(List<DataModel> models, String nameTable) {

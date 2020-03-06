@@ -1,20 +1,18 @@
 package ru.iac.ASGIHDTORIS.service.sender;
 
-import com.jayway.jsonpath.JsonPath;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
-import ru.iac.ASGIHDTORIS.api.db.model.data.DataModelCreator;
 import ru.iac.ASGIHDTORIS.api.db.sender.DataSender;
 import ru.iac.ASGIHDTORIS.api.factory.archive.ArchiveFactory;
 import ru.iac.ASGIHDTORIS.api.parser.archive.ArchiveParser;
 import ru.iac.ASGIHDTORIS.api.parser.converter.FileConverter;
 import ru.iac.ASGIHDTORIS.service.parser.json.JsonParser;
+import ru.iac.ASGIHDTORIS.service.validator.DbValidService;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,15 +21,19 @@ public class DbSenderService implements DbService {
 
     private final DataSender dataSender;
     private final JsonParser jsonParser;
+    private final DbValidService dbValidService;
 
-    public DbSenderService(DataSender dataSender, JsonParser jsonParser) {
+
+    public DbSenderService(DataSender dataSender, JsonParser jsonParser, DbValidService dbValidService) {
         this.dataSender = dataSender;
         this.jsonParser = jsonParser;
+        this.dbValidService = dbValidService;
     }
 
     @Override
-    public String sendData(MultipartFile multipartFile, String tableInfo) throws IOException {
-        return send(multipartFile, tableInfo) ? "ok" : "error";
+    public String sendData(MultipartFile multipartFile, String tableInfo, long sourceId) throws IOException {
+        return dbValidService.isValid(multipartFile, sourceId) &&
+                send(multipartFile, tableInfo) ? "ok" : "error";
     }
 
     private boolean send(MultipartFile multipartFile, String tableInfo) throws IOException {
@@ -42,8 +44,12 @@ public class DbSenderService implements DbService {
 
         List<DataModel> models = jsonParser.getModels(tableInfo);
 
-        return dataSender.send(file, models, nameTable);
+        boolean result = dataSender.send(file, models, nameTable);
+        file.delete();
+
+        return result;
     }
+
 
     private File parseFile(MultipartFile multipartFile, String nameFile) throws IOException {
         File file = FileConverter.multipartIntoFile(multipartFile);

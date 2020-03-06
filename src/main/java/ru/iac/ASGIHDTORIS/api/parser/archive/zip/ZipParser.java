@@ -61,10 +61,9 @@ public class ZipParser implements ArchiveParser {
         zip.deleteOnExit();
         files = new ArrayList<>();
 
-        ZipInputStream zis = new ZipInputStream(new FileInputStream(zip), StandardCharsets.UTF_16);
+        ZipInputStream zis = new ZipInputStream(new FileInputStream(zip), StandardCharsets.UTF_8);
         ZipEntry zipEntry;
 
-        log.info(zip.getName());
         while ((zipEntry = zis.getNextEntry()) != null) {
             if (targetFiles.isTargetFile(zipEntry.getName())) {
                 files.add(createFile(zipEntry.getName(), zis));

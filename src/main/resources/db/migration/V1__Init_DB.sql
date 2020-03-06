@@ -19,7 +19,8 @@ create table if not exists pattern (
     primary key (id),
     foreign key (source_id) references source (id)
     on delete cascade
-    on update cascade
+    on update cascade,
+    unique (name)
 );
 
 create table pattern_table (
@@ -28,7 +29,7 @@ create table pattern_table (
     name_table varchar(255),
     pattern_id int8 not null,
     primary key (id),
-    foreign key (pattern_id) references source (id)
+    foreign key (pattern_id) references pattern (id)
     on delete cascade
     on update cascade
 );

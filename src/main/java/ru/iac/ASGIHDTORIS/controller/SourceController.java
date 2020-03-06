@@ -19,7 +19,7 @@ public class SourceController {
     private final SourceRepo sourceRepo;
     private final DbParserService parserService;
 
-    private final String DEFAULT_LIMIT_VALUE = "2";
+    private final String DEFAULT_LIMIT_VALUE = "15";
 
     public SourceController(SourceRepo sourceRepo, DbParserService parserService) {
         this.sourceRepo = sourceRepo;
@@ -28,8 +28,11 @@ public class SourceController {
 
     @PostMapping("/create")
     public Source createSource (@RequestBody Source name){
-        log.info(name.toString());
-        return sourceRepo.save(name);
+        log.info(name.getName());
+        return !name.getName().equals("") &&
+                sourceRepo.findByName(name.getName()) == null ?
+                sourceRepo.save(name) :
+                new Source();
     }
 
     @GetMapping("/getAll")
@@ -41,7 +44,8 @@ public class SourceController {
     public String findTableById(
             @PathVariable Long id,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT_VALUE)
-                    Long limit) throws SQLException {
+                    Long limit
+    ) throws SQLException {
 
         return parserService.getData(id, limit);
     }

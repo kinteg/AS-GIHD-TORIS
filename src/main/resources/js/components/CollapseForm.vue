@@ -8,8 +8,9 @@
                     </label>
                 </el-form-item>
                 <el-form-item style="margin-right: 200px;">
-                    <el-input :disabled="disabled" :id="key.name+currencyTable.nameTable" v-model="key.name" type="text"
-                              autocomplete="off"/>
+<!--                    <el-input :disabled="disabled" :id="key.name+currencyTable.nameTable" v-model="key.name" type="text"-->
+<!--                              autocomplete="off"/>-->
+                    <input type="text"  class="inputText" :id="key.name+currencyTable.nameTable" :value="key.name"/>
                 </el-form-item>
                 <el-form-item>
                     <el-autocomplete :disabled="disabled"
@@ -86,4 +87,15 @@
 </script>
 
 <style scoped>
+    .inputText{
+        color: #606266;
+        height: 32px;
+        border-radius: 4px;
+        border: 1px solid #dcdfe6;
+        width: 100%;
+        padding: 0 15px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-            <el-form-item label="Имя источника" prop="text">
+            <el-form-item label="Имя  источника" prop="text">
                 <el-input placeholder="Введите название источника" v-model="ruleForm.text"></el-input>
                 <el-button style="margin-top: 10px" type="primary" @click="onSubmit">Создать</el-button>
             </el-form-item>

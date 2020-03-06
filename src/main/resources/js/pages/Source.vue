@@ -39,6 +39,7 @@
         methods:{
 
             submit(){
+                this.patternMap = [];
                 let sourceName = document.getElementById('sourceList').value;
                 AXIOS.get('/source/'+ sourceName,
                 ).then(response=>{

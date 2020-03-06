@@ -34,7 +34,6 @@
                     </table>
                 </el-collapse-item>
             </el-collapse>
-
         </el-form>
     </div>
 </template>

@@ -1,6 +1,8 @@
 package ru.iac.ASGIHDTORIS.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.service.sender.DbService;
@@ -23,14 +25,15 @@ public class SendDataDbController {
     @ResponseBody
     public String sendData(
             @RequestParam(value = "file") MultipartFile multipartFile,
-            @RequestParam(value = "json") String json) throws IOException, SQLException {
+            @RequestParam(value = "json") String json,
+            @RequestParam(value = "id") Long id
+            ) throws IOException, SQLException {
 
-        long start = System.currentTimeMillis();
-        String status = dbService.sendData(multipartFile, json);
-        log.info(status);
-        long end = System.currentTimeMillis() - start;
-        log.info("time: " + end);
+        if (multipartFile == null && id == null) {
+            return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND).toString();
+        } else {
+            return dbService.sendData(multipartFile, json, id);
+        }
 
-        return status;
     }
 }

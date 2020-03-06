@@ -2,11 +2,28 @@ plugins {
 	id 'org.springframework.boot' version '2.2.4.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id("com.github.node-gradle.node") version "2.2.0"
 }
 
 group = 'ru.iac'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
+
+task buildFront(type: YarnTask) {
+	args = ['build']
+}
+
+yarn_install.dependsOn(yarn_cache_clean)
+buildFront.dependsOn(yarn_install)
+processResources.dependsOn(buildFront)
+
+sourceSets {
+	main {
+		resources {
+			exclude 'js'
+		}
+	}
+}
 
 configurations {
 	developmentOnly
@@ -16,6 +33,10 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+}
+
+node {
+	download = true
 }
 
 repositories {
@@ -30,6 +51,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: 'org.flywaydb', name: 'flyway-core', version: '6.2.4'
+	runtime group: 'org.flywaydb', name: 'flyway-gradle-plugin', version: '6.2.4'
 	implementation group: 'com.opencsv', name: 'opencsv', version: '5.1'
 	implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
 	implementation group: 'com.opencsv', name: 'opencsv', version: '5.1'

@@ -13,15 +13,15 @@ import java.sql.SQLException;
 @SpringBootTest
 class PostgreSqlColumnExporterTest {
 
-    @Autowired
-    private DataSource dataSource;
-
-    private final String TABLE_NAME = "fgdg";
-
-    @Test
-    void exportDataModel() throws SQLException {
-        ColumnExporter columnExporter = new PostgreSqlColumnExporter(dataSource.getConnection());
-
-        System.out.println(columnExporter.exportDataModel(TABLE_NAME));
-    }
+//    @Autowired
+//    private DataSource dataSource;
+//
+//    private final String TABLE_NAME = "source";
+//
+//    @Test
+//    void exportDataModel() throws SQLException {
+//        ColumnExporter columnExporter = new PostgreSqlColumnExporter(dataSource.getConnection());
+//
+//        System.out.println(columnExporter.exportDataModel(TABLE_NAME));
+//    }
 }

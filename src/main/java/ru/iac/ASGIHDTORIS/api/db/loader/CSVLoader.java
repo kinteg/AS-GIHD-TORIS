@@ -54,10 +54,10 @@ public class CSVLoader implements Loader{
             }
 
         } catch (Exception ex) {
-            log.error(ex.getMessage());
+            ex.printStackTrace();
             return false;
         }
-
+        file.delete();
         return true;
     }
 

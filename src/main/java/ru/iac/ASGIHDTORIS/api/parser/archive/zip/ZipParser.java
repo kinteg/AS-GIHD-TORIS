@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -59,7 +61,7 @@ public class ZipParser implements ArchiveParser {
         zip.deleteOnExit();
         files = new ArrayList<>();
 
-        ZipInputStream zis = new ZipInputStream(new FileInputStream(zip));
+        ZipInputStream zis = new ZipInputStream(new FileInputStream(zip), StandardCharsets.UTF_8);
         ZipEntry zipEntry;
 
         while ((zipEntry = zis.getNextEntry()) != null) {

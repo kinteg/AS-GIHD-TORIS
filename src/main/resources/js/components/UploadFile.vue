@@ -78,6 +78,7 @@
                 AXIOS.get('/source/'+ sourceName,
                 ).then(response=>{
                     let formData = new FormData();
+                    this.sourceId = response.data.id;
                     formData.append('sourceId', response.data.id);
                     formData.append('file', this.file);
                     this.postData('/single-file',formData);
@@ -126,6 +127,8 @@
 
                         formData.append('file', this.file);
                         formData.append('json', JsonStr);
+                        formData.append('id', this.sourceId);
+                        console.log(this.sourceId + "qwe");
                         this.postData(this.controller,formData);
                         JsonStr = '';
                     }

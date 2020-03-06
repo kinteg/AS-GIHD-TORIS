@@ -16,7 +16,7 @@ import java.sql.SQLException;
 @Slf4j
 public class FileLoaderController {
 
-    private final String DEFAULT_LIMIT_VALUE = "2";
+    private final String DEFAULT_LIMIT_VALUE = "15";
     private final ParserService parserService;
 
     public FileLoaderController(ParserService parserService) {
@@ -30,14 +30,14 @@ public class FileLoaderController {
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT_VALUE)
                     Long limit,
-            @RequestParam(value = "sourceId") Long sourceId) throws
+            @RequestParam(value = "sourceId", required = false, defaultValue = "")
+                    Long sourceId) throws
             IOException,
             CsvValidationException, SQLException {
 
-        if (multipartFile == null) {
+        if (multipartFile == null && sourceId == null) {
             return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND).toString();
         } else {
-            System.out.println(parserService.getWithParser(multipartFile, limit, sourceId));
             return parserService.getWithParser(multipartFile, limit, sourceId);
         }
 

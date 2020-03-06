@@ -19,8 +19,15 @@ public class PostgreSqlColumnExporter implements ColumnExporter {
                     "FROM INFORMATION_SCHEMA.COLUMNS " +
                     "WHERE table_name = '${table_name}'";
 
-    private static final String COLUMN_NAME_REGEX = "\\$\\{column_name\\}";
-    private static final String TABLE_NAME_REGEX = "\\$\\{table_name\\}";
+    private final String SQL_P_KEY =
+            "SELECT ${column_name} " +
+                    "FROM INFORMATION_SCHEMA.key_column_usage " +
+                    "WHERE table_name = '${table_name}' AND constraint_name = '${table_name}_pkey'";
+    ;
+
+
+    private final String COLUMN_NAME_REGEX = "\\$\\{column_name\\}";
+    private final String TABLE_NAME_REGEX = "\\$\\{table_name\\}";
 
     private final String COLUMN_NAME = "column_name";
     private final String DATA_TYPE = "data_type";
@@ -40,9 +47,15 @@ public class PostgreSqlColumnExporter implements ColumnExporter {
         List<DataModel> models = new ArrayList<>();
         List<String> columns = getColumnNames(tableName);
         List<String> types = getDataType(tableName);
+        List<String> keys = getPKey(tableName);
 
         for (int i = 0; i < columns.size() && i < types.size(); i++) {
-            DataModel model = new DataModel(columns.get(i), types.get(i));
+
+            DataModel model = new DataModel(
+                    columns.get(i),
+                    types.get(i),
+                    keys.contains(columns.get(i)));
+
             models.add(model);
         }
 
@@ -54,7 +67,7 @@ public class PostgreSqlColumnExporter implements ColumnExporter {
     }
 
     private String createColumnSql(String tableName) {
-        return setTableName(tableName).replaceFirst(COLUMN_NAME_REGEX, COLUMN_NAME);
+        return setTableName(tableName, SQL_SELECT).replaceFirst(COLUMN_NAME_REGEX, COLUMN_NAME);
     }
 
     private List<String> getDataType(String tableName) {
@@ -62,11 +75,19 @@ public class PostgreSqlColumnExporter implements ColumnExporter {
     }
 
     private String createTypeSql(String tableName) {
-        return setTableName(tableName).replaceFirst(COLUMN_NAME_REGEX, DATA_TYPE);
+        return setTableName(tableName, SQL_SELECT).replaceFirst(COLUMN_NAME_REGEX, DATA_TYPE);
     }
 
-    private String setTableName(String tableName) {
-        return SQL_SELECT.replaceFirst(TABLE_NAME_REGEX, tableName);
+    private List<String> getPKey(String tableName) {
+        return parse(createPKeySql(tableName));
+    }
+
+    private String createPKeySql(String tableName) {
+        return setTableName(tableName, SQL_P_KEY).replaceFirst(COLUMN_NAME_REGEX, COLUMN_NAME);
+    }
+
+    private String setTableName(String tableName, String sql) {
+        return sql.replaceAll(TABLE_NAME_REGEX, tableName);
     }
 
     private List<String> parse(String query) {

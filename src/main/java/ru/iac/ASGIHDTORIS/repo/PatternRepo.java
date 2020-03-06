@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface PatternRepo  extends JpaRepository<Pattern, Long> {
     List<Pattern> findBySourceId(Long id);
+    List<Pattern> findBySourceIdOrderByDateCreationDesc(Long id);
 
-    Pattern findTopBySourceId(Long id);
+    Pattern findTopBySourceIdOrderByDateCreationDesc(Long id);
+    Pattern findTopByNameOrderByDateCreationDesc(String name);
+    Pattern findByName(String name);
+
 }

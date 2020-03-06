@@ -29,15 +29,12 @@ public class PatternController {
             @ModelAttribute Pattern pattern
             ) {
 
-        log.info(pattern.toString());
-        log.info(json.toString());
-//        log.info(json.split("},\\{")[0]);
-//        patternCreatorService.create(json.get(o), pattern)
+
         return patternCreatorService.create(json.toString(), pattern);
     }
 
     @GetMapping("{id}")
     public List<Pattern> getPattern(@PathVariable Long id){
-        return patternRepo.findBySourceId(id);
+        return patternRepo.findBySourceIdOrderByDateCreationDesc(id);
     }
 }

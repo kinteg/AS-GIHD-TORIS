@@ -1,6 +1,7 @@
 package ru.iac.ASGIHDTORIS.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.domain.Source;
 import ru.iac.ASGIHDTORIS.repo.SourceRepo;
@@ -16,39 +17,36 @@ import java.util.List;
 public class SourceController {
 
     private final SourceRepo sourceRepo;
-    private final PatternTableRepo patternTableRepo;
     private final DbParserService parserService;
 
-    private final String DEFAULT_LIMIT_VALUE = "2";
+    private final String DEFAULT_LIMIT_VALUE = "15";
 
-    public SourceController(SourceRepo sourceRepo, PatternTableRepo patternTableRepo, DbParserService parserService) {
+    public SourceController(SourceRepo sourceRepo, DbParserService parserService) {
         this.sourceRepo = sourceRepo;
-        this.patternTableRepo = patternTableRepo;
         this.parserService = parserService;
     }
 
-//TODO подгружать сразу все шаблоны в поле ввода в поиске
- 
     @PostMapping("/create")
     public Source createSource (@RequestBody Source name){
-        return sourceRepo.save(name);
+        log.info(name.getName());
+        return !name.getName().equals("") &&
+                sourceRepo.findByName(name.getName()) == null ?
+                sourceRepo.save(name) :
+                new Source();
     }
-
-//TODO ДОДЕЛАТЬ
 
     @GetMapping("/getAll")
     public List<Source> getAllSource(){
         return sourceRepo.findAll();
     }
 
-    //TODO tyt
     @GetMapping("/getTable/{id}")
     public String findTableById(
             @PathVariable Long id,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT_VALUE)
-                    Long limit) throws SQLException {
+                    Long limit
+    ) throws SQLException {
 
-        log.info(parserService.getData(id, limit));
         return parserService.getData(id, limit);
     }
 

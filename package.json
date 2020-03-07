@@ -10,6 +10,7 @@
     "build": "webpack --config webpack.prod.js"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.8.7",
     "axios": "^0.19.2",
     "axios-progress-bar": "^1.2.0",
     "element-ui": "^2.13.0",
@@ -31,9 +32,11 @@
     "style-loader": "^1.1.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^3.0.0",
+    "utils": "^0.3.1",
     "vue-loader": "^15.8.3",
     "vue-template-compiler": "^2.6.11",
     "vue-template-loader": "^1.0.0",
+    "vuex": "^3.1.2",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1",

@@ -54,7 +54,7 @@
 
 <script>
 import path from 'path'
-// import { isExternal } from '@/utils'
+import './utils'
 import Item from './Item.vue'
 import AppLink from './Link.vue'
 import FixiOSBug from './FixiOSBug'
@@ -115,7 +115,7 @@ export default {
       return path.resolve(this.basePath, routePath)
     },
     isExternalLink (routePath) {
-      // return isExternal(routePath)
+      return isExternal(routePath)
     }
   }
 }

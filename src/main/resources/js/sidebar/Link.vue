@@ -6,7 +6,7 @@
 </template>
 
 <script>
-// import { isExternal } from '@/utils'
+import './utils'
 
 export default {
   props: {
@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     isExternalLink (routePath) {
-      // return isExternal(routePath)
+      return isExternal(routePath)
     },
     linkProps (url) {
       if (this.isExternalLink(url)) {

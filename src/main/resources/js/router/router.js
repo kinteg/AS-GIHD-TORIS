@@ -7,7 +7,15 @@ import Pattern from "../pages/CreatePatternPage.vue";
 Vue.use(VueRouter)
 
 const routes = [
-    { path: '/source', component: Source },
+    {
+        path:'/source',
+        component: Source,
+        name: 'source',
+        meta: {
+            title: 'Источник'
+        }
+    },
+    // { path: '/source', component: Source },
     { path: '/fileLoader', component: FileLoader },
     { path: '/createPattern', component: Pattern },
     { path: '*', component: FileLoader }

@@ -143,26 +143,26 @@
 
 <style scoped>
     .custom-file-input::-webkit-file-upload-button {
-        visibility: hidden; !important;
+        visibility: hidden;
     }
     .custom-file-input{
-        text-align: right;!important;
+        text-align: right;
     }
 
     .custom-file-input::before {
         content: 'Выберите Файл';
-        background:#409EFF;!important;
-        border: 1px solid #409EFF;!important;
-        border-radius: 3px;!important;
-        padding: 9px ;!important;
-        cursor: pointer;!important;
-        color: white;!important;
-        -webkit-appearance: button;!important;
+        background:#409EFF;
+        border: 1px solid #409EFF;
+        border-radius: 3px;
+        padding: 9px ;
+        cursor: pointer;
+        color: white;
+        -webkit-appearance: button;
     }
     .custom-file-input:hover::before {
-        background-color: #66b1ff;!important;
+        background-color: #66b1ff;
     }
     .custom-file-input:active::before {
-        background: -webkit-linear-gradient(top, #66b1ff, #66b1ff);!important;
+        background: -webkit-linear-gradient(top, #66b1ff, #66b1ff);
     }
 </style>

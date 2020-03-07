@@ -9,7 +9,7 @@
       text-color="#bfcbd9"
       active-text-color="#409EFF">
       <sidebar-item
-        v-for="route in permission_routers"
+        v-for="route in ROUTER"
         :key="route.path"
         :item="route"
         :base-path="route.path" />
@@ -19,18 +19,20 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import store from "../store/store";
 import SidebarItem from './SidebarItem.vue'
-
+import router from "../router/router";
 export default {
   name:"sideBar",
+  store,
   components: { SidebarItem },
   computed: {
     ...mapGetters([
-      'permission_routers',
-      'sidebar'
+      'ROUTER',
+      'SIDEBAR'
     ]),
     isCollapse () {
-      return !this.sidebar.opened
+      return !this.SIDEBAR.opened
     }
   }
 }

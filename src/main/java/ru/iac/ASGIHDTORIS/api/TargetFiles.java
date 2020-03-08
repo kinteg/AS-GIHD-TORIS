@@ -14,10 +14,12 @@ public class TargetFiles {
 
     {
         targetList.add("csv");
+        targetList.add("txt");
     }
 
     {
         archiveList.add("zip");
+        archiveList.add("7z");
     }
 
     public boolean isTargetFile(String filename) {

@@ -1,20 +1,6 @@
 package ru.iac.ASGIHDTORIS.api.db;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.iac.ASGIHDTORIS.api.db.creator.PostgreSqlCreator;
-import ru.iac.ASGIHDTORIS.api.db.loader.CSVLoader;
-import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
-
-import static org.junit.Assert.*;
-
-import javax.sql.DataSource;
-
-import java.io.File;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootTest
 class DbTest {

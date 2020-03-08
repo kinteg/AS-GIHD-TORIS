@@ -1,54 +1,57 @@
-package ru.iac.ASGIHDTORIS.api.parser.json.csv;
+package ru.iac.ASGIHDTORIS.api.parser.json.txt;
 
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.api.parser.json.FileParser;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 @Slf4j
-public class CsvParser implements FileParser {
+public class TxtParser implements FileParser {
 
-    private CSVReader reader;
+
+    private BufferedReader reader;
 
     @Override
-    public JSONObject getJSON(File file) throws IOException, CsvValidationException {
+    public JSONObject getJSON(File file) throws IOException {
         return getJSON(file, CUSTOM_LIMIT);
     }
 
     @Override
-    public JSONObject getJSON(File file, long limit) throws IOException, CsvValidationException {
+    public JSONObject getJSON(File file, long limit) throws IOException {
         return isNull(file)
                 ? new JSONObject()
                 : getJSON(file, limit, Collections.emptyList());
     }
 
     @Override
-    public JSONObject getJSON(File file, long limit, List<DataModel> models) throws IOException, CsvValidationException {
+    public JSONObject getJSON(File file, long limit, List<DataModel> models) throws IOException {
         return getJSON(file, limit, models, "default");
     }
 
     @Override
-    public JSONObject getJSON(File file, long limit, List<DataModel> models, String tableName) throws IOException, CsvValidationException {
-        return csvReader(file, limit, models, tableName);
+    public JSONObject getJSON(File file, long limit, List<DataModel> models, String tableName) throws IOException {
+        return txtReader(file, limit, models, tableName);
     }
-
 
     private boolean isNull(File file) {
         return file == null;
     }
 
-    private JSONObject csvReader(File file, long limit, List<DataModel> models, String tableName) throws IOException, CsvValidationException {
-        reader = new CSVReader(new FileReader(file));
+    private JSONObject txtReader(File file, long limit, List<DataModel> models, String tableName) throws IOException {
+        reader = Files.newBufferedReader(Paths.get(file.getName()), Charset.forName("windows-1251"));
+
 
         if (models.isEmpty()) {
             models = getNamesColumn();
@@ -57,8 +60,10 @@ public class CsvParser implements FileParser {
         return createJson(file.getName(), models, limit, tableName);
     }
 
-    private List<DataModel> getNamesColumn() throws IOException, CsvValidationException {
-        String[] nameColumn = reader.readNext();
+    private List<DataModel> getNamesColumn() throws IOException {
+        String[] nameColumn = reader.readLine().split(">");
+        log.info(Arrays.toString(nameColumn) + " " + nameColumn.length);
+
         List<DataModel> models = new ArrayList<>();
 
         for (String column :
@@ -71,7 +76,7 @@ public class CsvParser implements FileParser {
         return models;
     }
 
-    private JSONObject createJson(String fileName, List<DataModel> models, long limit, String tableName) throws IOException, CsvValidationException {
+    private JSONObject createJson(String fileName, List<DataModel> models, long limit, String tableName) throws IOException {
         JSONObject parsed = new JSONObject();
         JSONArray columnTable = getColumnTable(models);
         JSONArray values;
@@ -111,23 +116,28 @@ public class CsvParser implements FileParser {
         return jsonObject;
     }
 
-    private JSONArray getWithoutLimit(List<DataModel> models) throws IOException, CsvValidationException {
+    private JSONArray getWithoutLimit(List<DataModel> models) throws IOException {
         JSONArray array = new JSONArray();
-        String[] nextRecord;
+        String[] nextRecordArray;
+        String nextRecord;
 
-        while ((nextRecord = reader.readNext()) != null) {
-            array.add(getJsonObject(models, nextRecord));
+        while ((nextRecord = reader.readLine()) != null) {
+            nextRecordArray = nextRecord.split(">");
+            array.add(getJsonObject(models, nextRecordArray));
         }
 
         return array;
     }
 
-    private JSONArray getWithLimit(List<DataModel> models, long limit) throws IOException, CsvValidationException {
+    private JSONArray getWithLimit(List<DataModel> models, long limit) throws IOException {
         JSONArray array = new JSONArray();
-        String[] nextRecord;
+        String[] nextRecordArray;
+        String nextRecord;
 
-        for (int j = 0; (nextRecord = reader.readNext()) != null && j < limit; j++) {
-            array.add(getJsonObject(models, nextRecord));
+        for (int j = 0; (nextRecord = reader.readLine()) != null && j < limit; j++) {
+//            log.info(nextRecord);
+            nextRecordArray = nextRecord.split(">");
+            array.add(getJsonObject(models, nextRecordArray));
         }
 
         return array;
@@ -142,4 +152,5 @@ public class CsvParser implements FileParser {
 
         return jsonObject;
     }
+
 }

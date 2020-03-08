@@ -10,6 +10,9 @@ import java.util.List;
 
 public interface FileParser {
 
+    long CUSTOM_LIMIT = 20;
+    long WITHOUT_LIMIT = -1;
+
     JSONObject getJSON(File file) throws IOException, CsvValidationException;
 
     JSONObject getJSON(File file, long limit) throws IOException, CsvValidationException;

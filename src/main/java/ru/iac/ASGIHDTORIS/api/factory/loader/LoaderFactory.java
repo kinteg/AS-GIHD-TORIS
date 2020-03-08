@@ -1,27 +1,30 @@
 package ru.iac.ASGIHDTORIS.api.factory.loader;
 
+import com.opencsv.exceptions.CsvException;
 import org.apache.commons.io.FilenameUtils;
-import ru.iac.ASGIHDTORIS.api.db.loader.CSVLoader;
-import ru.iac.ASGIHDTORIS.api.db.loader.Loader;
+import ru.iac.ASGIHDTORIS.api.parser.reader.CsvReader;
+import ru.iac.ASGIHDTORIS.api.parser.reader.FileReader;
+import ru.iac.ASGIHDTORIS.api.parser.reader.TxtReader;
 
-import java.sql.Connection;
+import java.io.File;
+import java.io.IOException;
 
 public final class LoaderFactory {
 
     private LoaderFactory() {}
 
-    public static Loader getParser(String fileName, Connection connection) {
-        return changeParser(FilenameUtils.getExtension(fileName), connection);
+    public static FileReader getParser(File file) throws IOException, CsvException {
+        return changeParser(FilenameUtils.getExtension(file.getName()), file);
     }
 
-    private static Loader changeParser(String extension, Connection connection) {
+    private static FileReader changeParser(String extension, File file) throws IOException, CsvException {
 
-        switch (extension) {
-            case "csv":
-                return new CSVLoader(connection);
-            case "xml":
-
+        switch (extension.toLowerCase()) {
             case "txt":
+                return new TxtReader(file);
+            case "csv":
+                return new CsvReader(file);
+            case "xml":
 
             case "json":
 

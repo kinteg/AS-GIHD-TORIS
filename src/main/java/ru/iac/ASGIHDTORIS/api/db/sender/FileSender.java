@@ -1,6 +1,7 @@
 package ru.iac.ASGIHDTORIS.api.db.sender;
 
 import lombok.Data;
+import ru.iac.ASGIHDTORIS.api.db.loader.LoaderImpl;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.creator.Creator;
 import ru.iac.ASGIHDTORIS.api.db.creator.PostgreSqlCreator;
@@ -39,7 +40,7 @@ public class FileSender implements DataSender {
     }
 
     private boolean sendData(File file, List<DataModel> models, String nameTable) {
-        Loader loader = LoaderFactory.getParser(file.getName(), connection);
+        Loader loader = new LoaderImpl(connection);
 
         return loader.insert(file, nameTable, models);
     }

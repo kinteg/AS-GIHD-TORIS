@@ -4,8 +4,12 @@ import org.apache.commons.io.FilenameUtils;
 import ru.iac.ASGIHDTORIS.api.TargetFiles;
 import ru.iac.ASGIHDTORIS.api.parser.archive.ArchiveParser;
 import ru.iac.ASGIHDTORIS.api.parser.archive.zip.ZipParser;
+import ru.iac.ASGIHDTORIS.api.parser.archive.zip7.SevenZParser;
 
 public final class ArchiveFactory {
+
+    private static final String ZIP = "zip";
+    private static final String SEVEN_Z_PARSER = "7z";
 
     private ArchiveFactory() {}
 
@@ -20,11 +24,11 @@ public final class ArchiveFactory {
 
     private static ArchiveParser changeParser(String extension) {
 
-        switch (extension) {
-            case "zip":
+        switch (extension.toLowerCase()) {
+            case ZIP:
                 return new ZipParser();
-            case "rar" :
-
+            case SEVEN_Z_PARSER :
+                return new SevenZParser();
             default:
                 return null;
         }

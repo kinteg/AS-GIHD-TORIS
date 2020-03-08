@@ -62,11 +62,13 @@ public class DbValidServiceImpl implements DbValidService {
     }
 
     private List<File> getFiles(File file) throws IOException {
-        List<File> files = new ArrayList<>();
+        List<File> files;
 
         if (ArchiveFactory.isArchive(file.getName())) {
             ArchiveParser archiveParser =  ArchiveFactory.getParser(file.getName());
             files = archiveParser.getFiles(file);
+        } else {
+            files = Collections.singletonList(file);
         }
 
         return files;

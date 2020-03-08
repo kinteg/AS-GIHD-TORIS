@@ -60,20 +60,20 @@ public class FilesParser implements Parser {
     private JSONArray createArray(List<File> files, long limit, List<TableModel> tableModels) throws IOException, CsvValidationException {
         JSONArray array = new JSONArray();
 
-        for (int i = 0; i < files.size(); i++) {
-            String fileName = files.get(i).getName();
+        for (File file : files) {
+            String fileName = file.getName();
             FileParser fileParser = FileParserFactory.getParser(fileName);
 
             List<TableModel> tableModel = createTableModel(tableModels, fileName);
 
             if (!tableModel.isEmpty()) {
                 TableModel model = tableModel.get(0);
-                array.add(fileParser.getJSON(files.get(i), limit, model.getModels(), model.getTableName()));
+                array.add(fileParser.getJSON(file, limit, model.getModels(), model.getTableName()));
             } else {
-                array.add(fileParser.getJSON(files.get(i), limit));
+                array.add(fileParser.getJSON(file, limit));
             }
 
-            files.get(i).delete();
+            file.delete();
         }
 
         return array;

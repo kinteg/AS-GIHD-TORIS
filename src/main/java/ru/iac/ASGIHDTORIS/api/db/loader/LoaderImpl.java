@@ -36,7 +36,7 @@ public class LoaderImpl implements Loader {
 
         executeFirstRow(tableName, keys);
         log.info(keys.size() + " " + keys.toString());
-//        executeAllRows(tableName, keys);
+        executeAllRows(tableName, keys);
 
         return true;
     }

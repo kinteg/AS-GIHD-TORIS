@@ -142,7 +142,6 @@
                 }
                 return keys;
             },
-//TODO брать данные из columTable
             submit() {
                 let tables = [];
                 let allKeys = [];

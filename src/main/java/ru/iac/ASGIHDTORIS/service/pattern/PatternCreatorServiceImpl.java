@@ -10,6 +10,7 @@ import ru.iac.ASGIHDTORIS.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.service.parser.json.JsonParser;
+import ru.iac.ASGIHDTORIS.service.pattern.valid.PatternValidatorService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,30 +23,24 @@ public class PatternCreatorServiceImpl implements PatternCreatorService {
     private final Creator creator;
     private final JsonParser jsonParser;
     private final PatternTableRepo patternTableRepo;
+    private final PatternValidatorService patternValidatorService;
 
-    public PatternCreatorServiceImpl(PatternRepo patternRepo, Creator creator, JsonParser jsonParser, PatternTableRepo patternTableRepo) {
+    public PatternCreatorServiceImpl(PatternRepo patternRepo, Creator creator, JsonParser jsonParser, PatternTableRepo patternTableRepo, PatternValidatorService patternValidatorService) {
         this.patternRepo = patternRepo;
         this.creator = creator;
         this.jsonParser = jsonParser;
         this.patternTableRepo = patternTableRepo;
+        this.patternValidatorService = patternValidatorService;
     }
 
     @Override
     public String create(String json, Pattern pattern) {
-        if (isValid(pattern)) {
+        if (patternValidatorService.isValid(pattern.getName())) {
             build(json, pattern);
             return "ok";
         }
 
         return "failed";
-    }
-
-    private boolean isValid(Pattern pattern) {
-        String name = pattern.getName();
-        return name != null &&
-                !name.isEmpty() &&
-                patternRepo
-                        .findByName(name) == null;
     }
 
     private void build(String json, Pattern pattern) {

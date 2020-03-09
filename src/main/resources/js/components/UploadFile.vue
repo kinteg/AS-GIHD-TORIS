@@ -112,25 +112,24 @@
 
                     }
                     for(let i = 0; i< tables.length; i++) {
-                        let keys = allKeys[i];
+                        // let keys = allKeys[i];
                         let nameTable = document.getElementById(tables[i]).value;
-                        JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
-                        for(let j = 0; j< keys.length; j++) {
-                            JsonStr = this.getElement(keys[j],tables[i],JsonStr);
-
-                            if(j !== keys.length - 1)
-                                JsonStr = JsonStr.concat(',');
-                        }
-                        JsonStr = JsonStr.concat(']}}');
+                        // JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
+                        // for(let j = 0; j< keys.length; j++) {
+                        //     JsonStr = this.getElement(keys[j],tables[i],JsonStr);
+                        //
+                        //     if(j !== keys.length - 1)
+                        //         JsonStr = JsonStr.concat(',');
+                        // }
+                        // JsonStr = JsonStr.concat(']}}');
 
                         let formData = new FormData();
-
                         formData.append('file', this.file);
-                        formData.append('json', JsonStr);
+                        formData.append('nameTable', nameTable);
+                        formData.append('nameFile', files[i]);
                         formData.append('id', this.sourceId);
-                        console.log(this.sourceId + "qwe");
                         this.postData(this.controller,formData);
-                        JsonStr = '';
+                        // JsonStr = '';
                     }
                 } else{
                     alert('Выберите источник');

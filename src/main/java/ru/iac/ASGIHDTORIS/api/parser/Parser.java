@@ -10,10 +10,10 @@ import java.util.List;
 
 public interface Parser {
 
-    JSONObject getFromFile(File file, long limit) throws IOException, CsvValidationException;
+    JSONObject getFromFile(File file, long limit) throws Exception;
 
-    JSONObject getFromFile(File file, long limit, List<TableModel> tableModels) throws IOException, CsvValidationException;
+    JSONObject getFromFile(File file, long limit, List<TableModel> tableModels) throws Exception;
 
-    JSONObject getFormFiles(List<File> files, long limit, List<TableModel> tableModels) throws IOException, CsvValidationException;
+    JSONObject getFormFiles(List<File> files, long limit, List<TableModel> tableModels) throws Exception;
 
 }

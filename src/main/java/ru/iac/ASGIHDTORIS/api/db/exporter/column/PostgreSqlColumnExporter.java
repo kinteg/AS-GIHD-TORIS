@@ -24,8 +24,6 @@ public class PostgreSqlColumnExporter implements ColumnExporter {
                     "FROM INFORMATION_SCHEMA.key_column_usage " +
                     "WHERE table_name = '${table_name}' AND constraint_name = '${table_name}_pkey'";
     ;
-
-
     private final String COLUMN_NAME_REGEX = "\\$\\{column_name\\}";
     private final String TABLE_NAME_REGEX = "\\$\\{table_name\\}";
 

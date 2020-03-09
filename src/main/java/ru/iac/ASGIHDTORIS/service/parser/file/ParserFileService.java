@@ -43,7 +43,7 @@ public class ParserFileService implements ParserService {
     }
 
     @Override
-    public String getWithParser(MultipartFile multipartFile, long limit, long sourceId) throws IOException, CsvValidationException {
+    public String getWithParser(MultipartFile multipartFile, long limit, long sourceId) throws Exception {
         File file = FileConverter.multipartIntoFile(multipartFile);
 
         List<TableModel> tableModels = createTableModels(sourceId);

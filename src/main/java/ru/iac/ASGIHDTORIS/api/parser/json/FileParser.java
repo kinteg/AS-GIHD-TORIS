@@ -11,14 +11,13 @@ import java.util.List;
 public interface FileParser {
 
     long CUSTOM_LIMIT = 20;
-    long WITHOUT_LIMIT = -1;
 
-    JSONObject getJSON(File file) throws IOException, CsvValidationException;
+    JSONObject getJSON(File file) throws Exception;
 
-    JSONObject getJSON(File file, long limit) throws IOException, CsvValidationException;
+    JSONObject getJSON(File file, long limit) throws Exception;
 
-    JSONObject getJSON(File file, long limit, List<DataModel> models) throws IOException, CsvValidationException;
+    JSONObject getJSON(File file, long limit, List<DataModel> models) throws Exception;
 
-    JSONObject getJSON(File file, long limit, List<DataModel> models, String tableName) throws IOException, CsvValidationException;
+    JSONObject getJSON(File file, long limit, List<DataModel> models, String tableName) throws Exception;
 
 }

@@ -32,8 +32,7 @@ public class FileLoaderController {
                     Long limit,
             @RequestParam(value = "sourceId", required = false, defaultValue = "")
                     Long sourceId) throws
-            IOException,
-            CsvValidationException, SQLException {
+            Exception {
 
         if (multipartFile == null && sourceId == null) {
             return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND).toString();

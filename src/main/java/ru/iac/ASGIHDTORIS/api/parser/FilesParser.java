@@ -27,12 +27,12 @@ public class FilesParser implements Parser {
     }
 
     @Override
-    public JSONObject getFromFile(File file, long limit) throws IOException, CsvValidationException {
+    public JSONObject getFromFile(File file, long limit) throws Exception {
         return getFromFile(file, limit, Collections.emptyList());
     }
 
     @Override
-    public JSONObject getFromFile(File file, long limit, List<TableModel> tableModels) throws IOException, CsvValidationException {
+    public JSONObject getFromFile(File file, long limit, List<TableModel> tableModels) throws Exception {
         List<File> files = targetFiles.isArchive(file.getName()) ?
                 getParser(file.getName()).getFiles(file)
                 : Collections.singletonList(file);
@@ -41,7 +41,7 @@ public class FilesParser implements Parser {
     }
 
     @Override
-    public JSONObject getFormFiles(List<File> files, long limit, List<TableModel> tableModels) throws IOException, CsvValidationException {
+    public JSONObject getFormFiles(List<File> files, long limit, List<TableModel> tableModels) throws Exception {
         return createJSON(files, limit, tableModels);
     }
 
@@ -49,7 +49,7 @@ public class FilesParser implements Parser {
         return ArchiveFactory.getParser(filename);
     }
 
-    private JSONObject createJSON(List<File> files, long limit, List<TableModel> tableModels) throws IOException, CsvValidationException {
+    private JSONObject createJSON(List<File> files, long limit, List<TableModel> tableModels) throws Exception {
         JSONObject object = new JSONObject();
 
         object.put("content", createArray(files, limit, tableModels));
@@ -57,7 +57,7 @@ public class FilesParser implements Parser {
         return object;
     }
 
-    private JSONArray createArray(List<File> files, long limit, List<TableModel> tableModels) throws IOException, CsvValidationException {
+    private JSONArray createArray(List<File> files, long limit, List<TableModel> tableModels) throws Exception {
         JSONArray array = new JSONArray();
 
         for (File file : files) {

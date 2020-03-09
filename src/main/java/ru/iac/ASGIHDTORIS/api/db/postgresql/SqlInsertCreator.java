@@ -31,9 +31,11 @@ public class SqlInsertCreator {
     private String createInsert(String tableName, List<DataModel> keys, List<String> values) {
         String insert = SQL_INSERT;
 
+        int limit = Math.min(keys.size(), values.size());
+
         insert = insert.replaceFirst(TABLE_REGEX, tableName);
-        insert = insert.replaceFirst(KEYS_REGEX, createKey(keys));
-        insert = insert.replaceFirst(VALUES_REGEX, createValue(values));
+        insert = insert.replaceFirst(KEYS_REGEX, createKey(keys, limit));
+        insert = insert.replaceFirst(VALUES_REGEX, createValue(values, limit));
 
         return insert;
     }
@@ -47,19 +49,19 @@ public class SqlInsertCreator {
         return update;
     }
 
-    private String createValue(List<String> values) {
+    private String createValue(List<String> values, int limit) {
         return values
                 .stream()
                 .map((v) -> "'" + v.trim() + "'")
+                .limit(limit)
                 .collect(Collectors.joining(", "));
     }
 
-    private String createKey(List<DataModel> models) {
+    private String createKey(List<DataModel> models, int limit) {
         List<String> keys = new ArrayList<>();
 
-        for (DataModel key :
-                models) {
-            keys.add(key.getKey());
+        for (int i = 0; i < limit; i++) {
+            keys.add(models.get(i).getKey());
         }
 
         return String.join(", ", keys);
@@ -81,7 +83,7 @@ public class SqlInsertCreator {
                     .append(values.get(i))
                     .append("'");
 
-            if (i != keys.size() - 1) {
+            if (i != keys.size() - 1 && i != values.size() - 1) {
                 builder.append(", ");
             }
 

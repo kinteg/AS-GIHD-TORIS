@@ -3,6 +3,7 @@ package ru.iac.ASGIHDTORIS.service.sender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.iac.ASGIHDTORIS.api.db.exporter.column.PostgreSqlColumnExporter;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.sender.DataSender;
 import ru.iac.ASGIHDTORIS.api.factory.archive.ArchiveFactory;
@@ -22,12 +23,13 @@ public class DbSenderService implements DbService {
     private final DataSender dataSender;
     private final JsonParser jsonParser;
     private final DbValidService dbValidService;
+    private final PostgreSqlColumnExporter postgreSqlColumnExporter;
 
-
-    public DbSenderService(DataSender dataSender, JsonParser jsonParser, DbValidService dbValidService) {
+    public DbSenderService(DataSender dataSender, JsonParser jsonParser, DbValidService dbValidService, PostgreSqlColumnExporter postgreSqlColumnExporter) {
         this.dataSender = dataSender;
         this.jsonParser = jsonParser;
         this.dbValidService = dbValidService;
+        this.postgreSqlColumnExporter = postgreSqlColumnExporter;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class DbSenderService implements DbService {
 
         File file = parseFile(multipartFile, nameFile);
 
-        List<DataModel> models = jsonParser.getModels(tableInfo);
+        List<DataModel> models = postgreSqlColumnExporter.exportDataModel(nameTable);
 
         boolean result = dataSender.send(file, models, nameTable);
         file.delete();

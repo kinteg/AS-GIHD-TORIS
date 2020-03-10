@@ -9,6 +9,7 @@ import ru.iac.ASGIHDTORIS.service.sender.DbService;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -25,8 +26,8 @@ public class SendDataDbController {
     @ResponseBody
     public String sendData(
             @RequestParam(value = "file") MultipartFile multipartFile,
-            @RequestParam(value = "nameFile") String nameFile,
-            @RequestParam(value = "nameTable") String nameTable,
+            @RequestParam(value = "nameFile") List<String> nameFile,
+            @RequestParam(value = "nameTable") List<String> nameTable,
             @RequestParam(value = "id") Long id
             ) throws IOException, SQLException {
 

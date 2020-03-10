@@ -2,6 +2,7 @@ package ru.iac.ASGIHDTORIS.api.parser.json.txt;
 
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.api.parser.json.FileParser;
 import ru.iac.ASGIHDTORIS.api.parser.json.JsonCreator;
@@ -27,9 +28,7 @@ public class TxtParser implements FileParser {
 
     @Override
     public JSONObject getJSON(File file, long limit) throws Exception {
-        return isNull(file)
-                ? new JSONObject()
-                : getJSON(file, limit, Collections.emptyList());
+        return getJSON(file, limit, Collections.emptyList());
     }
 
     @Override
@@ -42,12 +41,9 @@ public class TxtParser implements FileParser {
         return txtReader(file, limit, models, tableName);
     }
 
-    private boolean isNull(File file) {
-        return file == null;
-    }
-
     private JSONObject txtReader(File file, long limit, List<DataModel> models, String tableName) throws Exception {
         Reader reader = createReader(file);
+
         if (models.isEmpty()) {
             models = getNamesColumn(reader);
         }
@@ -58,13 +54,22 @@ public class TxtParser implements FileParser {
     }
 
     private List<DataModel> getNamesColumn(Reader reader) throws Exception {
-        String[] nameColumn = reader.readNext();
-        log.info(Arrays.toString(nameColumn) + " " + nameColumn.length);
+        //#TODO решить костыль
+        String allNames = reader.readLine();
+        int columns = StringUtils.countMatches(allNames, '>') + 1;
+
+        List<String> nameColumns = new ArrayList<>(Arrays.asList(allNames.split(">")));
+
+        if (nameColumns.size() < columns) {
+            for (int i = nameColumns.size(); i < columns; i++) {
+                nameColumns.add("");
+            }
+        }
 
         List<DataModel> models = new ArrayList<>();
 
         for (String column :
-                nameColumn) {
+                nameColumns) {
 
             DataModel model = new DataModel(column);
             models.add(model);

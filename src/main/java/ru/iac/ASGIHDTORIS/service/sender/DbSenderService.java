@@ -3,13 +3,12 @@ package ru.iac.ASGIHDTORIS.service.sender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.iac.ASGIHDTORIS.api.db.exporter.column.PostgreSqlColumnExporter;
+import ru.iac.ASGIHDTORIS.api.db.exporter.column.ColumnExporter;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.api.db.sender.DataSender;
 import ru.iac.ASGIHDTORIS.api.factory.archive.ArchiveFactory;
 import ru.iac.ASGIHDTORIS.api.parser.archive.ArchiveParser;
 import ru.iac.ASGIHDTORIS.api.parser.converter.FileConverter;
-import ru.iac.ASGIHDTORIS.service.parser.json.JsonParser;
 import ru.iac.ASGIHDTORIS.service.validator.DbValidService;
 
 import java.io.File;
@@ -21,31 +20,27 @@ import java.util.List;
 public class DbSenderService implements DbService {
 
     private final DataSender dataSender;
-    private final JsonParser jsonParser;
     private final DbValidService dbValidService;
-    private final PostgreSqlColumnExporter postgreSqlColumnExporter;
+    private final ColumnExporter columnExporter;
 
-    public DbSenderService(DataSender dataSender, JsonParser jsonParser, DbValidService dbValidService, PostgreSqlColumnExporter postgreSqlColumnExporter) {
+    public DbSenderService(DataSender dataSender, DbValidService dbValidService, ColumnExporter columnExporter) {
         this.dataSender = dataSender;
-        this.jsonParser = jsonParser;
         this.dbValidService = dbValidService;
-        this.postgreSqlColumnExporter = postgreSqlColumnExporter;
+        this.columnExporter = columnExporter;
     }
 
     @Override
-    public String sendData(MultipartFile multipartFile, String tableInfo, long sourceId) throws IOException {
+    public String sendData(MultipartFile multipartFile, String nameFile, String nameTable, long sourceId) throws IOException {
         return dbValidService.isValid(multipartFile, sourceId) &&
-                send(multipartFile, tableInfo) ? "ok" : "error";
+                send(multipartFile, nameFile, nameTable) ? "ok" : "error";
     }
 
-    private boolean send(MultipartFile multipartFile, String tableInfo) throws IOException {
-        String nameFile = jsonParser.getFileName(tableInfo);
-        String nameTable = jsonParser.getTableName(tableInfo);
+    private boolean send(MultipartFile multipartFile, String nameFile, String nameTable) throws IOException {
 
         File file = parseFile(multipartFile, nameFile);
-
-        List<DataModel> models = postgreSqlColumnExporter.exportDataModel(nameTable);
-
+        log.info("fg");
+        List<DataModel> models = columnExporter.exportDataModel(nameTable);
+        log.info(models.toString());
         boolean result = dataSender.send(file, models, nameTable);
         file.delete();
 

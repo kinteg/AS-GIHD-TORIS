@@ -12,6 +12,7 @@ import ru.iac.ASGIHDTORIS.api.parser.json.reader.CsvReaderImpl;
 import ru.iac.ASGIHDTORIS.api.parser.json.reader.Reader;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,9 +29,7 @@ public class CsvParser implements FileParser {
 
     @Override
     public JSONObject getJSON(File file, long limit) throws Exception {
-        return isNull(file)
-                ? new JSONObject()
-                : getJSON(file, limit, Collections.emptyList());
+        return getJSON(file, limit, Collections.emptyList());
     }
 
     @Override
@@ -43,13 +42,8 @@ public class CsvParser implements FileParser {
         return csvReader(file, limit, models, tableName);
     }
 
-
-    private boolean isNull(File file) {
-        return file == null;
-    }
-
     private JSONObject csvReader(File file, long limit, List<DataModel> models, String tableName) throws Exception {
-        Reader reader = new CsvReaderImpl(new CSVReader(new FileReader(file)));
+        Reader reader = createReader(file);
 
         if (models.isEmpty()) {
             models = getNamesColumn(reader);
@@ -58,6 +52,10 @@ public class CsvParser implements FileParser {
         JsonCreator creator = new JsonCreator(reader);
 
         return creator.createJson(file.getName(), models, limit, tableName);
+    }
+
+    private Reader createReader(File file) throws FileNotFoundException {
+        return new CsvReaderImpl(new CSVReader(new FileReader(file)));
     }
 
     private List<DataModel> getNamesColumn(Reader reader) throws Exception {

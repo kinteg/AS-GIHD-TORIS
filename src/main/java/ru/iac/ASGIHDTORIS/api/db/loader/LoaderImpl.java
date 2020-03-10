@@ -51,6 +51,7 @@ public class LoaderImpl implements Loader {
     }
 
     private void executeFirstRow(String tableName, List<DataModel> keys) {
+        log.info(firstRecord.get(0));
         if (!keys.stream().map(DataModel::getKey).collect(Collectors.toList()).contains(firstRecord.get(0))) {
             String query = createSql.createSql(tableName, keys, allRecord.get(0));
             execute(query);

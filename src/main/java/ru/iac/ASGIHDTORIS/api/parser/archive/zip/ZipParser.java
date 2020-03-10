@@ -34,18 +34,18 @@ public class ZipParser implements ArchiveParser {
 
     @Override
     public File findByFileName(File zip, String filename) throws IOException {
+        log.info(zip.getName());
         return unzipFile(zip, filename);
     }
 
     private File unzipFile(File zip, String filename) throws IOException {
         zip.deleteOnExit();
-
         ZipInputStream zis = new ZipInputStream(new FileInputStream(zip));
         ZipEntry zipEntry;
         File file = null;
 
         while ((zipEntry = zis.getNextEntry()) != null) {
-            if (targetFiles.isTargetFile(zipEntry.getName())
+            if (targetFiles.isTargetFile(zipEntry.getName().toLowerCase())
                     && zipEntry.getName().equals(filename)) {
 
                 file = createFile(zipEntry.getName(), zis);
@@ -65,7 +65,7 @@ public class ZipParser implements ArchiveParser {
         ZipEntry zipEntry;
 
         while ((zipEntry = zis.getNextEntry()) != null) {
-            if (targetFiles.isTargetFile(zipEntry.getName())) {
+            if (targetFiles.isTargetFile(zipEntry.getName().toLowerCase())) {
                 files.add(createFile(zipEntry.getName(), zis));
             }
         }

@@ -129,8 +129,8 @@
                     }
                         let formData = new FormData();
                         formData.append('file', this.file);
-                        formData.append('nameTable', nameTables);
-                        formData.append('nameFile', nameFiles);
+                        formData.append('tableName', nameTables);
+                        formData.append('filename', nameFiles);
                         formData.append('id', this.sourceId);
                         this.postData(this.controller,formData);
                         // JsonStr = '';

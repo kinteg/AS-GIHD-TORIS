@@ -43,9 +43,9 @@ public class PostgreSqlColumnExporter implements ColumnExporter {
 
     private List<DataModel> createDataModel(String tableName) {
         List<DataModel> models = new ArrayList<>();
-        List<String> columns = getColumnNames(tableName);
-        List<String> types = getDataType(tableName);
-        List<String> keys = getPKey(tableName);
+        List<String> columns = getColumnNames(tableName.toLowerCase());
+        List<String> types = getDataType(tableName.toLowerCase());
+        List<String> keys = getPKey(tableName.toLowerCase());
 
         for (int i = 0; i < columns.size() && i < types.size(); i++) {
 

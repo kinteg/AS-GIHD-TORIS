@@ -28,7 +28,6 @@ public class PatternController {
             @RequestParam List<String> json,
             @ModelAttribute Pattern pattern
             ) {
-        log.info(json.toString());
         return patternCreatorService.create(json.toString(), pattern);
     }
 

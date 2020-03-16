@@ -37,8 +37,11 @@ public class PatternCreatorServiceImpl implements PatternCreatorService {
     public String create(String json, Pattern pattern) {
         if (patternValidatorService.isValid(pattern.getName())) {
             build(json, pattern);
+            log.info("create: ok");
             return "ok";
         }
+
+        log.info("failed: ok");
 
         return "failed";
     }
@@ -50,7 +53,7 @@ public class PatternCreatorServiceImpl implements PatternCreatorService {
             String tableName = jsonParser.getTableName(json, i);
             String fileName = jsonParser.getFileName(json, i);
             List<DataModel> dataModels = jsonParser.getModels(json, i);
-
+            log.info(dataModels.toString());
             creator.createTable(tableName, dataModels);
             createPatternTable(id, tableName, fileName);
         }

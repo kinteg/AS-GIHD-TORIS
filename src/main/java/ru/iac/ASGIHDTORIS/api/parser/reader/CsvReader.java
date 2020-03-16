@@ -2,6 +2,7 @@ package ru.iac.ASGIHDTORIS.api.parser.reader;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileReader;
@@ -11,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class CsvReader implements ru.iac.ASGIHDTORIS.api.parser.reader.FileReader {
 
     private CSVReader reader;
@@ -29,6 +31,8 @@ public class CsvReader implements ru.iac.ASGIHDTORIS.api.parser.reader.FileReade
                 .stream()
                 .map(Arrays::asList)
                 .collect(Collectors.toList());
+
+        log.info("CsvReader: " + allList);
         firstRecord = allList.get(0);
     }
 

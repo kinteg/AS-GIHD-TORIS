@@ -1,12 +1,15 @@
 package ru.iac.ASGIHDTORIS.api.parser.json;
 
+import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.api.parser.json.reader.Reader;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Slf4j
 public class JsonCreator {
 
     private final long WITHOUT_LIMIT = -1;
@@ -58,12 +61,10 @@ public class JsonCreator {
 
     private JSONArray getWithoutLimit(List<DataModel> models) throws Exception {
         JSONArray array = new JSONArray();
-        String[] nextRecordArray;
-        String nextRecord;
+        List<String> nextRecordArray;
 
-        while ((nextRecord = reader.readLine()) != null) {
-            nextRecordArray = nextRecord.split(">");
-            array.add(getJsonObject(models, nextRecordArray));
+        while ((nextRecordArray = reader.readNext()) != null) {
+            array.add(getJsonObject(models.stream().map(DataModel::getKey).collect(Collectors.toList()), nextRecordArray));
         }
 
         return array;
@@ -71,23 +72,20 @@ public class JsonCreator {
 
     private JSONArray getWithLimit(List<DataModel> models, long limit) throws Exception {
         JSONArray array = new JSONArray();
-        String[] nextRecordArray;
-        String nextRecord;
+        List<String> nextRecordArray;
 
-        for (int j = 0; (nextRecord = reader.readLine()) != null && j < limit; j++) {
-//            log.info(nextRecord);
-            nextRecordArray = nextRecord.split(">");
-            array.add(getJsonObject(models, nextRecordArray));
+        for (int j = 0; (nextRecordArray = reader.readNext()) != null && j < limit; j++) {
+            array.add(getJsonObject(models.stream().map(DataModel::getKey).collect(Collectors.toList()), nextRecordArray));
         }
 
         return array;
     }
 
-    private JSONObject getJsonObject(List<DataModel> models, String[] record) {
+    private JSONObject getJsonObject(List<String> keys, List<String> record) {
         JSONObject jsonObject = new JSONObject();
 
-        for (int i = 0; i < models.size() && i < record.length; i++) {
-            jsonObject.put(models.get(i).getKey().trim(), record[i].trim());
+        for (int i = 0; i < keys.size() && i < record.size(); i++) {
+            jsonObject.put(keys.get(i).trim(), record.get(i).trim());
         }
 
         return jsonObject;

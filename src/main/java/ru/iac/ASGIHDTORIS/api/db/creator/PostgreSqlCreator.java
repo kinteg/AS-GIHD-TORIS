@@ -27,10 +27,13 @@ public class PostgreSqlCreator implements Creator{
 
     @Override
     public boolean createTable(String tableName, List<DataModel> models) {
+        String query = createSql(tableName, models);
         try (Statement stmt = connection.createStatement()) {
-            stmt.execute(createSql(tableName, models));
+            log.error(query);
+            stmt.execute(query);
         } catch (SQLException e) {
             log.error(e.getMessage());
+            log.error(query);
             return false;
         }
 
@@ -51,7 +54,7 @@ public class PostgreSqlCreator implements Creator{
 
         for (int i = 0; i < models.size(); i++) {
             String item = parseDataModel(models.get(i));
-            builder.append(item);
+            builder.append(item.trim());
 
             if (i != models.size() - 1) {
                 builder.append(", ");

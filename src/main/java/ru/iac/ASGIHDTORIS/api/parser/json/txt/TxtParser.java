@@ -2,8 +2,10 @@ package ru.iac.ASGIHDTORIS.api.parser.json.txt;
 
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
+import ru.iac.ASGIHDTORIS.api.parser.json.ColumnCreator;
 import ru.iac.ASGIHDTORIS.api.parser.json.FileParser;
 import ru.iac.ASGIHDTORIS.api.parser.json.JsonCreator;
 import ru.iac.ASGIHDTORIS.api.parser.json.reader.BufferReaderImpl;
@@ -33,7 +35,7 @@ public class TxtParser implements FileParser {
 
     @Override
     public JSONObject getJSON(File file, long limit, List<DataModel> models) throws Exception {
-        return getJSON(file, limit, models, "default");
+        return getJSON(file, limit, models, FilenameUtils.getBaseName(file.getAbsolutePath()));
     }
 
     @Override
@@ -54,11 +56,16 @@ public class TxtParser implements FileParser {
     }
 
     private List<DataModel> getNamesColumn(Reader reader) throws Exception {
-        //#TODO решить костыль
         String allNames = reader.readLine();
-        int columns = StringUtils.countMatches(allNames, '>') + 1;
+        List<String> nameColumns = fixList(allNames);
 
+        return ColumnCreator.createColumns(nameColumns);
+    }
+
+    private List<String> fixList(String allNames) {
         List<String> nameColumns = new ArrayList<>(Arrays.asList(allNames.split(">")));
+
+        int columns = StringUtils.countMatches(allNames, '>') + 1;
 
         if (nameColumns.size() < columns) {
             for (int i = nameColumns.size(); i < columns; i++) {
@@ -66,23 +73,11 @@ public class TxtParser implements FileParser {
             }
         }
 
-        List<DataModel> models = new ArrayList<>();
-
-        for (String column :
-                nameColumns) {
-
-            DataModel model = new DataModel(column);
-            models.add(model);
-        }
-
-        return models;
+        return nameColumns;
     }
 
     private Reader createReader(File file) throws Exception {
         return new BufferReaderImpl(Files.newBufferedReader(Paths.get(file.getName()), Charset.forName("windows-1251")));
-
     }
-
-
 
 }

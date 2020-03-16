@@ -17,6 +17,10 @@ public class DataModel {
         this(key, type, false);
     }
 
+    public DataModel(String key, boolean primary) {
+        this(key, "TEXT", primary);
+    }
+
     public DataModel(String key, String type, boolean primary) {
         this.key = key;
         this.type = type;

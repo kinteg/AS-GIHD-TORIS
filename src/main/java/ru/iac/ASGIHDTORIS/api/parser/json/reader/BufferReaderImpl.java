@@ -2,6 +2,8 @@ package ru.iac.ASGIHDTORIS.api.parser.json.reader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class BufferReaderImpl implements Reader {
 
@@ -23,8 +25,8 @@ public class BufferReaderImpl implements Reader {
     }
 
     @Override
-    public String[] readNext() throws IOException {
-        return readLine().split(spliterator);
+    public List<String> readNext() throws IOException {
+        return Arrays.asList(readLine().split(spliterator));
     }
 
     @Override

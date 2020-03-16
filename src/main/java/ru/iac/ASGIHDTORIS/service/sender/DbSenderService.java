@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.api.db.exporter.column.ColumnExporter;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
+import ru.iac.ASGIHDTORIS.api.db.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.api.db.sender.DataSender;
 import ru.iac.ASGIHDTORIS.api.factory.archive.ArchiveFactory;
 import ru.iac.ASGIHDTORIS.api.parser.archive.ArchiveParser;
@@ -13,7 +14,10 @@ import ru.iac.ASGIHDTORIS.service.validator.DbValidService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -30,34 +34,51 @@ public class DbSenderService implements DbService {
     }
 
     @Override
-    public String sendData(MultipartFile multipartFile, String nameFile, String nameTable, long sourceId) throws IOException {
+    public String sendData(MultipartFile multipartFile, List<TableModel> tableInfo, long sourceId) throws IOException {
         return dbValidService.isValid(multipartFile, sourceId) &&
-                send(multipartFile, nameFile, nameTable) ? "ok" : "error";
+                send(multipartFile, tableInfo) ? "ok" : "error";
     }
 
-    private boolean send(MultipartFile multipartFile, String nameFile, String nameTable) throws IOException {
+    private boolean send(MultipartFile multipartFile, List<TableModel> tableInfo) throws IOException {
+        boolean result = false;
 
-        File file = parseFile(multipartFile, nameFile);
-        log.info("fg");
-        List<DataModel> models = columnExporter.exportDataModel(nameTable);
-        log.info(models.toString());
-        boolean result = dataSender.send(file, models, nameTable);
-        file.delete();
+        List<File> files = parseFile(multipartFile);
+        log.info(files.size() + "");
+
+        for (TableModel tableModel : tableInfo) {
+            String tableName = tableModel.getTableName();
+            File file = getFile(files, tableModel.getFilename());
+
+            List<DataModel> models = columnExporter.exportDataModel(tableName);
+            log.info(models.size() + " send");
+            result = dataSender.send(file, models, tableName);
+            file.delete();
+        }
 
         return result;
     }
 
+    private File getFile(List<File> files, String fileName) {
+        int i = files.stream().map(File::getName).collect(Collectors.toList()).indexOf(fileName);
 
-    private File parseFile(MultipartFile multipartFile, String nameFile) throws IOException {
+        return files.get(i);
+    }
+
+
+    private List<File> parseFile(MultipartFile multipartFile) throws IOException {
         File file = FileConverter.multipartIntoFile(multipartFile);
         file.deleteOnExit();
 
+        List<File> files;
+
         if (ArchiveFactory.isArchive(file.getName())) {
             ArchiveParser parser = ArchiveFactory.getParser(file.getName());
-            file = parser.findByFileName(file, nameFile);
+            files = parser.getFiles(file);
+        } else {
+            files = Collections.singletonList(file);
         }
 
-        return file;
+        return files;
     }
 
 }

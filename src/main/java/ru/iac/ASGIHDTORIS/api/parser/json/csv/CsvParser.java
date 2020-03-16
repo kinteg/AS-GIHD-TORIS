@@ -5,11 +5,15 @@ import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import org.apache.commons.io.FilenameUtils;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
+import ru.iac.ASGIHDTORIS.api.parser.json.ColumnCreator;
 import ru.iac.ASGIHDTORIS.api.parser.json.FileParser;
 import ru.iac.ASGIHDTORIS.api.parser.json.JsonCreator;
 import ru.iac.ASGIHDTORIS.api.parser.json.reader.CsvReaderImpl;
 import ru.iac.ASGIHDTORIS.api.parser.json.reader.Reader;
+import ru.iac.ASGIHDTORIS.api.parser.json.validator.ColumnValidator;
+import ru.iac.ASGIHDTORIS.api.parser.json.validator.Validator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,7 +38,7 @@ public class CsvParser implements FileParser {
 
     @Override
     public JSONObject getJSON(File file, long limit, List<DataModel> models) throws Exception {
-        return getJSON(file, limit, models, "default");
+        return getJSON(file, limit, models, FilenameUtils.getBaseName(file.getAbsolutePath()));
     }
 
     @Override
@@ -59,17 +63,10 @@ public class CsvParser implements FileParser {
     }
 
     private List<DataModel> getNamesColumn(Reader reader) throws Exception {
-        String[] nameColumn = reader.readNext();
-        List<DataModel> models = new ArrayList<>();
+        List<String> nameColumns = reader.readNext();
+        log.info(nameColumns.toString());
 
-        for (String column :
-                nameColumn) {
-
-            DataModel model = new DataModel(column);
-            models.add(model);
-        }
-
-        return models;
+        return ColumnCreator.createColumns(nameColumns);
     }
 
 }

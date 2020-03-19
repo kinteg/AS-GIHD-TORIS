@@ -1,27 +1,23 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Cookies from 'js-cookie'
-import router from "../router/router";
+import router from "../router/router.js";
+import VueRouter from "vue-router";
+import routes from "../router/routes";
 Vue.use(Vuex);
-
 export default new Vuex.Store({
     state: {
-        count: 0
+        sidebarMenu: {
+            opened: !+Cookies.get('sidebarStatus'),
+            withoutAnimation: false
+        },
+        routes: routes
     },
 
-    sidebar: {
-        opened: !+Cookies.get('sidebarStatus'),
-        withoutAnimation: false
-    },
+
     getters: {
-        SIDEBAR: (state) => state.sidebar.opened,
-        ROUTER: (state)=> router.routes
+        sidebar: state => state.sidebarMenu,
+        permission_routers: state => state.routes
     },
 
-
-    mutations: {
-        increment (state) {
-            state.count++
-        }
-    }
 })

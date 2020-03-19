@@ -54,7 +54,7 @@
 
 <script>
 import path from 'path'
-import './utils'
+// import  './utils'
 import Item from './Item.vue'
 import AppLink from './Link.vue'
 import FixiOSBug from './FixiOSBug'
@@ -84,6 +84,9 @@ export default {
     }
   },
   methods: {
+    isExternal (path) {
+      return /^(https?:|mailto:|tel:)/.test(path)
+    },
     hasOneShowingChild (children, parent) {
       const showingChildren = children.filter(item => {
         if (item.hidden) {
@@ -115,7 +118,7 @@ export default {
       return path.resolve(this.basePath, routePath)
     },
     isExternalLink (routePath) {
-      return isExternal(routePath)
+      return this.isExternal(routePath)
     }
   }
 }

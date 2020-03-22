@@ -1,15 +1,11 @@
 package ru.iac.ASGIHDTORIS.controller;
 
-import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.service.parser.file.ParserService;
-
-import java.io.IOException;
-import java.sql.SQLException;
 
 @RestController
 @RequestMapping("api/")

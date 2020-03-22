@@ -147,6 +147,8 @@
                 let allKeys = [];
                 let JsonStr;
                 let files = [];
+                let tableNames = [];
+                let table = [];
                 for (let i = 0; i < this.data.length; i++) {
 
                     tables.push(this.data[i].nameTable);
@@ -160,6 +162,9 @@
                 for (let i = 0; i < tables.length; i++) {
                     let keys = allKeys[i];
                     let nameTable = document.getElementById(tables[i]).value;
+                    tableNames.push(document.getElementById(tables[i]).value);
+                    let sss = {"filename": files[i], "tableName": document.getElementById(tables[i]).value};
+                    table.push(sss);
                     JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
                     for (let j = 0; j < keys.length; j++) {
                         JsonStr = this.getElement(keys[j], tables[i], JsonStr);
@@ -172,10 +177,13 @@
                     this.arrJson.push(JsonStr);
                     JsonStr = '';
                 }
+                let sss = {"filename": files[0], "tableName": document.getElementById(tables[0]).value};
 
                 let formData = new FormData();
-                formData.append('file', this.file);
-                formData.append('json', this.arrJson);
+                // formData.append('filename', files);
+                // formData.append('tableName', tableNames);
+                // formData.append('json', this.arrJson);
+                formData.append('tableModel', sss);
                 formData.append('name', this.ruleForm.name);
                 formData.append('description', this.ruleForm.description);
                 formData.append('direction', this.ruleForm.direction);

@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.api.db.exporter.data;
 
+import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import ru.iac.ASGIHDTORIS.api.db.model.data.DataModel;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+@Slf4j
 public class PostgreSqlDataExporter implements DataExporter {
 
     private final String SQL_SELECT =
@@ -114,6 +116,8 @@ public class PostgreSqlDataExporter implements DataExporter {
                 models) {
             row.put(model.getKey(), resultSet.getString(model.getKey()));
         }
+
+        log.error("createRow: " + row.toJSONString());
 
         return row;
     }

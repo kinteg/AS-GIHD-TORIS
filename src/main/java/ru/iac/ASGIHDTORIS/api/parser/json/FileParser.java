@@ -10,10 +10,6 @@ import java.util.List;
 
 public interface FileParser {
 
-    long CUSTOM_LIMIT = 20;
-
-    JSONObject getJSON(File file) throws Exception;
-
     JSONObject getJSON(File file, long limit) throws Exception;
 
     JSONObject getJSON(File file, long limit, List<DataModel> models) throws Exception;

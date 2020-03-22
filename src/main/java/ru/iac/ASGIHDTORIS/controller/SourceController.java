@@ -52,6 +52,7 @@ public class SourceController {
 
     @GetMapping("{name}")
     public Source findByName(@PathVariable String name) {
+        log.info(sourceRepo.findByName(name).toString());
         return sourceRepo.findByName(name);
     }
 }

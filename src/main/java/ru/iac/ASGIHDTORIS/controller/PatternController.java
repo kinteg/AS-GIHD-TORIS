@@ -3,6 +3,7 @@ package ru.iac.ASGIHDTORIS.controller;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
+import ru.iac.ASGIHDTORIS.api.db.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.domain.Pattern;
 import ru.iac.ASGIHDTORIS.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.service.pattern.PatternCreatorService;
@@ -25,14 +26,20 @@ public class PatternController {
     @PostMapping("/create")
     @ResponseBody
     public String createPattern(
-            @RequestParam List<String> json,
+//            @RequestParam List<String> json,
+            @RequestBody TableModel tableModel,
             @ModelAttribute Pattern pattern
-            ) {
-        return patternCreatorService.create(json.toString(), pattern);
+    ) {
+
+        log.info(tableModel.toString());
+        return null;
+//        return patternCreatorService.create(json.toString(), pattern);
     }
 
+
     @GetMapping("{id}")
-    public List<Pattern> getPattern(@PathVariable Long id){
+    public List<Pattern> getPattern(@PathVariable Long id) {
         return patternRepo.findBySourceIdOrderByDateCreationDesc(id);
     }
+
 }

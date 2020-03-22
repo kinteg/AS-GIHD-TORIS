@@ -24,11 +24,6 @@ import java.util.List;
 public class TxtParser implements FileParser {
 
     @Override
-    public JSONObject getJSON(File file) throws Exception {
-        return getJSON(file, CUSTOM_LIMIT);
-    }
-
-    @Override
     public JSONObject getJSON(File file, long limit) throws Exception {
         return getJSON(file, limit, Collections.emptyList());
     }

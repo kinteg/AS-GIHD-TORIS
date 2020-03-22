@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.api.parser.json.csv;
+package ru.iac.ASGIHDTORIS.api.parser.json.xlsx;
 
 import com.opencsv.CSVReader;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Slf4j
-public class CsvParser implements FileParser {
+public class XlsxParser implements FileParser {
 
     @Override
     public JSONObject getJSON(File file, long limit) throws Exception {
@@ -32,10 +32,10 @@ public class CsvParser implements FileParser {
 
     @Override
     public JSONObject getJSON(File file, long limit, List<DataModel> models, String tableName) throws Exception {
-        return csvReader(file, limit, models, tableName);
+        return xlsxReader(file, limit, models, tableName);
     }
 
-    private JSONObject csvReader(File file, long limit, List<DataModel> models, String tableName) throws Exception {
+    private JSONObject xlsxReader(File file, long limit, List<DataModel> models, String tableName) throws Exception {
         Reader reader = createReader(file);
 
         if (models.isEmpty()) {

@@ -1,6 +1,5 @@
 package ru.iac.ASGIHDTORIS.api.parser;
 
-import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -12,7 +11,6 @@ import ru.iac.ASGIHDTORIS.api.parser.archive.ArchiveParser;
 import ru.iac.ASGIHDTORIS.api.parser.json.FileParser;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,11 +22,6 @@ public class FilesParser implements Parser {
 
     public FilesParser() {
         targetFiles = new TargetFiles();
-    }
-
-    @Override
-    public JSONObject getFromFile(File file, long limit) throws Exception {
-        return getFromFile(file, limit, Collections.emptyList());
     }
 
     @Override

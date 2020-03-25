@@ -103,7 +103,9 @@
                     let tables = [];
                     let allKeys = [];
                     let files = [];
-                    let JsonStr;
+                    let nameFiles = [];
+                    let nameTables = [];
+
 
                     for(let i = 0; i<this.data.length; i++) {
                         tables.push(this.data[i].nameTable);
@@ -112,26 +114,26 @@
 
                     }
                     for(let i = 0; i< tables.length; i++) {
-                        let keys = allKeys[i];
+                        // let keys = allKeys[i];
                         let nameTable = document.getElementById(tables[i]).value;
-                        JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
-                        for(let j = 0; j< keys.length; j++) {
-                            JsonStr = this.getElement(keys[j],tables[i],JsonStr);
-
-                            if(j !== keys.length - 1)
-                                JsonStr = JsonStr.concat(',');
-                        }
-                        JsonStr = JsonStr.concat(']}}');
-
-                        let formData = new FormData();
-
-                        formData.append('file', this.file);
-                        formData.append('json', JsonStr);
-                        formData.append('id', this.sourceId);
-                        console.log(this.sourceId + "qwe");
-                        this.postData(this.controller,formData);
-                        JsonStr = '';
+                        nameTables.push(nameTable);
+                        nameFiles.push(files[i]);
+                        // JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
+                        // for(let j = 0; j< keys.length; j++) {
+                        //     JsonStr = this.getElement(keys[j],tables[i],JsonStr);
+                        //
+                        //     if(j !== keys.length - 1)
+                        //         JsonStr = JsonStr.concat(',');
+                        // }
+                        // JsonStr = JsonStr.concat(']}}');
                     }
+                        let formData = new FormData();
+                        formData.append('file', this.file);
+                        formData.append('tableName', nameTables);
+                        formData.append('filename', nameFiles);
+                        formData.append('id', this.sourceId);
+                        this.postData(this.controller,formData);
+                        // JsonStr = '';
                 } else{
                     alert('Выберите источник');
                 }

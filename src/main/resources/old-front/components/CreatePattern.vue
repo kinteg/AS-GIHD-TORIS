@@ -108,20 +108,12 @@
                 this.file = this.$refs.file.files[0];
             },
 
-            getKeys(table) {
-                let keys = [];
-                for (let k in table) {
-                    keys.push(k);
-                }
-                return keys;
-            },
-
             postData(controller, data) {
                 AXIOS.post(controller,
                     data,
                     {
                         headers: {
-                            'Content-Type': 'multipart/form-data'
+                            'Content-Type': 'application/json'
                         }
                     }
                 ).then(response => {
@@ -142,45 +134,61 @@
                 return JsonStr;
             },
 
+            getKeys(table) {
+                let keys = [];
+                for (let i = 0; i<table.length; i++) {
+                    // console.log(table[i].name);
+                    keys.push(table[i].name);
+                }
+                return keys;
+            },
             submit() {
                 let tables = [];
                 let allKeys = [];
                 let JsonStr;
                 let files = [];
+                let tableNames = [];
+                let table = [];
                 for (let i = 0; i < this.data.length; i++) {
 
                     tables.push(this.data[i].nameTable);
-                    allKeys.push(this.getKeys(this.data[i].table[0]));
+                    // console.log(this.data[i].columnTable);
+                    // allKeys.push(this.getKeys(this.data[i].table[0]));
+                    allKeys.push(this.getKeys(this.data[i].columnTable));
                     files.push(this.data[i].nameFile);
                 }
 
 
-                for (let i = 0; i < tables.length; i++) {
-                    let keys = allKeys[i];
-                    let nameTable = document.getElementById(tables[i]).value;
-                    JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
-                    for (let j = 0; j < keys.length; j++) {
-                        JsonStr = this.getElement(keys[j], tables[i], JsonStr);
-
-                        if (j !== keys.length - 1)
-                            JsonStr = JsonStr.concat(',');
-                    }
-                    JsonStr = JsonStr.concat(']}}');
-                    this.arrJson.push(JsonStr);
-                    JsonStr = '';
-                }
-
-                console.log(this.ruleForm.management);
-                console.log(this.ruleForm.direction);
+                // for (let i = 0; i < tables.length; i++) {
+                //     let keys = allKeys[i];
+                //     let nameTable = document.getElementById(tables[i]).value;
+                //     tableNames.push(document.getElementById(tables[i]).value);
+                //     let sss = {"filename": files[i], "tableName": document.getElementById(tables[i]).value};
+                //     table.push(sss);
+                //     JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
+                //     for (let j = 0; j < keys.length; j++) {
+                //         JsonStr = this.getElement(keys[j], tables[i], JsonStr);
+                //
+                //         if (j !== keys.length - 1)
+                //             JsonStr = JsonStr.concat(',');
+                //     }
+                //     JsonStr = JsonStr.concat(']}}');
+                //     console.log(JsonStr);
+                //     this.arrJson.push(JsonStr);
+                //     JsonStr = '';
+                // }
+                // let sss = {"filename": files[0], "tableName": document.getElementById(tables[0]).value};
+                let fff = ["fggdg", "fdgdr", "vcbc", "dsfse"];
                 let formData = new FormData();
-                //TODO отправить id источника и количество файлов. Добавить поле name
-                formData.append('file', this.file);
-                formData.append('json', this.arrJson);
-                formData.append('name', this.ruleForm.name);
-                formData.append('description', this.ruleForm.description);
-                formData.append('direction', this.ruleForm.direction);
-                formData.append('management', this.ruleForm.management);
-                formData.append('sourceId', this.sourceId);
+                // formData.append('filename', files);
+                // formData.append('tableName', tableNames);
+                // // formData.append('json', this.arrJson);
+                formData.append('fff', fff);
+                // formData.append('name', this.ruleForm.name);
+                // formData.append('description', this.ruleForm.description);
+                // formData.append('direction', this.ruleForm.direction);
+                // formData.append('management', this.ruleForm.management);
+                // formData.append('sourceId', this.sourceId);
                 this.postData('pattern/create', formData);
             }
         }

@@ -44,7 +44,7 @@
                 AXIOS.get('/source/'+ sourceName,
                 ).then(response=>{
                     this.data = response.data;
-                    this.getPattern(this.data.id)
+                    this.getPattern(this.data.id);
                 }).catch(error=>{
                     console.log("ERROR"+error);
                 });

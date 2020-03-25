@@ -8,9 +8,9 @@
                     </label>
                 </el-form-item>
                 <el-form-item style="margin-right: 200px;">
-<!--                    <el-input :disabled="disabled" :id="key.name+currencyTable.nameTable" v-model="key.name" type="text"-->
-<!--                              autocomplete="off"/>-->
-                    <input type="text"  class="inputText" :id="key.name+currencyTable.nameTable" :value="key.name"/>
+                    <el-input :disabled="disabled" :id="key.name+currencyTable.nameTable" v-model="key.name" type="text"
+                              autocomplete="off"/>
+<!--                    <input type="text"  class="inputText" :id="key.name+currencyTable.nameTable" :value="key.name"/>-->
                 </el-form-item>
                 <el-form-item>
                     <el-autocomplete :disabled="disabled"
@@ -44,7 +44,9 @@
         name: "CollapseForm",
         props: ['currencyTable','disabled'],
         data(){
-            return {}
+            return {
+                num:0
+            }
         },
         methods:{
             // getKeys(table){

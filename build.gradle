@@ -12,7 +12,7 @@ sourceCompatibility = '1.8'
 //task buildFront(type: YarnTask) {
 //	args = ['build']
 //}
-//
+
 //yarn_install.dependsOn(yarn_cache_clean)
 //buildFront.dependsOn(yarn_install)
 //processResources.dependsOn(buildFront)
@@ -39,6 +39,10 @@ repositories {
 	mavenCentral()
 }
 
+node {
+	download = true
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -48,6 +52,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation group: 'org.flywaydb', name: 'flyway-core', version: '6.2.4'
+	compile group: 'org.tukaani', name: 'xz', version: '1.8'
+	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+	compile group: 'org.apache.commons', name: 'commons-compress', version: '1.20'
+	compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
+	compile group: 'com.github.junrar', name: 'junrar', version: '4.0.0'
 	runtime group: 'org.flywaydb', name: 'flyway-gradle-plugin', version: '6.2.4'
 	implementation group: 'com.opencsv', name: 'opencsv', version: '5.1'
 	implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'

@@ -7,7 +7,8 @@ import defaultLang from 'element-ui/lib/locale/lang/ru-RU'
 import VueRouter from 'vue-router'
 import router from "./router/router.js";
 import App from "./pages/App.vue";
-
+import '@babel/polyfill'
+import store from './store/store'
 localeUI.use(defaultLang);
 
 Vue.use(VueRouter);
@@ -17,6 +18,7 @@ Vue.use(Element, { size: 'small', zIndex: 3000 });
 
 new Vue({
     el: '#app',
+    store,
     render: a => a(App),
     router
 });

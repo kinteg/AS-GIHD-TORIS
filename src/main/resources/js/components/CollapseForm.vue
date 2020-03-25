@@ -17,6 +17,7 @@
                                      :id="'select'+key.name+currencyTable.nameTable"
                                      class="inline-input"
                                      v-model="key.type"
+                                     :value="key.type"
                                      :fetch-suggestions="querySearch"
                                      placeholder="Please Input"
                                      @select="handleSelect"

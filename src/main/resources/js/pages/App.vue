@@ -1,5 +1,6 @@
 <template>
     <div>
+        <sidebar-menu/>
         <Header/>
         <el-container>
             <router-view/>
@@ -10,9 +11,10 @@
 <script>
     import Header from "../components/Header.vue";
     import FileLoader from "../components/UploadFile.vue";
+    import SidebarMenu from "../sidebar/index.vue";
     export default {
         name: "App",
-        components: {FileLoader, Header},
+        components: {SidebarMenu, FileLoader, Header},
     }
 </script>
 

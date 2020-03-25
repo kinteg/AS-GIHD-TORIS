@@ -29,7 +29,7 @@ public class PatternController {
     public Pattern createPattern(@RequestBody Pattern pattern) {
         return patternValidator.isValid(pattern)
                 ? patternRepo.save(pattern.toBuilder().dateCreation(LocalDateTime.now()).build())
-                : new Pattern();
+                : new Pattern().toBuilder().name(pattern.getName()).build();
     }
 
     @GetMapping("/{id}")

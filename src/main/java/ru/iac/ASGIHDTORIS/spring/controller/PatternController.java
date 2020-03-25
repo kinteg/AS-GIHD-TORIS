@@ -10,6 +10,8 @@ import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("api/pattern/")
 @Slf4j
@@ -26,7 +28,7 @@ public class PatternController {
     @PostMapping("/create")
     public Pattern createPattern(@RequestBody Pattern pattern) {
         return patternValidator.isValid(pattern)
-                ? patternRepo.save(pattern)
+                ? patternRepo.save(pattern.toBuilder().dateCreation(LocalDateTime.now()).build())
                 : new Pattern();
     }
 

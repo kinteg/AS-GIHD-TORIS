@@ -31,7 +31,7 @@
     import UploadFile from "./UploadFile.vue";
     import CollapseShow from "./CollapseShow.vue";
     import SearchSource from "./SearchSource.vue";
-    import {AXIOS} from "../AXIOS/http-common";
+    import {AXIOS} from "../../js/AXIOS/http-common";
 
     export default {
         name: "CreatePattern",

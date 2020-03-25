@@ -19,5 +19,19 @@ export default new Vuex.Store({
         sidebar: state => state.sidebarMenu,
         permission_routers: state => state.routes
     },
+    mutations: {
+        setCollapse: state => {
+            if (state.sidebarMenu.opened) {
+                Cookies.set('sidebarStatus', 1)
+            } else {
+                Cookies.set('sidebarStatus', 0)
+            }
+            state.sidebarMenu.opened = !state.sidebarMenu.opened;
+            state.sidebarMenu.withoutAnimation = false
+        }
+    },
+    actions: {
+
+    }
 
 })

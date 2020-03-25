@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import CreatePattern from "../components/CreatePattern.vue";
+    import CreatePattern from "../CreatePattern.vue";
     export default {
         name: "CreatePatternPage",
         components: {CreatePattern}

@@ -26,12 +26,12 @@ public class PatternController {
     @PostMapping("/create")
     @ResponseBody
     public String createPattern(
-//            @RequestParam List<String> json,
             @RequestBody TableModel tableModel,
+            @RequestParam List<String> names,
+            @RequestParam List<String> types,
+            @RequestParam List<String> primaries,
             @ModelAttribute Pattern pattern
     ) {
-
-        log.info(tableModel.toString());
         return null;
 //        return patternCreatorService.create(json.toString(), pattern);
     }

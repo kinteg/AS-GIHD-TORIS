@@ -113,7 +113,7 @@
                     data,
                     {
                         headers: {
-                            'Content-Type': 'multipart/form-data'
+                            'Content-Type': 'application/json'
                         }
                     }
                 ).then(response => {
@@ -159,36 +159,36 @@
                 }
 
 
-                for (let i = 0; i < tables.length; i++) {
-                    let keys = allKeys[i];
-                    let nameTable = document.getElementById(tables[i]).value;
-                    tableNames.push(document.getElementById(tables[i]).value);
-                    let sss = {"filename": files[i], "tableName": document.getElementById(tables[i]).value};
-                    table.push(sss);
-                    JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
-                    for (let j = 0; j < keys.length; j++) {
-                        JsonStr = this.getElement(keys[j], tables[i], JsonStr);
-
-                        if (j !== keys.length - 1)
-                            JsonStr = JsonStr.concat(',');
-                    }
-                    JsonStr = JsonStr.concat(']}}');
-                    console.log(JsonStr);
-                    this.arrJson.push(JsonStr);
-                    JsonStr = '';
-                }
-                let sss = {"filename": files[0], "tableName": document.getElementById(tables[0]).value};
-
+                // for (let i = 0; i < tables.length; i++) {
+                //     let keys = allKeys[i];
+                //     let nameTable = document.getElementById(tables[i]).value;
+                //     tableNames.push(document.getElementById(tables[i]).value);
+                //     let sss = {"filename": files[i], "tableName": document.getElementById(tables[i]).value};
+                //     table.push(sss);
+                //     JsonStr = '{"content":{"nameFile":"' + files[i] + '","nameTable":"' + nameTable + '","columnTable":[';
+                //     for (let j = 0; j < keys.length; j++) {
+                //         JsonStr = this.getElement(keys[j], tables[i], JsonStr);
+                //
+                //         if (j !== keys.length - 1)
+                //             JsonStr = JsonStr.concat(',');
+                //     }
+                //     JsonStr = JsonStr.concat(']}}');
+                //     console.log(JsonStr);
+                //     this.arrJson.push(JsonStr);
+                //     JsonStr = '';
+                // }
+                // let sss = {"filename": files[0], "tableName": document.getElementById(tables[0]).value};
+                let fff = ["fggdg", "fdgdr", "vcbc", "dsfse"];
                 let formData = new FormData();
                 // formData.append('filename', files);
                 // formData.append('tableName', tableNames);
-                // formData.append('json', this.arrJson);
-                formData.append('tableModel', sss);
-                formData.append('name', this.ruleForm.name);
-                formData.append('description', this.ruleForm.description);
-                formData.append('direction', this.ruleForm.direction);
-                formData.append('management', this.ruleForm.management);
-                formData.append('sourceId', this.sourceId);
+                // // formData.append('json', this.arrJson);
+                formData.append('fff', fff);
+                // formData.append('name', this.ruleForm.name);
+                // formData.append('description', this.ruleForm.description);
+                // formData.append('direction', this.ruleForm.direction);
+                // formData.append('management', this.ruleForm.management);
+                // formData.append('sourceId', this.sourceId);
                 this.postData('pattern/create', formData);
             }
         }

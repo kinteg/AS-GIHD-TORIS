@@ -1,7 +1,7 @@
 <template>
     <div style="background-color: #f1f1f1" >
         <section class="el-container" >
-            <aside id="sidebar" class="el-aside" style="background-color: #304156; width: 220px; height: 100vh;"><sidebar-menu/></aside>
+            <aside id="sidebar" class="el-aside" style="background-color: #304156; width: 220px; height: 150vh;"><sidebar-menu/></aside>
             <section  class="el-container is-vertical">
                 <div>
                     <el-header style="padding: 0px;">

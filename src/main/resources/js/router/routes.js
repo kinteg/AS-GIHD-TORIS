@@ -11,6 +11,7 @@ const routes = [
         name: 'source',
         meta: {
             title: 'Источники',
+            icon:'file',
         },
         children:[
             {

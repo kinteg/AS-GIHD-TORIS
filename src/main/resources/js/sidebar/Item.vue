@@ -20,11 +20,11 @@ export default {
     if (icon) {
         console.log(icon);
       // vnodes.push("<svg-icon icon-class={icon}/>")
-        vnodes.push(1);
+        vnodes.push(icon);
     }
 
     if (title) {
-      // vnodes.push('<span slot="title">{title}</span>')
+      vnodes.push('<span slot="title">{title}</span>')
       vnodes.push(title)
     }
     return vnodes

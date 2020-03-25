@@ -39,6 +39,7 @@ public class SourceController {
         return sourceRepo.findById((long)id);
     }
 
+    //возвращает лист + текущая стр и кол-во эл-тов(10)
     @GetMapping("/getAll")
     public Page<Source> getAll(@PageableDefault Pageable pageable){
         return sourceRepo.findAll(pageable);

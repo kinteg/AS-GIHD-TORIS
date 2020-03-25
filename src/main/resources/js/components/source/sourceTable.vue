@@ -12,7 +12,7 @@
                     <th>#</th>
                 </tr>
                 <tr>
-                    <td><a href="sourceUpdate">up</a>
+                    <td><a href="sourceUpdate"><img src="../../icon/delete.svg" alt=""></a>
                         <br>
                         <button>del</button></td>
                     <td><el-input placeholder="Please input" v-model="pole1"></el-input></td>

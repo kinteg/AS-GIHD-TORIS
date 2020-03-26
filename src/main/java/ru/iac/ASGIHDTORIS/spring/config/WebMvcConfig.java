@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebMVCConfig implements WebMvcConfigurer {
+public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> webServerCustomizer () {
         return container -> {

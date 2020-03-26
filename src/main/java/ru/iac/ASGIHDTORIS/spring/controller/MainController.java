@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/")
-public class MainMainController {
+public class MainController {
 
     @Value("${spring.profiles.active:prod}")
     private String profile;

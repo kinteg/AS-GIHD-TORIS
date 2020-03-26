@@ -27,8 +27,10 @@ public class SourceController {
     }
 
     @PostMapping("/create")
-    public Source createSource (@RequestBody Source source){
-
+    @ResponseBody
+    public Source createSource (@ModelAttribute Source source){
+        log.info(validator.isValid(source) + "");
+        log.info(source.toString());
         return validator.isValid(source)
                 ? sourceRepo.save(source)
                 : new Source();

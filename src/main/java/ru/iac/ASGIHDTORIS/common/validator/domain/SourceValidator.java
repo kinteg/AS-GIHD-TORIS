@@ -24,51 +24,51 @@ public class SourceValidator implements Validator<Source> {
     }
 
     private boolean isValidName(String name) {
-        return name != null && name.equals("");
+        return name != null && !name.equals("");
     }
 
     private boolean isValidLongName(String longName) {
-        return longName != null && longName.equals("");
+        return longName != null && !longName.equals("");
     }
 
     private boolean isValidShortName(String shortName) {
-        return shortName != null && shortName.equals("");
+        return shortName != null && !shortName.equals("");
     }
 
     private boolean isValidDescription(String description) {
-        return description != null && description.equals("");
+        return description != null && !description.equals("");
     }
 
     private boolean isValidAddDescription(String addDescription) {
-        return addDescription != null && addDescription.equals("");
+        return addDescription != null && !addDescription.equals("");
     }
 
     private boolean isValidScope(String scope) {
-        return scope != null && scope.equals("");
+        return scope != null && !scope.equals("");
     }
 
     private boolean isValidPeriodicity(String periodicity) {
-        return periodicity != null && periodicity.equals("");
+        return periodicity != null && !periodicity.equals("");
     }
 
     private boolean isValidRenewalPeriod(String renewalPeriod) {
-        return renewalPeriod != null && renewalPeriod.equals("");
+        return renewalPeriod != null && !renewalPeriod.equals("");
     }
 
     private boolean isValidType(String type) {
-        return type != null && type.equals("");
+        return type != null && !type.equals("");
     }
 
     private boolean isValidTags(String tags) {
-        return tags != null && tags.equals("");
+        return tags != null && !tags.equals("");
     }
 
     private boolean isValidProviderLink(String providerLink) {
-        return providerLink != null && providerLink.equals("");
+        return providerLink != null && !providerLink.equals("");
     }
 
     private boolean isValidDataSource(String dataSource) {
-        return dataSource != null && dataSource.equals("");
+        return dataSource != null && !dataSource.equals("");
     }
 
     private boolean isValidIsArchive(Boolean isArchive) {

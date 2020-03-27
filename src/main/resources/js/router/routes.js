@@ -5,6 +5,7 @@ import ShowSource from "../pages/source/ShowSource.vue";
 import UpdateSource from "../pages/source/UpdateSource.vue";
 import VueRouter from "vue-router";
 import CreateSource from "../pages/source/CreateSource.vue";
+import ViewSource from "../pages/source/ViewSource.vue";
 
 const routes = [
     {
@@ -29,6 +30,11 @@ const routes = [
     {
         path:'/source/update/:id',
         component: UpdateSource,
+        name: 'sourceUpdate',
+    },
+    {
+        path:'/source/view/:id',
+        component: ViewSource,
         name: 'sourceUpdate',
     },
     {

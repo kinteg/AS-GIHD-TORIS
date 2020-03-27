@@ -22,9 +22,10 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
 
     @Query(
             value = "SELECT s FROM source s WHERE " +
-                    "s.name LIKE '%?2%'"
+                    "s.name LIKE ?1",
+            nativeQuery = true
     )
-    Page<Source> findAll(
+    Page<Source> findAllSourceWithPaginator(
             Pageable pageable,
             String name
 //            String longName,

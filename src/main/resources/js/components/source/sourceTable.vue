@@ -207,7 +207,9 @@
                 let formData = new FormData();
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage);
-                formData.append("sort","");
+                formData.append("sort","desc");
+                formData.append("key","name");
+                formData.append("name","Test");
 
                 AXIOS.get("source/getAll").then(response => {
                     this.pagination.totalPages = response.data.totalPages;
@@ -220,9 +222,11 @@
             let formData = new FormData();
             formData.append("size",this.pagination.pageSize);
             formData.append("page",this.pagination.currentPage);
-            formData.append("sort","");
+            formData.append("sort","desc");
+            formData.append("key","name");
+            formData.append("name","Test");
 
-            AXIOS.get("source/getAll").then(response => {
+            AXIOS.post("source/getAllSort",formData).then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.sourceData = response.data.content;

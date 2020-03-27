@@ -1,8 +1,20 @@
 create sequence hibernate_sequence start 1 increment 1;
 
-create table source (
+create table if not exists source (
     id int8 not null,
     name varchar(255),
+    long_name varchar(255),
+    short_name varchar(255),
+    description varchar(500),
+    add_description varchar(255),
+    scope varchar(255),
+    periodicity varchar(255),
+    renewal_period varchar(255),
+    type varchar(255),
+    tags varchar (255),
+    provider_link varchar(255),
+    data_source varchar(255),
+    is_arсhive boolean,
     primary key (id),
     unique (name)
 );
@@ -12,15 +24,15 @@ create table if not exists pattern (
     date_creation timestamp,
     description varchar(255),
     direction varchar(255),
-    file_count varchar(255),
+    file_count integer,
     management varchar(255),
+    is_arhive boolean,
     name varchar(255),
     source_id int8 not null,
     primary key (id),
     foreign key (source_id) references source (id)
     on delete cascade
-    on update cascade,
-    unique (name)
+    on update cascade
 );
 
 create table pattern_table (
@@ -33,4 +45,3 @@ create table pattern_table (
     on delete cascade
     on update cascade
 );
-

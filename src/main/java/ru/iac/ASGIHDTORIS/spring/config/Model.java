@@ -2,6 +2,7 @@ package ru.iac.ASGIHDTORIS.spring.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModelCreator;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModelCreatorImpl;
 

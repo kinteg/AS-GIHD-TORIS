@@ -2,6 +2,7 @@ package ru.iac.ASGIHDTORIS.spring.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -10,7 +11,11 @@ import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @RestController
+@EnableAspectJAutoProxy
 @RequestMapping("api/source/")
 @Slf4j
 public class SourceController {
@@ -27,8 +32,12 @@ public class SourceController {
     }
 
     @PostMapping("/create")
-    @ResponseBody
-    public Source createSource (@ModelAttribute Source source){
+    public Source createSource (@RequestBody Source source){
+
+        source.setDateCreation(LocalDateTime.now());
+        source.setDateActivation(LocalDateTime.now());
+        source.setLastUpdate(LocalDateTime.now());
+
         return validator.isValid(source)
                 ? sourceRepo.save(source)
                 : new Source();
@@ -39,7 +48,6 @@ public class SourceController {
         return sourceRepo.findById((long)id);
     }
 
-    //возвращает лист + текущая стр и кол-во эл-тов(10)
     @GetMapping("/getAll")
     public Page<Source> getAll(@PageableDefault Pageable pageable){
         return sourceRepo.findAll(pageable);
@@ -56,45 +64,48 @@ public class SourceController {
     }
 
     @GetMapping("/archive/{id}")
-    public boolean archiveSource(@PathVariable long id){
+    public Source archiveSource(@PathVariable long id){
 
         if (sourceRepo.existsById(id)) {
             Source source = sourceRepo.findById(id);
             source.setIsArchive(true);
+            source.setDateDeactivation(LocalDateTime.now());
 
             sourceRepo.save(source);
 
-            return true;
+            return source;
         }
 
-        return false;
+        return new Source();
     }
 
     @GetMapping("/deArchive/{id}")
-    public boolean deArchiveSource(@PathVariable long id){
+    public Source deArchiveSource(@PathVariable long id){
 
         if (sourceRepo.existsById(id)) {
             Source source = sourceRepo.findById(id);
             source.setIsArchive(false);
+            source.setDateActivation(LocalDateTime.now());
 
             sourceRepo.save(source);
 
-            return true;
+            return source;
         }
 
-        return false;
+        return new Source();
     }
 
     @PostMapping("/update")
-    public boolean update(@RequestBody Source source) {
+    public Source update(@RequestBody Source source) {
 
         if (sourceRepo.existsById(source.getId()) && validator.isValid(source)) {
             sourceRepo.save(source);
+            source.setLastUpdate(LocalDateTime.now());
 
-            return true;
+            return source;
         }
 
-        return false;
+        return new Source();
     }
 
 }

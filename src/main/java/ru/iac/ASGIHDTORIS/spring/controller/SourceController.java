@@ -28,7 +28,6 @@ public class SourceController {
 
     @PostMapping("/create")
     public Source createSource (@RequestBody Source source){
-
         return validator.isValid(source)
                 ? sourceRepo.save(source)
                 : new Source();
@@ -55,7 +54,7 @@ public class SourceController {
     }
 
     @GetMapping("/archive/{id}")
-    public boolean archiveSource(@PathVariable long id){
+    public Source archiveSource(@PathVariable long id){
 
         if (sourceRepo.existsById(id)) {
             Source source = sourceRepo.findById(id);
@@ -63,14 +62,14 @@ public class SourceController {
 
             sourceRepo.save(source);
 
-            return true;
+            return source;
         }
 
-        return false;
+        return new Source();
     }
 
     @GetMapping("/deArchive/{id}")
-    public boolean deArchiveSource(@PathVariable long id){
+    public Source deArchiveSource(@PathVariable long id){
 
         if (sourceRepo.existsById(id)) {
             Source source = sourceRepo.findById(id);
@@ -78,22 +77,22 @@ public class SourceController {
 
             sourceRepo.save(source);
 
-            return true;
+            return source;
         }
 
-        return false;
+        return new Source();
     }
 
     @PostMapping("/update")
-    public boolean update(@RequestBody Source source) {
+    public Source update(@RequestBody Source source) {
 
         if (sourceRepo.existsById(source.getId()) && validator.isValid(source)) {
             sourceRepo.save(source);
 
-            return true;
+            return source;
         }
 
-        return false;
+        return new Source();
     }
 
 }

@@ -3,41 +3,41 @@
         <p style="font-size: 20px">Добавление источника</p>
         <hr>
         <div>
-            <el-form :label-position="labelPosition" label-width="100px" :model="source">
-                <el-form-item label="Name">
+            <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                <el-form-item prop="name" label="Поставщик данных">
                     <el-input v-model="source.name"></el-input>
                 </el-form-item>
-                <el-form-item label="longName">
+                <el-form-item prop="longName" label="Полное наименование набора">
                     <el-input v-model="source.longName"></el-input>
                 </el-form-item>
-                <el-form-item label="shortName">
+                <el-form-item prop="shortName" label="Краткое наименование набора ">
                     <el-input v-model="source.shortName"></el-input>
                 </el-form-item>
-                <el-form-item label="description">
+                <el-form-item prop="description" label="Описание ">
                     <el-input v-model="source.description"></el-input>
                 </el-form-item>
-                <el-form-item label="addDescription">
+                <el-form-item prop="addDescription" label="Дополнительное описание">
                     <el-input v-model="source.addDescription"></el-input>
                 </el-form-item>
-                <el-form-item label="scope">
+                <el-form-item prop="scope" label="Сфера (направление)">
                     <el-input v-model="source.scope"></el-input>
                 </el-form-item>
-                <el-form-item label="periodicity">
+                <el-form-item prop="periodicity" label="Периодичность актуализации">
                     <el-input v-model="source.periodicity"></el-input>
                 </el-form-item>
-                <el-form-item label="renewalPeriod">
+                <el-form-item prop="renewalPeriod" label="Срок обновления набора данных">
                     <el-input v-model="source.renewalPeriod"></el-input>
                 </el-form-item>
-                <el-form-item label="type">
+                <el-form-item prop="type" label="Вид набора">
                     <el-input v-model="source.type"></el-input>
                 </el-form-item>
-                <el-form-item label="tags">
+                <el-form-item prop="tags" label="Ключевые слова (теги)">
                     <el-input v-model="source.tags"></el-input>
                 </el-form-item>
-                <el-form-item label="providerLink ">
+                <el-form-item prop="providerLink" label="Информационная система - источник данных ">
                     <el-input v-model="source.providerLink"></el-input>
                 </el-form-item>
-                <el-form-item label="dataSource">
+                <el-form-item prop="dataSource" label="Ссылка на данные на сайте поставщика">
                     <el-input v-model="source.dataSource"></el-input>
                 </el-form-item>
 
@@ -66,8 +66,47 @@
                     periodicity:"",
                     renewalPeriod:"",
                     type:"",
+                    tags: "",
                     providerLink:"",
                     dataSource:"",
+                },
+                rules: {
+                    name: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    longName: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    shortName: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    description: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    addDescription: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    scope: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    periodicity: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    renewalPeriod: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    type: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    tags: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    providerLink: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    dataSource: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
                 }
             }
         },
@@ -87,7 +126,6 @@
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
                 formData.append("isArchive",false);
-                console.log(this.source);
                 AXIOS.post("/source/create",
                     formData,
                     {
@@ -95,8 +133,32 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }
-                );
-            }
+                ).then(response => {
+                    if(response.data.longName == null){
+                        this.noticeWarning();
+                    } else {
+                        this.noticeSuccess(response.data.name);
+                    }
+                });
+            },
+
+            noticeWarning(){
+                this.$notify({
+                    title: 'Ошибка',
+                    message: 'Ошибка при создании источника.',
+                    type: 'error',
+                    duration: 0
+                });
+            },
+
+            noticeSuccess(name){
+                this.$notify({
+                    title: 'Успешно',
+                    message: 'Источник "' + name + '" успешно создан.',
+                    type: 'success',
+                    duration: 0
+                });
+            },
         }
     }
 </script>

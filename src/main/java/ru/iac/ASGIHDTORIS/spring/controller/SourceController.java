@@ -4,7 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
@@ -13,6 +15,7 @@ import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @EnableAspectJAutoProxy
@@ -52,6 +55,18 @@ public class SourceController {
     @GetMapping("/getAll")
     public Page<Source> getAll(@PageableDefault Pageable pageable){
         return sourceRepo.findAll(pageable);
+    }
+
+    public Page<Source> getAll(@PageableDefault Pageable pageable, @ModelAttribute Source source, @PathVariable String key, @PathVariable String sort) {
+
+        if (sort.equalsIgnoreCase("desc")) {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(key).descending());
+        } else {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(key).ascending());
+        }
+
+        return sourceRepo.findAll(pageable, source.getName());
+
     }
 
     @GetMapping("/getAllArchive")

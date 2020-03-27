@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import ru.iac.ASGIHDTORIS.common.model.source.SourceDataModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
@@ -58,7 +59,7 @@ public class SourceController {
     }
 
     @PostMapping("/getAllSort")
-    public Page<Source> getAll(@PageableDefault Pageable pageable, @RequestParam String key, @RequestParam String sort, @ModelAttribute Source source, @RequestParam LocalDateTime dateCreation2, @RequestParam LocalDateTime dateDeactivation2, @RequestParam LocalDateTime dateActivation2, @RequestParam LocalDateTime lastUpdate2, @RequestParam LocalDateTime dateCreation1, @RequestParam LocalDateTime dateDeactivation1, @RequestParam LocalDateTime dateActivation1, @RequestParam LocalDateTime lastUpdate1) {
+    public Page<Source> getAll(@ModelAttribute Source source, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key) {
         log.info(source.toString());
         if (sort.equalsIgnoreCase("desc")) {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(key).descending());
@@ -79,20 +80,20 @@ public class SourceController {
                 source.getType(),
                 source.getTags(),
                 source.getProviderLink(),
-                source.getDataSource(),
-                source.getDateCreation(),
-                dateCreation1,
-                dateCreation2,
-                source.getDateDeactivation(),
-                dateDeactivation1,
-                dateDeactivation2,
-                source.getDateActivation(),
-                dateActivation1,
-                dateActivation2,
-                source.getLastUpdate(),
-                lastUpdate1,
-                lastUpdate2,
-                source.getIsArchive()
+                source.getDataSource()
+//                source.getDateCreation(),
+//                sourceDataModel.getDateCreation1(),
+//                sourceDataModel.getDateCreation2(),
+//                source.getDateDeactivation(),
+//                sourceDataModel.getDateDeactivation1(),
+//                sourceDataModel.getDateDeactivation2(),
+//                source.getDateActivation(),
+//                sourceDataModel.getDateActivation1(),
+//                sourceDataModel.getDateActivation2(),
+//                source.getLastUpdate(),
+//                sourceDataModel.getLastUpdate1(),
+//                sourceDataModel.getLastUpdate2(),
+//                source.getIsArchive()
         );
 
     }

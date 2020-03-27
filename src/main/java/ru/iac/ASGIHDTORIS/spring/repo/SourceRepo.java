@@ -35,17 +35,38 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
             " AND type LIKE %:type%" +
             " AND tags LIKE %:tags%" +
             " AND provider_link LIKE %:providerLink%" +
-            " AND data_source LIKE %:dataSource%" +
-            " AND is_arсhive LIKE %:isArchive%" +
-            " AND (date_creation > :dateCreation1" +
-            " AND date_creation < :dateCreation2)" +
-            " AND (date_deactivation > :dateDeactivation1" +
-            " AND date_deactivation < :dateDeactivation2)" +
-            " AND (date_activation > :dateActivation1" +
-            " AND date_activation < :dateActivation2)" +
-            " AND (last_update > :lastUpdate1" +
-            " AND last_update < :lastUpdate2)",
-            countQuery = "SELECT count(*) FROM source WHERE name LIKE ?1",
+            " AND data_source LIKE %:dataSource%",
+//            " AND is_arсhive = :isArchive" +
+//            " AND (date_creation > :dateCreation1" +
+//            " AND date_creation < :dateCreation2)" +
+//            " AND (date_deactivation > :dateDeactivation1" +
+//            " AND date_deactivation < :dateDeactivation2)" +
+//            " AND (date_activation > :dateActivation1" +
+//            " AND date_activation < :dateActivation2)" +
+//            " AND (last_update > :lastUpdate1" +
+//            " AND last_update < :lastUpdate2)",
+            countQuery = "SELECT count(*) FROM source" +
+                    " WHERE name LIKE %:name%" +
+                    " AND long_name LIKE %:longName%" +
+                    " AND short_name LIKE %:shortName%" +
+                    " AND description LIKE %:description%" +
+                    " AND add_description LIKE %:addDescription%" +
+                    " AND scope LIKE %:scope%" +
+                    " AND periodicity LIKE %:periodicity%" +
+                    " AND renewal_period LIKE %:renewalPeriod%" +
+                    " AND type LIKE %:type%" +
+                    " AND tags LIKE %:tags%" +
+                    " AND provider_link LIKE %:providerLink%" +
+                    " AND data_source LIKE %:dataSource%",
+//                    " AND is_arсhive = :isArchive" +
+//                    " AND (date_creation > :dateCreation1" +
+//                    " AND date_creation < :dateCreation2)" +
+//                    " AND (date_deactivation > :dateDeactivation1" +
+//                    " AND date_deactivation < :dateDeactivation2)" +
+//                    " AND (date_activation > :dateActivation1" +
+//                    " AND date_activation < :dateActivation2)" +
+//                    " AND (last_update > :lastUpdate1" +
+//                    " AND last_update < :lastUpdate2)",
             nativeQuery = true)
     Page<Source> findAllNative(
             Pageable pageable,
@@ -60,20 +81,20 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
             @Param("type") String type,
             @Param("tags") String tags,
             @Param("providerLink") String providerLink,
-            @Param("dataSource") String dataSource,
-            @Param("dateCreation") LocalDateTime dateCreation,
-            @Param("dateCreation1") LocalDateTime dateCreation1,
-            @Param("dateCreation2") LocalDateTime dateCreation2,
-            @Param("dateDeactivation") LocalDateTime dateDeactivation,
-            @Param("dateDeactivation1") LocalDateTime dateDeactivation1,
-            @Param("dateDeactivation2") LocalDateTime dateDeactivation2,
-            @Param("dateActivation") LocalDateTime dateActivation,
-            @Param("dateActivation1") LocalDateTime dateActivation1,
-            @Param("dateActivation2") LocalDateTime dateActivation2,
-            @Param("lastUpdate") LocalDateTime lastUpdate,
-            @Param("lastUpdate1") LocalDateTime lastUpdate1,
-            @Param("lastUpdate2") LocalDateTime lastUpdate2,
-            @Param("isArchive") Boolean isArchive
+            @Param("dataSource") String dataSource
+//            @Param("dateCreation") LocalDateTime dateCreation,
+//            @Param("dateCreation1") LocalDateTime dateCreation1,
+//            @Param("dateCreation2") LocalDateTime dateCreation2,
+//            @Param("dateDeactivation") LocalDateTime dateDeactivation,
+//            @Param("dateDeactivation1") LocalDateTime dateDeactivation1,
+//            @Param("dateDeactivation2") LocalDateTime dateDeactivation2,
+//            @Param("dateActivation") LocalDateTime dateActivation,
+//            @Param("dateActivation1") LocalDateTime dateActivation1,
+//            @Param("dateActivation2") LocalDateTime dateActivation2,
+//            @Param("lastUpdate") LocalDateTime lastUpdate,
+//            @Param("lastUpdate1") LocalDateTime lastUpdate1,
+//            @Param("lastUpdate2") LocalDateTime lastUpdate2,
+//            @Param("isArchive") Boolean isArchive
     );
 
 }

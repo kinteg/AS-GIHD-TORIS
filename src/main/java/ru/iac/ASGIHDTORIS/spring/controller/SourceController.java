@@ -58,15 +58,42 @@ public class SourceController {
     }
 
     @PostMapping("/getAllSort")
-    public Page<Source> getAll(@PageableDefault Pageable pageable, @RequestParam String key, @RequestParam String sort, @ModelAttribute Source source) {
+    public Page<Source> getAll(@PageableDefault Pageable pageable, @RequestParam String key, @RequestParam String sort, @ModelAttribute Source source, @RequestParam LocalDateTime dateCreation2, @RequestParam LocalDateTime dateDeactivation2, @RequestParam LocalDateTime dateActivation2, @RequestParam LocalDateTime lastUpdate2, @RequestParam LocalDateTime dateCreation1, @RequestParam LocalDateTime dateDeactivation1, @RequestParam LocalDateTime dateActivation1, @RequestParam LocalDateTime lastUpdate1) {
         log.info(source.toString());
         if (sort.equalsIgnoreCase("desc")) {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(key).descending());
         } else {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(key).ascending());
         }
-
-        return sourceRepo.findAllSourceWithPaginator(pageable, source.getName());
+        log.info(sourceRepo.findAll(pageable).toString());
+        return sourceRepo.findAllNative(
+                pageable,
+                source.getName(),
+                source.getLongName(),
+                source.getShortName(),
+                source.getDescription(),
+                source.getAddDescription(),
+                source.getScope(),
+                source.getPeriodicity(),
+                source.getRenewalPeriod(),
+                source.getType(),
+                source.getTags(),
+                source.getProviderLink(),
+                source.getDataSource(),
+                source.getDateCreation(),
+                dateCreation1,
+                dateCreation2,
+                source.getDateDeactivation(),
+                dateDeactivation1,
+                dateDeactivation2,
+                source.getDateActivation(),
+                dateActivation1,
+                dateActivation2,
+                source.getLastUpdate(),
+                lastUpdate1,
+                lastUpdate2,
+                source.getIsArchive()
+        );
 
     }
 

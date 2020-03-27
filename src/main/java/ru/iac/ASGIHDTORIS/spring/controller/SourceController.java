@@ -56,6 +56,7 @@ public class SourceController {
         return sourceRepo.findAll(pageable);
     }
 
+    @GetMapping("/getAllSource")
     public Page<Source> getAll(@PageableDefault Pageable pageable, @ModelAttribute Source source, @PathVariable String key, @PathVariable String sort) {
 
         if (sort.equalsIgnoreCase("desc")) {
@@ -64,7 +65,7 @@ public class SourceController {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(key).ascending());
         }
 
-        return sourceRepo.findAll(pageable, source.getName());
+        return sourceRepo.findAllSourceWithPagination(pageable, source.getName());
 
     }
 

@@ -1,0 +1,211 @@
+<template>
+    <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+        <p style="font-size: 20px">Изменение</p>
+        <hr>
+        <div>
+            <p>{{$route.params.id}}</p>
+            <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                <el-form-item prop="name" label="Поставщик данных">
+                    <el-input v-model="source.name"></el-input>
+                </el-form-item>
+                <el-form-item prop="longName" label="Полное наименование набора">
+                    <el-input v-model="source.longName"></el-input>
+                </el-form-item>
+                <el-form-item prop="shortName" label="Краткое наименование набора ">
+                    <el-input v-model="source.shortName"></el-input>
+                </el-form-item>
+                <el-form-item prop="description" label="Описание ">
+                    <el-input v-model="source.description"></el-input>
+                </el-form-item>
+                <el-form-item prop="addDescription" label="Дополнительное описание">
+                    <el-input v-model="source.addDescription"></el-input>
+                </el-form-item>
+                <el-form-item prop="scope" label="Сфера (направление)">
+                    <el-input v-model="source.scope"></el-input>
+                </el-form-item>
+                <el-form-item prop="periodicity" label="Периодичность актуализации">
+                    <el-input v-model="source.periodicity"></el-input>
+                </el-form-item>
+                <el-form-item prop="renewalPeriod" label="Срок обновления набора данных">
+                    <el-input v-model="source.renewalPeriod"></el-input>
+                </el-form-item>
+                <el-form-item prop="type" label="Вид набора">
+                    <el-input v-model="source.type"></el-input>
+                </el-form-item>
+                <el-form-item prop="tags" label="Ключевые слова (теги)">
+                    <el-input v-model="source.tags"></el-input>
+                </el-form-item>
+                <el-form-item prop="providerLink" label="Информационная система - источник данных ">
+                    <el-input v-model="source.providerLink"></el-input>
+                </el-form-item>
+                <el-form-item prop="dataSource" label="Ссылка на данные на сайте поставщика">
+                    <el-input v-model="source.dataSource"></el-input>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button @click="updateSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Изменить</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+    </div>
+</template>
+
+<script>
+    import {AXIOS} from "../../AXIOS/http-common";
+    import router from "../../router/router";
+    export default {
+        name: "sourceCreate",
+        props:['id'],
+        data() {
+            return {
+                labelPosition:"top",
+                source:{
+                    name:"",
+                    longName:"",
+                    shortName:"",
+                    description:"",
+                    addDescription:"",
+                    scope:"",
+                    periodicity:"",
+                    renewalPeriod:"",
+                    type:"",
+                    tags:"",
+                    providerLink:"",
+                    dataSource:"",
+                },
+                rules: {
+                    name: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    longName: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    shortName: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    description: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    addDescription: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    scope: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    periodicity: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    renewalPeriod: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    type: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    tags: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    providerLink: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    dataSource: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                }
+            }
+        },
+        methods:{
+            createSource() {
+                let formData = new FormData();
+                formData.append("name",this.source.name);
+                formData.append("longName",this.source.longName);
+                formData.append("shortName",this.source.shortName);
+                formData.append("description",this.source.description);
+                formData.append("addDescription",this.source.addDescription);
+                formData.append("scope",this.source.scope);
+                formData.append("periodicity",this.source.periodicity);
+                formData.append("renewalPeriod",this.source.renewalPeriod);
+                formData.append("type",this.source.type);
+                formData.append("tags",this.source.tags);
+                formData.append("providerLink",this.source.providerLink);
+                formData.append("dataSource",this.source.dataSource);
+                formData.append("isArchive",false);
+                AXIOS.post("/source/create",
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then(response => {
+                    if(response.data.longName == null){
+                        this.noticeWarning();
+                    } else {
+                        this.noticeSuccess(response.data.name);
+                    }
+                });
+            },
+
+            noticeWarning() {
+                this.$notify({
+                    title: 'Ошибка',
+                    message: 'Ошибка при изменении источника.',
+                    type: 'error',
+                    duration: 0
+                });
+            },
+
+            noticeSuccess(name) {
+                this.$notify({
+                    title: 'Успешно',
+                    message: 'Источник "' + name + '" успешно изменен.',
+                    type: 'success',
+                    duration: 0
+                });
+            },
+
+            updateSource() {
+                let formData = new FormData();
+                formData.append("id",this.source.id);
+                formData.append("name",this.source.name);
+                formData.append("longName",this.source.longName);
+                formData.append("shortName",this.source.shortName);
+                formData.append("description",this.source.description);
+                formData.append("addDescription",this.source.addDescription);
+                formData.append("scope",this.source.scope);
+                formData.append("periodicity",this.source.periodicity);
+                formData.append("renewalPeriod",this.source.renewalPeriod);
+                formData.append("type",this.source.type);
+                formData.append("tags",this.source.tags);
+                formData.append("providerLink",this.source.providerLink);
+                formData.append("dataSource",this.source.dataSource);
+                formData.append("isArchive",false);
+                AXIOS.post("/source/update",
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then(response => {
+                    if(response.data.longName == null){
+                        this.noticeWarning();
+                    } else {
+                        this.noticeSuccess(response.data.name);
+                    }
+                });
+
+                router.push({name:'show'});
+            },
+        },
+
+        mounted() {
+            AXIOS.get("source/" + this.$route.params.id).then(response => {
+                this.source = response.data;
+            })
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

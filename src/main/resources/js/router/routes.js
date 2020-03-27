@@ -1,51 +1,42 @@
-import FileLoader from "../pages/FileLoader.vue";
-import Pattern from "../pages/CreatePatternPage.vue";
-import Source from "../pages/Source.vue";
+import FileLoader from "../../old-front/components/pages/FileLoader.vue";
+import Pattern from "../../old-front/components/pages/CreatePatternPage.vue";
+import Source from "../../old-front/components/pages/Source.vue";
+import ShowSource from "../pages/source/ShowSource.vue";
+import UpdateSource from "../pages/source/UpdateSource.vue";
+import VueRouter from "vue-router";
+import CreateSource from "../pages/source/CreateSource.vue";
 
 const routes = [
     {
         path:'/source',
-        component: Source,
+        component: ShowSource,
         name: 'source',
         meta: {
-            title: 'Источник',
-            icon: 'form'
+            title: 'Источники',
         },
         children:[
             {
-                path:'source',
-                component: Source,
-                name: 'source',
+                path:'show',
+                component: ShowSource,
+                name: 'show',
                 meta: {
-                    title: 'Источник'
+                    title: 'Все записи'
                 },
-            }
-        ]
+            },
+
+        ],
     },
     {
-        path:'/fileLoader',
-        component: FileLoader,
-        name: 'fileLoader',
-        meta: {
-            title: 'fileLoader'
-        }
+        path:'/source/update/:id',
+        component: UpdateSource,
+        name: 'sourceUpdate',
     },
     {
-        path:'/createPattern',
-        component: Pattern,
-        name: 'createPattern',
-        meta: {
-            title: 'createPattern'
-        }
-    },
-    {
-        path:'*',
-        component: FileLoader,
-        name: 'FileLoader',
-        meta: {
-            title: 'FileLoader'
-        }
-    },
+        path:'/source/create',
+        component: CreateSource,
+        name: 'CreateSource',
+    }
+
 ]
 
 export default routes

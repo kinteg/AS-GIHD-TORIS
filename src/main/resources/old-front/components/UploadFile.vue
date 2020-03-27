@@ -15,7 +15,7 @@
 
 <script>
 
-    import {AXIOS} from "../AXIOS/http-common";
+    import {AXIOS} from "../../js/AXIOS/http-common";
     import CollapseShow from "./CollapseShow.vue";
     import SearchSource from "./SearchSource.vue";
 

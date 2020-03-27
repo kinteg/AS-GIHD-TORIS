@@ -35,7 +35,8 @@ public class SourceController {
     }
 
     @PostMapping("/create")
-    public Source createSource (@RequestBody Source source){
+    @ResponseBody
+    public Source createSource (@ModelAttribute Source source){
 
         source.setDateCreation(LocalDateTime.now());
         source.setDateActivation(LocalDateTime.now());
@@ -56,16 +57,16 @@ public class SourceController {
         return sourceRepo.findAll(pageable);
     }
 
-    @GetMapping("/getAllSource")
-    public Page<Source> getAll(@PageableDefault Pageable pageable, @ModelAttribute Source source, @PathVariable String key, @PathVariable String sort) {
-
+    @PostMapping("/getAllSort")
+    public Page<Source> getAll(@PageableDefault Pageable pageable, @RequestParam String key, @RequestParam String sort, @ModelAttribute Source source) {
+        log.info(source.toString());
         if (sort.equalsIgnoreCase("desc")) {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(key).descending());
         } else {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(key).ascending());
         }
 
-        return sourceRepo.findAllSourceWithPagination(pageable, source.getName());
+        return sourceRepo.findAllSourceWithPaginator(pageable, source.getName());
 
     }
 
@@ -112,6 +113,7 @@ public class SourceController {
     }
 
     @PostMapping("/update")
+    @ResponseBody
     public Source update(@ModelAttribute Source source) {
 
         if (sourceRepo.existsById(source.getId()) && validator.isValid(source)) {

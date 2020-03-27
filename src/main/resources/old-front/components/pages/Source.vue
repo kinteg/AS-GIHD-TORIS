@@ -21,10 +21,10 @@
 </template>
 
 <script>
-    import SearchSource from "../components/SearchSource.vue";
-    import CreateSource from "../components/CreateSource.vue";
-    import {AXIOS} from "../AXIOS/http-common";
-    import ShowSource from "../components/ShowSource.vue";
+    import SearchSource from "../SearchSource.vue";
+    import CreateSource from "../CreateSource.vue";
+    import {AXIOS} from "../../../js/AXIOS/http-common";
+    import ShowSource from "../ShowSource.vue";
     export default {
         name: "Source",
         components: {ShowSource, CreateSource, SearchSource},

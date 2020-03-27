@@ -16,7 +16,7 @@
     </div>
 </template>
 <script>
-    import {AXIOS} from "../AXIOS/http-common";
+    import {AXIOS} from "../../js/AXIOS/http-common";
 
     export default {
         name: "SearchSource",

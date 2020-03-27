@@ -24,7 +24,7 @@ public class PatternController {
         this.patternValidator = patternValidator;
         this.patternRepo = patternRepo;
     }
-
+//если шаблон не создался возвращает пустой шаблон с именем
     @PostMapping("/create")
     public Pattern createPattern(@RequestBody Pattern pattern) {
         pattern.setDateCreation(LocalDateTime.now());

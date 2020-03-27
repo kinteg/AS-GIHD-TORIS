@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import UploadFile from "../components/UploadFile.vue";
+    import UploadFile from "../UploadFile.vue";
     export default {
         name: "FileLoader",
         components: {UploadFile}

@@ -47,7 +47,7 @@
                     <td>
                         <el-button @click="deleteOneSource(source.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
                         <br>
-                        <el-button @click="updateSource" style="background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
+                        <el-button @click="updateSource(source.id)" style="background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
                     </td>
                     <td> <el-checkbox @change="check(source.id)"></el-checkbox></td>
                     <td>{{source.id}}</td>
@@ -179,9 +179,8 @@
             addSource(){
                 router.push('create');
             },
-            updateSource(){
-
-                router.push('update');
+            updateSource(id){
+                router.push('update/' + id);
             },
 
             notify(title,message,type){

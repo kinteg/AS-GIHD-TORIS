@@ -27,7 +27,7 @@ const routes = [
         ],
     },
     {
-        path:'/source/update',
+        path:'/source/update/{id}',
         component: UpdateSource,
         name: 'sourceUpdate',
     },
@@ -36,6 +36,7 @@ const routes = [
         component: CreateSource,
         name: 'CreateSource',
     }
+
 ]
 
 export default routes

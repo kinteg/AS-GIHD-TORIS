@@ -26,7 +26,7 @@
         },
         methods: {
             onCurrentChange(value) {
-                this.$emit("onCurrentChange", value)
+                    this.$emit("onCurrentChange", value)
             },
 
             onSizeChange(value) {

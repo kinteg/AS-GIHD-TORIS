@@ -3,6 +3,7 @@
         <p style="font-size: 20px">Изменение</p>
         <hr>
         <div>
+            <p>{{$route.params.id}}</p>
             <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
                 <el-form-item prop="name" label="Поставщик данных">
                     <el-input v-model="source.name"></el-input>
@@ -42,7 +43,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button @click="createSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить</el-button>
+                    <el-button @click="updateSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Изменить</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -51,11 +52,12 @@
 
 <script>
     import {AXIOS} from "../../AXIOS/http-common";
+    import router from "../../router/router";
     export default {
         name: "sourceCreate",
         props:['id'],
-        data(){
-            return{
+        data() {
+            return {
                 labelPosition:"top",
                 source:{
                     name:"",
@@ -67,7 +69,7 @@
                     periodicity:"",
                     renewalPeriod:"",
                     type:"",
-                    tags: "",
+                    tags:"",
                     providerLink:"",
                     dataSource:"",
                 },
@@ -112,7 +114,7 @@
             }
         },
         methods:{
-            createSource(){
+            createSource() {
                 let formData = new FormData();
                 formData.append("name",this.source.name);
                 formData.append("longName",this.source.longName);
@@ -143,23 +145,63 @@
                 });
             },
 
-            noticeWarning(){
+            noticeWarning() {
                 this.$notify({
                     title: 'Ошибка',
-                    message: 'Ошибка при создании источника.',
+                    message: 'Ошибка при изменении источника.',
                     type: 'error',
                     duration: 0
                 });
             },
 
-            noticeSuccess(name){
+            noticeSuccess(name) {
                 this.$notify({
                     title: 'Успешно',
-                    message: 'Источник "' + name + '" успешно создан.',
+                    message: 'Источник "' + name + '" успешно изменен.',
                     type: 'success',
                     duration: 0
                 });
             },
+
+            updateSource() {
+                let formData = new FormData();
+                formData.append("id",this.source.id);
+                formData.append("name",this.source.name);
+                formData.append("longName",this.source.longName);
+                formData.append("shortName",this.source.shortName);
+                formData.append("description",this.source.description);
+                formData.append("addDescription",this.source.addDescription);
+                formData.append("scope",this.source.scope);
+                formData.append("periodicity",this.source.periodicity);
+                formData.append("renewalPeriod",this.source.renewalPeriod);
+                formData.append("type",this.source.type);
+                formData.append("tags",this.source.tags);
+                formData.append("providerLink",this.source.providerLink);
+                formData.append("dataSource",this.source.dataSource);
+                formData.append("isArchive",false);
+                AXIOS.post("/source/update",
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then(response => {
+                    if(response.data.longName == null){
+                        this.noticeWarning();
+                    } else {
+                        this.noticeSuccess(response.data.name);
+                    }
+                });
+
+                router.push({name:'show'});
+            },
+        },
+
+        mounted() {
+            AXIOS.get("source/" + this.$route.params.id).then(response => {
+                this.source = response.data;
+            })
         }
     }
 </script>

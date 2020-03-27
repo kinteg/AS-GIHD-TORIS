@@ -9,7 +9,7 @@
                 <tr>
                     <th></th>
                     <th><el-checkbox ></el-checkbox></th>
-                    <th>#</th>
+                    <th>Номер</th>
                     <th>Поставщик данных</th>
                     <th>Полное наименование набора</th>
                     <th>Краткое наименование набора</th>
@@ -23,6 +23,10 @@
                     <th>Информационная система - источник данных</th>
                     <th>Ссылка на данные на сайте поставщика</th>
                     <th>Архивность</th>
+                    <th>Дата создания</th>
+                    <th>Дата деактивации</th>
+                    <th>Дата активации</th>
+                    <th>Последнее обновление</th>
                 </tr>
                 <tr>
                     <td></td>
@@ -64,7 +68,10 @@
                     <td>{{source.providerLink}}</td>
                     <td>{{source.dataSource}}</td>
                     <td>{{source.isArchive ? "Да" : "Нет"}}</td>
-
+                    <td>{{source.dateCreation}}</td>
+                    <td>{{source.dateDeactivation}}</td>
+                    <td>{{source.dateActivation}}</td>
+                    <td>{{source.lastUpdate}}</td>
                 </tr>
                 </tbody>
 
@@ -112,6 +119,11 @@
                     providerLink:"",
                     dataSource:"",
                     isArchive:"",
+                    dateCreation:"",
+                    dateDeactivation:"",
+                    dateActivation:"",
+                    lastUpdate:"",
+
                 }
             }
         },
@@ -124,23 +136,22 @@
                 } else {
                     this.source.check.push(id);
                 }
-                console.log(this.source.check);
             },
 
             deleteSource(id){
-                console.log(this.source.check);
                 AXIOS.get("source/archive/" + id).then(response => {
-                    if(response.data === true){
+                    if(response.data.name !== ""){
                         this.notify('Успешно','Источник был архивирован','success');
+                        this.updatePage();
                     } else {
                         this.notify('Ошибка','Источник не был архивирован','error');
                     }
                 });
-                console.log(id);
             },
 
             deleteOneSource(id){
                 this.deleteSource(id);
+
             },
 
             deleteSomeSource(){
@@ -148,6 +159,7 @@
                     for(let i = 0; i < this.source.check.length; i++){
                         this.deleteSource(this.source.check[i]);
                     }
+                    this.updatePage();
                 } else {
                     this.notify('Ошибка','Выберите источники которые хотите архивировать','error');
                 }
@@ -180,7 +192,7 @@
                 router.push('create');
             },
             updateSource(id){
-                router.push('update/' + id);
+                router.push('update/'+ id);
             },
 
             notify(title,message,type){
@@ -189,6 +201,19 @@
                     message: message,
                     type: type
                 });
+            },
+
+            updatePage(){
+                let formData = new FormData();
+                formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage);
+                formData.append("sort","");
+
+                AXIOS.get("source/getAll").then(response => {
+                    this.pagination.totalPages = response.data.totalPages;
+                    this.pagination.totalElements = response.data.totalElements;
+                    this.sourceData = response.data.content;
+                })
             }
         },
         mounted() {
@@ -198,7 +223,6 @@
             formData.append("sort","");
 
             AXIOS.get("source/getAll").then(response => {
-                console.log(response);
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.sourceData = response.data.content;

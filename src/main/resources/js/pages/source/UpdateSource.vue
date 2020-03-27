@@ -8,7 +8,8 @@
     import SourceUpdate from "../../components/source/sourceUpdate.vue";
     export default {
         name: "UpdateSource",
-        components: {SourceUpdate}
+        components: {SourceUpdate},
+
     }
 </script>
 

@@ -27,7 +27,7 @@ const routes = [
         ],
     },
     {
-        path:'/source/update/{id}',
+        path:'/source/update/:id',
         component: UpdateSource,
         name: 'sourceUpdate',
     },

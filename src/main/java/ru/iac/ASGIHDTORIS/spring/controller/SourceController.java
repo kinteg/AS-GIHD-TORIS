@@ -32,7 +32,8 @@ public class SourceController {
     }
 
     @PostMapping("/create")
-    public Source createSource (@RequestBody Source source){
+    @ResponseBody
+    public Source createSource (@ModelAttribute Source source){
 
         source.setDateCreation(LocalDateTime.now());
         source.setDateActivation(LocalDateTime.now());
@@ -96,7 +97,8 @@ public class SourceController {
     }
 
     @PostMapping("/update")
-    public Source update(@RequestBody Source source) {
+    @ResponseBody
+    public Source update(@ModelAttribute Source source) {
 
         if (sourceRepo.existsById(source.getId()) && validator.isValid(source)) {
             sourceRepo.save(source);

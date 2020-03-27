@@ -51,7 +51,9 @@
                     <td>
                         <el-button @click="deleteOneSource(source.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
                         <br>
-                        <el-button @click="updateSource(source.id)" style="background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
+                        <el-button @click="updateSource(source.id)" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
+                        <br>
+                        <el-button @click="sourceView(source.id)" style="background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
                     </td>
                     <td> <el-checkbox @change="check(source.id)"></el-checkbox></td>
                     <td>{{source.id}}</td>
@@ -138,6 +140,8 @@
                 }
             },
 
+
+
             deleteSource(id){
                 AXIOS.get("source/archive/" + id).then(response => {
                     if(response.data.name !== ""){
@@ -151,7 +155,6 @@
 
             deleteOneSource(id){
                 this.deleteSource(id);
-
             },
 
             deleteSomeSource(){
@@ -191,8 +194,13 @@
             addSource(){
                 router.push('create');
             },
+
             updateSource(id){
                 router.push('update/'+ id);
+            },
+
+            sourceView(id){
+                router.push('view/'+ id);
             },
 
             notify(title,message,type){
@@ -209,7 +217,7 @@
                 formData.append("page",this.pagination.currentPage);
                 formData.append("sort","desc");
                 formData.append("key","name");
-                formData.append("name","Te");
+                formData.append("name","Test");
 
                 AXIOS.get("source/getAll").then(response => {
                     this.pagination.totalPages = response.data.totalPages;
@@ -220,13 +228,12 @@
         },
         mounted() {
             let formData = new FormData();
-            // formData.append("size",10);
-            formData.append("page",0);
-            formData.append("sort","desc");
-            formData.append("key","name");
-            formData.append("name","Te");
+            formData.append("size",this.pagination.pageSize);
+            formData.append("page",this.pagination.currentPage - 1);
+            formData.append("sort","");
 
-            AXIOS.post("source/getAllSort",formData).then(response => {
+
+            AXIOS.get("source/getAll").then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.sourceData = response.data.content;

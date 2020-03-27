@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder(toBuilder = true)
 @NoArgsConstructor
@@ -35,6 +37,11 @@ public class Source {
     private String tags;
     private String providerLink;
     private String dataSource;
+
+    private LocalDateTime dateCreation;
+    private LocalDateTime dateDeactivation;
+    private LocalDateTime dateActivation;
+    private LocalDateTime lastUpdate;
 
     private Boolean isArchive;
 

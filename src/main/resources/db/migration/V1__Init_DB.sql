@@ -15,6 +15,10 @@ create table if not exists source (
     provider_link varchar(255),
     data_source varchar(255),
     is_arсhive boolean,
+    date_creation timestamp,
+    date_deactivation timestamp,
+    date_activation timestamp,
+    last_update timestamp,
     primary key (id),
     unique (name)
 );

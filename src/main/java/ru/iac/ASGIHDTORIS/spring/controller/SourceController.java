@@ -11,6 +11,9 @@ import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @RestController
 @EnableAspectJAutoProxy
 @RequestMapping("api/source/")
@@ -30,6 +33,11 @@ public class SourceController {
 
     @PostMapping("/create")
     public Source createSource (@RequestBody Source source){
+
+        source.setDateCreation(LocalDateTime.now());
+        source.setDateActivation(LocalDateTime.now());
+        source.setLastUpdate(LocalDateTime.now());
+
         return validator.isValid(source)
                 ? sourceRepo.save(source)
                 : new Source();
@@ -61,6 +69,7 @@ public class SourceController {
         if (sourceRepo.existsById(id)) {
             Source source = sourceRepo.findById(id);
             source.setIsArchive(true);
+            source.setDateDeactivation(LocalDateTime.now());
 
             sourceRepo.save(source);
 
@@ -76,6 +85,7 @@ public class SourceController {
         if (sourceRepo.existsById(id)) {
             Source source = sourceRepo.findById(id);
             source.setIsArchive(false);
+            source.setDateActivation(LocalDateTime.now());
 
             sourceRepo.save(source);
 
@@ -90,6 +100,7 @@ public class SourceController {
 
         if (sourceRepo.existsById(source.getId()) && validator.isValid(source)) {
             sourceRepo.save(source);
+            source.setLastUpdate(LocalDateTime.now());
 
             return source;
         }

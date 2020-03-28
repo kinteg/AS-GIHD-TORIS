@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.iac.ASGIHDTORIS.common.model.domain.SourceDateModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
@@ -30,6 +29,15 @@ public class SourceServiceImpl implements SourceService {
     }
 
     private Pageable getPageable(Pageable pageable, String key, String sort) {
+
+        if (key == null || key.isEmpty()) {
+            key = "id";
+        }
+
+        if (sort == null || sort.isEmpty()) {
+            sort = "asc";
+        }
+
         if (sort.equalsIgnoreCase("desc")) {
             return PageRequest.of(
                     pageable.getPageNumber(),

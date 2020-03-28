@@ -4,12 +4,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternDateModel;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 
 import java.time.LocalDateTime;
 
+@Service
 public class PatternServiceImpl implements PatternService {
 
     private final PatternRepo patternRepo;

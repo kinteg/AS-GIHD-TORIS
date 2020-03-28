@@ -26,11 +26,11 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
             " AND provider_link LIKE %:providerLink%" +
             " AND data_source LIKE %:dataSource%" +
             " AND date_creation >= :dateCreation1" +
-            " AND date_creation < :dateCreation2" +
+            " AND date_creation <= :dateCreation2" +
             " AND date_activation >= :dateActivation1" +
-            " AND date_activation < :dateActivation2" +
+            " AND date_activation <= :dateActivation2" +
             " AND last_update >= :lastUpdate1" +
-            " AND last_update < :lastUpdate2";
+            " AND last_update <= :lastUpdate2";
 
     @Query(value = "SELECT * FROM source " +
             " AND date_deactivation >= :dateDeactivation1" +

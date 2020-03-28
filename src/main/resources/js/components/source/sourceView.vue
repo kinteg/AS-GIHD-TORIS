@@ -53,7 +53,7 @@
         name: "sourceView",
         data() {
             return {
-                labelPosition: "left",
+                labelPosition: "top",
                 source:{
                     name:"",
                     longName:"",

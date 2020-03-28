@@ -29,7 +29,7 @@
                     <th>Последнее обновление</th>
                 </tr>
                 <tr>
-                    <td></td>
+                    <td><el-button @click="sort"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
                     <td></td>
                     <td><el-input placeholder="Please input" v-model="source.id"></el-input></td>
                     <td><el-input placeholder="Please input" v-model="source.name"></el-input></td>
@@ -45,6 +45,10 @@
                     <td><el-input placeholder="Please input" v-model="source.providerLink"></el-input></td>
                     <td><el-input placeholder="Please input" v-model="source.dataSource"></el-input></td>
                     <td><el-input placeholder="Please input" v-model="source.isArchive"></el-input></td>
+                    <td><el-input placeholder="Please input" v-model="source.dateCreation"></el-input></td>
+                    <td><el-input placeholder="Please input" v-model="source.dateDeactivation"></el-input></td>
+                    <td><el-input placeholder="Please input" v-model="source.dateActivation"></el-input></td>
+                    <td><el-input placeholder="Please input" v-model="source.lastUpdate"></el-input></td>
                 </tr>
                 <tbody v-for="source in sourceData">
                 <tr >
@@ -118,6 +122,7 @@
                     periodicity:"",
                     renewalPeriod:"",
                     type:"",
+                    tags:"",
                     providerLink:"",
                     dataSource:"",
                     isArchive:"",
@@ -211,6 +216,39 @@
                 });
             },
 
+            sort(){
+                let formData = new FormData();
+                formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage - 1);
+                formData.append("sort","");
+                formData.append("key","");
+                formData.append("name",this.source.name);
+                formData.append("id",this.source.id);
+                formData.append("longName",this.source.longName);
+                formData.append("shortName",this.source.shortName);
+                formData.append("description",this.source.description);
+                formData.append("addDescription",this.source.addDescription);
+                formData.append("scope",this.source.scope);
+                formData.append("periodicity",this.source.periodicity);
+                formData.append("renewalPeriod",this.source.renewalPeriod);
+                formData.append("type",this.source.type);
+                formData.append("tags",this.source.tags);
+                formData.append("providerLink",this.source.providerLink);
+                formData.append("dataSource",this.source.dataSource);
+
+                AXIOS.post("/source/getAllSort",
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(response => {
+                    this.pagination.totalPages = response.data.totalPages;
+                    this.pagination.totalElements = response.data.totalElements;
+                    this.sourceData = response.data.content;
+                })
+            },
+
             updatePage(){
                 let formData = new FormData();
                 formData.append("size",this.pagination.pageSize);
@@ -230,8 +268,8 @@
             let formData = new FormData();
             // formData.append("size",this.pagination.pageSize);
             // formData.append("page",0);
-            formData.append("sort","asc");
-            formData.append("key","name");
+            formData.append("sort","");
+            formData.append("key","");
             formData.append("name","");
             formData.append("sourceId","");
             formData.append("longName","");
@@ -246,14 +284,7 @@
             formData.append("providerLink","");
             formData.append("dataSource","");
 
-
-            AXIOS.post("/source/getAllSort",
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then(response => {
+            AXIOS.get("source/getAll").then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.sourceData = response.data.content;

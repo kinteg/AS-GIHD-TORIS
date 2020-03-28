@@ -9,24 +9,24 @@
                 <tr>
                     <th></th>
                     <th><el-checkbox ></el-checkbox></th>
-                    <th>Номер</th>
-                    <th>Поставщик данных</th>
-                    <th>Полное наименование набора</th>
-                    <th>Краткое наименование набора</th>
-                    <th>Описание</th>
-                    <th>Дополнительное описание</th>
-                    <th>Сфера (направление)</th>
-                    <th>Периодичность актуализации </th>
-                    <th>Срок обновления набора данных</th>
-                    <th>Вид набора</th>
-                    <th>Ключевые слова (теги)</th>
-                    <th>Информационная система - источник данных</th>
-                    <th>Ссылка на данные на сайте поставщика</th>
-                    <th>Архивность</th>
-                    <th>Дата создания</th>
-                    <th>Дата деактивации</th>
-                    <th>Дата активации</th>
-                    <th>Последнее обновление</th>
+                    <th @click="sort('id')">Номер</th>
+                    <th @click="sort('name')">Поставщик данных</th>
+                    <th @click="sort('long_name')">Полное наименование набора</th>
+                    <th @click="sort('short_name')">Краткое наименование набора</th>
+                    <th @click="sort('description')">Описание</th>
+                    <th @click="sort('add_description')">Дополнительное описание</th>
+                    <th @click="sort('scope')">Сфера (направление)</th>
+                    <th @click="sort('periodicity')">Периодичность актуализации </th>
+                    <th @click="sort('renewal_period')">Срок обновления набора данных</th>
+                    <th @click="sort('type')">Вид набора</th>
+                    <th @click="sort('tags')">Ключевые слова (теги)</th>
+                    <th @click="sort('provider_link')">Информационная система - источник данных</th>
+                    <th @click="sort('data_source')">Ссылка на данные на сайте поставщика</th>
+                    <th @click="sort('is_archive')">Архивность</th>
+                    <th @click="sort('date_creation')">Дата создания</th>
+                    <th @click="sort('date_deactivation')">Дата деактивации</th>
+                    <th @click="sort('date_activation')">Дата активации</th>
+                    <th @click="sort('last_update')">Последнее обновление</th>
                 </tr>
                 <tr>
                     <td><el-button @click="sort"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
@@ -148,6 +148,8 @@
                 },
                 source:{
                     check:[],
+                    key:"id",
+                    sort:"",
                     id:"",
                     name:"",
                     longName:"",
@@ -252,13 +254,30 @@
                 });
             },
 
-            sort(){
+            sort( key) {
+                if(this.source.key === key ) {
+                    switch(this.source.sort) {
+                        case "":
+                            this.source.sort = "asc";
+                            break;
+                        case "asc":
+                            this.source.sort = "desc";
+                            break;
+                        case "desc":
+                            this.source.sort = "";
+                            break;
+                    }
+                }
+                else {
+                    this.source.key = key;
+                    this.source.sort = "asc";
+                }
+
                 let formData = new FormData();
-                console.log(this.source.dateCreation);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
-                formData.append("sort","");
-                formData.append("key","");
+                formData.append("sort",this.source.sort);
+                formData.append("key",key);
                 formData.append("name",this.source.name);
                 formData.append("id",this.source.id);
                 formData.append("longName",this.source.longName);

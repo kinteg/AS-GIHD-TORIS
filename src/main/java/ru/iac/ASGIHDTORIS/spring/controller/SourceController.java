@@ -70,7 +70,7 @@ public class SourceController {
         return sourceRepo.findAllByIsArchive(true, pageable);
     }
 
-    @GetMapping("/getAllArchiveSort")
+    @PostMapping("/getAllArchiveSort")
     public Page<Source> getAllArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable){
         source.setIsArchive(true);
         return sourceService.findAllSourceByQuery(pageable, source);
@@ -81,7 +81,7 @@ public class SourceController {
         return sourceRepo.findAllByIsArchive(false, pageable);
     }
 
-    @GetMapping("/getAllNotArchiveSort")
+    @PostMapping("/getAllNotArchiveSort")
     public Page<Source> getAllNotArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable){
         source.setIsArchive(false);
         return sourceService.findAllSourceByQuery(pageable, source);

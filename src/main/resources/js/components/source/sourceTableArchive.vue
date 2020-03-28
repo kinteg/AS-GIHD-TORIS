@@ -1,10 +1,9 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-        <p style="font-size: 20px">Источники</p>
-
+        <p style="font-size: 20px">Архинвые источники</p>
         <hr>
-        <el-button @click="deleteSomeSource"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
-        <el-button @click="addSource" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
+
+        <el-button @click="deArchiveSomeSource"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
         <div class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto; white-space: nowrap">
                 <tr>
@@ -63,7 +62,7 @@
                 <tbody v-for="source in sourceData">
                 <tr >
                     <td>
-                        <el-button @click="deleteOneSource(source.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                        <el-button @click="deArchiveOneSource(source.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
                         <br>
                         <el-button @click="updateSource(source.id)" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
                         <br>
@@ -108,7 +107,7 @@
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
     export default {
-        name: "sourceTable",
+        name: "sourceTableArchive",
         components: {MyPagination},
         data() {
             return {
@@ -184,29 +183,29 @@
 
 
 
-            deleteSource(id){
-                AXIOS.get("source/archive/" + id).then(response => {
+            deArchiveSource(id){
+                AXIOS.get("source/deArchive/" + id).then(response => {
                     if(response.data.name !== ""){
-                        this.notify('Успешно','Источник был архивирован','success');
+                        this.notify('Успешно','Источник был активирован','success');
                         this.updatePage();
                     } else {
-                        this.notify('Ошибка','Источник не был архивирован','error');
+                        this.notify('Ошибка','Источник не был активирован','error');
                     }
                 });
             },
 
-            deleteOneSource(id){
-                this.deleteSource(id);
+            deArchiveOneSource(id){
+                this.deArchiveSource(id);
             },
 
-            deleteSomeSource(){
+            deArchiveSomeSource(){
                 if(this.source.check.length !== 0){
                     for(let i = 0; i < this.source.check.length; i++){
-                        this.deleteSource(this.source.check[i]);
+                        this.deArchiveSource(this.source.check[i]);
                     }
                     this.updatePage();
                 } else {
-                    this.notify('Ошибка','Выберите источники которые хотите архивировать','error');
+                    this.notify('Ошибка','Выберите источники которые хотите сделать активным','error');
                 }
             },
 
@@ -274,7 +273,7 @@
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
 
-                AXIOS.post("/source/getAllSort",
+                AXIOS.post("/source/getAllArchiveSort",
                     formData,
                     {
                         headers: {
@@ -295,7 +294,7 @@
                 formData.append("key","name");
                 formData.append("name","Test");
 
-                AXIOS.get("source/getAll").then(response => {
+                AXIOS.get("source/getAllArchive").then(response => {
                     this.pagination.totalPages = response.data.totalPages;
                     this.pagination.totalElements = response.data.totalElements;
                     this.sourceData = response.data.content;
@@ -322,7 +321,7 @@
             formData.append("providerLink","");
             formData.append("dataSource","");
 
-            AXIOS.get("source/getAll").then(response => {
+            AXIOS.get("source/getAllArchive").then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.sourceData = response.data.content;

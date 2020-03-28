@@ -108,7 +108,7 @@
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
     export default {
-        name: "sourceTable",
+        name: "sourceTableNoArchive",
         components: {MyPagination},
         data() {
             return {
@@ -274,7 +274,7 @@
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
 
-                AXIOS.post("/source/getAllSort",
+                AXIOS.post("/source/getAllNotArchiveSort",
                     formData,
                     {
                         headers: {
@@ -295,7 +295,7 @@
                 formData.append("key","name");
                 formData.append("name","Test");
 
-                AXIOS.get("source/getAll").then(response => {
+                AXIOS.get("source/getAllNotArchive").then(response => {
                     this.pagination.totalPages = response.data.totalPages;
                     this.pagination.totalElements = response.data.totalElements;
                     this.sourceData = response.data.content;
@@ -322,7 +322,7 @@
             formData.append("providerLink","");
             formData.append("dataSource","");
 
-            AXIOS.get("source/getAll").then(response => {
+            AXIOS.get("source/getAllNotArchive").then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.sourceData = response.data.content;

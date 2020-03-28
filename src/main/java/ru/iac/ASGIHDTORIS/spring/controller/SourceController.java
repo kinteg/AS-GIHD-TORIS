@@ -4,12 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-import ru.iac.ASGIHDTORIS.common.model.source.SourceDataModel;
+import ru.iac.ASGIHDTORIS.common.model.domain.SourceDateModel;
+import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
@@ -60,9 +59,8 @@ public class SourceController {
     }
 
     @PostMapping("/getAllSort")
-    public Page<Source> getAll(@ModelAttribute Source source, @ModelAttribute SourceDataModel sourceDataModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key) {
-        return sourceService.findAllSourceByQuery(pageable, source, sourceDataModel, key, sort);
-
+    public Page<Source> getAll(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable) {
+        return sourceService.findAllSourceByQuery(pageable, source);
     }
 
     @GetMapping("/getAllArchive")
@@ -71,9 +69,9 @@ public class SourceController {
     }
 
     @GetMapping("/getAllArchiveSort")
-    public Page<Source> getAllArchive(@ModelAttribute Source source, @ModelAttribute SourceDataModel sourceDataModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
+    public Page<Source> getAllArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable){
         source.setIsArchive(true);
-        return sourceService.findAllSourceByQuery(pageable, source, sourceDataModel, key, sort);
+        return sourceService.findAllSourceByQuery(pageable, source);
     }
 
     @GetMapping("/getAllNotArchive")
@@ -82,9 +80,9 @@ public class SourceController {
     }
 
     @GetMapping("/getAllNotArchiveSort")
-    public Page<Source> getAllNotArchive(@ModelAttribute Source source, @ModelAttribute SourceDataModel sourceDataModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
+    public Page<Source> getAllNotArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable){
         source.setIsArchive(false);
-        return sourceService.findAllSourceByQuery(pageable, source, sourceDataModel, key, sort);
+        return sourceService.findAllSourceByQuery(pageable, source);
     }
 
     @GetMapping("/archive/{id}")

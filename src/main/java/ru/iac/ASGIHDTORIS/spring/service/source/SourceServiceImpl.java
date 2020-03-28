@@ -5,11 +5,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.iac.ASGIHDTORIS.common.model.source.SourceDataModel;
+import ru.iac.ASGIHDTORIS.common.model.domain.SourceDateModel;
+import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Service
 public class SourceServiceImpl implements SourceService {
@@ -21,17 +22,11 @@ public class SourceServiceImpl implements SourceService {
     }
 
     @Override
-    public Page<Source> findAllSourceByQuery(
-            Pageable pageable,
-            Source source,
-            SourceDataModel sourceDataModel,
-            String key,
-            String sort
-    ) {
+    public Page<Source> findAllSourceByQuery(Pageable pageable, SourceModel source) {
 
-        pageable = getPageable(pageable, key, sort);
+        pageable = getPageable(pageable, source.getKey(), source.getSort());
 
-        return getAll(pageable, source, sourceDataModel);
+        return getAll(pageable, source);
     }
 
     private Pageable getPageable(Pageable pageable, String key, String sort) {
@@ -50,20 +45,27 @@ public class SourceServiceImpl implements SourceService {
         }
     }
 
-    private Page<Source> getAll(Pageable pageable, Source source, SourceDataModel sourceDataModel) {
+    private Page<Source> getAll(Pageable pageable, SourceModel source) {
 
         source = fixSource(source);
-        sourceDataModel = fixSourceDataModel(sourceDataModel);
+        source = fixSourceDataModel(source);
 
-        if (source.getIsArchive() == null) {
-            return getWithoutArchive(pageable, source, sourceDataModel);
+        if (source.getIsArchive() == null && !(source.getDateDeactivation1() == null && source.getDateDeactivation2() == null)) {
+            return getWithoutArchiveWithDeactivation(pageable, source);
+        } else if (source.getIsArchive() != null && !(source.getDateDeactivation1() == null && source.getDateDeactivation2() == null)) {
+            return getWithArchiveAndDeactivation(pageable, source);
+        } else if (source.getIsArchive() == null && (source.getDateDeactivation1() == null && source.getDateDeactivation2() == null)) {
+            return getWithoutArchiveAndDeactivation(pageable, source);
         } else {
-            return getWithArchive(pageable, source, sourceDataModel);
+            return getWithArchiveWithoutDeactivation(pageable, source);
         }
 
     }
 
-    private Source fixSource(Source source) {
+    private SourceModel fixSource(SourceModel source) {
+        if (source.getId() == null) {
+            source.setId("");
+        }
         if (source.getName() == null) {
             source.setName("");
         }
@@ -104,40 +106,35 @@ public class SourceServiceImpl implements SourceService {
         return source;
     }
 
-    private SourceDataModel fixSourceDataModel(SourceDataModel sourceDataModel) {
+    private SourceModel fixSourceDataModel(SourceModel source) {
 
-        if (sourceDataModel.getDateCreation1() == null) {
-            sourceDataModel.setDateCreation1(LocalDateTime.MIN);
+        if (source.getDateCreation1() == null) {
+            source.setDateCreation1(LocalDate.of(1970, 1, 1));
         }
-        if (sourceDataModel.getDateCreation2() == null) {
-            sourceDataModel.setDateCreation2(LocalDateTime.MAX);
+        if (source.getDateCreation2() == null) {
+            source.setDateCreation2(LocalDate.of(3000, 1, 1));
         }
-        if (sourceDataModel.getDateDeactivation1() == null) {
-            sourceDataModel.setDateDeactivation1(LocalDateTime.MIN);
+        if (source.getDateActivation1() == null) {
+            source.setDateActivation1(LocalDate.of(1970, 1, 1));
         }
-        if (sourceDataModel.getDateDeactivation2() == null) {
-            sourceDataModel.setDateDeactivation2(LocalDateTime.MAX);
+        if (source.getDateActivation2() == null) {
+            source.setDateActivation2(LocalDate.of(3000, 1, 1));
         }
-        if (sourceDataModel.getDateActivation1() == null) {
-            sourceDataModel.setDateActivation1(LocalDateTime.MIN);
+        if (source.getLastUpdate1() == null) {
+            source.setLastUpdate1(LocalDate.of(1970, 1, 1));
         }
-        if (sourceDataModel.getDateActivation2() == null) {
-            sourceDataModel.setDateActivation2(LocalDateTime.MAX);
-        }
-        if (sourceDataModel.getLastUpdate1() == null) {
-            sourceDataModel.setLastUpdate1(LocalDateTime.MIN);
-        }
-        if (sourceDataModel.getLastUpdate2() == null) {
-            sourceDataModel.setLastUpdate2(LocalDateTime.MAX);
+        if (source.getLastUpdate2() == null) {
+            source.setLastUpdate2(LocalDate.of(3000, 1, 1));
         }
 
-        return sourceDataModel;
+        return source;
     }
 
-    private Page<Source> getWithArchive(Pageable pageable, Source source, SourceDataModel sourceDataModel) {
+    private Page<Source> getWithArchiveAndDeactivation(Pageable pageable, SourceModel source) {
 
         return sourceRepo.findAllSourceByQuery(
                 pageable,
+                source.getId(),
                 source.getName(),
                 source.getLongName(),
                 source.getShortName(),
@@ -150,22 +147,24 @@ public class SourceServiceImpl implements SourceService {
                 source.getTags(),
                 source.getProviderLink(),
                 source.getDataSource(),
-                sourceDataModel.getDateCreation1(),
-                sourceDataModel.getDateCreation2(),
-                sourceDataModel.getDateDeactivation1(),
-                sourceDataModel.getDateDeactivation2(),
-                sourceDataModel.getDateActivation1(),
-                sourceDataModel.getDateActivation2(),
-                sourceDataModel.getLastUpdate1(),
-                sourceDataModel.getLastUpdate2()
+                source.getDateCreation1(),
+                source.getDateCreation2(),
+                source.getDateDeactivation1(),
+                source.getDateDeactivation2(),
+                source.getDateActivation1(),
+                source.getDateActivation2(),
+                source.getLastUpdate1(),
+                source.getLastUpdate2(),
+                source.getIsArchive()
         );
 
     }
 
-    private Page<Source> getWithoutArchive(Pageable pageable, Source source, SourceDataModel sourceDataModel) {
+    private Page<Source> getWithoutArchiveWithDeactivation(Pageable pageable, SourceModel source) {
 
         return sourceRepo.findAllSourceByQuery(
                 pageable,
+                source.getId(),
                 source.getName(),
                 source.getLongName(),
                 source.getShortName(),
@@ -178,15 +177,69 @@ public class SourceServiceImpl implements SourceService {
                 source.getTags(),
                 source.getProviderLink(),
                 source.getDataSource(),
-                sourceDataModel.getDateCreation1(),
-                sourceDataModel.getDateCreation2(),
-                sourceDataModel.getDateDeactivation1(),
-                sourceDataModel.getDateDeactivation2(),
-                sourceDataModel.getDateActivation1(),
-                sourceDataModel.getDateActivation2(),
-                sourceDataModel.getLastUpdate1(),
-                sourceDataModel.getLastUpdate2(),
+                source.getDateCreation1(),
+                source.getDateCreation2(),
+                source.getDateDeactivation1(),
+                source.getDateDeactivation2(),
+                source.getDateActivation1(),
+                source.getDateActivation2(),
+                source.getLastUpdate1(),
+                source.getLastUpdate2()
+        );
+
+    }
+
+    private Page<Source> getWithArchiveWithoutDeactivation(Pageable pageable, SourceModel source) {
+
+        return sourceRepo.findAllSourceByQuery(
+                pageable,
+                source.getId(),
+                source.getName(),
+                source.getLongName(),
+                source.getShortName(),
+                source.getDescription(),
+                source.getAddDescription(),
+                source.getScope(),
+                source.getPeriodicity(),
+                source.getRenewalPeriod(),
+                source.getType(),
+                source.getTags(),
+                source.getProviderLink(),
+                source.getDataSource(),
+                source.getDateCreation1(),
+                source.getDateCreation2(),
+                source.getDateActivation1(),
+                source.getDateActivation2(),
+                source.getLastUpdate1(),
+                source.getLastUpdate2(),
                 source.getIsArchive()
+        );
+
+    }
+
+    private Page<Source> getWithoutArchiveAndDeactivation(Pageable pageable, SourceModel source) {
+
+        return sourceRepo.findAllSourceByQuery(
+                pageable,
+                source.getId(),
+                source.getName(),
+                source.getLongName(),
+                source.getShortName(),
+                source.getDescription(),
+                source.getAddDescription(),
+                source.getScope(),
+                source.getPeriodicity(),
+                source.getRenewalPeriod(),
+                source.getType(),
+                source.getTags(),
+                source.getProviderLink(),
+                source.getDataSource(),
+                source.getDateCreation1(),
+                source.getDateCreation2(),
+                source.getDateActivation1(),
+                source.getDateActivation2(),
+                source.getLastUpdate1(),
+                source.getLastUpdate2()
         );
 
     }

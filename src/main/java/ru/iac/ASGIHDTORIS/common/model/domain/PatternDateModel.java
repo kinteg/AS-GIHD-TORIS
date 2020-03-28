@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.common.model.source;
+package ru.iac.ASGIHDTORIS.common.model.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class SourceDataModel {
+public class PatternDateModel {
 
     private LocalDateTime dateCreation1;
     private LocalDateTime dateCreation2;
@@ -24,5 +24,8 @@ public class SourceDataModel {
 
     private LocalDateTime lastUpdate1;
     private LocalDateTime lastUpdate2;
+
+    private Integer fileCount1;
+    private Integer fileCount2;
 
 }

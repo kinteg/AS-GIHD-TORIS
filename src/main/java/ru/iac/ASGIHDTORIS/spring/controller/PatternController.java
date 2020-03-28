@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import ru.iac.ASGIHDTORIS.common.model.domain.PatternDateModel;
+import ru.iac.ASGIHDTORIS.common.model.domain.SourceDateModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
@@ -43,8 +45,18 @@ public class PatternController {
         return patternRepo.findAll(pageable);
     }
 
+    @PostMapping("/getAllSort")
+    public Page<Pattern> getAll(@ModelAttribute Pattern pattern, @ModelAttribute PatternDateModel patternDateModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key) {
+        return patternRepo.findAll(pageable);
+    }
+
     @GetMapping("/getAll/{sourceId}")
     public Page<Pattern> getAll(@PathVariable Long sourceId, @PageableDefault Pageable pageable){
+        return patternRepo.findAllBySourceId(sourceId, pageable);
+    }
+
+    @PostMapping("/getAllSort/{sourceId}")
+    public Page<Pattern> getAll(@PathVariable Long sourceId, @ModelAttribute Pattern pattern, @ModelAttribute PatternDateModel patternDateModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
         return patternRepo.findAllBySourceId(sourceId, pageable);
     }
 
@@ -53,8 +65,18 @@ public class PatternController {
         return patternRepo.findAllByIsArchive(true, pageable);
     }
 
+    @PostMapping("/getAllArchiveSort")
+    public Page<Pattern> getAllArchive(@ModelAttribute Pattern pattern, @ModelAttribute PatternDateModel patternDateModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
+        return patternRepo.findAllByIsArchive(true, pageable);
+    }
+
     @GetMapping("/getAllArchive/{sourceId}")
     public Page<Pattern> getAllArchive(@PathVariable Long sourceId, @PageableDefault Pageable pageable){
+        return patternRepo.findAllBySourceIdAndIsArchive(sourceId, true, pageable);
+    }
+
+    @PostMapping("/getAllArchiveSort/{sourceId}")
+    public Page<Pattern> getAllArchive(@PathVariable Long sourceId, @ModelAttribute Pattern pattern, @ModelAttribute PatternDateModel patternDateModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
         return patternRepo.findAllBySourceIdAndIsArchive(sourceId, true, pageable);
     }
 
@@ -63,8 +85,18 @@ public class PatternController {
         return patternRepo.findAllByIsArchive(false, pageable);
     }
 
+    @PostMapping("/getAllNotArchiveSort")
+    public Page<Pattern> getAllNotArchive(@ModelAttribute Pattern pattern, @ModelAttribute PatternDateModel patternDateModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
+        return patternRepo.findAllByIsArchive(false, pageable);
+    }
+
     @GetMapping("/getAllNotArchive/{sourceId}")
     public Page<Pattern> getAllNotArchive(@PathVariable Long sourceId, @PageableDefault Pageable pageable){
+        return patternRepo.findAllBySourceIdAndIsArchive(sourceId, false, pageable);
+    }
+
+    @PostMapping("/getAllNotArchiveSort/{sourceId}")
+    public Page<Pattern> getAllNotArchive(@PathVariable Long sourceId, @ModelAttribute Pattern pattern, @ModelAttribute PatternDateModel patternDateModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
         return patternRepo.findAllBySourceIdAndIsArchive(sourceId, false, pageable);
     }
 

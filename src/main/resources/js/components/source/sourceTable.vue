@@ -228,22 +228,23 @@
         },
         mounted() {
             let formData = new FormData();
-            formData.append("size",this.pagination.pageSize);
-            formData.append("page",0);
+            // formData.append("size",this.pagination.pageSize);
+            // formData.append("page",0);
             formData.append("sort","asc");
             formData.append("key","name");
-            formData.append("name","uebesxubbw");
-            formData.append("longName","zlcobxcaem");
-            formData.append("shortName","shssqkuqae");
-            formData.append("description","aocuplaebc");
-            formData.append("addDescription","kwetmaaknb");
-            formData.append("scope","bejrpzdbbs");
-            formData.append("periodicity","lngqydfhzr");
-            formData.append("renewalPeriod","vbeletaljj");
-            formData.append("type","dhwhwnupgh");
-            formData.append("tags","hvqjpkdpjl");
-            formData.append("providerLink","hpweqtkczh");
-            formData.append("dataSource","eygywnsvod");
+            formData.append("name","");
+            formData.append("sourceId","");
+            formData.append("longName","");
+            formData.append("shortName","");
+            formData.append("description","");
+            formData.append("addDescription","");
+            formData.append("scope","");
+            formData.append("periodicity","");
+            formData.append("renewalPeriod","");
+            formData.append("type","");
+            formData.append("tags","");
+            formData.append("providerLink","");
+            formData.append("dataSource","");
 
 
             AXIOS.post("/source/getAllSort",

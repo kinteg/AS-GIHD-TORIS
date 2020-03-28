@@ -30,6 +30,14 @@ public class SourceServiceImpl implements SourceService {
     }
 
     private Pageable getPageable(Pageable pageable, String key, String sort) {
+        if (key == null || key.isEmpty()) {
+            key = "id";
+        }
+
+        if (sort == null || sort.isEmpty()) {
+            sort = "asc";
+        }
+
         if (sort.equalsIgnoreCase("desc")) {
             return PageRequest.of(
                     pageable.getPageNumber(),

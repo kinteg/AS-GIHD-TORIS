@@ -122,6 +122,7 @@
                     periodicity:"",
                     renewalPeriod:"",
                     type:"",
+                    tags:"",
                     providerLink:"",
                     dataSource:"",
                     isArchive:"",
@@ -217,12 +218,12 @@
 
             sort(){
                 let formData = new FormData();
-                console.log(this.source.lastUpdate);
                 formData.append("size",this.pagination.pageSize);
-                formData.append("page",0);
+                formData.append("page",this.pagination.currentPage - 1);
                 formData.append("sort","");
                 formData.append("key","");
                 formData.append("name",this.source.name);
+                formData.append("id",this.source.id);
                 formData.append("longName",this.source.longName);
                 formData.append("shortName",this.source.shortName);
                 formData.append("description",this.source.description);
@@ -234,12 +235,6 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
-                formData.append("dateCreation","");
-                formData.append("dateDeactivation","");
-                formData.append("dateActivation","");
-                formData.append("lastUpdate","");
-                formData.append("isArchive","");
-
 
                 AXIOS.post("/source/getAllSort",
                     formData,
@@ -273,8 +268,8 @@
             let formData = new FormData();
             // formData.append("size",this.pagination.pageSize);
             // formData.append("page",0);
-            formData.append("sort","asc");
-            formData.append("key","name");
+            formData.append("sort","");
+            formData.append("key","");
             formData.append("name","");
             formData.append("sourceId","");
             formData.append("longName","");

@@ -60,6 +60,8 @@ public class SourceController {
 
     @PostMapping("/getAllSort")
     public Page<Source> getAll(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable) {
+        log.info(pageable.toString());
+        log.info(source.toString());
         return sourceService.findAllSourceByQuery(pageable, source);
     }
 

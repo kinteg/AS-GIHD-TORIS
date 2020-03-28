@@ -11,14 +11,14 @@
                     <th></th>
                     <th><el-checkbox ></el-checkbox></th>
                     <th @click="sort('id')">Номер</th>
-                    <th>Поставщик данных</th>
-                    <th>Полное наименование набора</th>
-                    <th>Краткое наименование набора</th>
-                    <th>Описание</th>
-                    <th>Дополнительное описание</th>
-                    <th>Сфера (направление)</th>
-                    <th>Периодичность актуализации </th>
-                    <th>Срок обновления набора данных</th>
+                    <th @click="sort('id')">Поставщик данных</th>
+                    <th @click="sort('id')">Полное наименование набора</th>
+                    <th @click="sort('id')">Краткое наименование набора</th>
+                    <th @click="sort('id')">Описание</th>
+                    <th @click="sort('id')">Дополнительное описание</th>
+                    <th @click="sort('id')">Сфера (направление)</th>
+                    <th @click="sort('id')">Периодичность актуализации </th>
+                    <th @click="sort('id')">Срок обновления набора данных</th>
                     <th>Вид набора</th>
                     <th>Ключевые слова (теги)</th>
                     <th>Информационная система - источник данных</th>
@@ -149,7 +149,7 @@
                 },
                 source:{
                     check:[],
-                    key:"",
+                    key:"id",
                     sort:"",
                     id:"",
                     name:"",
@@ -256,13 +256,29 @@
             },
 
             sort( key){
-
+                if(this.source.key === key ){
+                    switch(this.source.sort){
+                        case "":
+                            this.source.sort = "asc";
+                            break;
+                        case "asc":
+                            this.source.sort = "desc";
+                            break;
+                        case "desc":
+                            this.source.sort = "";
+                            break;
+                    }
+                }
+                else {
+                    this.source.key = key;
+                    this.source.sort = "asc";
+                }
                 let formData = new FormData();
                 console.log(this.source.dateCreation);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
-                formData.append("sort","");
-                formData.append("key","");
+                formData.append("sort",this.source.sort);
+                formData.append("key",key);
                 formData.append("name",this.source.name);
                 formData.append("id",this.source.id);
                 formData.append("longName",this.source.longName);
@@ -291,13 +307,6 @@
             },
 
             updatePage(){
-                let formData = new FormData();
-                formData.append("size",this.pagination.pageSize);
-                formData.append("page",this.pagination.currentPage);
-                formData.append("sort","desc");
-                formData.append("key","name");
-                formData.append("name","Test");
-
                 AXIOS.get("source/getAll").then(response => {
                     this.pagination.totalPages = response.data.totalPages;
                     this.pagination.totalElements = response.data.totalElements;
@@ -306,25 +315,6 @@
             }
         },
         mounted() {
-            let formData = new FormData();
-            // formData.append("size",this.pagination.pageSize);
-            // formData.append("page",0);
-            formData.append("sort","");
-            formData.append("key","");
-            formData.append("name","");
-            formData.append("sourceId","");
-            formData.append("longName","");
-            formData.append("shortName","");
-            formData.append("description","");
-            formData.append("addDescription","");
-            formData.append("scope","");
-            formData.append("periodicity","");
-            formData.append("renewalPeriod","");
-            formData.append("type","");
-            formData.append("tags","");
-            formData.append("providerLink","");
-            formData.append("dataSource","");
-
             AXIOS.get("source/getAll").then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;

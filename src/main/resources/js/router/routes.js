@@ -37,7 +37,7 @@ const routes = [
             {
                 path:'showNoArchive',
                 component: ShowSourceNoArchive,
-                name: 'show',
+                name: 'showNoArchive',
                 meta: {
                     title: 'Не архивные'
                 },

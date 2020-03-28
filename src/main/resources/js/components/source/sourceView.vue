@@ -3,7 +3,7 @@
         <p style="font-size: 20px">Добавление источника</p>
         <hr>
         <div>
-            <el-form :label-position="labelPosition" label-width="100px">
+            <el-form :inline="true" :label-position="labelPosition" label-width="100px">
                 <el-form-item prop="name" label="Поставщик данных">
                     {{source.name}}
 

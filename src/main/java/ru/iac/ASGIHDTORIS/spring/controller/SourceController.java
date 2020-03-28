@@ -13,10 +13,9 @@ import ru.iac.ASGIHDTORIS.common.model.source.SourceDataModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
+import ru.iac.ASGIHDTORIS.spring.service.source.SourceService;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 @EnableAspectJAutoProxy
@@ -26,13 +25,15 @@ public class SourceController {
 
     private final SourceRepo sourceRepo;
     private final Validator<Source> validator;
+    private final SourceService sourceService;
 
     public SourceController(
             SourceRepo sourceRepo,
-            @Qualifier("getSourceValidator") Validator<Source> validator
-    ) {
+            @Qualifier("getSourceValidator") Validator<Source> validator,
+            SourceService sourceService) {
         this.sourceRepo = sourceRepo;
         this.validator = validator;
+        this.sourceService = sourceService;
     }
 
     @PostMapping("/create")
@@ -59,42 +60,8 @@ public class SourceController {
     }
 
     @PostMapping("/getAllSort")
-    public Page<Source> getAll(@ModelAttribute Source source, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key) {
-        log.info(source.toString());
-        if (sort.equalsIgnoreCase("desc")) {
-            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(key).descending());
-        } else {
-            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(key).ascending());
-        }
-        log.info(sourceRepo.findAll(pageable).toString());
-        return sourceRepo.findAllNative(
-                pageable,
-                source.getName(),
-                source.getLongName(),
-                source.getShortName(),
-                source.getDescription(),
-                source.getAddDescription(),
-                source.getScope(),
-                source.getPeriodicity(),
-                source.getRenewalPeriod(),
-                source.getType(),
-                source.getTags(),
-                source.getProviderLink(),
-                source.getDataSource()
-//                source.getDateCreation(),
-//                sourceDataModel.getDateCreation1(),
-//                sourceDataModel.getDateCreation2(),
-//                source.getDateDeactivation(),
-//                sourceDataModel.getDateDeactivation1(),
-//                sourceDataModel.getDateDeactivation2(),
-//                source.getDateActivation(),
-//                sourceDataModel.getDateActivation1(),
-//                sourceDataModel.getDateActivation2(),
-//                source.getLastUpdate(),
-//                sourceDataModel.getLastUpdate1(),
-//                sourceDataModel.getLastUpdate2(),
-//                source.getIsArchive()
-        );
+    public Page<Source> getAll(@ModelAttribute Source source, @ModelAttribute SourceDataModel sourceDataModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key) {
+        return sourceService.findAllSourceByQuery(pageable, source, sourceDataModel, key, sort);
 
     }
 
@@ -103,9 +70,21 @@ public class SourceController {
         return sourceRepo.findAllByIsArchive(true, pageable);
     }
 
+    @GetMapping("/getAllArchiveSort")
+    public Page<Source> getAllArchive(@ModelAttribute Source source, @ModelAttribute SourceDataModel sourceDataModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
+        source.setIsArchive(true);
+        return sourceService.findAllSourceByQuery(pageable, source, sourceDataModel, key, sort);
+    }
+
     @GetMapping("/getAllNotArchive")
     public Page<Source> getAllNotArchive(@PageableDefault Pageable pageable){
         return sourceRepo.findAllByIsArchive(false, pageable);
+    }
+
+    @GetMapping("/getAllNotArchiveSort")
+    public Page<Source> getAllNotArchive(@ModelAttribute Source source, @ModelAttribute SourceDataModel sourceDataModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
+        source.setIsArchive(false);
+        return sourceService.findAllSourceByQuery(pageable, source, sourceDataModel, key, sort);
     }
 
     @GetMapping("/archive/{id}")

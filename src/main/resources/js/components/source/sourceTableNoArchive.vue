@@ -23,7 +23,7 @@
                     <th @click="sort('tags')">Ключевые слова (теги)</th>
                     <th @click="sort('provider_link')">Информационная система - источник данных</th>
                     <th @click="sort('data_source')">Ссылка на данные на сайте поставщика</th>
-                    <th @click="sort('is_archive')">Архивность</th>
+                    <th @click="sort('archive')">Архивность</th>
                     <th @click="sort('date_creation')">Дата создания</th>
                     <th @click="sort('date_deactivation')">Дата деактивации</th>
                     <th @click="sort('date_activation')">Дата активации</th>

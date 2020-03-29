@@ -23,7 +23,7 @@
                     <th @click="sort('tags')">Ключевые слова (теги)</th>
                     <th @click="sort('provider_link')">Информационная система - источник данных</th>
                     <th @click="sort('data_source')">Ссылка на данные на сайте поставщика</th>
-                    <th @click="sort('is_archive')">Архивность</th>
+                    <th @click="sort('archive')">Архивность</th>
                     <th @click="sort('date_creation')">Дата создания</th>
                     <th @click="sort('date_deactivation')">Дата деактивации</th>
                     <th @click="sort('date_activation')">Дата активации</th>
@@ -211,8 +211,8 @@
             },
 
             onCurrentChange(value) {
-                this.currentPage = value;
-                AXIOS.get(this.url + '&page=' + (value - 1))
+                this.pagination.currentPage = value;
+                AXIOS.get(this.url + '&page=' + (value - 1)+ '&size=' + this.pagination.pageSize)
                     .then(response => {
                         this.sourceData = response.data.content;
                     })
@@ -222,8 +222,8 @@
             },
 
             onSizeChange(value) {
-                this.pageSize = value;
-                this.currentPage = 1;
+                this.pagination.pageSize = value;
+                this.pagination.currentPage = 1;
                 AXIOS.get(this.url + '&size=' + value)
                     .then(response => {
                         this.sourceData = response.data.content;
@@ -289,6 +289,7 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("size",this.pagination.pageSize);
 
                 AXIOS.post("/source/getAllSort",
                     formData,

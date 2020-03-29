@@ -47,8 +47,8 @@
                     <td><el-input placeholder="Please input" v-model="source.dataSource"></el-input></td>
                     <td><el-input placeholder="Please input" v-model="source.isArchive"></el-input></td>
                     <td> <div class="block">
-                        <span class="demonstration">Default</span>
                         <el-date-picker
+                                value-format="yyyy-MM-dd"
                                 v-model="source.dateCreation"
                                 type="daterange"
                                 range-separator="To"
@@ -56,9 +56,36 @@
                                 end-placeholder="End date">
                         </el-date-picker>
                     </div></td>
-                    <td><el-input placeholder="Please input" v-model="source.dateDeactivation"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.dateActivation"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.lastUpdate"></el-input></td>
+                    <td> <div class="block">
+                        <el-date-picker
+                                value-format="yyyy-MM-dd"
+                                v-model="source.dateDeactivation"
+                                type="daterange"
+                                range-separator="To"
+                                start-placeholder="Start date"
+                                end-placeholder="End date">
+                        </el-date-picker>
+                    </div></td>
+                    <td> <div class="block">
+                        <el-date-picker
+                                value-format="yyyy-MM-dd"
+                                v-model="source.dateActivation"
+                                type="daterange"
+                                range-separator="To"
+                                start-placeholder="Start date"
+                                end-placeholder="End date">
+                        </el-date-picker>
+                    </div></td>
+                    <td> <div class="block">
+                        <el-date-picker
+                                value-format="yyyy-MM-dd"
+                                v-model="source.lastUpdate"
+                                type="daterange"
+                                range-separator="To"
+                                start-placeholder="Start date"
+                                end-placeholder="End date">
+                        </el-date-picker>
+                    </div></td>
                 </tr>
                 <tbody v-for="source in sourceData">
                 <tr >
@@ -167,9 +194,17 @@
                     dataSource:"",
                     isArchive:"",
                     dateCreation:"",
+                    dateCreation1:"",
+                    dateCreation2:"",
                     dateDeactivation:"",
+                    dateDeactivation1:"",
+                    dateDeactivation2:"",
                     dateActivation:"",
+                    dateActivation1:"",
+                    dateActivation2:"",
                     lastUpdate:"",
+                    lastUpdate1:"",
+                    lastUpdate2:"",
 
                 }
             }
@@ -212,7 +247,26 @@
 
             onCurrentChange(value) {
                 this.pagination.currentPage = value;
-                AXIOS.get(this.url + '&page=' + (value - 1)+ '&size=' + this.pagination.pageSize)
+
+                let formData = new FormData();
+                formData.append("sort",this.source.sort);
+                formData.append("key",this.source.key);
+                formData.append("name",this.source.name);
+                formData.append("id",this.source.id);
+                formData.append("longName",this.source.longName);
+                formData.append("shortName",this.source.shortName);
+                formData.append("description",this.source.description);
+                formData.append("addDescription",this.source.addDescription);
+                formData.append("scope",this.source.scope);
+                formData.append("periodicity",this.source.periodicity);
+                formData.append("renewalPeriod",this.source.renewalPeriod);
+                formData.append("type",this.source.type);
+                formData.append("tags",this.source.tags);
+                formData.append("providerLink",this.source.providerLink);
+                formData.append("dataSource",this.source.dataSource);
+                formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage - 1);
+                AXIOS.post("/source/getAllSort", formData)
                     .then(response => {
                         this.sourceData = response.data.content;
                     })
@@ -224,7 +278,26 @@
             onSizeChange(value) {
                 this.pagination.pageSize = value;
                 this.pagination.currentPage = 1;
-                AXIOS.get(this.url + '&size=' + value)
+
+                let formData = new FormData();
+                formData.append("sort",this.source.sort);
+                formData.append("key",this.source.key);
+                formData.append("name",this.source.name);
+                formData.append("id",this.source.id);
+                formData.append("longName",this.source.longName);
+                formData.append("shortName",this.source.shortName);
+                formData.append("description",this.source.description);
+                formData.append("addDescription",this.source.addDescription);
+                formData.append("scope",this.source.scope);
+                formData.append("periodicity",this.source.periodicity);
+                formData.append("renewalPeriod",this.source.renewalPeriod);
+                formData.append("type",this.source.type);
+                formData.append("tags",this.source.tags);
+                formData.append("providerLink",this.source.providerLink);
+                formData.append("dataSource",this.source.dataSource);
+                formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage - 1);
+                AXIOS.post("/source/getAllSort", formData)
                     .then(response => {
                         this.sourceData = response.data.content;
                     })
@@ -253,7 +326,31 @@
                 });
             },
 
-            sort( key) {
+            sort(key) {
+                console.log(this.source.dateCreation);
+
+                if(this.source.dateCreation !== "") {
+                    this.source.dateCreation1 = this.source.dateCreation[0];
+                    this.source.dateCreation2 = this.source.dateCreation[1];
+                }
+
+                if(this.source.dateDeactivation !== "") {
+                    this.source.dateDeactivation1 = this.source.dateDeactivation[0];
+                    this.source.dateDeactivation2 = this.source.dateDeactivation[1];
+                }
+
+                if(this.source.dateActivation !== "") {
+                    this.source.dateActivation1 = this.source.dateActivation[0];
+                    this.source.dateActivation2 = this.source.dateActivation[1];
+                }
+
+                if(this.source.lastUpdate !== "") {
+                    this.source.lastUpdate1 = this.source.lastUpdate[0];
+                    this.source.lastUpdate2 = this.source.lastUpdate[1];
+                }
+
+                console.log(this.source.dateCreation1);
+                console.log(this.source.dateCreation2);
                 if(this.source.key === key ) {
                     switch(this.source.sort) {
                         case "":
@@ -272,10 +369,8 @@
                     this.source.sort = "asc";
                 }
                 let formData = new FormData();
-                formData.append("size",this.pagination.pageSize);
-                formData.append("page",this.pagination.currentPage - 1);
                 formData.append("sort",this.source.sort);
-                formData.append("key",key);
+                formData.append("key",this.source.key);
                 formData.append("name",this.source.name);
                 formData.append("id",this.source.id);
                 formData.append("longName",this.source.longName);
@@ -289,7 +384,16 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("dateCreation1",this.source.dateCreation1);
+                formData.append("dateCreation2",this.source.dateCreation2);
+                formData.append("dateDeactivation1",this.source.dateDeactivation1);
+                formData.append("dateDeactivation2",this.source.dateDeactivation2);
+                formData.append("dateActivation1",this.source.dateActivation1);
+                formData.append("dateActivation2",this.source.dateActivation2);
+                formData.append("lastUpdate1",this.source.lastUpdate1);
+                formData.append("lastUpdate2",this.source.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage - 1);
 
                 AXIOS.post("/source/getAllSort",
                     formData,
@@ -305,11 +409,31 @@
             },
 
             updatePage() {
-                AXIOS.get("source/getAll").then(response => {
-                    this.pagination.totalPages = response.data.totalPages;
-                    this.pagination.totalElements = response.data.totalElements;
-                    this.sourceData = response.data.content;
-                })
+                let formData = new FormData();
+                formData.append("sort",this.source.sort);
+                formData.append("key",this.source.key);
+                formData.append("name",this.source.name);
+                formData.append("id",this.source.id);
+                formData.append("longName",this.source.longName);
+                formData.append("shortName",this.source.shortName);
+                formData.append("description",this.source.description);
+                formData.append("addDescription",this.source.addDescription);
+                formData.append("scope",this.source.scope);
+                formData.append("periodicity",this.source.periodicity);
+                formData.append("renewalPeriod",this.source.renewalPeriod);
+                formData.append("type",this.source.type);
+                formData.append("tags",this.source.tags);
+                formData.append("providerLink",this.source.providerLink);
+                formData.append("dataSource",this.source.dataSource);
+                formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage - 1);
+                AXIOS.post("/source/getAllSort", formData)
+                    .then(response => {
+                        this.sourceData = response.data.content;
+                    })
+                    .catch(error => {
+                        console.log('ERROR: ' + error);
+                    })
             }
         },
         mounted() {

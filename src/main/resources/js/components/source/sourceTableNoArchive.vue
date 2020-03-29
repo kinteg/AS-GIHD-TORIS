@@ -213,8 +213,27 @@
             },
 
             onCurrentChange(value) {
-                this.currentPage = value;
-                AXIOS.get(this.url + '&page=' + (value - 1))
+                this.pagination.currentPage = value;
+
+                let formData = new FormData();
+                formData.append("sort",this.source.sort);
+                formData.append("key",this.source.key);
+                formData.append("name",this.source.name);
+                formData.append("id",this.source.id);
+                formData.append("longName",this.source.longName);
+                formData.append("shortName",this.source.shortName);
+                formData.append("description",this.source.description);
+                formData.append("addDescription",this.source.addDescription);
+                formData.append("scope",this.source.scope);
+                formData.append("periodicity",this.source.periodicity);
+                formData.append("renewalPeriod",this.source.renewalPeriod);
+                formData.append("type",this.source.type);
+                formData.append("tags",this.source.tags);
+                formData.append("providerLink",this.source.providerLink);
+                formData.append("dataSource",this.source.dataSource);
+                formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage - 1);
+                AXIOS.post("/source/getAllNotArchiveSort", formData)
                     .then(response => {
                         this.sourceData = response.data.content;
                     })
@@ -224,9 +243,28 @@
             },
 
             onSizeChange(value) {
-                this.pageSize = value;
-                this.currentPage = 1;
-                AXIOS.get(this.url + '&size=' + value)
+                this.pagination.pageSize = value;
+                this.pagination.currentPage = 1;
+
+                let formData = new FormData();
+                formData.append("sort",this.source.sort);
+                formData.append("key",this.source.key);
+                formData.append("name",this.source.name);
+                formData.append("id",this.source.id);
+                formData.append("longName",this.source.longName);
+                formData.append("shortName",this.source.shortName);
+                formData.append("description",this.source.description);
+                formData.append("addDescription",this.source.addDescription);
+                formData.append("scope",this.source.scope);
+                formData.append("periodicity",this.source.periodicity);
+                formData.append("renewalPeriod",this.source.renewalPeriod);
+                formData.append("type",this.source.type);
+                formData.append("tags",this.source.tags);
+                formData.append("providerLink",this.source.providerLink);
+                formData.append("dataSource",this.source.dataSource);
+                formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage - 1);
+                AXIOS.post("/source/getAllNotArchiveSort", formData)
                     .then(response => {
                         this.sourceData = response.data.content;
                     })
@@ -274,10 +312,8 @@
                     this.source.sort = "asc";
                 }
                 let formData = new FormData();
-                formData.append("size",this.pagination.pageSize);
-                formData.append("page",this.pagination.currentPage - 1);
                 formData.append("sort",this.source.sort);
-                formData.append("key",key);
+                formData.append("key",this.source.key);
                 formData.append("name",this.source.name);
                 formData.append("id",this.source.id);
                 formData.append("longName",this.source.longName);
@@ -291,6 +327,8 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage - 1);
 
                 AXIOS.post("/source/getAllNotArchiveSort",
                     formData,
@@ -305,19 +343,32 @@
                 })
             },
 
-            updatePage(){
+            updatePage() {
                 let formData = new FormData();
+                formData.append("sort",this.source.sort);
+                formData.append("key",this.source.key);
+                formData.append("name",this.source.name);
+                formData.append("id",this.source.id);
+                formData.append("longName",this.source.longName);
+                formData.append("shortName",this.source.shortName);
+                formData.append("description",this.source.description);
+                formData.append("addDescription",this.source.addDescription);
+                formData.append("scope",this.source.scope);
+                formData.append("periodicity",this.source.periodicity);
+                formData.append("renewalPeriod",this.source.renewalPeriod);
+                formData.append("type",this.source.type);
+                formData.append("tags",this.source.tags);
+                formData.append("providerLink",this.source.providerLink);
+                formData.append("dataSource",this.source.dataSource);
                 formData.append("size",this.pagination.pageSize);
-                formData.append("page",this.pagination.currentPage);
-                formData.append("sort","desc");
-                formData.append("key","name");
-                formData.append("name","Test");
-
-                AXIOS.get("source/getAllNotArchive").then(response => {
-                    this.pagination.totalPages = response.data.totalPages;
-                    this.pagination.totalElements = response.data.totalElements;
-                    this.sourceData = response.data.content;
-                })
+                formData.append("page",this.pagination.currentPage - 1);
+                AXIOS.post("/source/getAllNotArchiveSort", formData)
+                    .then(response => {
+                        this.sourceData = response.data.content;
+                    })
+                    .catch(error => {
+                        console.log('ERROR: ' + error);
+                    })
             }
         },
         mounted() {

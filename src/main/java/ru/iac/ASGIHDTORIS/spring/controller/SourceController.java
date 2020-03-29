@@ -62,8 +62,6 @@ public class SourceController {
     @PostMapping("/getAllSort")
     public Page<Source> getAll(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable) {
         log.info(source.toString());
-        log.info(source.getDateCreation1().atTime(0, 0, 0, 0).toString());
-        log.info(source.getDateCreation2().atTime(23, 59, 59, 0).toString());
         return sourceService.findAllSourceByQuery(pageable, source);
     }
 
@@ -75,6 +73,7 @@ public class SourceController {
     @PostMapping("/getAllArchiveSort")
     public Page<Source> getAllArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable) {
         source.setIsArchive(true);
+        log.info(source.toString());
         return sourceService.findAllSourceByQuery(pageable, source);
     }
 

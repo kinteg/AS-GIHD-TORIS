@@ -30,7 +30,7 @@
                     <th @click="sort('last_update')">Последнее обновление</th>
                 </tr>
                 <tr>
-                    <td><el-button @click="sort"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
+                    <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
                     <td></td>
                     <td><el-input placeholder="Please input" v-model="source.id"></el-input></td>
                     <td><el-input placeholder="Please input" v-model="source.name"></el-input></td>
@@ -47,9 +47,39 @@
                     <td><el-input placeholder="Please input" v-model="source.dataSource"></el-input></td>
                     <td><el-input placeholder="Please input" v-model="source.isArchive"></el-input></td>
                     <td> <div class="block">
-                        <span class="demonstration">Default</span>
                         <el-date-picker
+                                value-format="yyyy-MM-dd"
                                 v-model="source.dateCreation"
+                                type="daterange"
+                                range-separator="To"
+                                start-placeholder="Start date"
+                                end-placeholder="End date">
+                        </el-date-picker>
+                    </div></td>
+                    <td> <div class="block">
+                        <el-date-picker
+                                value-format="yyyy-MM-dd"
+                                v-model="source.dateDeactivation"
+                                type="daterange"
+                                range-separator="To"
+                                start-placeholder="Start date"
+                                end-placeholder="End date">
+                        </el-date-picker>
+                    </div></td>
+                    <td> <div class="block">
+                        <el-date-picker
+                                value-format="yyyy-MM-dd"
+                                v-model="source.dateActivation"
+                                type="daterange"
+                                range-separator="To"
+                                start-placeholder="Start date"
+                                end-placeholder="End date">
+                        </el-date-picker>
+                    </div></td>
+                    <td> <div class="block">
+                        <el-date-picker
+                                value-format="yyyy-MM-dd"
+                                v-model="source.lastUpdate"
                                 type="daterange"
                                 range-separator="To"
                                 start-placeholder="Start date"
@@ -166,9 +196,17 @@
                     dataSource:"",
                     isArchive:"",
                     dateCreation:"",
+                    dateCreation1:"",
+                    dateCreation2:"",
                     dateDeactivation:"",
+                    dateDeactivation1:"",
+                    dateDeactivation2:"",
                     dateActivation:"",
+                    dateActivation1:"",
+                    dateActivation2:"",
                     lastUpdate:"",
+                    lastUpdate1:"",
+                    lastUpdate2:"",
 
                 }
             }
@@ -215,6 +253,26 @@
             onCurrentChange(value) {
                 this.pagination.currentPage = value;
 
+                if(this.source.dateCreation !== null && this.source.dateCreation !== "") {
+                    this.source.dateCreation1 = this.source.dateCreation[0];
+                    this.source.dateCreation2 = this.source.dateCreation[1];
+                }
+
+                if(this.source.dateDeactivation !== null && this.source.dateDeactivation !== "") {
+                    this.source.dateDeactivation1 = this.source.dateDeactivation[0];
+                    this.source.dateDeactivation2 = this.source.dateDeactivation[1];
+                }
+
+                if(this.source.dateActivation !== null && this.source.dateActivation !== "") {
+                    this.source.dateActivation1 = this.source.dateActivation[0];
+                    this.source.dateActivation2 = this.source.dateActivation[1];
+                }
+
+                if(this.source.lastUpdate !== null && this.source.lastUpdate !== "") {
+                    this.source.lastUpdate1 = this.source.lastUpdate[0];
+                    this.source.lastUpdate2 = this.source.lastUpdate[1];
+                }
+
                 let formData = new FormData();
                 formData.append("sort",this.source.sort);
                 formData.append("key",this.source.key);
@@ -231,6 +289,14 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("dateCreation1",this.source.dateCreation1);
+                formData.append("dateCreation2",this.source.dateCreation2);
+                formData.append("dateDeactivation1",this.source.dateDeactivation1);
+                formData.append("dateDeactivation2",this.source.dateDeactivation2);
+                formData.append("dateActivation1",this.source.dateActivation1);
+                formData.append("dateActivation2",this.source.dateActivation2);
+                formData.append("lastUpdate1",this.source.lastUpdate1);
+                formData.append("lastUpdate2",this.source.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
                 AXIOS.post("/source/getAllNotArchiveSort", formData)
@@ -243,6 +309,26 @@
             },
 
             onSizeChange(value) {
+                if(this.source.dateCreation !== null && this.source.dateCreation !== "") {
+                    this.source.dateCreation1 = this.source.dateCreation[0];
+                    this.source.dateCreation2 = this.source.dateCreation[1];
+                }
+
+                if(this.source.dateDeactivation !== null && this.source.dateDeactivation !== "") {
+                    this.source.dateDeactivation1 = this.source.dateDeactivation[0];
+                    this.source.dateDeactivation2 = this.source.dateDeactivation[1];
+                }
+
+                if(this.source.dateActivation !== null && this.source.dateActivation !== "") {
+                    this.source.dateActivation1 = this.source.dateActivation[0];
+                    this.source.dateActivation2 = this.source.dateActivation[1];
+                }
+
+                if(this.source.lastUpdate !== null && this.source.lastUpdate !== "") {
+                    this.source.lastUpdate1 = this.source.lastUpdate[0];
+                    this.source.lastUpdate2 = this.source.lastUpdate[1];
+                }
+
                 this.pagination.pageSize = value;
                 this.pagination.currentPage = 1;
 
@@ -262,6 +348,14 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("dateCreation1",this.source.dateCreation1);
+                formData.append("dateCreation2",this.source.dateCreation2);
+                formData.append("dateDeactivation1",this.source.dateDeactivation1);
+                formData.append("dateDeactivation2",this.source.dateDeactivation2);
+                formData.append("dateActivation1",this.source.dateActivation1);
+                formData.append("dateActivation2",this.source.dateActivation2);
+                formData.append("lastUpdate1",this.source.lastUpdate1);
+                formData.append("lastUpdate2",this.source.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
                 AXIOS.post("/source/getAllNotArchiveSort", formData)
@@ -293,7 +387,27 @@
                 });
             },
 
-            sort( key) {
+            sort(key) {
+                if(this.source.dateCreation !== null && this.source.dateCreation !== "") {
+                    this.source.dateCreation1 = this.source.dateCreation[0];
+                    this.source.dateCreation2 = this.source.dateCreation[1];
+                }
+
+                if(this.source.dateDeactivation !== null && this.source.dateDeactivation !== "") {
+                    this.source.dateDeactivation1 = this.source.dateDeactivation[0];
+                    this.source.dateDeactivation2 = this.source.dateDeactivation[1];
+                }
+
+                if(this.source.dateActivation !== null && this.source.dateActivation !== "") {
+                    this.source.dateActivation1 = this.source.dateActivation[0];
+                    this.source.dateActivation2 = this.source.dateActivation[1];
+                }
+
+                if(this.source.lastUpdate !== null && this.source.lastUpdate !== "") {
+                    this.source.lastUpdate1 = this.source.lastUpdate[0];
+                    this.source.lastUpdate2 = this.source.lastUpdate[1];
+                }
+
                 if(this.source.key === key ) {
                     switch(this.source.sort) {
                         case "":
@@ -327,6 +441,14 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("dateCreation1",this.source.dateCreation1);
+                formData.append("dateCreation2",this.source.dateCreation2);
+                formData.append("dateDeactivation1",this.source.dateDeactivation1);
+                formData.append("dateDeactivation2",this.source.dateDeactivation2);
+                formData.append("dateActivation1",this.source.dateActivation1);
+                formData.append("dateActivation2",this.source.dateActivation2);
+                formData.append("lastUpdate1",this.source.lastUpdate1);
+                formData.append("lastUpdate2",this.source.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
 
@@ -344,6 +466,26 @@
             },
 
             updatePage() {
+                if(this.source.dateCreation !== null && this.source.dateCreation !== "") {
+                    this.source.dateCreation1 = this.source.dateCreation[0];
+                    this.source.dateCreation2 = this.source.dateCreation[1];
+                }
+
+                if(this.source.dateDeactivation !== null && this.source.dateDeactivation !== "") {
+                    this.source.dateDeactivation1 = this.source.dateDeactivation[0];
+                    this.source.dateDeactivation2 = this.source.dateDeactivation[1];
+                }
+
+                if(this.source.dateActivation !== null && this.source.dateActivation !== "") {
+                    this.source.dateActivation1 = this.source.dateActivation[0];
+                    this.source.dateActivation2 = this.source.dateActivation[1];
+                }
+
+                if(this.source.lastUpdate !== null && this.source.lastUpdate !== "") {
+                    this.source.lastUpdate1 = this.source.lastUpdate[0];
+                    this.source.lastUpdate2 = this.source.lastUpdate[1];
+                }
+
                 let formData = new FormData();
                 formData.append("sort",this.source.sort);
                 formData.append("key",this.source.key);
@@ -360,6 +502,14 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("dateCreation1",this.source.dateCreation1);
+                formData.append("dateCreation2",this.source.dateCreation2);
+                formData.append("dateDeactivation1",this.source.dateDeactivation1);
+                formData.append("dateDeactivation2",this.source.dateDeactivation2);
+                formData.append("dateActivation1",this.source.dateActivation1);
+                formData.append("dateActivation2",this.source.dateActivation2);
+                formData.append("lastUpdate1",this.source.lastUpdate1);
+                formData.append("lastUpdate2",this.source.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
                 AXIOS.post("/source/getAllNotArchiveSort", formData)

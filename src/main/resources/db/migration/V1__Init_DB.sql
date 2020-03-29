@@ -14,13 +14,13 @@ create table if not exists source (
     tags varchar (255),
     provider_link varchar(255),
     data_source varchar(255),
-    is_arсhive boolean,
+    archive boolean,
     date_creation timestamp,
     date_deactivation timestamp,
     date_activation timestamp,
     last_update timestamp,
     primary key (id),
-    unique (name)
+    unique (short_name)
 );
 
 create table if not exists pattern (

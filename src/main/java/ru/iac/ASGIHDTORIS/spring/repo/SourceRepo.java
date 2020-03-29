@@ -11,6 +11,15 @@ import java.time.LocalDate;
 
 public interface SourceRepo extends JpaRepository<Source, Long> {
 
+    Source findById(long sourceId);
+
+    Page<Source> findAllByIsArchive(boolean isArchive, Pageable pageable);
+
+    Page<Source> findAll(Pageable pageable);
+
+    boolean existsByShortName(String name);
+    boolean existsByShortNameAndId(String name, long id);
+
     String query = " WHERE " +
             " cast(id as text) LIKE %:id%" +
             " AND name LIKE %:name%" +
@@ -68,12 +77,12 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
             " AND date_deactivation >= :dateDeactivation1" +
             " AND date_deactivation < :dateDeactivation2" +
             query +
-            " AND is_arсhive = :isArchive",
+            " AND archive = :isArchive",
             countQuery = "SELECT count(*) FROM source " +
                     " AND date_deactivation >= :dateDeactivation1" +
                     " AND date_deactivation < :dateDeactivation2" +
                     query +
-                    " AND is_arсhive = :isArchive",
+                    " AND archive = :isArchive",
             nativeQuery = true)
     Page<Source> findAllSourceByQuery(
             Pageable pageable,
@@ -128,9 +137,9 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
     );
 
     @Query(value = "SELECT * FROM source " + query +
-            " AND is_arсhive = :isArchive",
+            " AND archive = :isArchive",
             countQuery = "SELECT count(*) FROM source " + query +
-                    " AND is_arсhive = :isArchive",
+                    " AND archive = :isArchive",
             nativeQuery = true)
     Page<Source> findAllSourceByQuery(
             Pageable pageable,
@@ -155,14 +164,6 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
             @Param("lastUpdate2") LocalDate lastUpdate2,
             @Param("isArchive") Boolean isArchive
     );
-
-    Source findById(long sourceId);
-
-    Page<Source> findAllByIsArchive(boolean isArchive, Pageable pageable);
-
-    Page<Source> findAll(Pageable pageable);
-
-    boolean existsById(String id);
 
 
 }

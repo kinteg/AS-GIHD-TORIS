@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.service.source;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 import java.time.LocalDate;
 
 @Service
+@Slf4j
 public class SourceServiceImpl implements SourceService {
 
     private final SourceRepo sourceRepo;
@@ -59,12 +61,17 @@ public class SourceServiceImpl implements SourceService {
         source = fixSourceDataModel(source);
 
         if (source.getIsArchive() == null && !(source.getDateDeactivation1() == null && source.getDateDeactivation2() == null)) {
+            log.info("1");
             return getWithoutArchiveWithDeactivation(pageable, source);
         } else if (source.getIsArchive() != null && !(source.getDateDeactivation1() == null && source.getDateDeactivation2() == null)) {
+            log.info("2");
             return getWithArchiveAndDeactivation(pageable, source);
         } else if (source.getIsArchive() == null && (source.getDateDeactivation1() == null && source.getDateDeactivation2() == null)) {
+            log.info("3");
             return getWithoutArchiveAndDeactivation(pageable, source);
         } else {
+            log.info("4");
+            log.info(source.toString());
             return getWithArchiveWithoutDeactivation(pageable, source);
         }
 
@@ -198,6 +205,29 @@ public class SourceServiceImpl implements SourceService {
     }
 
     private Page<Source> getWithArchiveWithoutDeactivation(Pageable pageable, SourceModel source) {
+
+        log.info(sourceRepo.findAllSourceByQuery(
+                pageable,
+                source.getId(),
+                source.getName(),
+                source.getLongName(),
+                source.getShortName(),
+                source.getDescription(),
+                source.getAddDescription(),
+                source.getScope(),
+                source.getPeriodicity(),
+                source.getRenewalPeriod(),
+                source.getType(),
+                source.getTags(),
+                source.getProviderLink(),
+                source.getDataSource(),
+                source.getDateCreation1(),
+                source.getDateCreation2(),
+                source.getDateActivation1(),
+                source.getDateActivation2(),
+                source.getLastUpdate1(),
+                source.getLastUpdate2(),
+                source.getIsArchive()).getContent().toString());
 
         return sourceRepo.findAllSourceByQuery(
                 pageable,

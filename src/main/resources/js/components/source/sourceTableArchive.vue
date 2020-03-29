@@ -254,7 +254,7 @@
                 });
             },
 
-            sort( key) {
+            sort(key) {
                 if(this.source.key === key ) {
                     switch(this.source.sort) {
                         case "":
@@ -313,7 +313,7 @@
                 formData.append("key","name");
                 formData.append("name","Test");
 
-                AXIOS.get("source/getAllArchive").then(response => {
+                AXIOS.get("source/getAllArchiveSort").then(response => {
                     this.pagination.totalPages = response.data.totalPages;
                     this.pagination.totalElements = response.data.totalElements;
                     this.sourceData = response.data.content;

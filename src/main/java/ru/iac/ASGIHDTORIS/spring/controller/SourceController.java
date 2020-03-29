@@ -44,6 +44,7 @@ public class SourceController {
         source.setLastUpdate(LocalDateTime.now());
 
         return validator.isValid(source)
+                && !sourceRepo.existsByShortName(source.getShortName())
                 ? sourceRepo.save(source)
                 : new Source();
     }
@@ -123,9 +124,13 @@ public class SourceController {
     @ResponseBody
     public Source update(@ModelAttribute Source source) {
 
-        if (sourceRepo.existsById(source.getId()) && validator.isValid(source)) {
-            sourceRepo.save(source);
+        if (
+                source.getId() != null
+                && sourceRepo.existsById(source.getId())
+                        && validator.isValid(source)
+        ) {
             source.setLastUpdate(LocalDateTime.now());
+            sourceRepo.save(source);
 
             return source;
         }

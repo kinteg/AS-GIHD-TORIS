@@ -13,6 +13,8 @@ import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/pattern/")
@@ -123,6 +125,53 @@ public class PatternController {
             pattern.setIsArchive(false);
 
             patternRepo.save(pattern);
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+    @GetMapping("/archivePatterns/{sourceId}")
+    public boolean archivePatterns(@PathVariable Long sourceId) {
+
+        if (sourceId != null &&
+                patternRepo.existsBySourceId(sourceId)) {
+
+            List<Pattern> patterns = patternRepo
+                    .findAllBySourceId(sourceId)
+                    .stream()
+                    .peek(v -> {
+                        v.setIsArchive(true);
+                        v.setDateDeactivation(LocalDateTime.now());
+                    })
+                    .collect(Collectors.toList());
+
+            patternRepo.saveAll(patterns);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @GetMapping("/deArchivePatterns/{sourceId}")
+    public boolean deArchivePatterns(@PathVariable Long sourceId) {
+
+        if (sourceId != null &&
+                patternRepo.existsBySourceId(sourceId)) {
+
+            List<Pattern> patterns = patternRepo
+                    .findAllBySourceId(sourceId)
+                    .stream()
+                    .peek(v -> {
+                        v.setIsArchive(false);
+                        v.setDateActivation(LocalDateTime.now());
+                    })
+                    .collect(Collectors.toList());
+
+            patternRepo.saveAll(patterns);
 
             return true;
         }

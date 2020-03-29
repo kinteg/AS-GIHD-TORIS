@@ -9,8 +9,21 @@ import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface PatternRepo extends JpaRepository<Pattern, Long> {
+
+
+    Page<Pattern> findAllBySourceId(Long sourceId, Pageable pageable);
+    List<Pattern> findAllBySourceId(Long sourceId);
+
+    Page<Pattern> findAll(Pageable pageable);
+    Page<Pattern> findAllByIsArchive(Boolean isArchive, Pageable pageable);
+    Page<Pattern> findAllBySourceIdAndIsArchive(long sourceId, boolean isArchive, Pageable pageable);
+
+    Pattern findById(long id);
+    boolean existsById(long id);
+    boolean existsBySourceId(long id);
 
     String query = " WHERE name LIKE %:name%" +
             " AND description LIKE %:description%" +
@@ -26,15 +39,6 @@ public interface PatternRepo extends JpaRepository<Pattern, Long> {
             " AND date_activation < :dateActivation2)" +
             " AND (last_update >= :lastUpdate1" +
             " AND last_update < :lastUpdate2)";
-
-    Page<Pattern> findAllBySourceId(Long sourceId, Pageable pageable);
-
-    Page<Pattern> findAll(Pageable pageable);
-    Page<Pattern> findAllByIsArchive(Boolean isArchive, Pageable pageable);
-    Page<Pattern> findAllBySourceIdAndIsArchive(long sourceId, boolean isArchive, Pageable pageable);
-
-    Pattern findById(long id);
-    boolean existsById(long id);
 
     @Query(value = "SELECT * FROM pattern " + query,
             countQuery = "SELECT count(*) FROM pattern " + query,

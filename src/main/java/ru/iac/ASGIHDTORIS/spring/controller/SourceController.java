@@ -7,14 +7,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-import ru.iac.ASGIHDTORIS.common.model.domain.SourceDateModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
+import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 import ru.iac.ASGIHDTORIS.spring.service.source.SourceService;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @EnableAspectJAutoProxy
@@ -37,7 +40,7 @@ public class SourceController {
 
     @PostMapping("/create")
     @ResponseBody
-    public Source createSource (@ModelAttribute Source source){
+    public Source createSource(@ModelAttribute Source source) {
 
         source.setDateCreation(LocalDateTime.now());
         source.setDateActivation(LocalDateTime.now());
@@ -51,11 +54,11 @@ public class SourceController {
 
     @GetMapping("/{id}")
     public Source getById(@PathVariable Long id) {
-        return sourceRepo.findById((long)id);
+        return sourceRepo.findById((long) id);
     }
 
     @GetMapping("/getAll")
-    public Page<Source> getAll(@PageableDefault Pageable pageable){
+    public Page<Source> getAll(@PageableDefault Pageable pageable) {
         return sourceRepo.findAll(pageable);
     }
 
@@ -67,32 +70,32 @@ public class SourceController {
     }
 
     @GetMapping("/getAllArchive")
-    public Page<Source> getAllArchive(@PageableDefault Pageable pageable){
+    public Page<Source> getAllArchive(@PageableDefault Pageable pageable) {
         return sourceRepo.findAllByIsArchive(true, pageable);
     }
 
     @PostMapping("/getAllArchiveSort")
-    public Page<Source> getAllArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable){
+    public Page<Source> getAllArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable) {
         source.setIsArchive(true);
         return sourceService.findAllSourceByQuery(pageable, source);
     }
 
     @GetMapping("/getAllNotArchive")
-    public Page<Source> getAllNotArchive(@PageableDefault Pageable pageable){
+    public Page<Source> getAllNotArchive(@PageableDefault Pageable pageable) {
         return sourceRepo.findAllByIsArchive(false, pageable);
     }
 
     @PostMapping("/getAllNotArchiveSort")
-    public Page<Source> getAllNotArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable){
+    public Page<Source> getAllNotArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable) {
         source.setIsArchive(false);
         return sourceService.findAllSourceByQuery(pageable, source);
     }
 
     @GetMapping("/archive/{id}")
-    public Source archiveSource(@PathVariable long id){
+    public Source archiveSource(@PathVariable Long id) {
 
-        if (sourceRepo.existsById(id)) {
-            Source source = sourceRepo.findById(id);
+        if (id != null && sourceRepo.existsById(id)) {
+            Source source = sourceRepo.findById((long) id);
             source.setIsArchive(true);
             source.setDateDeactivation(LocalDateTime.now());
 
@@ -105,7 +108,7 @@ public class SourceController {
     }
 
     @GetMapping("/deArchive/{id}")
-    public Source deArchiveSource(@PathVariable long id){
+    public Source deArchiveSource(@PathVariable long id) {
 
         if (sourceRepo.existsById(id)) {
             Source source = sourceRepo.findById(id);
@@ -124,11 +127,16 @@ public class SourceController {
     @ResponseBody
     public Source update(@ModelAttribute Source source) {
 
-        if (
-                source.getId() != null
+        if (source.getId() != null
                 && sourceRepo.existsById(source.getId())
-                        && validator.isValid(source)
-        ) {
+                && validator.isValid(source)) {
+
+            if (sourceRepo.existsByShortName(source.getName())
+                    && !sourceRepo.existsByShortNameAndId(source.getName(), source.getId())) {
+
+                return new Source();
+            }
+
             source.setLastUpdate(LocalDateTime.now());
             sourceRepo.save(source);
 

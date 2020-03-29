@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface SourceRepo extends JpaRepository<Source, Long> {
 
@@ -63,14 +63,14 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
             @Param("tags") String tags,
             @Param("providerLink") String providerLink,
             @Param("dataSource") String dataSource,
-            @Param("dateCreation1") LocalDate dateCreation1,
-            @Param("dateCreation2") LocalDate dateCreation2,
-            @Param("dateDeactivation1") LocalDate dateDeactivation1,
-            @Param("dateDeactivation2") LocalDate dateDeactivation2,
-            @Param("dateActivation1") LocalDate dateActivation1,
-            @Param("dateActivation2") LocalDate dateActivation2,
-            @Param("lastUpdate1") LocalDate lastUpdate1,
-            @Param("lastUpdate2") LocalDate lastUpdate2
+            @Param("dateCreation1") LocalDateTime dateCreation1,
+            @Param("dateCreation2") LocalDateTime dateCreation2,
+            @Param("dateDeactivation1") LocalDateTime dateDeactivation1,
+            @Param("dateDeactivation2") LocalDateTime dateDeactivation2,
+            @Param("dateActivation1") LocalDateTime dateActivation1,
+            @Param("dateActivation2") LocalDateTime dateActivation2,
+            @Param("lastUpdate1") LocalDateTime lastUpdate1,
+            @Param("lastUpdate2") LocalDateTime lastUpdate2
     );
 
     @Query(value = "SELECT * FROM source " +
@@ -99,14 +99,14 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
             @Param("tags") String tags,
             @Param("providerLink") String providerLink,
             @Param("dataSource") String dataSource,
-            @Param("dateCreation1") LocalDate dateCreation1,
-            @Param("dateCreation2") LocalDate dateCreation2,
-            @Param("dateDeactivation1") LocalDate dateDeactivation1,
-            @Param("dateDeactivation2") LocalDate dateDeactivation2,
-            @Param("dateActivation1") LocalDate dateActivation1,
-            @Param("dateActivation2") LocalDate dateActivation2,
-            @Param("lastUpdate1") LocalDate lastUpdate1,
-            @Param("lastUpdate2") LocalDate lastUpdate2,
+            @Param("dateCreation1") LocalDateTime dateCreation1,
+            @Param("dateCreation2") LocalDateTime dateCreation2,
+            @Param("dateDeactivation1") LocalDateTime dateDeactivation1,
+            @Param("dateDeactivation2") LocalDateTime dateDeactivation2,
+            @Param("dateActivation1") LocalDateTime dateActivation1,
+            @Param("dateActivation2") LocalDateTime dateActivation2,
+            @Param("lastUpdate1") LocalDateTime lastUpdate1,
+            @Param("lastUpdate2") LocalDateTime lastUpdate2,
             @Param("isArchive") Boolean isArchive
     );
 
@@ -128,12 +128,12 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
             @Param("tags") String tags,
             @Param("providerLink") String providerLink,
             @Param("dataSource") String dataSource,
-            @Param("dateCreation1") LocalDate dateCreation1,
-            @Param("dateCreation2") LocalDate dateCreation2,
-            @Param("dateActivation1") LocalDate dateActivation1,
-            @Param("dateActivation2") LocalDate dateActivation2,
-            @Param("lastUpdate1") LocalDate lastUpdate1,
-            @Param("lastUpdate2") LocalDate lastUpdate2
+            @Param("dateCreation1") LocalDateTime dateCreation1,
+            @Param("dateCreation2") LocalDateTime dateCreation2,
+            @Param("dateActivation1") LocalDateTime dateActivation1,
+            @Param("dateActivation2") LocalDateTime dateActivation2,
+            @Param("lastUpdate1") LocalDateTime lastUpdate1,
+            @Param("lastUpdate2") LocalDateTime lastUpdate2
     );
 
     @Query(value = "SELECT * FROM source " + query +
@@ -156,12 +156,12 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
             @Param("tags") String tags,
             @Param("providerLink") String providerLink,
             @Param("dataSource") String dataSource,
-            @Param("dateCreation1") LocalDate dateCreation1,
-            @Param("dateCreation2") LocalDate dateCreation2,
-            @Param("dateActivation1") LocalDate dateActivation1,
-            @Param("dateActivation2") LocalDate dateActivation2,
-            @Param("lastUpdate1") LocalDate lastUpdate1,
-            @Param("lastUpdate2") LocalDate lastUpdate2,
+            @Param("dateCreation1") LocalDateTime dateCreation1,
+            @Param("dateCreation2") LocalDateTime dateCreation2,
+            @Param("dateActivation1") LocalDateTime dateActivation1,
+            @Param("dateActivation2") LocalDateTime dateActivation2,
+            @Param("lastUpdate1") LocalDateTime lastUpdate1,
+            @Param("lastUpdate2") LocalDateTime lastUpdate2,
             @Param("isArchive") Boolean isArchive
     );
 

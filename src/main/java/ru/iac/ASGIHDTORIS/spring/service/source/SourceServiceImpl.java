@@ -12,6 +12,7 @@ import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @Slf4j
@@ -162,14 +163,14 @@ public class SourceServiceImpl implements SourceService {
                 source.getTags(),
                 source.getProviderLink(),
                 source.getDataSource(),
-                source.getDateCreation1(),
-                source.getDateCreation2(),
-                source.getDateDeactivation1(),
-                source.getDateDeactivation2(),
-                source.getDateActivation1(),
-                source.getDateActivation2(),
-                source.getLastUpdate1(),
-                source.getLastUpdate2(),
+                source.getDateCreation1().atTime(0, 0, 0),
+                source.getDateCreation2().atTime(23, 59, 59),
+                source.getDateDeactivation1().atTime(0, 0, 0),
+                source.getDateDeactivation2().atTime(23, 59, 59),
+                source.getDateActivation1().atTime(0, 0, 0),
+                source.getDateActivation2().atTime(23, 59, 59),
+                source.getLastUpdate1().atTime(0, 0, 0),
+                source.getLastUpdate2().atTime(23, 59, 59),
                 source.getIsArchive()
         );
 
@@ -192,42 +193,19 @@ public class SourceServiceImpl implements SourceService {
                 source.getTags(),
                 source.getProviderLink(),
                 source.getDataSource(),
-                source.getDateCreation1(),
-                source.getDateCreation2(),
-                source.getDateDeactivation1(),
-                source.getDateDeactivation2(),
-                source.getDateActivation1(),
-                source.getDateActivation2(),
-                source.getLastUpdate1(),
-                source.getLastUpdate2()
+                source.getDateCreation1().atTime(0, 0, 0),
+                source.getDateCreation2().atTime(23, 59, 59),
+                source.getDateDeactivation1().atTime(0, 0, 0),
+                source.getDateDeactivation2().atTime(23, 59, 59),
+                source.getDateActivation1().atTime(0, 0, 0),
+                source.getDateActivation2().atTime(23, 59, 59),
+                source.getLastUpdate1().atTime(0, 0, 0),
+                source.getLastUpdate2().atTime(23, 59, 59)
         );
 
     }
 
     private Page<Source> getWithArchiveWithoutDeactivation(Pageable pageable, SourceModel source) {
-
-        log.info(sourceRepo.findAllSourceByQuery(
-                pageable,
-                source.getId(),
-                source.getName(),
-                source.getLongName(),
-                source.getShortName(),
-                source.getDescription(),
-                source.getAddDescription(),
-                source.getScope(),
-                source.getPeriodicity(),
-                source.getRenewalPeriod(),
-                source.getType(),
-                source.getTags(),
-                source.getProviderLink(),
-                source.getDataSource(),
-                source.getDateCreation1(),
-                source.getDateCreation2(),
-                source.getDateActivation1(),
-                source.getDateActivation2(),
-                source.getLastUpdate1(),
-                source.getLastUpdate2(),
-                source.getIsArchive()).getContent().toString());
 
         return sourceRepo.findAllSourceByQuery(
                 pageable,
@@ -244,12 +222,12 @@ public class SourceServiceImpl implements SourceService {
                 source.getTags(),
                 source.getProviderLink(),
                 source.getDataSource(),
-                source.getDateCreation1(),
-                source.getDateCreation2(),
-                source.getDateActivation1(),
-                source.getDateActivation2(),
-                source.getLastUpdate1(),
-                source.getLastUpdate2(),
+                source.getDateCreation1().atTime(0, 0, 0),
+                source.getDateCreation2().atTime(23, 59, 59),
+                source.getDateActivation1().atTime(0, 0, 0),
+                source.getDateActivation2().atTime(23, 59, 59),
+                source.getLastUpdate1().atTime(0, 0, 0),
+                source.getLastUpdate2().atTime(23, 59, 59),
                 source.getIsArchive()
         );
 
@@ -272,12 +250,12 @@ public class SourceServiceImpl implements SourceService {
                 source.getTags(),
                 source.getProviderLink(),
                 source.getDataSource(),
-                source.getDateCreation1(),
-                source.getDateCreation2(),
-                source.getDateActivation1(),
-                source.getDateActivation2(),
-                source.getLastUpdate1(),
-                source.getLastUpdate2()
+                source.getDateCreation1().atTime(0, 0, 0),
+                source.getDateCreation2().atTime(23, 59, 59),
+                source.getDateActivation1().atTime(0, 0, 0),
+                source.getDateActivation2().atTime(23, 59, 59),
+                source.getLastUpdate1().atTime(0, 0, 0),
+                source.getLastUpdate2().atTime(23, 59, 59)
         );
 
     }

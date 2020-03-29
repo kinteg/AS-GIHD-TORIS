@@ -9,15 +9,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
-import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
-import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 import ru.iac.ASGIHDTORIS.spring.service.source.SourceService;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @EnableAspectJAutoProxy
@@ -64,8 +60,6 @@ public class SourceController {
 
     @PostMapping("/getAllSort")
     public Page<Source> getAll(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable) {
-        log.info(pageable.toString());
-        log.info(source.toString());
         return sourceService.findAllSourceByQuery(pageable, source);
     }
 
@@ -108,10 +102,10 @@ public class SourceController {
     }
 
     @GetMapping("/deArchive/{id}")
-    public Source deArchiveSource(@PathVariable long id) {
+    public Source deArchiveSource(@PathVariable Long id) {
 
-        if (sourceRepo.existsById(id)) {
-            Source source = sourceRepo.findById(id);
+        if (id != null && sourceRepo.existsById(id)) {
+            Source source = sourceRepo.findById((long)id);
             source.setIsArchive(false);
             source.setDateActivation(LocalDateTime.now());
 
@@ -132,7 +126,8 @@ public class SourceController {
                 && validator.isValid(source)) {
 
             if (sourceRepo.existsByShortName(source.getName())
-                    && !sourceRepo.existsByShortNameAndId(source.getName(), source.getId())) {
+                    && !sourceRepo.existsByShortNameAndId(source.getName(),
+                    source.getId())) {
 
                 return new Source();
             }
@@ -145,5 +140,6 @@ public class SourceController {
 
         return new Source();
     }
+
 
 }

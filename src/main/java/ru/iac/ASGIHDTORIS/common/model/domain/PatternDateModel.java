@@ -13,6 +13,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PatternDateModel {
 
+    private Long id;
+    private Integer fileCount;
+    private String name;
+    private String description;
+    private String direction;
+    private String management;
+
+    private Boolean isArchive;
+
+    private Long sourceId;
+
     private LocalDateTime dateCreation1;
     private LocalDateTime dateCreation2;
 

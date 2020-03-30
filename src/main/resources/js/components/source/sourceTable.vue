@@ -631,15 +631,16 @@
 
     th{
         padding: 10px;
+        width: 200px;
     }
 
     td{
         padding: 10px;
+        width: 200px;
     }
 
     table {
         border-collapse: collapse;
-        width: 100%;
     }
 
     th {

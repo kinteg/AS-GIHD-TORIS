@@ -6,7 +6,11 @@
 
 <script>
     export default {
-        name: "source"
+        name: "source",
+        beforeRouteUpdate (to, from, next) {
+            alert ("ll");
+            next();
+        }
     }
 </script>
 

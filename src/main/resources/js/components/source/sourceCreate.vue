@@ -159,7 +159,10 @@
                     duration: 0
                 });
             },
-        }
+        },
+        beforeDestroy: function() {
+        },
+
     }
 </script>
 

@@ -1,11 +1,12 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <p style="font-size: 20px">Источники
+            <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>
         <el-button @click="deleteSomeSource"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
         <el-button class="plus" @click="addSource" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
         <el-backtop target=".plus"></el-backtop></p>
         <div class="horizontal-scroll-wrapper  rectangles">
-            <table style="display: block; overflow-x: auto; white-space: nowrap">
+            <table style="display: block; overflow-x: auto;">
                 <tr>
                     <th></th>
                     <th></th>
@@ -230,20 +231,19 @@
             },
 //TODO когда будут шаблоны добавить сюда и в остальные методы запрос на удаление шаблона
             deleteOneSource(id) {
-                this.deleteSource(id);
                 this.$confirm('Архивировать все связанные с этим источником шаблоны', 'Архвировать', {
                     confirmButtonText: 'OK',
                     cancelButtonText: 'Cancel',
                     type: 'warning'
                 }).then(() => {
+                    this.deleteSource(id);
                     AXIOS.get("pattern/archivePatterns/" + id);
-                    console.log("ok");
                     this.$message({
                         type: 'success',
                         message: 'Источник архивирован вместе с шаблонами'
                     });
                 }).catch(() => {
-                    console.log("ww");
+                    this.deleteSource(id);
                     this.$message({
                         type: 'success',
                         message: 'Источник архивирован без шаблонов'
@@ -629,21 +629,17 @@
         text-align: center;
     }
 
-    th{
-        padding: 10px;
-        width: 200px;
-    }
-
     td{
         padding: 10px;
-        width: 200px;
     }
 
     table {
         border-collapse: collapse;
+        width: 100%;
     }
 
     th {
+        padding: 10px;
         height: 50px;
     }
 

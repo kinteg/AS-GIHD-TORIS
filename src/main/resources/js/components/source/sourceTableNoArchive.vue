@@ -5,7 +5,7 @@
             <el-button @click="addSource" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
         </p>
         <div class="horizontal-scroll-wrapper  rectangles">
-            <table style="display: block; overflow-x: auto; white-space: nowrap">
+            <table style="display: block; overflow-x: auto; ">
                 <tr>
                     <th></th>
                     <th><el-checkbox ></el-checkbox></th>
@@ -235,19 +235,19 @@
             },
 
             deleteOneSource(id){
-                this.deleteSource(id);
                 this.$confirm('Архивировать все связанные с этим источником шаблоны', 'Архивировать', {
                     confirmButtonText: 'OK',
                     cancelButtonText: 'Cancel',
                     type: 'warning'
                 }).then(() => {
+                    this.deleteSource(id);
                     AXIOS.get("pattern/archivePatterns/" + id);
                     this.$message({
                         type: 'success',
                         message: 'Источник архивирован вместе с шаблонами'
                     });
                 }).catch(() => {
-                    console.log("ww");
+                    this.deleteSource(id);
                     this.$message({
                         type: 'success',
                         message: 'Источник архивирован без шаблонов'

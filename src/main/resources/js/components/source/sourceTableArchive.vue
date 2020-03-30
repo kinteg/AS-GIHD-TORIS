@@ -4,7 +4,7 @@
             <el-button @click="deArchiveSomeSource"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
         </p>
         <div class="horizontal-scroll-wrapper  rectangles">
-            <table style="display: block; overflow-x: auto; white-space: nowrap">
+            <table style="display: block; overflow-x: auto; ">
                 <tr>
                     <th></th>
                     <th><el-checkbox ></el-checkbox></th>
@@ -235,19 +235,19 @@
             },
 
             deArchiveOneSource(id){
-                this.deArchiveSource(id);
                 this.$confirm('Разархивировать все связанные с этим источником шаблоны', 'Разархивировать', {
                     confirmButtonText: 'OK',
                     cancelButtonText: 'Cancel',
                     type: 'warning'
                 }).then(() => {
+                    this.deArchiveSource(id);
                     AXIOS.get("pattern/archivePatterns/" + id);
                     this.$message({
                         type: 'success',
                         message: 'Источник разархивирован вместе с шаблонами'
                     });
                 }).catch(() => {
-                    console.log("ww");
+                    this.deArchiveSource(id);
                     this.$message({
                         type: 'success',
                         message: 'Источник разархивирован без шаблонов'

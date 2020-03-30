@@ -1,9 +1,8 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-        <p style="font-size: 20px">Архинвые источники</p>
-        <hr>
-
-        <el-button @click="deArchiveSomeSource"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
+        <p style="font-size: 20px">Архинвые источники
+            <el-button @click="deArchiveSomeSource"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
+        </p>
         <div class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto; white-space: nowrap">
                 <tr>

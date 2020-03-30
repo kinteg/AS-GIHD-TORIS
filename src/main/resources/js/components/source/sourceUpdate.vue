@@ -1,52 +1,77 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-        <p style="font-size: 20px">Изменение</p>
+        <p style="font-size: 20px">Просмотр источника</p>
         <hr>
         <div>
-            <p>{{$route.params.id}}</p>
-            <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
-                <el-form-item prop="name" label="Поставщик данных">
-                    <el-input v-model="source.name"></el-input>
-                </el-form-item>
-                <el-form-item prop="longName" label="Полное наименование набора">
-                    <el-input v-model="source.longName"></el-input>
-                </el-form-item>
-                <el-form-item prop="shortName" label="Краткое наименование набора ">
-                    <el-input v-model="source.shortName"></el-input>
-                </el-form-item>
-                <el-form-item prop="description" label="Описание ">
-                    <el-input v-model="source.description"></el-input>
-                </el-form-item>
-                <el-form-item prop="addDescription" label="Дополнительное описание">
-                    <el-input v-model="source.addDescription"></el-input>
-                </el-form-item>
-                <el-form-item prop="scope" label="Сфера (направление)">
-                    <el-input v-model="source.scope"></el-input>
-                </el-form-item>
-                <el-form-item prop="periodicity" label="Периодичность актуализации">
-                    <el-input v-model="source.periodicity"></el-input>
-                </el-form-item>
-                <el-form-item prop="renewalPeriod" label="Срок обновления набора данных">
-                    <el-input v-model="source.renewalPeriod"></el-input>
-                </el-form-item>
-                <el-form-item prop="type" label="Вид набора">
-                    <el-input v-model="source.type"></el-input>
-                </el-form-item>
-                <el-form-item prop="tags" label="Ключевые слова (теги)">
-                    <el-input v-model="source.tags"></el-input>
-                </el-form-item>
-                <el-form-item prop="providerLink" label="Информационная система - источник данных ">
-                    <el-input v-model="source.providerLink"></el-input>
-                </el-form-item>
-                <el-form-item prop="dataSource" label="Ссылка на данные на сайте поставщика">
-                    <el-input v-model="source.dataSource"></el-input>
-                </el-form-item>
-
-                <el-form-item>
-                    <el-button @click="updateSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Изменить</el-button>
-                </el-form-item>
-            </el-form>
+            <el-tabs v-model="activeName">
+                <el-tab-pane label="Источник" name="sourceInfo">
+                    <el-row :gutter="20">
+                        <el-col :span="6">
+                            <div class="grid-content bg-purple">
+                                <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                                    <el-form-item prop="name" label="Поставщик данных">
+                                        <el-input  v-model="source.name"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="longName" label="Полное наименование набора">
+                                        <el-input v-model="source.longName"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="shortName" label="Краткое наименование набора">
+                                        <el-input v-model="source.shortName"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+                        </el-col>
+                        <el-col :span="6">
+                            <div class="grid-content bg-purple">
+                                <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                                    <el-form-item prop="description" label="Описание">
+                                        <el-input v-model="source.description"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="addDescription" label="Дополнительное описание">
+                                        <el-input v-model="source.addDescription"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="scope" label="Сфера (направление)">
+                                        <el-input v-model="source.scope"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+                        </el-col>
+                        <el-col :span="6">
+                            <div class="grid-content bg-purple">
+                                <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                                    <el-form-item prop="periodicity" label="Периодичность актуализации">
+                                        <el-input v-model="source.periodicity"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="renewalPeriod" label="Срок обновления набора данных">
+                                        <el-input v-model="source.renewalPeriod"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="type" label="Вид набора">
+                                        <el-input v-model="source.type"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+                        </el-col>
+                        <el-col :span="6">
+                            <div class="grid-content bg-purple">
+                                <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                                    <el-form-item prop="tags" label="Ключевые слова (теги)">
+                                        <el-input v-model="source.tags"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="providerLink" label="Источник данных">
+                                        <el-input v-model="source.providerLink"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="dataSource" label="Ссылка на данные на сайте поставщика">
+                                        <el-input v-model="source.dataSource"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </el-tab-pane>
+                <el-tab-pane label="Шаблоны" name="patternInfo">Шаблоны</el-tab-pane>
+            </el-tabs>
         </div>
+        <el-button @click="updateSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Изменить</el-button>
     </div>
 </template>
 
@@ -59,6 +84,7 @@
         data() {
             return {
                 labelPosition:"top",
+                activeName: "sourceInfo",
                 source:{
                     name:"",
                     longName:"",

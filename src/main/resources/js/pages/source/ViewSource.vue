@@ -1,5 +1,7 @@
 <template>
-    <source-view/>
+    <div>
+        <source-view/>
+    </div>
 </template>
 
 <script>

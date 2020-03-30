@@ -9,7 +9,11 @@
     import SourceCreate from "../../components/source/sourceCreate.vue";
     export default {
         name: "CreateSource",
-        components: {SourceCreate}
+        components: {SourceCreate},
+        beforeRouteUpdate (to, from, next) {
+            alert ("ll");
+            next();
+        }
     }
 </script>
 

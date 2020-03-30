@@ -9,6 +9,7 @@ import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 @Service
 public interface PatternService {
 
-    Page<Pattern> findAllPatternByQuery(Pageable pageable, Pattern pattern, PatternDateModel patternDateModel, String key, String sort);
+    Page<Pattern> findAllPatternByQuery(Pageable pageable,
+                                        PatternDateModel pattern);
 
 }

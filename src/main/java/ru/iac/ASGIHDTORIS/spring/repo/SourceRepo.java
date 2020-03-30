@@ -41,12 +41,12 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
             " AND last_update >= :lastUpdate1" +
             " AND last_update <= :lastUpdate2";
 
-    @Query(value = "SELECT * FROM source " +
+    @Query(value = "SELECT * FROM source " + query +
             " AND date_deactivation >= :dateDeactivation1" +
-            " AND date_deactivation < :dateDeactivation2" + query,
-            countQuery = "SELECT count(*) FROM source " +
+            " AND date_deactivation <= :dateDeactivation2",
+            countQuery = "SELECT count(*) FROM source " + query +
                     " AND date_deactivation >= :dateDeactivation1" +
-                    " AND date_deactivation < :dateDeactivation2" + query,
+                    " AND date_deactivation <= :dateDeactivation2",
             nativeQuery = true)
     Page<Source> findAllSourceByQuery(
             Pageable pageable,
@@ -73,15 +73,14 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
             @Param("lastUpdate2") LocalDateTime lastUpdate2
     );
 
-    @Query(value = "SELECT * FROM source " +
+    @Query(value = "SELECT * FROM source " + query +
             " AND date_deactivation >= :dateDeactivation1" +
             " AND date_deactivation < :dateDeactivation2" +
-            query +
             " AND archive = :isArchive",
-            countQuery = "SELECT count(*) FROM source " +
+            countQuery = "SELECT count(*) FROM source " + query +
                     " AND date_deactivation >= :dateDeactivation1" +
                     " AND date_deactivation < :dateDeactivation2" +
-                    query +
+
                     " AND archive = :isArchive",
             nativeQuery = true)
     Page<Source> findAllSourceByQuery(

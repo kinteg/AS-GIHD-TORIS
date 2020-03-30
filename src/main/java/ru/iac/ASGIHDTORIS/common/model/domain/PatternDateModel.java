@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -24,19 +25,22 @@ public class PatternDateModel {
 
     private Long sourceId;
 
-    private LocalDateTime dateCreation1;
-    private LocalDateTime dateCreation2;
+    private LocalDate dateCreation1;
+    private LocalDate dateCreation2;
 
-    private LocalDateTime dateDeactivation1;
-    private LocalDateTime dateDeactivation2;
+    private LocalDate dateDeactivation1;
+    private LocalDate dateDeactivation2;
 
-    private LocalDateTime dateActivation1;
-    private LocalDateTime dateActivation2;
+    private LocalDate dateActivation1;
+    private LocalDate dateActivation2;
 
-    private LocalDateTime lastUpdate1;
-    private LocalDateTime lastUpdate2;
+    private LocalDate lastUpdate1;
+    private LocalDate lastUpdate2;
 
     private Integer fileCount1;
     private Integer fileCount2;
+
+    private String sort;
+    private String key;
 
 }

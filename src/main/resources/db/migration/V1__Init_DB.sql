@@ -47,6 +47,11 @@ create table pattern_table (
     name_file varchar(255),
     name_table varchar(255),
     pattern_id int8 not null,
+    date_creation timestamp,
+    date_deactivation timestamp,
+    date_activation timestamp,
+    last_update timestamp,
+    is_archive boolean,
     primary key (id),
     foreign key (pattern_id) references pattern (id)
     on delete cascade

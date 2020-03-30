@@ -32,29 +32,10 @@ public class SourceModel {
     private String providerLink;
     private String dataSource;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateCreation1;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateCreation2;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateDeactivation1;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateDeactivation2;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateActivation1;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateActivation2;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate lastUpdate1;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate lastUpdate2;
+    private DateModel dateModel;
 
     private String sort;
     private String key;
 
-    private Boolean isArchive;
 
 }

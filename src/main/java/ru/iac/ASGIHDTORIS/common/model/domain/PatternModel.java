@@ -14,27 +14,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PatternModel {
 
-    private Long id;
+    private String id;
     private String name;
     private String description;
     private String direction;
     private String management;
 
-    private Boolean isArchive;
-
     private Long sourceId;
 
-    private LocalDate dateCreation1;
-    private LocalDate dateCreation2;
-
-    private LocalDate dateDeactivation1;
-    private LocalDate dateDeactivation2;
-
-    private LocalDate dateActivation1;
-    private LocalDate dateActivation2;
-
-    private LocalDate lastUpdate1;
-    private LocalDate lastUpdate2;
+    private DateModel dateModel;
 
     private Integer fileCount1;
     private Integer fileCount2;

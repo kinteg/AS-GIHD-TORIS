@@ -38,7 +38,6 @@
 
 <style scoped>
     .pager {
-        text-align: center;
         color: black;
         text-decoration: none;
         padding-top: 15px;

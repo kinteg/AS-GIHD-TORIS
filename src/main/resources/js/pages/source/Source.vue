@@ -1,16 +1,13 @@
 <template>
     <div>
-        <router-view  style="padding:30px; border-radius:5px; "/>
+        <router-view/>
     </div>
 </template>
 
 <script>
     export default {
         name: "source",
-        beforeRouteUpdate (to, from, next) {
-            alert ("ll");
-            next();
-        }
+
     }
 </script>
 

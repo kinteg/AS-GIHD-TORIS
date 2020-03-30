@@ -4,7 +4,8 @@
 
         <hr>
         <el-button @click="deleteSomeSource"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
-        <el-button @click="addSource" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
+        <el-button class="plus" @click="addSource" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
+        <el-backtop target=".plus"></el-backtop>
         <div class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto; white-space: nowrap">
                 <tr>
@@ -231,7 +232,23 @@
             },
 
             deleteOneSource(id) {
-                this.deleteSource(id);
+                // this.deleteSource(id);
+                this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Cancel',
+                    type: 'warning'
+                }).then(() => {
+                    console.log("ok");
+                    this.$message({
+                        type: 'success',
+                        message: 'Delete completed'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: 'Delete canceled'
+                    });
+                });
             },
 
             deleteSomeSource() {
@@ -247,6 +264,26 @@
 
             onCurrentChange(value) {
                 this.pagination.currentPage = value;
+
+                if(this.source.dateCreation !== null && this.source.dateCreation !== "") {
+                    this.source.dateCreation1 = this.source.dateCreation[0];
+                    this.source.dateCreation2 = this.source.dateCreation[1];
+                }
+
+                if(this.source.dateDeactivation !== null && this.source.dateDeactivation !== "") {
+                    this.source.dateDeactivation1 = this.source.dateDeactivation[0];
+                    this.source.dateDeactivation2 = this.source.dateDeactivation[1];
+                }
+
+                if(this.source.dateActivation !== null && this.source.dateActivation !== "") {
+                    this.source.dateActivation1 = this.source.dateActivation[0];
+                    this.source.dateActivation2 = this.source.dateActivation[1];
+                }
+
+                if(this.source.lastUpdate !== null && this.source.lastUpdate !== "") {
+                    this.source.lastUpdate1 = this.source.lastUpdate[0];
+                    this.source.lastUpdate2 = this.source.lastUpdate[1];
+                }
 
                 let formData = new FormData();
                 formData.append("sort",this.source.sort);
@@ -264,6 +301,14 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("dateCreation1",this.source.dateCreation1);
+                formData.append("dateCreation2",this.source.dateCreation2);
+                formData.append("dateDeactivation1",this.source.dateDeactivation1);
+                formData.append("dateDeactivation2",this.source.dateDeactivation2);
+                formData.append("dateActivation1",this.source.dateActivation1);
+                formData.append("dateActivation2",this.source.dateActivation2);
+                formData.append("lastUpdate1",this.source.lastUpdate1);
+                formData.append("lastUpdate2",this.source.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
                 AXIOS.post("/source/getAllSort", formData)
@@ -276,6 +321,26 @@
             },
 
             onSizeChange(value) {
+                if(this.source.dateCreation !== null && this.source.dateCreation !== "") {
+                    this.source.dateCreation1 = this.source.dateCreation[0];
+                    this.source.dateCreation2 = this.source.dateCreation[1];
+                }
+
+                if(this.source.dateDeactivation !== null && this.source.dateDeactivation !== "") {
+                    this.source.dateDeactivation1 = this.source.dateDeactivation[0];
+                    this.source.dateDeactivation2 = this.source.dateDeactivation[1];
+                }
+
+                if(this.source.dateActivation !== null && this.source.dateActivation !== "") {
+                    this.source.dateActivation1 = this.source.dateActivation[0];
+                    this.source.dateActivation2 = this.source.dateActivation[1];
+                }
+
+                if(this.source.lastUpdate !== null && this.source.lastUpdate !== "") {
+                    this.source.lastUpdate1 = this.source.lastUpdate[0];
+                    this.source.lastUpdate2 = this.source.lastUpdate[1];
+                }
+
                 this.pagination.pageSize = value;
                 this.pagination.currentPage = 1;
 
@@ -295,6 +360,14 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("dateCreation1",this.source.dateCreation1);
+                formData.append("dateCreation2",this.source.dateCreation2);
+                formData.append("dateDeactivation1",this.source.dateDeactivation1);
+                formData.append("dateDeactivation2",this.source.dateDeactivation2);
+                formData.append("dateActivation1",this.source.dateActivation1);
+                formData.append("dateActivation2",this.source.dateActivation2);
+                formData.append("lastUpdate1",this.source.lastUpdate1);
+                formData.append("lastUpdate2",this.source.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
                 AXIOS.post("/source/getAllSort", formData)
@@ -327,30 +400,26 @@
             },
 
             sort(key) {
-                console.log(this.source.dateCreation);
-
-                if(this.source.dateCreation !== "") {
+                if(this.source.dateCreation !== null && this.source.dateCreation !== "") {
                     this.source.dateCreation1 = this.source.dateCreation[0];
                     this.source.dateCreation2 = this.source.dateCreation[1];
                 }
 
-                if(this.source.dateDeactivation !== "") {
+                if(this.source.dateDeactivation !== null && this.source.dateDeactivation !== "") {
                     this.source.dateDeactivation1 = this.source.dateDeactivation[0];
                     this.source.dateDeactivation2 = this.source.dateDeactivation[1];
                 }
 
-                if(this.source.dateActivation !== "") {
+                if(this.source.dateActivation !== null && this.source.dateActivation !== "") {
                     this.source.dateActivation1 = this.source.dateActivation[0];
                     this.source.dateActivation2 = this.source.dateActivation[1];
                 }
 
-                if(this.source.lastUpdate !== "") {
+                if(this.source.lastUpdate !== null && this.source.lastUpdate !== "") {
                     this.source.lastUpdate1 = this.source.lastUpdate[0];
                     this.source.lastUpdate2 = this.source.lastUpdate[1];
                 }
 
-                console.log(this.source.dateCreation1);
-                console.log(this.source.dateCreation2);
                 if(this.source.key === key ) {
                     switch(this.source.sort) {
                         case "":
@@ -368,6 +437,7 @@
                     this.source.key = key;
                     this.source.sort = "asc";
                 }
+
                 let formData = new FormData();
                 formData.append("sort",this.source.sort);
                 formData.append("key",this.source.key);
@@ -409,6 +479,26 @@
             },
 
             updatePage() {
+                if(this.source.dateCreation !== null && this.source.dateCreation !== "") {
+                    this.source.dateCreation1 = this.source.dateCreation[0];
+                    this.source.dateCreation2 = this.source.dateCreation[1];
+                }
+
+                if(this.source.dateDeactivation !== null && this.source.dateDeactivation !== "") {
+                    this.source.dateDeactivation1 = this.source.dateDeactivation[0];
+                    this.source.dateDeactivation2 = this.source.dateDeactivation[1];
+                }
+
+                if(this.source.dateActivation !== null && this.source.dateActivation !== "") {
+                    this.source.dateActivation1 = this.source.dateActivation[0];
+                    this.source.dateActivation2 = this.source.dateActivation[1];
+                }
+
+                if(this.source.lastUpdate !== null && this.source.lastUpdate !== "") {
+                    this.source.lastUpdate1 = this.source.lastUpdate[0];
+                    this.source.lastUpdate2 = this.source.lastUpdate[1];
+                }
+
                 let formData = new FormData();
                 formData.append("sort",this.source.sort);
                 formData.append("key",this.source.key);
@@ -425,6 +515,14 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("dateCreation1",this.source.dateCreation1);
+                formData.append("dateCreation2",this.source.dateCreation2);
+                formData.append("dateDeactivation1",this.source.dateDeactivation1);
+                formData.append("dateDeactivation2",this.source.dateDeactivation2);
+                formData.append("dateActivation1",this.source.dateActivation1);
+                formData.append("dateActivation2",this.source.dateActivation2);
+                formData.append("lastUpdate1",this.source.lastUpdate1);
+                formData.append("lastUpdate2",this.source.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
                 AXIOS.post("/source/getAllSort", formData)

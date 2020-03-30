@@ -55,51 +55,51 @@ public class SourceRepo2Impl implements SourceRepo2 {
         }
         if (source.getName() != null  && !source.getName().equals("")) {
             values.add(" name LIKE :name ");
-            params.addValue("name", "%" + source.getName().toLowerCase() + "%");
+            params.addValue("name", "%" + source.getName() + "%");
         }
         if (source.getLongName() != null  && !source.getLongName().equals("")) {
             values.add(" long_name LIKE longName");
-            params.addValue("longName", "%" + source.getLongName().toLowerCase() + "%");
+            params.addValue("longName", "%" + source.getLongName() + "%");
         }
         if (source.getShortName() != null  && !source.getShortName().equals("")) {
             values.add(" short_name LIKE shortName");
-            params.addValue("shortName", "%" + source.getShortName().toLowerCase() + "%");
+            params.addValue("shortName", "%" + source.getShortName() + "%");
         }
         if (source.getDescription() != null  && !source.getDescription().equals("")) {
             values.add(" description LIKE description");
-            params.addValue("description", "%" + source.getDescription().toLowerCase() + "%");
+            params.addValue("description", "%" + source.getDescription() + "%");
         }
         if (source.getAddDescription() != null  && !source.getAddDescription().equals("")) {
             values.add(" add_description LIKE addDescription");
-            params.addValue("addDescription", "%" + source.getAddDescription().toLowerCase() + "%");
+            params.addValue("addDescription", "%" + source.getAddDescription() + "%");
         }
         if (source.getScope() != null  && !source.getScope().equals("")) {
             values.add(" scope LIKE scope");
-            params.addValue("scope", "%" + source.getScope().toLowerCase() + "%");
+            params.addValue("scope", "%" + source.getScope() + "%");
         }
         if (source.getPeriodicity() != null  && !source.getPeriodicity().equals("")) {
             values.add(" periodicity LIKE periodicity");
-            params.addValue("periodicity", "%" + source.getPeriodicity().toLowerCase() + "%");
+            params.addValue("periodicity", "%" + source.getPeriodicity() + "%");
         }
         if (source.getRenewalPeriod() != null  && !source.getRenewalPeriod().equals("")) {
             values.add(" renewal_period LIKE renewalPeriod");
-            params.addValue("renewalPeriod", "%" + source.getRenewalPeriod().toLowerCase() + "%");
+            params.addValue("renewalPeriod", "%" + source.getRenewalPeriod() + "%");
         }
         if (source.getType() != null  && !source.getType().equals("")) {
             values.add(" type LIKE type");
-            params.addValue("type", "%" + source.getType().toLowerCase() + "%");
+            params.addValue("type", "%" + source.getType() + "%");
         }
         if (source.getTags() != null  && !source.getTags().equals("")) {
             values.add(" tags LIKE tags");
-            params.addValue("tags", "%" + source.getTags().toLowerCase() + "%");
+            params.addValue("tags", "%" + source.getTags() + "%");
         }
         if (source.getProviderLink() != null  && !source.getProviderLink().equals("")) {
             values.add(" provider_link LIKE providerLink");
-            params.addValue("providerLink", "%" + source.getProviderLink().toLowerCase() + "%");
+            params.addValue("providerLink", "%" + source.getProviderLink() + "%");
         }
         if (source.getDataSource() != null  && !source.getDataSource().equals("")) {
             values.add(" data_source LIKE dataSource");
-            params.addValue("dataSource", "%" + source.getDataSource().toLowerCase() + "%");
+            params.addValue("dataSource", "%" + source.getDataSource() + "%");
         }
         if (source.getDateCreation1() != null) {
             values.add(" date_creation >= :dateCreation1");

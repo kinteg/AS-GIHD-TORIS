@@ -39,10 +39,10 @@ public class SourceMapper implements RowMapper<List<Source>> {
                 .tags(rs.getString("tags"))
                 .providerLink(rs.getString("provider_link"))
                 .dataSource(rs.getString("data_source"))
-                .dateCreation(rs.getTimestamp("date_creation").toLocalDateTime())
+                .dateCreation(rs.getTimestamp("date_creation") == null ? null : rs.getTimestamp("date_creation").toLocalDateTime())
                 .dateDeactivation(rs.getTimestamp("date_deactivation") == null ? null : rs.getTimestamp("date_deactivation").toLocalDateTime())
-                .dateActivation(rs.getTimestamp("date_activation").toLocalDateTime())
-                .lastUpdate(rs.getTimestamp("last_update").toLocalDateTime())
+                .dateActivation(rs.getTimestamp("date_activation") == null ? null : rs.getTimestamp("date_activation").toLocalDateTime())
+                .lastUpdate(rs.getTimestamp("last_update") == null ? null : rs.getTimestamp("last_update").toLocalDateTime())
                 .isArchive(rs.getBoolean("archive"))
                 .build();
     }

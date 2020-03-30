@@ -50,55 +50,55 @@ public class SourceRepo2Impl implements SourceRepo2 {
         List<String> values = new ArrayList<>();
 
         if (source.getId() != null  && !source.getId().equals("")) {
-            values.add(" cast(id as text) LIKE :id");
+            values.add(" cast(id as text) ILIKE :id");
             params.addValue("id", "%" + source.getId() + "%");
         }
         if (source.getName() != null  && !source.getName().equals("")) {
-            values.add(" name LIKE :name ");
+            values.add(" name ILIKE :name ");
             params.addValue("name", "%" + source.getName() + "%");
         }
         if (source.getLongName() != null  && !source.getLongName().equals("")) {
-            values.add(" long_name LIKE :longName");
+            values.add(" long_name ILIKE :longName");
             params.addValue("longName", "%" + source.getLongName() + "%");
         }
         if (source.getShortName() != null  && !source.getShortName().equals("")) {
-            values.add(" short_name LIKE :shortName");
+            values.add(" short_name ILIKE :shortName");
             params.addValue("shortName", "%" + source.getShortName() + "%");
         }
         if (source.getDescription() != null  && !source.getDescription().equals("")) {
-            values.add(" description LIKE :description");
+            values.add(" description ILIKE :description");
             params.addValue("description", "%" + source.getDescription() + "%");
         }
         if (source.getAddDescription() != null  && !source.getAddDescription().equals("")) {
-            values.add(" add_description LIKE :addDescription");
+            values.add(" add_description ILIKE :addDescription");
             params.addValue("addDescription", "%" + source.getAddDescription() + "%");
         }
         if (source.getScope() != null  && !source.getScope().equals("")) {
-            values.add(" scope LIKE :scope");
+            values.add(" scope ILIKE :scope");
             params.addValue("scope", "%" + source.getScope() + "%");
         }
         if (source.getPeriodicity() != null  && !source.getPeriodicity().equals("")) {
-            values.add(" periodicity LIKE :periodicity");
+            values.add(" periodicity ILIKE :periodicity");
             params.addValue("periodicity", "%" + source.getPeriodicity() + "%");
         }
         if (source.getRenewalPeriod() != null  && !source.getRenewalPeriod().equals("")) {
-            values.add(" renewal_period LIKE :renewalPeriod");
+            values.add(" renewal_period ILIKE :renewalPeriod");
             params.addValue("renewalPeriod", "%" + source.getRenewalPeriod() + "%");
         }
         if (source.getType() != null  && !source.getType().equals("")) {
-            values.add(" type LIKE :type");
+            values.add(" type ILIKE :type");
             params.addValue("type", "%" + source.getType() + "%");
         }
         if (source.getTags() != null  && !source.getTags().equals("")) {
-            values.add(" tags LIKE :tags");
+            values.add(" tags ILIKE :tags");
             params.addValue("tags", "%" + source.getTags() + "%");
         }
         if (source.getProviderLink() != null  && !source.getProviderLink().equals("")) {
-            values.add(" provider_link LIKE :providerLink");
+            values.add(" provider_link ILIKE :providerLink");
             params.addValue("providerLink", "%" + source.getProviderLink() + "%");
         }
         if (source.getDataSource() != null  && !source.getDataSource().equals("")) {
-            values.add(" data_source LIKE :dataSource");
+            values.add(" data_source ILIKE :dataSource");
             params.addValue("dataSource", "%" + source.getDataSource() + "%");
         }
         if (source.getDateCreation1() != null) {

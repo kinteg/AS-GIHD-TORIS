@@ -51,7 +51,7 @@ public class PatternRepo2Impl implements PatternRepo2 {
         List<String> values = new ArrayList<>();
 
         if (pattern.getId() != null  && !pattern.getId().equals("")) {
-            values.add(" cast(id as text) LIKE :id");
+            values.add(" cast(id as text) ILIKE :id");
             params.addValue("id", "%" + pattern.getId() + "%");
         }
         if (pattern.getSourceId() != null  && !pattern.getSourceId().equals("")) {
@@ -59,19 +59,19 @@ public class PatternRepo2Impl implements PatternRepo2 {
             params.addValue("sourceId",  + pattern.getSourceId());
         }
         if (pattern.getDescription() != null  && !pattern.getDescription().equals("")) {
-            values.add(" description LIKE :description ");
+            values.add(" description ILIKE :description ");
             params.addValue("description", "%" + pattern.getDescription() + "%");
         }
         if (pattern.getDirection() != null  && !pattern.getDirection().equals("")) {
-            values.add(" direction LIKE :direction");
+            values.add(" direction ILIKE :direction");
             params.addValue("direction", "%" + pattern.getDirection() + "%");
         }
         if (pattern.getManagement() != null  && !pattern.getManagement().equals("")) {
-            values.add(" management LIKE :management");
+            values.add(" management ILIKE :management");
             params.addValue("management", "%" + pattern.getManagement() + "%");
         }
         if (pattern.getName() != null  && !pattern.getName().equals("")) {
-            values.add(" name LIKE :name");
+            values.add(" name ILIKE :name");
             params.addValue("name", "%" + pattern.getName() + "%");
         }
         if (pattern.getDateCreation1() != null) {

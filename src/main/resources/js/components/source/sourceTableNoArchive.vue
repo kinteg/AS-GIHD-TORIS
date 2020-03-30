@@ -237,17 +237,60 @@
 
             deleteOneSource(id){
                 this.deleteSource(id);
+                this.$confirm('Архивировать все связанные с этим источником шаблоны', 'Архивировать', {
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Cancel',
+                    type: 'warning'
+                }).then(() => {
+                    AXIOS.get("pattern/archivePatterns/" + id);
+                    this.$message({
+                        type: 'success',
+                        message: 'Источник архивирован вместе с шаблонами'
+                    });
+                }).catch(() => {
+                    console.log("ww");
+                    this.$message({
+                        type: 'success',
+                        message: 'Источник архивирован без шаблонов'
+                    });
+                });
             },
 
             deleteSomeSource(){
-                if(this.source.check.length !== 0){
-                    for(let i = 0; i < this.source.check.length; i++){
-                        this.deleteSource(this.source.check[i]);
+                this.$confirm('Архивировать все связанные с этим источником шаблоны', 'Архвировать', {
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Cancel',
+                    type: 'warning'
+                }).then(() => {
+                    if(this.source.check.length !== 0){
+                        for(let i = 0; i < this.source.check.length; i++){
+                            this.deleteSource(this.source.check[i]);
+                        }
+                        this.updatePage();
+                    } else {
+                        this.notify('Ошибка','Выберите источники которые хотите архивировать','error');
                     }
-                    this.updatePage();
-                } else {
-                    this.notify('Ошибка','Выберите источники которые хотите архивировать','error');
-                }
+                    // AXIOS.get("pattern/archivePatterns/" + i);
+                    this.$message({
+                        type: 'warning',
+                        message: 'Источник архивирован вместе с шаблонами'
+                    });
+
+                }).catch(() => {
+                    if(this.source.check.length !== 0){
+                        for(let i = 0; i < this.source.check.length; i++){
+                            this.deleteSource(this.source.check[i]);
+                        }
+                        this.updatePage();
+                    } else {
+                        this.notify('Ошибка','Выберите источники которые хотите архивировать','error');
+                    }
+                    this.$message({
+                        type: 'success',
+                        message: 'Источник архивирован без шаблонов'
+                    });
+                });
+
             },
 
             onCurrentChange(value) {
@@ -256,21 +299,33 @@
                 if(this.source.dateCreation !== null && this.source.dateCreation !== "") {
                     this.source.dateCreation1 = this.source.dateCreation[0];
                     this.source.dateCreation2 = this.source.dateCreation[1];
+                } else {
+                    this.source.dateCreation1 = "";
+                    this.source.dateCreation2 = "";
                 }
 
                 if(this.source.dateDeactivation !== null && this.source.dateDeactivation !== "") {
                     this.source.dateDeactivation1 = this.source.dateDeactivation[0];
                     this.source.dateDeactivation2 = this.source.dateDeactivation[1];
+                } else {
+                    this.source.dateDeactivation1 = "";
+                    this.source.dateDeactivation2 = "";
                 }
 
                 if(this.source.dateActivation !== null && this.source.dateActivation !== "") {
                     this.source.dateActivation1 = this.source.dateActivation[0];
                     this.source.dateActivation2 = this.source.dateActivation[1];
+                } else {
+                    this.source.dateActivation1 = "";
+                    this.source.dateActivation2 = "";
                 }
 
                 if(this.source.lastUpdate !== null && this.source.lastUpdate !== "") {
                     this.source.lastUpdate1 = this.source.lastUpdate[0];
                     this.source.lastUpdate2 = this.source.lastUpdate[1];
+                } else {
+                    this.source.lastUpdate1 = "";
+                    this.source.lastUpdate2 = "";
                 }
 
                 let formData = new FormData();
@@ -312,21 +367,33 @@
                 if(this.source.dateCreation !== null && this.source.dateCreation !== "") {
                     this.source.dateCreation1 = this.source.dateCreation[0];
                     this.source.dateCreation2 = this.source.dateCreation[1];
+                } else {
+                    this.source.dateCreation1 = "";
+                    this.source.dateCreation2 = "";
                 }
 
                 if(this.source.dateDeactivation !== null && this.source.dateDeactivation !== "") {
                     this.source.dateDeactivation1 = this.source.dateDeactivation[0];
                     this.source.dateDeactivation2 = this.source.dateDeactivation[1];
+                } else {
+                    this.source.dateDeactivation1 = "";
+                    this.source.dateDeactivation2 = "";
                 }
 
                 if(this.source.dateActivation !== null && this.source.dateActivation !== "") {
                     this.source.dateActivation1 = this.source.dateActivation[0];
                     this.source.dateActivation2 = this.source.dateActivation[1];
+                } else {
+                    this.source.dateActivation1 = "";
+                    this.source.dateActivation2 = "";
                 }
 
                 if(this.source.lastUpdate !== null && this.source.lastUpdate !== "") {
                     this.source.lastUpdate1 = this.source.lastUpdate[0];
                     this.source.lastUpdate2 = this.source.lastUpdate[1];
+                } else {
+                    this.source.lastUpdate1 = "";
+                    this.source.lastUpdate2 = "";
                 }
 
                 this.pagination.pageSize = value;
@@ -391,21 +458,33 @@
                 if(this.source.dateCreation !== null && this.source.dateCreation !== "") {
                     this.source.dateCreation1 = this.source.dateCreation[0];
                     this.source.dateCreation2 = this.source.dateCreation[1];
+                } else {
+                    this.source.dateCreation1 = "";
+                    this.source.dateCreation2 = "";
                 }
 
                 if(this.source.dateDeactivation !== null && this.source.dateDeactivation !== "") {
                     this.source.dateDeactivation1 = this.source.dateDeactivation[0];
                     this.source.dateDeactivation2 = this.source.dateDeactivation[1];
+                } else {
+                    this.source.dateDeactivation1 = "";
+                    this.source.dateDeactivation2 = "";
                 }
 
                 if(this.source.dateActivation !== null && this.source.dateActivation !== "") {
                     this.source.dateActivation1 = this.source.dateActivation[0];
                     this.source.dateActivation2 = this.source.dateActivation[1];
+                } else {
+                    this.source.dateActivation1 = "";
+                    this.source.dateActivation2 = "";
                 }
 
                 if(this.source.lastUpdate !== null && this.source.lastUpdate !== "") {
                     this.source.lastUpdate1 = this.source.lastUpdate[0];
                     this.source.lastUpdate2 = this.source.lastUpdate[1];
+                } else {
+                    this.source.lastUpdate1 = "";
+                    this.source.lastUpdate2 = "";
                 }
 
                 if(this.source.key === key ) {
@@ -469,21 +548,33 @@
                 if(this.source.dateCreation !== null && this.source.dateCreation !== "") {
                     this.source.dateCreation1 = this.source.dateCreation[0];
                     this.source.dateCreation2 = this.source.dateCreation[1];
+                } else {
+                    this.source.dateCreation1 = "";
+                    this.source.dateCreation2 = "";
                 }
 
                 if(this.source.dateDeactivation !== null && this.source.dateDeactivation !== "") {
                     this.source.dateDeactivation1 = this.source.dateDeactivation[0];
                     this.source.dateDeactivation2 = this.source.dateDeactivation[1];
+                } else {
+                    this.source.dateDeactivation1 = "";
+                    this.source.dateDeactivation2 = "";
                 }
 
                 if(this.source.dateActivation !== null && this.source.dateActivation !== "") {
                     this.source.dateActivation1 = this.source.dateActivation[0];
                     this.source.dateActivation2 = this.source.dateActivation[1];
+                } else {
+                    this.source.dateActivation1 = "";
+                    this.source.dateActivation2 = "";
                 }
 
                 if(this.source.lastUpdate !== null && this.source.lastUpdate !== "") {
                     this.source.lastUpdate1 = this.source.lastUpdate[0];
                     this.source.lastUpdate2 = this.source.lastUpdate[1];
+                } else {
+                    this.source.lastUpdate1 = "";
+                    this.source.lastUpdate2 = "";
                 }
 
                 let formData = new FormData();

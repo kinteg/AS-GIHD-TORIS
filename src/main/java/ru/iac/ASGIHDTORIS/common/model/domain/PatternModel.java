@@ -12,10 +12,9 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class PatternDateModel {
+public class PatternModel {
 
     private Long id;
-    private Integer fileCount;
     private String name;
     private String description;
     private String direction;

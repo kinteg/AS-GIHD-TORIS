@@ -25,14 +25,17 @@ create table if not exists source (
 
 create table if not exists pattern (
     id int8 not null,
-    date_creation timestamp,
     description varchar(255),
     direction varchar(255),
     file_count integer,
     management varchar(255),
-    is_arhive boolean,
+    is_archive boolean,
     name varchar(255),
     source_id int8 not null,
+    date_creation timestamp,
+    date_deactivation timestamp,
+    date_activation timestamp,
+    last_update timestamp,
     primary key (id),
     foreign key (source_id) references source (id)
     on delete cascade

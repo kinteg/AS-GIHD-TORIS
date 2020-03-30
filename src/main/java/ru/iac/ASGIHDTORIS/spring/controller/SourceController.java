@@ -6,7 +6,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
@@ -25,14 +24,18 @@ public class SourceController {
     private final SourceRepo sourceRepo;
     private final Validator<Source> validator;
     private final SourceService sourceService;
+    private final SourceService sourceService2;
 
     public SourceController(
             SourceRepo sourceRepo,
             @Qualifier("getSourceValidator") Validator<Source> validator,
-            SourceService sourceService) {
+            @Qualifier("sourceServiceImpl") SourceService sourceService,
+            @Qualifier("sourceServiceImpl2") SourceService sourceService2
+    ) {
         this.sourceRepo = sourceRepo;
         this.validator = validator;
         this.sourceService = sourceService;
+        this.sourceService2 = sourceService2;
     }
 
     @PostMapping("/create")
@@ -61,10 +64,7 @@ public class SourceController {
 
     @PostMapping("/getAllSort")
     public Page<Source> getAll(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable) {
-        log.info(source.toString());
-        log.info(source.getDateCreation1().atTime(0, 0, 0, 0).toString());
-        log.info(source.getDateCreation2().atTime(23, 59, 59, 0).toString());
-        return sourceService.findAllSourceByQuery(pageable, source);
+        return sourceService2.findAllSourceByQuery(pageable, source);
     }
 
     @GetMapping("/getAllArchive")

@@ -28,10 +28,14 @@ public class PatternController {
         this.patternValidator = patternValidator;
         this.patternRepo = patternRepo;
     }
-//если шаблон не создался возвращает пустой шаблон с именем
+
     @PostMapping("/create")
     public Pattern createPattern(@RequestBody Pattern pattern) {
+
         pattern.setDateCreation(LocalDateTime.now());
+        pattern.setDateActivation(LocalDateTime.now());
+        pattern.setLastUpdate(LocalDateTime.now());
+
         return patternValidator.isValid(pattern)
                 ? patternRepo.save(pattern)
                 : new Pattern();
@@ -48,8 +52,8 @@ public class PatternController {
     }
 
     @PostMapping("/getAllSort")
-    public Page<Pattern> getAll(@ModelAttribute Pattern pattern, @ModelAttribute PatternDateModel patternDateModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key) {
-        return patternRepo.findAll(pageable);
+    public Page<Pattern> getAll(@ModelAttribute PatternDateModel pattern, @PageableDefault Pageable pageable) {
+        return null;
     }
 
     @GetMapping("/getAll/{sourceId}")
@@ -58,8 +62,8 @@ public class PatternController {
     }
 
     @PostMapping("/getAllSort/{sourceId}")
-    public Page<Pattern> getAll(@PathVariable Long sourceId, @ModelAttribute Pattern pattern, @ModelAttribute PatternDateModel patternDateModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
-        return patternRepo.findAllBySourceId(sourceId, pageable);
+    public Page<Pattern> getAllWithSourceId(@ModelAttribute PatternDateModel pattern, @PageableDefault Pageable pageable){
+        return null;
     }
 
     @GetMapping("/getAllArchive")
@@ -68,7 +72,8 @@ public class PatternController {
     }
 
     @PostMapping("/getAllArchiveSort")
-    public Page<Pattern> getAllArchive(@ModelAttribute Pattern pattern, @ModelAttribute PatternDateModel patternDateModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
+    public Page<Pattern> getAllArchive(@ModelAttribute PatternDateModel pattern, @PageableDefault Pageable pageable){
+        pattern.setIsArchive(true);
         return patternRepo.findAllByIsArchive(true, pageable);
     }
 
@@ -78,8 +83,9 @@ public class PatternController {
     }
 
     @PostMapping("/getAllArchiveSort/{sourceId}")
-    public Page<Pattern> getAllArchive(@PathVariable Long sourceId, @ModelAttribute Pattern pattern, @ModelAttribute PatternDateModel patternDateModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
-        return patternRepo.findAllBySourceIdAndIsArchive(sourceId, true, pageable);
+    public Page<Pattern> getAllArchiveWithSourceId(@ModelAttribute PatternDateModel pattern, @PageableDefault Pageable pageable){
+        pattern.setIsArchive(true);
+        return null;
     }
 
     @GetMapping("/getAllNotArchive")
@@ -88,8 +94,9 @@ public class PatternController {
     }
 
     @PostMapping("/getAllNotArchiveSort")
-    public Page<Pattern> getAllNotArchive(@ModelAttribute Pattern pattern, @ModelAttribute PatternDateModel patternDateModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
-        return patternRepo.findAllByIsArchive(false, pageable);
+    public Page<Pattern> getAllNotArchive(@ModelAttribute PatternDateModel pattern, @PageableDefault Pageable pageable){
+        pattern.setIsArchive(true);
+        return null;
     }
 
     @GetMapping("/getAllNotArchive/{sourceId}")
@@ -98,16 +105,18 @@ public class PatternController {
     }
 
     @PostMapping("/getAllNotArchiveSort/{sourceId}")
-    public Page<Pattern> getAllNotArchive(@PathVariable Long sourceId, @ModelAttribute Pattern pattern, @ModelAttribute PatternDateModel patternDateModel, @PageableDefault Pageable pageable, @RequestParam String sort, @RequestParam String key){
-        return patternRepo.findAllBySourceIdAndIsArchive(sourceId, false, pageable);
+    public Page<Pattern> getAllNotArchiveWithSourceId(@ModelAttribute PatternDateModel pattern, @PageableDefault Pageable pageable){
+        pattern.setIsArchive(false);
+        return null;
     }
 
     @GetMapping("/archive/{id}")
     public boolean archivePattern(@PathVariable Long id){
 
-        if (patternRepo.existsById(id)) {
+        if (id != null && patternRepo.existsById(id)) {
             Pattern pattern = patternRepo.findById((long)id);
             pattern.setIsArchive(true);
+            pattern.setDateActivation(LocalDateTime.now());
 
             patternRepo.save(pattern);
 
@@ -118,11 +127,12 @@ public class PatternController {
     }
 
     @GetMapping("/deArchive/{id}")
-    public boolean deArchivePattern(@PathVariable long id){
+    public boolean deArchivePattern(@PathVariable Long id){
 
-        if (patternRepo.existsById(id)) {
-            Pattern pattern = patternRepo.findById(id);
+        if (id != null && patternRepo.existsById(id)) {
+            Pattern pattern = patternRepo.findById((long)id);
             pattern.setIsArchive(false);
+            pattern.setDateActivation(LocalDateTime.now());
 
             patternRepo.save(pattern);
 
@@ -182,7 +192,9 @@ public class PatternController {
     @PostMapping("/update")
     public boolean update(@RequestBody Pattern Pattern) {
 
-        if (patternRepo.existsById(Pattern.getId()) && patternValidator.isValid(Pattern)) {
+        if (patternRepo.existsById(Pattern.getId())
+                && patternValidator.isValid(Pattern)) {
+
             patternRepo.save(Pattern);
 
             return true;

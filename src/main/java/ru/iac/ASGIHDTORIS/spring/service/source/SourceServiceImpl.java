@@ -6,13 +6,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.iac.ASGIHDTORIS.common.model.domain.SourceDateModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Service
 @Slf4j
@@ -58,8 +56,8 @@ public class SourceServiceImpl implements SourceService {
 
     private Page<Source> getAll(Pageable pageable, SourceModel source) {
 
-        source = fixSource(source);
-        source = fixSourceDataModel(source);
+        fixSource(source);
+        fixSourceDataModel(source);
 
         if (source.getIsArchive() == null && !(source.getDateDeactivation1() == null && source.getDateDeactivation2() == null)) {
             log.info("1");
@@ -78,7 +76,7 @@ public class SourceServiceImpl implements SourceService {
 
     }
 
-    private SourceModel fixSource(SourceModel source) {
+    private void fixSource(SourceModel source) {
         if (source.getId() == null) {
             source.setId("");
         }
@@ -119,10 +117,9 @@ public class SourceServiceImpl implements SourceService {
             source.setDataSource("");
         }
 
-        return source;
     }
 
-    private SourceModel fixSourceDataModel(SourceModel source) {
+    private void fixSourceDataModel(SourceModel source) {
 
         if (source.getDateCreation1() == null) {
             source.setDateCreation1(LocalDate.of(1970, 1, 1));
@@ -143,7 +140,6 @@ public class SourceServiceImpl implements SourceService {
             source.setLastUpdate2(LocalDate.of(3000, 1, 1));
         }
 
-        return source;
     }
 
     private Page<Source> getWithArchiveAndDeactivation(Pageable pageable, SourceModel source) {

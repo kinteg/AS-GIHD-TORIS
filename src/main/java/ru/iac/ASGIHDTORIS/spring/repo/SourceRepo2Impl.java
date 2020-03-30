@@ -1,6 +1,5 @@
-package ru.iac.ASGIHDTORIS.spring.service.source;
+package ru.iac.ASGIHDTORIS.spring.repo;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -10,6 +9,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
+import ru.iac.ASGIHDTORIS.spring.service.source.SourceCountMapper;
+import ru.iac.ASGIHDTORIS.spring.service.source.SourceMapper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,9 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Slf4j
-public class SourceServiceImpl2 implements SourceService {
-
+public class SourceRepo2Impl implements SourceRepo2 {
     private final String SELECT_QUERY = "SELECT * FROM source";
     private final String PAGE_QUERY = "SELECT count(*) FROM source";
 
@@ -27,7 +26,7 @@ public class SourceServiceImpl2 implements SourceService {
     private final SourceCountMapper sourceCountMapper;
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public SourceServiceImpl2(SourceMapper sourceMapper, SourceCountMapper sourceCountMapper, NamedParameterJdbcTemplate jdbcTemplate) {
+    public SourceRepo2Impl(SourceMapper sourceMapper, SourceCountMapper sourceCountMapper, NamedParameterJdbcTemplate jdbcTemplate) {
         this.sourceMapper = sourceMapper;
         this.sourceCountMapper = sourceCountMapper;
         this.jdbcTemplate = jdbcTemplate;
@@ -184,5 +183,4 @@ public class SourceServiceImpl2 implements SourceService {
             return 0;
         }
     }
-
 }

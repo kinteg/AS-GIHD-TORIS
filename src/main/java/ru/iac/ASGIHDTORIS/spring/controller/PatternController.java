@@ -40,6 +40,7 @@ public class PatternController {
         pattern.setDateActivation(LocalDateTime.now());
         pattern.setLastUpdate(LocalDateTime.now());
         pattern.setArchiveFileCount(0);
+        pattern.setIsArchive(false);
 
         return patternValidator.isValid(pattern)
                 ? patternRepo.save(pattern)
@@ -69,6 +70,7 @@ public class PatternController {
 
     @PostMapping("/getAllSort/{sourceId}")
     public Page<Pattern> getAllWithSourceId(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+        pattern.setHelpModel(helpModel);
         return patternRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
@@ -101,7 +103,7 @@ public class PatternController {
 
     @PostMapping("/getAllNotArchiveSort")
     public Page<Pattern> getAllNotArchive(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
-        pattern.getHelpModel().setIsArchive(true);
+        pattern.getHelpModel().setIsArchive(false);
         return patternRepo2.findAllSourceByQuery(pageable, pattern);
     }
 

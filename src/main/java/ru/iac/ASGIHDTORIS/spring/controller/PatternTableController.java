@@ -104,50 +104,55 @@ public class PatternTableController {
         return patternTableRepo.findAllByPatternId(patternId, pageable);
     }
 
-//    @GetMapping("/getAllSort/{patternId}")
-//    public Page<PatternTable> getAllWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
-//        return patternTableRepo.findAllByPatternId(patternId, pageable);
-//    }
+    @GetMapping("/getAllSort/{patternId}")
+    public Page<PatternTable> getAllWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+        pattern.setHelpModel(helpModel);
+        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+    }
 
-//    @GetMapping("/getAllArchive")
-//    public Page<PatternTable> getAllArchive(@RequestParam Long patternId, @PageableDefault Pageable pageable){
-//        return patternTableRepo.findAllByPatternId(patternId, pageable);
-//    }
-//
-//    @GetMapping("/getAllArchiveSort")
-//    public Page<PatternTable> getAllArchive(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
-//        return patternTableRepo.findAllByPatternId(patternId, pageable);
-//    }
-//
-//    @GetMapping("/getAllArchive/{patternId}")
-//    public Page<PatternTable> getAllArchive(@RequestParam Long patternId, @PageableDefault Pageable pageable){
-//        return patternTableRepo.findAllByPatternId(patternId, pageable);
-//    }
-//
-//    @GetMapping("/getAllArchiveSort/{patternId}")
-//    public Page<PatternTable> getAllArchiveWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
-//        return patternTableRepo.findAllByPatternId(patternId, pageable);
-//    }
-//
-//    @GetMapping("/getAllNotArchive")
-//    public Page<PatternTable> getAllNotArchive(@RequestParam Long patternId, @PageableDefault Pageable pageable){
-//        return patternTableRepo.findAllByPatternId(patternId, pageable);
-//    }
-//
-//    @GetMapping("/getAllNotArchiveSort")
-//    public Page<PatternTable> getAllNotArchive(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
-//        return patternTableRepo.findAllByPatternId(patternId, pageable);
-//    }
-//
-//    @GetMapping("/getAllNotArchive/{patternId}")
-//    public Page<PatternTable> getAllNotArchive(@RequestParam Long patternId, @PageableDefault Pageable pageable){
-//        return patternTableRepo.findAllByPatternId(patternId, pageable);
-//    }
-//
-//    @GetMapping("/getAllNotArchiveSort/{patternId}")
-//    public Page<PatternTable> getAllNotArchiveWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
-//        return patternTableRepo.findAllByPatternId(patternId, pageable);
-//    }
+    @GetMapping("/getAllArchive")
+    public Page<PatternTable> getAllArchive(@PageableDefault Pageable pageable){
+        return patternTableRepo.findAllByIsArchive(true, pageable);
+    }
+
+    @GetMapping("/getAllArchiveSort")
+    public Page<PatternTable> getAllArchive(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+        pattern.getHelpModel().setIsArchive(true);
+        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+    }
+
+    @GetMapping("/getAllArchive/{patternId}")
+    public Page<PatternTable> getAllArchive(@PathVariable Long patternId, @PageableDefault Pageable pageable){
+        return patternTableRepo.findAllByPatternIdAndIsArchive(patternId, true, pageable);
+    }
+
+    @GetMapping("/getAllArchiveSort/{patternId}")
+    public Page<PatternTable> getAllArchiveWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+        pattern.getHelpModel().setIsArchive(true);
+        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+    }
+
+    @GetMapping("/getAllNotArchive")
+    public Page<PatternTable> getAllNotArchive(@PageableDefault Pageable pageable){
+        return patternTableRepo.findAllByIsArchive(false, pageable);
+    }
+
+    @GetMapping("/getAllNotArchiveSort")
+    public Page<PatternTable> getAllNotArchive(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+        pattern.getHelpModel().setIsArchive(false);
+        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+    }
+
+    @GetMapping("/getAllNotArchive/{patternId}")
+    public Page<PatternTable> getAllNotArchive(@PathVariable Long patternId, @PageableDefault Pageable pageable){
+        return patternTableRepo.findAllByPatternIdAndIsArchive(patternId, false, pageable);
+    }
+
+    @GetMapping("/getAllNotArchiveSort/{patternId}")
+    public Page<PatternTable> getAllNotArchiveWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+        pattern.getHelpModel().setIsArchive(false);
+        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+    }
 
 
     @GetMapping("/archive/{id}")

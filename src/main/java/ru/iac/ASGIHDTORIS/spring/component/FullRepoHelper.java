@@ -118,4 +118,12 @@ public class FullRepoHelper<T> {
         }
     }
 
+    private String getSelectQuery(String nameTable, String valueQuery, String pageQuery) {
+        return SELECT_QUERY + nameTable + valueQuery + pageQuery;
+    }
+
+    private String getCountQuery(String nameTable, String valueQuery) {
+        return PAGE_QUERY + nameTable + valueQuery;
+    }
+
 }

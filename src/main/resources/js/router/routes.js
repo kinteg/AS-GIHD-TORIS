@@ -8,6 +8,7 @@ import CreateSource from "../pages/source/CreateSource.vue";
 import ViewSource from "../pages/source/ViewSource.vue";
 import ShowSourceArchive from "../pages/source/ShowSourceArchive.vue";
 import ShowSourceNoArchive from "../pages/source/ShowSourceNoArchive.vue";
+import ShowPattern from "../pages/pattern/ShowPattern.vue";
 
 const routes = [
     {
@@ -44,6 +45,24 @@ const routes = [
             },
 
         ],
+    },
+    {
+        path:'/pattern',
+        name: 'pattern',
+        component: Source,
+        meta: {
+            title: 'Шаблоны',
+        },
+        children:[
+            {
+                path:'show',
+                component: ShowPattern,
+                name: 'show',
+                meta: {
+                    title: 'Все шаблоны'
+                },
+            },
+        ]
     },
     {
         path:'/source/update/:id',

@@ -1,10 +1,10 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <p style="font-size: 20px">Источники
-
-        <el-button class="trt" @click="deleteSomeSource"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
-        <el-button class="plus" @click="addSource" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
-        <el-backtop target=".plus"></el-backtop></p>
+            <el-button @click="deArchiveSomeSource"  style="margin-left: 10px; float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
+            <el-button class="trt" @click="deleteSomeSource"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
+            <el-button class="plus" @click="addSource" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
+            <el-backtop target=".plus"></el-backtop></p>
         <div class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto;">
                 <tr>
@@ -90,7 +90,12 @@
                 <tbody v-for="source in sourceData">
                 <tr >
                     <td>
-                        <el-button @click="deleteOneSource(source.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                        <span v-if="source.isArchive">
+                            <el-button @click="deArchiveOneSource(source.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
+                        </span>
+                        <span v-else>
+                            <el-button @click="deleteOneSource(source.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                        </span>
                         <br>
                         <el-button @click="updateSource(source.id)" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
                         <br>
@@ -218,6 +223,74 @@
                 } else {
                     this.source.check.push(id);
                 }
+            },
+
+            deArchiveSource(id){
+                AXIOS.get("source/deArchive/" + id).then(response => {
+                    if(response.data.name !== ""){
+                        this.notify('Успешно','Источник был активирован','success');
+                        this.updatePage();
+                    } else {
+                        this.notify('Ошибка','Источник не был активирован','error');
+                    }
+                });
+            },
+
+            deArchiveOneSource(id){
+                this.$confirm('Разархивировать все связанные с этим источником шаблоны', 'Разархивировать', {
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Cancel',
+                    type: 'warning'
+                }).then(() => {
+                    this.deArchiveSource(id);
+                    AXIOS.get("pattern/archivePatterns/" + id);
+                    this.$message({
+                        type: 'success',
+                        message: 'Источник разархивирован вместе с шаблонами'
+                    });
+                }).catch(() => {
+                    this.deArchiveSource(id);
+                    this.$message({
+                        type: 'success',
+                        message: 'Источник разархивирован без шаблонов'
+                    });
+                });
+            },
+
+            deArchiveSomeSource(){
+                this.$confirm('Архивировать все связанные с этим источником шаблоны', 'Архвировать', {
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Cancel',
+                    type: 'warning'
+                }).then(() => {
+                    if(this.source.check.length !== 0){
+                        for(let i = 0; i < this.source.check.length; i++){
+                            this.deArchiveSource(this.source.check[i]);
+                        }
+                        this.updatePage();
+                    } else {
+                        this.notify('Ошибка','Выберите источники которые хотите сделать активным','error');
+                    }
+                    // AXIOS.get("pattern/archivePatterns/" + i);
+                    this.$message({
+                        type: 'warning',
+                        message: 'Источник архивирован вместе с шаблонами'
+                    });
+
+                }).catch(() => {
+                    if(this.source.check.length !== 0){
+                        for(let i = 0; i < this.source.check.length; i++){
+                            this.deArchiveSource(this.source.check[i]);
+                        }
+                        this.updatePage();
+                    } else {
+                        this.notify('Ошибка','Выберите источники которые хотите сделать активным','error');
+                    }
+                    this.$message({
+                        type: 'success',
+                        message: 'Источник архивирован без шаблонов'
+                    });
+                });
             },
 
             deleteSource(id) {

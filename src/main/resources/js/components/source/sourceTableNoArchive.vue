@@ -2,7 +2,6 @@
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <p style="font-size: 20px">Источники
             <el-button @click="deleteSomeSource"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
-            <el-button @click="addSource" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
         </p>
         <div class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto; ">
@@ -85,9 +84,6 @@
                                 end-placeholder="End date">
                         </el-date-picker>
                     </div></td>
-                    <td><el-input placeholder="Please input" v-model="source.dateDeactivation"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.dateActivation"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.lastUpdate"></el-input></td>
                 </tr>
                 <tbody v-for="source in sourceData">
                 <tr >

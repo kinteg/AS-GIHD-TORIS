@@ -1,6 +1,6 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-        <p style="font-size: 20px">Просмотр источника</p>
+        <p style="font-size: 20px">Создание</p>
         <div>
             <el-tabs v-model="activeName">
                 <el-tab-pane label="Источник" name="sourceInfo">
@@ -59,18 +59,46 @@
                                     <el-form-item prop="providerLink" label="Источник данных">
                                         <el-input v-model="source.providerLink"></el-input>
                                     </el-form-item>
-                                    <el-form-item prop="dataSource" label="Ссылка на данные на сайте поставщика">
+                                    <el-form-item prop="dataSource" label="Ссылка на данные">
                                         <el-input v-model="source.dataSource"></el-input>
                                     </el-form-item>
                                 </el-form>
                             </div>
                         </el-col>
                     </el-row>
+                    <el-button @click="createSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить источник</el-button>
                 </el-tab-pane>
-                <el-tab-pane label="Шаблоны" name="patternInfo">Шаблоны</el-tab-pane>
+                <el-tab-pane label="Шаблоны" name="patternInfo">
+                    <el-row :gutter="20">
+                        <el-col :span="12">
+                            <div>
+                                <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
+                                    <el-form-item prop="name" label="Название">
+                                        <el-input v-model="pattern.name"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="description" label="Описание">
+                                        <el-input v-model="pattern.description"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+                        </el-col>
+                        <el-col :span="12">
+                            <div>
+                                <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
+                                    <el-form-item prop="direction" label="Направление:">
+                                        <el-input v-model="pattern.direction"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="management" label="Отвтественный за ведение:">
+                                        <el-input v-model="pattern.management"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-button @click="createPattern" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить шаблон</el-button>
+                </el-tab-pane>
             </el-tabs>
         </div>
-        <el-button @click="createSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить</el-button>
     </div>
 </template>
 
@@ -95,6 +123,13 @@
                     tags: "",
                     providerLink:"",
                     dataSource:"",
+                },
+                pattern: {
+                    name: "",
+                    description: "",
+                    direction: "",
+                    management: "",
+                    sourceId: "",
                 },
                 rules: {
                     name: [
@@ -133,11 +168,23 @@
                     dataSource: [
                         { required: true, message: 'Заполните поле', trigger: 'blur' }
                     ],
+                    patternName: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    patternDescription: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    direction: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    management: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
                 }
             }
         },
         methods:{
-            createSource(){
+            createSource() {
                 let formData = new FormData();
                 formData.append("name",this.source.name);
                 formData.append("longName",this.source.longName);
@@ -161,33 +208,55 @@
                     }
                 ).then(response => {
                     if(response.data.longName == null){
-                        this.noticeWarning();
+                        this.noticeError('Ошибка при создании источника.');
                     } else {
-                        this.noticeSuccess(response.data.name);
+                        this.pattern.sourceId = response.data.id;
+                        console.log(this.pattern.sourceId);
+                        this.noticeSuccess(' Источник  "' + response.data.name + '" успешно создан.');
                     }
                 });
             },
 
-            noticeWarning(){
-                this.$notify({
-                    title: 'Ошибка',
-                    message: 'Ошибка при создании источника.',
-                    type: 'error',
-                    duration: 0
+            createPattern() {
+                let formData = new FormData();
+                formData.append("name",this.pattern.name);
+                formData.append("description",this.pattern.description);
+                formData.append("direction",this.pattern.direction);
+                formData.append("management",this.pattern.management);
+                formData.append("sourceId",this.pattern.sourceId);
+                AXIOS.post("/pattern/create",
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then(response => {
+                    if(response.data.name == null){
+                        console.log(this.pattern.sourceId);
+                        this.noticeError('Ошибка при создании шаблона.');
+                    } else {
+                        console.log(this.pattern.sourceId);
+                        this.noticeSuccess('Шаблон "' + response.data.name + '" успешно создан.');
+                    }
                 });
             },
 
-            noticeSuccess(name){
+            noticeError(message) {
                 this.$notify({
-                    title: 'Успешно',
-                    message: 'Источник "' + name + '" успешно создан.',
-                    type: 'success',
-                    duration: 0
+                    title: 'Ошибка',
+                    message:message ,
+                    type: 'error',
                 });
             },
-        },
-        routeUpdate(to, from) {
-            alert("asd");
+
+            noticeSuccess(message) {
+                this.$notify({
+                    title: 'Успешно',
+                    message: message,
+                    type: 'success',
+                });
+            },
         }
 
     }

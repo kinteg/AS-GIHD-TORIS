@@ -1,7 +1,6 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-        <p style="font-size: 20px">Просмотр источника</p>
-        <hr>
+        <p style="font-size: 20px">Просмотр</p>
         <div>
             <el-tabs v-model="activeName">
                 <el-tab-pane label="Источник" name="sourceInfo">
@@ -67,22 +66,119 @@
                             </div>
                         </el-col>
                     </el-row>
+                    <el-button @click="updateSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Изменить</el-button>
                 </el-tab-pane>
-                <el-tab-pane label="Шаблоны" name="patternInfo">Шаблоны</el-tab-pane>
+                <el-tab-pane label="Шаблоны" name="patternInfo">
+                    <div v-if="hiddenTable"  style="background-color: white; padding: 0 5px 0 0;  border-radius: 5px; " >
+                        <p style="font-size: 20px">Все шаблоны
+                            <el-button class="plus" @click="addPattern" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
+                        </p>
+                        <table style="display: block; overflow-x: auto; ">
+                            <tr>
+                                <th></th>
+                                <th @click="sort('id')">Номер</th>
+                                <th @click="sort('name')">Навание</th>
+                                <th @click="sort('description')">Описание</th>
+                                <th @click="sort('direction')">Направление </th>
+                                <th @click="sort('management')">Ответсвенный за ведение </th>
+                                <th @click="sort('archive')">Архивность</th>
+                                <th @click="sort('date_creation')">Дата создания</th>
+                                <th @click="sort('date_deactivation')">Дата деактивации</th>
+                                <th @click="sort('date_activation')">Дата активации</th>
+                                <th @click="sort('last_update')">Последнее обновление</th>
+                            </tr>
+                            <tbody v-for="pattern in patternData">
+                            <tr>
+                                <td>
+                                    <span v-if="pattern.isArchive">
+                                        <el-button @click="deArchiveOneSource(source.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
+                                    </span>
+                                    <span v-else>
+                                        <el-button @click="deleteOneSource(source.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                                    </span>
+                                    <br>
+                                    <el-button @click="openPatternUpdate(pattern.id)" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
+                                    <br>
+                                    <el-button @click="patternView(pattern.id)" style="background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
+                                </td>
+                                <td>{{pattern.id}}</td>
+                                <td>{{pattern.name}}</td>
+                                <td>{{pattern.description}}</td>
+                                <td>{{pattern.direction}}</td>
+                                <td>{{pattern.management}}</td>
+                                <td>{{pattern.isArchive ? "Да" : "Нет"}}</td>
+                                <td>{{pattern.dateCreation}}</td>
+                                <td>{{pattern.dateDeactivation}}</td>
+                                <td>{{pattern.dateActivation}}</td>
+                                <td>{{pattern.lastUpdate}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div v-else-if="hiddenUpdate">
+                        <el-row :gutter="20">
+                            <el-col :span="12">
+                                <div>
+                                    <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
+                                        <el-form-item prop="name" label="Название">
+                                            <el-input v-model="pattern.name"></el-input>
+                                        </el-form-item>
+                                        <el-form-item prop="description" label="Описание">
+                                            <el-input v-model="pattern.description"></el-input>
+                                        </el-form-item>
+                                    </el-form>
+                                </div>
+                            </el-col>
+                            <el-col :span="12">
+                                <div>
+                                    <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
+                                        <el-form-item prop="direction" label="Направление:">
+                                            <el-input v-model="pattern.direction"></el-input>
+                                        </el-form-item>
+                                        <el-form-item prop="management" label="Отвтественный за ведение:">
+                                            <el-input v-model="pattern.management"></el-input>
+                                        </el-form-item>
+                                    </el-form>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-button @click="backUpdate" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                        <el-button @click="updatePattern" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
+                    </div>
+                    <div v-if="hiddenView">
+                        <pattern-view :pattern-id="this.patternId" />
+                        <el-button @click="backView" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                    </div>
+                    <div v-else-if="hiddenAdd">
+                        <pattern-create :source-id="this.sourceId"/>
+                        <br>
+                        <el-button @click="backAdd" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                    </div>
+                </el-tab-pane>
             </el-tabs>
         </div>
-        <el-button @click="updateSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Изменить</el-button>
     </div>
 </template>
 
 <script>
     import {AXIOS} from "../../AXIOS/http-common";
     import router from "../../router/router";
+    import PatternView from "../pattern/patternView.vue";
+    import PatternCreate from "../pattern/patternCreate.vue";
     export default {
         name: "sourceCreate",
+        components: {PatternCreate, PatternView},
         props:['id'],
         data() {
             return {
+                sourceId:"",
+                patternId: "",
+                patternData:[],
+                onePatternData:[],
+                hiddenTable: true,
+                hiddenAdd: false,
+                hiddenView: false,
+                hiddenUpdate: false,
                 labelPosition:"top",
                 activeName: "sourceInfo",
                 source:{
@@ -99,6 +195,24 @@
                     providerLink:"",
                     dataSource:"",
                 },
+                pattern: {
+                    check: [],
+                    key: "id",
+                    sort: "",
+                    id: "",
+                    name: "",
+                    fileCount: "",
+                    archiveFileCount: "",
+                    description: "",
+                    direction: "",
+                    management: "",
+                    isArchive: "",
+                    dateCreation: "",
+                    dateDeactivation: "",
+                    dateActivation: "",
+                    lastUpdate: "",
+                },
+
                 rules: {
                     name: [
                         { required: true, message: 'Заполните поле', trigger: 'blur' }
@@ -136,26 +250,113 @@
                     dataSource: [
                         { required: true, message: 'Заполните поле', trigger: 'blur' }
                     ],
+                    patternName: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    patternDescription: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    direction: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
+                    management: [
+                        { required: true, message: 'Заполните поле', trigger: 'blur' }
+                    ],
                 }
             }
         },
         methods:{
-            createSource() {
+            noticeError(message) {
+                this.$notify({
+                    title: 'Ошибка',
+                    message:message ,
+                    type: 'error',
+                });
+            },
+
+            noticeSuccess(message) {
+                this.$notify({
+                    title: 'Успешно',
+                    message: message,
+                    type: 'success',
+                });
+            },
+
+            patternView(id) {
+                this.hiddenView = true;
+                this.hiddenTable = false;
+                this.hiddenAdd = false;
+                this.patternId = id;
+
+            },
+
+            backView() {
+                this.hiddenTable = true;
+                this.hiddenView = false;
+                this.hiddenAdd = false;
+                this.patternId = "";
+                this.updatePage();
+            },
+
+            addPattern(){
+                this.hiddenAdd = true;
+                this.hiddenTable = false;
+                this.hiddenView = false;
+                this.sourceId = this.$route.params.id;
+            },
+
+            backAdd(){
+                this.$confirm('Уверены что хотите вернуться?', 'Назад', {
+                    confirmButtonText: 'Да',
+                    cancelButtonText: 'Нет',
+                    type: 'warning'
+                }).then(() => {
+                    this.pattern = "";
+                    this.hiddenTable = true;
+                    this.hiddenView = false;
+                    this.hiddenAdd = false;
+                    this.updatePage();
+
+                }).catch(() => {
+
+                });
+            },
+
+            backUpdate() {
+                this.$confirm('Уверены что хотите вернуться?', 'Назад', {
+                    confirmButtonText: 'Да',
+                    cancelButtonText: 'Нет',
+                    type: 'warning'
+                }).then(() => {
+                    this.pattern = "";
+                    this.hiddenTable = true;
+                    this.hiddenUpdate = false;
+                    this.updatePage();
+                }).catch(() => {
+
+                });
+            },
+
+            openPatternUpdate(id) {
+                AXIOS.get("pattern/" + id).then(response => {
+                    this.hiddenTable = false;
+                    this.hiddenUpdate = true;
+                    this.pattern = response.data;
+                })
+            },
+
+            updatePattern() {
                 let formData = new FormData();
-                formData.append("name",this.source.name);
-                formData.append("longName",this.source.longName);
-                formData.append("shortName",this.source.shortName);
-                formData.append("description",this.source.description);
-                formData.append("addDescription",this.source.addDescription);
-                formData.append("scope",this.source.scope);
-                formData.append("periodicity",this.source.periodicity);
-                formData.append("renewalPeriod",this.source.renewalPeriod);
-                formData.append("type",this.source.type);
-                formData.append("tags",this.source.tags);
-                formData.append("providerLink",this.source.providerLink);
-                formData.append("dataSource",this.source.dataSource);
-                formData.append("isArchive",false);
-                AXIOS.post("/source/create",
+                formData.append("id",this.pattern.id);
+                formData.append("name",this.pattern.name);
+                formData.append("fileCount",this.pattern.fileCount);
+                formData.append("archiveFileCount",this.pattern.archiveFileCount);
+                formData.append("description",this.pattern.description);
+                formData.append("direction",this.pattern.direction);
+                formData.append("management",this.pattern.management);
+                formData.append("isArchive",this.pattern.isArchive);
+                formData.append("sourceId",this.pattern.sourceId);
+                AXIOS.post("/pattern/update",
                     formData,
                     {
                         headers: {
@@ -163,29 +364,12 @@
                         }
                     }
                 ).then(response => {
-                    if(response.data.longName == null){
-                        this.noticeWarning();
+                    if(response.data.name == null){
+                        console.log(this.pattern.sourceId);
+                        this.noticeError("Ошибка при изменении источника.");
                     } else {
-                        this.noticeSuccess(response.data.name);
+                        this.noticeSuccess('Шаблон "' + response.data.name + '" успешно изменен.');
                     }
-                });
-            },
-
-            noticeWarning() {
-                this.$notify({
-                    title: 'Ошибка',
-                    message: 'Ошибка при изменении источника.',
-                    type: 'error',
-                    duration: 0
-                });
-            },
-
-            noticeSuccess(name) {
-                this.$notify({
-                    title: 'Успешно',
-                    message: 'Источник "' + name + '" успешно изменен.',
-                    type: 'success',
-                    duration: 0
                 });
             },
 
@@ -214,24 +398,51 @@
                     }
                 ).then(response => {
                     if(response.data.longName == null){
-                        this.noticeWarning();
+                        this.noticeError("Ошибка при изменении источника.");
                     } else {
-                        this.noticeSuccess(response.data.name);
+                        this.noticeSuccess('Источник "' + response.data.name + '" успешно изменен.');
                     }
                 });
 
                 router.push({name:'show'});
             },
+
+            updatePage(){
+                AXIOS.get("pattern/getAll/" + this.$route.params.id).then(response => {
+                    this.patternData = response.data.content;
+                })
+            }
         },
 
         mounted() {
             AXIOS.get("source/" + this.$route.params.id).then(response => {
                 this.source = response.data;
+            });
+
+            AXIOS.get("pattern/getAll/" + this.$route.params.id).then(response => {
+                this.patternData = response.data.content;
             })
         }
     }
 </script>
 
 <style scoped>
+    table, td, th {
+        border: 1px solid #d7d7d7;
+        text-align: center;
+    }
 
+    td{
+        padding: 10px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        padding: 10px;
+        height: 50px;
+    }
 </style>

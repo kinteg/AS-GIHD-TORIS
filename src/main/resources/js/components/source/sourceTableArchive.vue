@@ -84,9 +84,6 @@
                                 end-placeholder="End date">
                         </el-date-picker>
                     </div></td>
-                    <td><el-input placeholder="Please input" v-model="source.dateDeactivation"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.dateActivation"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.lastUpdate"></el-input></td>
                 </tr>
                 <tbody v-for="source in sourceData">
                 <tr >
@@ -205,8 +202,6 @@
                     lastUpdate:"",
                     lastUpdate1:"",
                     lastUpdate2:"",
-
-
                 }
             }
         },

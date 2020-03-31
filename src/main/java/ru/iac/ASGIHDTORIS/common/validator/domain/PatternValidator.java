@@ -26,23 +26,23 @@ public class PatternValidator implements Validator<Pattern> {
     }
 
     private boolean isValidFileCount(Integer fileCount) {
-        return fileCount != null && fileCount > 0;
+        return fileCount != null && fileCount >= 0;
     }
 
     private boolean isValidName(String name) {
-        return name != null && name.equals("");
+        return name != null && !name.equals("");
     }
 
     private boolean isValidDescription(String description) {
-        return description != null && description.equals("");
+        return description != null && !description.equals("");
     }
 
     private boolean isValidDirection(String direction) {
-        return direction != null && direction.equals("");
+        return direction != null && !direction.equals("");
     }
 
     private boolean isValidManagement(String management) {
-        return management != null && management.equals("");
+        return management != null && !management.equals("");
     }
 
     private boolean isValidArchive(Boolean isArchive) {

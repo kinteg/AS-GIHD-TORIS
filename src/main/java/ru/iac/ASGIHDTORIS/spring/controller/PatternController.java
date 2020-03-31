@@ -34,14 +34,16 @@ public class PatternController {
     }
 
     @PostMapping("/create")
-    public Pattern createPattern(@RequestBody Pattern pattern) {
+    public Pattern createPattern(@ModelAttribute Pattern pattern) {
 
         pattern.setDateCreation(LocalDateTime.now());
         pattern.setDateActivation(LocalDateTime.now());
         pattern.setLastUpdate(LocalDateTime.now());
         pattern.setArchiveFileCount(0);
+        pattern.setFileCount(0);
         pattern.setIsArchive(false);
 
+        log.info(pattern.toString());
         return patternValidator.isValid(pattern)
                 ? patternRepo.save(pattern)
                 : new Pattern();
@@ -202,8 +204,8 @@ public class PatternController {
     }
 
     @PostMapping("/update")
-    public Pattern update(@RequestBody Pattern pattern) {
-
+    public Pattern update(@ModelAttribute Pattern pattern) {
+        log.info(pattern.toString());
         if (patternRepo.existsById(pattern.getId())
                 && patternValidator.isValid(pattern)) {
 

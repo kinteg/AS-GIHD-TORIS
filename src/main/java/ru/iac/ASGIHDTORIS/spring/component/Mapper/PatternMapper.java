@@ -1,8 +1,7 @@
-package ru.iac.ASGIHDTORIS.spring.service.source;
+package ru.iac.ASGIHDTORIS.spring.component.Mapper;
 
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import ru.iac.ASGIHDTORIS.spring.domain.Source;
+import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SourceMapper implements RowMapper<List<Source>> {
+public class PatternMapper implements Mapper<List<Pattern>> {
     @Override
-    public List<Source> mapRow(ResultSet rs, int rowNum) throws SQLException {
-        List<Source> values = new ArrayList<>();
+    public List<Pattern> mapRow(ResultSet rs, int rowNum) throws SQLException {
+        List<Pattern> values = new ArrayList<>();
         values.add(getSource(rs));
 
         while (rs.next()) {
@@ -24,21 +23,16 @@ public class SourceMapper implements RowMapper<List<Source>> {
 
     }
 
-    private Source getSource(ResultSet rs) throws SQLException {
-        return Source.builder()
+    private Pattern getSource(ResultSet rs) throws SQLException {
+        return Pattern.builder()
                 .id(rs.getLong("id"))
                 .name(rs.getString("name"))
-                .longName(rs.getString("long_name"))
-                .shortName(rs.getString("short_name"))
                 .description(rs.getString("description"))
-                .addDescription(rs.getString("add_description"))
-                .scope(rs.getString("scope"))
-                .periodicity(rs.getString("periodicity"))
-                .renewalPeriod(rs.getString("renewal_period"))
-                .type(rs.getString("type"))
-                .tags(rs.getString("tags"))
-                .providerLink(rs.getString("provider_link"))
-                .dataSource(rs.getString("data_source"))
+                .direction(rs.getString("direction"))
+                .management(rs.getString("management"))
+                .sourceId(rs.getLong("source_id"))
+                .fileCount(rs.getInt("file_count"))
+                .fileCount(rs.getInt("archive_file_count"))
                 .dateCreation(rs.getTimestamp("date_creation") == null ? null : rs.getTimestamp("date_creation").toLocalDateTime())
                 .dateDeactivation(rs.getTimestamp("date_deactivation") == null ? null : rs.getTimestamp("date_deactivation").toLocalDateTime())
                 .dateActivation(rs.getTimestamp("date_activation") == null ? null : rs.getTimestamp("date_activation").toLocalDateTime())

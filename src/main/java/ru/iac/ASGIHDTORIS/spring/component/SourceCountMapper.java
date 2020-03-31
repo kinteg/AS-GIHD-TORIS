@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.spring.service.source;
+package ru.iac.ASGIHDTORIS.spring.component;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;

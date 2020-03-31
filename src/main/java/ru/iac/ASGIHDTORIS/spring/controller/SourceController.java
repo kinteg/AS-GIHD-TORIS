@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
@@ -59,7 +60,8 @@ public class SourceController {
     }
 
     @PostMapping("/getAllSort")
-    public Page<Source> getAll(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable) {
+    public Page<Source> getAll(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+        source.setHelpModel(helpModel);
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
 
@@ -69,8 +71,9 @@ public class SourceController {
     }
 
     @PostMapping("/getAllArchiveSort")
-    public Page<Source> getAllArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable) {
-        source.setIsArchive(true);
+    public Page<Source> getAllArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+        source.getHelpModel().setIsArchive(true);
+        source.setHelpModel(helpModel);
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
 
@@ -80,8 +83,9 @@ public class SourceController {
     }
 
     @PostMapping("/getAllNotArchiveSort")
-    public Page<Source> getAllNotArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable) {
-        source.setIsArchive(false);
+    public Page<Source> getAllNotArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+        source.getHelpModel().setIsArchive(false);
+        source.setHelpModel(helpModel);
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
 

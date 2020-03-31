@@ -91,7 +91,6 @@ public class FullRepoHelper<T> {
     }
 
     public List<T> getAll(String nameTable, String valueQuery, String pageQuery, MapSqlParameterSource params, Mapper<List<T>> mapper) {
-
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
@@ -106,7 +105,6 @@ public class FullRepoHelper<T> {
     }
 
     public Integer getCount(String nameTable, String valueQuery, MapSqlParameterSource params, SourceCountMapper sourceCountMapper) {
-        log.info(getCountQuery(nameTable, valueQuery));
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(

@@ -22,8 +22,8 @@ public class FullRepoHelper<T> {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String SELECT_QUERY = "SELECT * FROM source";
-    private final String PAGE_QUERY = "SELECT count(*) FROM source";
+    private final String SELECT_QUERY = "SELECT * FROM ";
+    private final String PAGE_QUERY = "SELECT count(*) FROM ";
     
     private List<String> values = Collections.emptyList();
     private MapSqlParameterSource params = new MapSqlParameterSource();
@@ -90,21 +90,12 @@ public class FullRepoHelper<T> {
                 " OFFSET " + pageable.getPageSize() * pageable.getPageNumber();
     }
 
-    public String getSelectQuery(String valueQuery, String pageQuery) {
-        return SELECT_QUERY + valueQuery + pageQuery;
-    }
-
-    public String getCountQuery(String valueQuery) {
-        return PAGE_QUERY + valueQuery;
-    }
-
-
-    public List<T> getAll(String valueQuery, String pageQuery, MapSqlParameterSource params, Mapper<List<T>> mapper) {
+    public List<T> getAll(String nameTable, String valueQuery, String pageQuery, MapSqlParameterSource params, Mapper<List<T>> mapper) {
 
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            getSelectQuery(valueQuery, pageQuery),
+                            getSelectQuery(nameTable, valueQuery, pageQuery),
                             params,
                             mapper
                     )
@@ -114,11 +105,12 @@ public class FullRepoHelper<T> {
         }
     }
 
-    public Integer getCount(String valueQuery, MapSqlParameterSource params, SourceCountMapper sourceCountMapper) {
+    public Integer getCount(String nameTable, String valueQuery, MapSqlParameterSource params, SourceCountMapper sourceCountMapper) {
+        log.info(getCountQuery(nameTable, valueQuery));
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            getCountQuery(valueQuery),
+                            getCountQuery(nameTable, valueQuery),
                             params,
                             sourceCountMapper
                     )

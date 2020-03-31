@@ -21,6 +21,8 @@ import java.util.List;
 @Slf4j
 public class SourceRepo2Impl implements SourceRepo2 {
 
+    private final String NAME = "source";
+
     private final Mapper<List<Source>> sourceMapper;
     private final SourceCountMapper sourceCountMapper;
     private final FullRepoHelper<Source> fullRepoHelper;
@@ -38,8 +40,8 @@ public class SourceRepo2Impl implements SourceRepo2 {
         String valueQuery = createQueryValue(source, params);
         String pageQuery = fullRepoHelper.createPageQuery(pageable, source.getHelpModel().getSort(), source.getHelpModel().getKey());
 
-        List<Source> sources = fullRepoHelper.getAll(valueQuery, pageQuery, params, sourceMapper);
-        int count = fullRepoHelper.getCount(valueQuery, params, sourceCountMapper);
+        List<Source> sources = fullRepoHelper.getAll(NAME, valueQuery, pageQuery, params, sourceMapper);
+        int count = fullRepoHelper.getCount(NAME, valueQuery, params, sourceCountMapper);
 
         return new PageImpl<>(sources, pageable, count);
     }

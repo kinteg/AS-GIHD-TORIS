@@ -117,6 +117,7 @@ public class PatternTableController {
 
     @GetMapping("/getAllArchiveSort")
     public Page<PatternTable> getAllArchive(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+        pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
@@ -128,6 +129,7 @@ public class PatternTableController {
 
     @GetMapping("/getAllArchiveSort/{patternId}")
     public Page<PatternTable> getAllArchiveWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+        pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
@@ -139,6 +141,7 @@ public class PatternTableController {
 
     @GetMapping("/getAllNotArchiveSort")
     public Page<PatternTable> getAllNotArchive(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+        pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
@@ -150,6 +153,7 @@ public class PatternTableController {
 
     @GetMapping("/getAllNotArchiveSort/{patternId}")
     public Page<PatternTable> getAllNotArchiveWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+        pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }

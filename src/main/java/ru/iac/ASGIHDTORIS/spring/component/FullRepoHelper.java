@@ -95,7 +95,7 @@ public class FullRepoHelper<T> {
     }
 
     public String getCountQuery(String valueQuery) {
-        return SELECT_QUERY + valueQuery;
+        return PAGE_QUERY + valueQuery;
     }
 
 

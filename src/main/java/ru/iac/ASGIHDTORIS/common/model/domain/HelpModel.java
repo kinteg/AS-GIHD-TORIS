@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class DateModel {
+public class HelpModel {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateCreation1;
@@ -36,5 +36,8 @@ public class DateModel {
     private LocalDate lastUpdate2;
 
     private Boolean isArchive;
+
+    private String sort;
+    private String key;
 
 }

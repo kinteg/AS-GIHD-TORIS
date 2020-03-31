@@ -4,10 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @Builder(toBuilder = true)
@@ -32,10 +28,7 @@ public class SourceModel {
     private String providerLink;
     private String dataSource;
 
-    private DateModel dateModel;
-
-    private String sort;
-    private String key;
+    private HelpModel helpModel;
 
 
 }

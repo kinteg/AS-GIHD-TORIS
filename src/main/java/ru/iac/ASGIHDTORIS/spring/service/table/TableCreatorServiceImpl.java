@@ -4,9 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.db.creator.Creator;
+import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
+
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -53,9 +56,21 @@ public class TableCreatorServiceImpl implements TableCreatorService {
                     .nameFile(tableModel.getFilename())
                     .nameTable(tableModel.getTableName())
                     .patternId(id)
+                    .isArchive(false)
+                    .dateActivation(LocalDateTime.now())
+                    .dateCreation(LocalDateTime.now())
+                    .lastUpdate(LocalDateTime.now())
                     .build();
 
             patternTableRepo.save(patternTable);
+            Pattern pattern = patternRepo.findById(id);
+
+            if (pattern.getFileCount() == null) {
+                pattern.setFileCount(1);
+            } else {
+                pattern.setFileCount(pattern.getFileCount() + 1);
+            }
+            patternRepo.save(pattern);
 
             return true;
         }

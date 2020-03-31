@@ -36,7 +36,7 @@ public class SourceRepo2Impl implements SourceRepo2 {
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         String valueQuery = createQueryValue(source, params);
-        String pageQuery = fullRepoHelper.createPageQuery(pageable, source.getSort(), source.getKey());
+        String pageQuery = fullRepoHelper.createPageQuery(pageable, source.getHelpModel().getSort(), source.getHelpModel().getKey());
 
         List<Source> sources = fullRepoHelper.getAll(valueQuery, pageQuery, params, sourceMapper);
         int count = fullRepoHelper.getCount(valueQuery, params, sourceCountMapper);
@@ -99,7 +99,7 @@ public class SourceRepo2Impl implements SourceRepo2 {
             values.add(" data_source ILIKE :dataSource");
             params.addValue("dataSource", "%" + source.getDataSource() + "%");
         }
-        fullRepoHelper.createDataQuery(source.getDateModel());
+        fullRepoHelper.createDataQuery(source.getHelpModel());
 
         values.addAll(fullRepoHelper.getValues());
         params.addValues(fullRepoHelper.getParams().getValues());

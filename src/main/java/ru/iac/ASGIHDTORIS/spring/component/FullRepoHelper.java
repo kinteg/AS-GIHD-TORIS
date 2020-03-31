@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
-import ru.iac.ASGIHDTORIS.common.model.domain.DateModel;
+import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.spring.component.Mapper.Mapper;
 
 import java.util.ArrayList;
@@ -32,46 +32,46 @@ public class FullRepoHelper<T> {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void createDataQuery(DateModel dateModel) {
+    public void createDataQuery(HelpModel helpModel) {
         values = new ArrayList<>();
         params = new MapSqlParameterSource();
         
-        if (dateModel != null) {
-            if (dateModel.getDateCreation1() != null) {
+        if (helpModel != null) {
+            if (helpModel.getDateCreation1() != null) {
                 values.add(" date_creation >= :dateCreation1");
-                params.addValue("dateCreation1", dateModel.getDateCreation1().atTime(0, 0, 0));
+                params.addValue("dateCreation1", helpModel.getDateCreation1().atTime(0, 0, 0));
             }
-            if (dateModel.getDateCreation2() != null) {
+            if (helpModel.getDateCreation2() != null) {
                 values.add(" date_creation <= :dateCreation2");
-                params.addValue("dateCreation2", dateModel.getDateCreation2().atTime(23, 59, 59));
+                params.addValue("dateCreation2", helpModel.getDateCreation2().atTime(23, 59, 59));
             }
-            if (dateModel.getDateDeactivation1() != null) {
+            if (helpModel.getDateDeactivation1() != null) {
                 values.add(" date_deactivation >= :dateDeactivation1");
-                params.addValue("dateDeactivation1", dateModel.getDateDeactivation1().atTime(0, 0, 0));
+                params.addValue("dateDeactivation1", helpModel.getDateDeactivation1().atTime(0, 0, 0));
             }
-            if (dateModel.getDateDeactivation2() != null) {
+            if (helpModel.getDateDeactivation2() != null) {
                 values.add(" date_deactivation <= :dateDeactivation2");
-                params.addValue("dateDeactivation2", dateModel.getDateDeactivation2().atTime(23, 59, 59));
+                params.addValue("dateDeactivation2", helpModel.getDateDeactivation2().atTime(23, 59, 59));
             }
-            if (dateModel.getDateCreation1() != null) {
+            if (helpModel.getDateCreation1() != null) {
                 values.add(" date_activation >= :dateActivation1");
-                params.addValue("dateActivation1", dateModel.getDateCreation1().atTime(0, 0, 0));
+                params.addValue("dateActivation1", helpModel.getDateCreation1().atTime(0, 0, 0));
             }
-            if (dateModel.getDateActivation2() != null) {
+            if (helpModel.getDateActivation2() != null) {
                 values.add(" date_activation <= :dateActivation2");
-                params.addValue("dateActivation2", dateModel.getDateActivation2().atTime(23, 59, 59));
+                params.addValue("dateActivation2", helpModel.getDateActivation2().atTime(23, 59, 59));
             }
-            if (dateModel.getLastUpdate1() != null) {
+            if (helpModel.getLastUpdate1() != null) {
                 values.add(" last_update >= :lastUpdate1");
-                params.addValue("lastUpdate1", dateModel.getLastUpdate1().atTime(0, 0, 0));
+                params.addValue("lastUpdate1", helpModel.getLastUpdate1().atTime(0, 0, 0));
             }
-            if (dateModel.getLastUpdate2() != null) {
+            if (helpModel.getLastUpdate2() != null) {
                 values.add(" last_update <= :lastUpdate2");
-                params.addValue("lastUpdate2", dateModel.getLastUpdate2().atTime(23, 59, 59));
+                params.addValue("lastUpdate2", helpModel.getLastUpdate2().atTime(23, 59, 59));
             }
-            if (dateModel.getIsArchive() != null) {
+            if (helpModel.getIsArchive() != null) {
                 values.add(" archive = :isArchive");
-                params.addValue("isArchive", dateModel.getIsArchive());
+                params.addValue("isArchive", helpModel.getIsArchive());
             }
         }
     }

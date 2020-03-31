@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
@@ -13,6 +14,7 @@ import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo2;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +39,7 @@ public class PatternController {
         pattern.setDateCreation(LocalDateTime.now());
         pattern.setDateActivation(LocalDateTime.now());
         pattern.setLastUpdate(LocalDateTime.now());
+        pattern.setArchiveFileCount(0);
 
         return patternValidator.isValid(pattern)
                 ? patternRepo.save(pattern)
@@ -54,7 +57,8 @@ public class PatternController {
     }
 
     @PostMapping("/getAllSort")
-    public Page<Pattern> getAll(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable) {
+    public Page<Pattern> getAll(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+        pattern.setHelpModel(helpModel);
         return patternRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
@@ -64,7 +68,7 @@ public class PatternController {
     }
 
     @PostMapping("/getAllSort/{sourceId}")
-    public Page<Pattern> getAllWithSourceId(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable) {
+    public Page<Pattern> getAllWithSourceId(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         return patternRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
@@ -74,8 +78,8 @@ public class PatternController {
     }
 
     @PostMapping("/getAllArchiveSort")
-    public Page<Pattern> getAllArchive(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable) {
-        pattern.getDateModel().setIsArchive(true);
+    public Page<Pattern> getAllArchive(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+        pattern.getHelpModel().setIsArchive(true);
         return patternRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
@@ -85,8 +89,8 @@ public class PatternController {
     }
 
     @PostMapping("/getAllArchiveSort/{sourceId}")
-    public Page<Pattern> getAllArchiveWithSourceId(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable) {
-        pattern.getDateModel().setIsArchive(true);
+    public Page<Pattern> getAllArchiveWithSourceId(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+        pattern.getHelpModel().setIsArchive(true);
         return patternRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
@@ -96,8 +100,8 @@ public class PatternController {
     }
 
     @PostMapping("/getAllNotArchiveSort")
-    public Page<Pattern> getAllNotArchive(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable) {
-        pattern.getDateModel().setIsArchive(true);
+    public Page<Pattern> getAllNotArchive(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+        pattern.getHelpModel().setIsArchive(true);
         return patternRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
@@ -107,13 +111,13 @@ public class PatternController {
     }
 
     @PostMapping("/getAllNotArchiveSort/{sourceId}")
-    public Page<Pattern> getAllNotArchiveWithSourceId(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable) {
-        pattern.getDateModel().setIsArchive(false);
+    public Page<Pattern> getAllNotArchiveWithSourceId(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+        pattern.getHelpModel().setIsArchive(false);
         return patternRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
     @GetMapping("/archive/{id}")
-    public boolean archivePattern(@PathVariable Long id) {
+    public Pattern archivePattern(@PathVariable Long id) {
 
         if (id != null && patternRepo.existsById(id)) {
             Pattern pattern = patternRepo.findById((long) id);
@@ -122,14 +126,14 @@ public class PatternController {
 
             patternRepo.save(pattern);
 
-            return true;
+            return pattern;
         }
 
-        return false;
+        return new Pattern();
     }
 
     @GetMapping("/deArchive/{id}")
-    public boolean deArchivePattern(@PathVariable Long id) {
+    public Pattern deArchivePattern(@PathVariable Long id) {
 
         if (id != null && patternRepo.existsById(id)) {
             Pattern pattern = patternRepo.findById((long) id);
@@ -138,15 +142,15 @@ public class PatternController {
 
             patternRepo.save(pattern);
 
-            return true;
+            return pattern;
         }
 
-        return false;
+        return new Pattern();
     }
 
 
     @GetMapping("/archivePatterns/{sourceId}")
-    public boolean archivePatterns(@PathVariable Long sourceId) {
+    public List<Pattern> archivePatterns(@PathVariable Long sourceId) {
 
         if (sourceId != null &&
                 patternRepo.existsBySourceId(sourceId)) {
@@ -162,14 +166,14 @@ public class PatternController {
 
             patternRepo.saveAll(patterns);
 
-            return true;
+            return patterns;
         }
 
-        return false;
+        return Collections.emptyList();
     }
 
     @GetMapping("/deArchivePatterns/{sourceId}")
-    public boolean deArchivePatterns(@PathVariable Long sourceId) {
+    public List<Pattern> deArchivePatterns(@PathVariable Long sourceId) {
 
         if (sourceId != null &&
                 patternRepo.existsBySourceId(sourceId)) {
@@ -185,24 +189,24 @@ public class PatternController {
 
             patternRepo.saveAll(patterns);
 
-            return true;
+            return patterns;
         }
 
-        return false;
+        return Collections.emptyList();
     }
 
     @PostMapping("/update")
-    public boolean update(@RequestBody Pattern Pattern) {
+    public Pattern update(@RequestBody Pattern pattern) {
 
-        if (patternRepo.existsById(Pattern.getId())
-                && patternValidator.isValid(Pattern)) {
+        if (patternRepo.existsById(pattern.getId())
+                && patternValidator.isValid(pattern)) {
 
-            patternRepo.save(Pattern);
+            patternRepo.save(pattern);
 
-            return true;
+            return pattern;
         }
 
-        return false;
+        return new Pattern();
     }
 
 }

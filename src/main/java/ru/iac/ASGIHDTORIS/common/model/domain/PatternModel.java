@@ -5,9 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Data
 @Builder(toBuilder = true)
 @AllArgsConstructor
@@ -22,12 +19,12 @@ public class PatternModel {
 
     private Long sourceId;
 
-    private DateModel dateModel;
+    private HelpModel helpModel;
 
     private Integer fileCount1;
     private Integer fileCount2;
 
-    private String sort;
-    private String key;
+    private Integer archiveFileCount1;
+    private Integer archiveFileCount2;
 
 }

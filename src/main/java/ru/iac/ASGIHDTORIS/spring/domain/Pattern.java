@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Builder(toBuilder = true)
@@ -23,11 +20,13 @@ public class Pattern {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer fileCount;
+    private Integer archiveFileCount;
     private String name;
     private String description;
     private String direction;
     private String management;
 
+    @Column(name = "archive")
     private Boolean isArchive;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")

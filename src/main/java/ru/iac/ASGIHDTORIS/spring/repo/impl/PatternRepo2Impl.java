@@ -32,7 +32,7 @@ public class PatternRepo2Impl implements PatternRepo2 {
     public Page<Pattern> findAllSourceByQuery(Pageable pageable, PatternModel pattern) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         String valueQuery = createQueryValue(pattern, params);
-        String pageQuery = fullRepoHelper.createPageQuery(pageable, pattern.getSort(), pattern.getKey());
+        String pageQuery = fullRepoHelper.createPageQuery(pageable, pattern.getHelpModel().getSort(), pattern.getHelpModel().getKey());
 
         List<Pattern> patterns = fullRepoHelper.getAll(valueQuery, pageQuery, params, patternMapper);
         int count = fullRepoHelper.getCount(valueQuery, params, sourceCountMapper);
@@ -75,7 +75,15 @@ public class PatternRepo2Impl implements PatternRepo2 {
             values.add(" file_count <= :fileCount2");
             params.addValue("fileCount2", pattern.getFileCount2());
         }
-        fullRepoHelper.createDataQuery(pattern.getDateModel());
+        if (pattern.getFileCount1() != null) {
+            values.add(" archive_file_count >= :fileCount1");
+            params.addValue("fileCount1", pattern.getArchiveFileCount1());
+        }
+        if (pattern.getFileCount2() != null) {
+            values.add(" archive_file_count <= :fileCount2");
+            params.addValue("fileCount2", pattern.getArchiveFileCount2());
+        }
+        fullRepoHelper.createDataQuery(pattern.getHelpModel());
 
         values.addAll(fullRepoHelper.getValues());
         params.addValues(fullRepoHelper.getParams().getValues());

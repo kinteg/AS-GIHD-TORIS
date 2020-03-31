@@ -28,8 +28,9 @@ create table if not exists pattern (
     description varchar(255),
     direction varchar(255),
     file_count integer,
+    archive_file_count integer,
     management varchar(255),
-    is_archive boolean,
+    archive boolean,
     name varchar(255),
     source_id int8 not null,
     date_creation timestamp,
@@ -51,7 +52,7 @@ create table pattern_table (
     date_deactivation timestamp,
     date_activation timestamp,
     last_update timestamp,
-    is_archive boolean,
+    archive boolean,
     primary key (id),
     foreign key (pattern_id) references pattern (id)
     on delete cascade

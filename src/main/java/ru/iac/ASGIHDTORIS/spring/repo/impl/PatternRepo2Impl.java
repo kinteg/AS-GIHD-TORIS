@@ -18,6 +18,8 @@ import java.util.List;
 @Repository
 public class PatternRepo2Impl implements PatternRepo2 {
 
+    private final String NAME = "pattern_table";
+
     private final PatternMapper patternMapper;
     private final SourceCountMapper sourceCountMapper;
     private final FullRepoHelper<Pattern> fullRepoHelper;
@@ -34,8 +36,8 @@ public class PatternRepo2Impl implements PatternRepo2 {
         String valueQuery = createQueryValue(pattern, params);
         String pageQuery = fullRepoHelper.createPageQuery(pageable, pattern.getHelpModel().getSort(), pattern.getHelpModel().getKey());
 
-        List<Pattern> patterns = fullRepoHelper.getAll(valueQuery, pageQuery, params, patternMapper);
-        int count = fullRepoHelper.getCount(valueQuery, params, sourceCountMapper);
+        List<Pattern> patterns = fullRepoHelper.getAll(NAME, valueQuery, pageQuery, params, patternMapper);
+        int count = fullRepoHelper.getCount(NAME, valueQuery, params, sourceCountMapper);
 
         return new PageImpl<>(patterns, pageable, count);
     }

@@ -188,7 +188,7 @@ public class PatternTableController {
     }
 
 
-    @GetMapping("/archive/{id}")
+    @GetMapping("/archivePatterns/{id}")
     public List<PatternTable> archivePatterns(@PathVariable Long id) {
 
         if (id != null && patternTableRepo.existsById(id)) {

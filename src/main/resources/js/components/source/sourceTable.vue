@@ -1,8 +1,8 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <p style="font-size: 20px">Источники
-            <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>
-        <el-button @click="deleteSomeSource"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
+
+        <el-button class="trt" @click="deleteSomeSource"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
         <el-button class="plus" @click="addSource" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
         <el-backtop target=".plus"></el-backtop></p>
         <div class="horizontal-scroll-wrapper  rectangles">
@@ -120,6 +120,7 @@
 
             </table>
         </div>
+        <el-backtop target=".trt"></el-backtop>
         <my-pagination
                 :page-size="pagination.pageSize"
                 :current-page="pagination.currentPage"

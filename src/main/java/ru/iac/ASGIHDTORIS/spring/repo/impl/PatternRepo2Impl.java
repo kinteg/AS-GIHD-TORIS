@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternModel;
 import ru.iac.ASGIHDTORIS.spring.component.FullRepoHelper;
 import ru.iac.ASGIHDTORIS.spring.component.Mapper.PatternMapper;
-import ru.iac.ASGIHDTORIS.spring.component.SourceCountMapper;
+import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo2;
 
@@ -18,15 +18,16 @@ import java.util.List;
 @Repository
 public class PatternRepo2Impl implements PatternRepo2 {
 
-    private final String NAME = "pattern";
+    private final String SELECT_QUERY = "SELECT * FROM pattern";
+    private final String COUNT_QUERY = "SELECT count(*) FROM pattern";
 
     private final PatternMapper patternMapper;
-    private final SourceCountMapper sourceCountMapper;
+    private final CountMapper countMapper;
     private final FullRepoHelper<Pattern> fullRepoHelper;
 
-    public PatternRepo2Impl(PatternMapper patternMapper, SourceCountMapper sourceCountMapper, FullRepoHelper<Pattern> fullRepoHelper) {
+    public PatternRepo2Impl(PatternMapper patternMapper, CountMapper countMapper, FullRepoHelper<Pattern> fullRepoHelper) {
         this.patternMapper = patternMapper;
-        this.sourceCountMapper = sourceCountMapper;
+        this.countMapper = countMapper;
         this.fullRepoHelper = fullRepoHelper;
     }
 
@@ -36,8 +37,11 @@ public class PatternRepo2Impl implements PatternRepo2 {
         String valueQuery = createQueryValue(pattern, params);
         String pageQuery = fullRepoHelper.createPageQuery(pageable, pattern.getHelpModel().getSort(), pattern.getHelpModel().getKey());
 
-        List<Pattern> patterns = fullRepoHelper.getAll(NAME, valueQuery, pageQuery, params, patternMapper);
-        int count = fullRepoHelper.getCount(NAME, valueQuery, params, sourceCountMapper);
+        String selectQuery = SELECT_QUERY + valueQuery + pageQuery;
+        String countQuery = COUNT_QUERY + valueQuery;
+
+        List<Pattern> patterns = fullRepoHelper.getAll(selectQuery, params, patternMapper);
+        int count = fullRepoHelper.getCount(countQuery, params, countMapper);
 
         return new PageImpl<>(patterns, pageable, count);
     }

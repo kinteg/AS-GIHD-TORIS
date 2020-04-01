@@ -22,9 +22,6 @@ public class FullRepoHelper<T> {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String SELECT_QUERY = "SELECT * FROM ";
-    private final String PAGE_QUERY = "SELECT count(*) FROM ";
-    
     private List<String> values = Collections.emptyList();
     private MapSqlParameterSource params = new MapSqlParameterSource();
 
@@ -90,11 +87,11 @@ public class FullRepoHelper<T> {
                 " OFFSET " + pageable.getPageSize() * pageable.getPageNumber();
     }
 
-    public List<T> getAll(String nameTable, String valueQuery, String pageQuery, MapSqlParameterSource params, Mapper<List<T>> mapper) {
+    public List<T> getAll(String selectQuery, MapSqlParameterSource params, Mapper<List<T>> mapper) {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            getSelectQuery(nameTable, valueQuery, pageQuery),
+                            selectQuery,
                             params,
                             mapper
                     )
@@ -104,26 +101,18 @@ public class FullRepoHelper<T> {
         }
     }
 
-    public Integer getCount(String nameTable, String valueQuery, MapSqlParameterSource params, SourceCountMapper sourceCountMapper) {
+    public Integer getCount(String countQuery, MapSqlParameterSource params, CountMapper countMapper) {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            getCountQuery(nameTable, valueQuery),
+                            countQuery,
                             params,
-                            sourceCountMapper
+                            countMapper
                     )
             ).orElse(0);
         } catch (EmptyResultDataAccessException e) {
             return 0;
         }
-    }
-
-    private String getSelectQuery(String nameTable, String valueQuery, String pageQuery) {
-        return SELECT_QUERY + nameTable + valueQuery + pageQuery;
-    }
-
-    private String getCountQuery(String nameTable, String valueQuery) {
-        return PAGE_QUERY + nameTable + valueQuery;
     }
 
 }

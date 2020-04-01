@@ -17,10 +17,11 @@ public class PatternTableModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String id;
     private String nameTable;
     private String nameFile;
     private Long patternId;
+    private Long sourceId;
 
     private HelpModel helpModel;
 

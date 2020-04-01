@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SourceCountMapper implements RowMapper<Integer> {
+public class CountMapper implements RowMapper<Integer> {
     @Override
     public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
         return rs.getInt(1);

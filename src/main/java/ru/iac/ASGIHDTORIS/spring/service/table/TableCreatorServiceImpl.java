@@ -51,6 +51,8 @@ public class TableCreatorServiceImpl implements TableCreatorService {
     }
 
         private boolean createPatternTable (TableModel tableModel,long id){
+            Pattern pattern = patternRepo.findById(id);
+
             PatternTable patternTable = new PatternTable()
                     .toBuilder()
                     .nameFile(tableModel.getFilename())
@@ -60,10 +62,11 @@ public class TableCreatorServiceImpl implements TableCreatorService {
                     .dateActivation(LocalDateTime.now())
                     .dateCreation(LocalDateTime.now())
                     .lastUpdate(LocalDateTime.now())
+                    .sourceId(pattern.getSourceId())
                     .build();
 
             patternTableRepo.save(patternTable);
-            Pattern pattern = patternRepo.findById(id);
+
 
             if (pattern.getFileCount() == null) {
                 pattern.setFileCount(1);

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.spring.component.FullRepoHelper;
 import ru.iac.ASGIHDTORIS.spring.component.Mapper.Mapper;
-import ru.iac.ASGIHDTORIS.spring.component.SourceCountMapper;
+import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo2;
 
@@ -21,15 +21,16 @@ import java.util.List;
 @Slf4j
 public class SourceRepo2Impl implements SourceRepo2 {
 
-    private final String NAME = "source";
+    private final String SELECT_QUERY = "SELECT * FROM source";
+    private final String COUNT_QUERY = "SELECT count(*) FROM source";
 
     private final Mapper<List<Source>> sourceMapper;
-    private final SourceCountMapper sourceCountMapper;
+    private final CountMapper countMapper;
     private final FullRepoHelper<Source> fullRepoHelper;
 
-    public SourceRepo2Impl(@Qualifier("sourceMapper") Mapper<List<Source>> sourceMapper, SourceCountMapper sourceCountMapper, FullRepoHelper<Source> fullRepoHelper) {
+    public SourceRepo2Impl(@Qualifier("sourceMapper") Mapper<List<Source>> sourceMapper, CountMapper countMapper, FullRepoHelper<Source> fullRepoHelper) {
         this.sourceMapper = sourceMapper;
-        this.sourceCountMapper = sourceCountMapper;
+        this.countMapper = countMapper;
         this.fullRepoHelper = fullRepoHelper;
     }
 
@@ -40,8 +41,11 @@ public class SourceRepo2Impl implements SourceRepo2 {
         String valueQuery = createQueryValue(source, params);
         String pageQuery = fullRepoHelper.createPageQuery(pageable, source.getHelpModel().getSort(), source.getHelpModel().getKey());
 
-        List<Source> sources = fullRepoHelper.getAll(NAME, valueQuery, pageQuery, params, sourceMapper);
-        int count = fullRepoHelper.getCount(NAME, valueQuery, params, sourceCountMapper);
+        String selectQuery = SELECT_QUERY + valueQuery + pageQuery;
+        String countQuery = COUNT_QUERY + valueQuery;
+
+        List<Source> sources = fullRepoHelper.getAll(selectQuery, params, sourceMapper);
+        int count = fullRepoHelper.getCount(countQuery, params, countMapper);
 
         return new PageImpl<>(sources, pageable, count);
     }

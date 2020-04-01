@@ -22,6 +22,7 @@ public class PatternTable {
     private String nameTable;
     private String nameFile;
     private Long patternId;
+    private Long sourceId;
 
     @Column(name = "archive")
     private Boolean isArchive;

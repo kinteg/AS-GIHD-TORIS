@@ -49,6 +49,11 @@ public class SourceController {
                 : new Source();
     }
 
+    @GetMapping("/checkName")
+    public boolean checkName(String name) {
+        return sourceRepo.existsByShortName(name);
+    }
+
     @GetMapping("/{id}")
     public Source getById(@PathVariable Long id) {
         return sourceRepo.findById((long) id);

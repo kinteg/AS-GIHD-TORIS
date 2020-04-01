@@ -9,6 +9,8 @@ import ViewSource from "../pages/source/ViewSource.vue";
 import ShowSourceArchive from "../pages/source/ShowSourceArchive.vue";
 import ShowSourceNoArchive from "../pages/source/ShowSourceNoArchive.vue";
 import ShowPattern from "../pages/pattern/ShowPattern.vue";
+import ShowPatternArchive from "../pages/pattern/ShowPatternArchive.vue";
+import cardView from "../pages/cardView.vue";
 
 const routes = [
     {
@@ -57,9 +59,17 @@ const routes = [
             {
                 path:'show',
                 component: ShowPattern,
-                name: 'show',
+                name: 'showPattern',
                 meta: {
                     title: 'Все шаблоны'
+                },
+            },
+            {
+                path:'showArchive',
+                component: ShowPatternArchive,
+                name: 'showArchivePattern',
+                meta: {
+                    title: 'Архивные'
                 },
             },
         ]
@@ -68,6 +78,11 @@ const routes = [
         path:'/source/update/:id',
         component: UpdateSource,
         name: 'sourceUpdate',
+    },
+    {
+        path:'/pattern/card/:id',
+        component: cardView,
+        name: 'card',
     },
     {
         path:'/source/view/:id',

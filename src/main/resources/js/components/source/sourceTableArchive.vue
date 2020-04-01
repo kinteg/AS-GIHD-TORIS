@@ -21,7 +21,6 @@
                     <th @click="sort('tags')">Ключевые слова (теги)</th>
                     <th @click="sort('provider_link')">Информационная система - источник данных</th>
                     <th @click="sort('data_source')">Ссылка на данные на сайте поставщика</th>
-                    <th @click="sort('archive')">Архивность</th>
                     <th @click="sort('date_creation')">Дата создания</th>
                     <th @click="sort('date_deactivation')">Дата деактивации</th>
                     <th @click="sort('date_activation')">Дата активации</th>
@@ -43,7 +42,6 @@
                     <td><el-input placeholder="Please input" v-model="source.tags"></el-input></td>
                     <td><el-input placeholder="Please input" v-model="source.providerLink"></el-input></td>
                     <td><el-input placeholder="Please input" v-model="source.dataSource"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.isArchive"></el-input></td>
                     <td> <div class="block">
                         <el-date-picker
                                 value-format="yyyy-MM-dd"
@@ -108,7 +106,6 @@
                     <td>{{source.tags}}</td>
                     <td>{{source.providerLink}}</td>
                     <td>{{source.dataSource}}</td>
-                    <td>{{source.isArchive ? "Да" : "Нет"}}</td>
                     <td>{{source.dateCreation}}</td>
                     <td>{{source.dateDeactivation}}</td>
                     <td>{{source.dateActivation}}</td>

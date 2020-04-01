@@ -10,10 +10,6 @@
     export default {
         name: "CreateSource",
         components: {SourceCreate},
-        beforeRouteUpdate (to, from, next) {
-            alert ("ll");
-            next();
-        }
     }
 </script>
 

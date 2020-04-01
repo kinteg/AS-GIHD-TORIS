@@ -18,7 +18,7 @@ import java.util.List;
 @Repository
 public class PatternRepo2Impl implements PatternRepo2 {
 
-    private final String NAME = "pattern_table";
+    private final String NAME = "pattern";
 
     private final PatternMapper patternMapper;
     private final SourceCountMapper sourceCountMapper;

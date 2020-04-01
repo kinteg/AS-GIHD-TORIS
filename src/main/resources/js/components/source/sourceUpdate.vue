@@ -87,14 +87,72 @@
                                 <th @click="sort('date_activation')">Дата активации</th>
                                 <th @click="sort('last_update')">Последнее обновление</th>
                             </tr>
+                            <tr>
+                                <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
+                                <td><el-input placeholder="Please input" v-model="pattern.id"></el-input></td>
+                                <td><el-input placeholder="Please input" v-model="pattern.name"></el-input></td>
+                                <td><el-input placeholder="Please input" v-model="pattern.description"></el-input></td>
+                                <td><el-input placeholder="Please input" v-model="pattern.direction"></el-input></td>
+                                <td><el-input placeholder="Please input" v-model="pattern.management"></el-input></td>
+                                <td>
+                                    <el-select v-model="value" placeholder="Select">
+                                        <el-option
+                                                v-for="item in options"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </td>
+                                <td> <div class="block">
+                                    <el-date-picker
+                                            value-format="yyyy-MM-dd"
+                                            v-model="pattern.dateCreation"
+                                            type="daterange"
+                                            range-separator="To"
+                                            start-placeholder="Start date"
+                                            end-placeholder="End date">
+                                    </el-date-picker>
+                                </div></td>
+                                <td> <div class="block">
+                                    <el-date-picker
+                                            value-format="yyyy-MM-dd"
+                                            v-model="pattern.dateDeactivation"
+                                            type="daterange"
+                                            range-separator="To"
+                                            start-placeholder="Start date"
+                                            end-placeholder="End date">
+                                    </el-date-picker>
+                                </div></td>
+                                <td> <div class="block">
+                                    <el-date-picker
+                                            value-format="yyyy-MM-dd"
+                                            v-model="pattern.dateActivation"
+                                            type="daterange"
+                                            range-separator="To"
+                                            start-placeholder="Start date"
+                                            end-placeholder="End date">
+                                    </el-date-picker>
+                                </div></td>
+                                <td> <div class="block">
+                                    <el-date-picker
+                                            value-format="yyyy-MM-dd"
+                                            v-model="pattern.lastUpdate"
+                                            type="daterange"
+                                            range-separator="To"
+                                            start-placeholder="Start date"
+                                            end-placeholder="End date">
+                                    </el-date-picker>
+                                </div></td>
+                            </tr>
                             <tbody v-for="pattern in patternData">
                             <tr>
                                 <td>
                                     <span v-if="pattern.isArchive">
-                                        <el-button @click="deArchiveOneSource(source.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
+                                        <el-button @click="deArchiveOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
                                     </span>
                                     <span v-else>
-                                        <el-button @click="deleteOneSource(source.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                                        <el-button @click="deleteOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
                                     </span>
                                     <br>
                                     <el-button @click="openPatternUpdate(pattern.id)" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
@@ -114,6 +172,13 @@
                             </tr>
                             </tbody>
                         </table>
+                        <my-pagination
+                                :page-size="pagination.pageSize"
+                                :current-page="pagination.currentPage"
+                                :totalPages="pagination.totalPages"
+                                :totalElements="pagination.totalElements"
+                                @onCurrentChange="onCurrentChange"
+                                @onSizeChange="onSizeChange"/>
                     </div>
                     <div v-else-if="hiddenUpdate">
                         <el-row :gutter="20">
@@ -165,12 +230,51 @@
     import router from "../../router/router";
     import PatternView from "../pattern/patternView.vue";
     import PatternCreate from "../pattern/patternCreate.vue";
+    import MyPagination from "../general/pagination.vue";
     export default {
         name: "sourceCreate",
-        components: {PatternCreate, PatternView},
+        components: {MyPagination, PatternCreate, PatternView},
         props:['id'],
         data() {
             return {
+                options: [{
+                    value: '',
+                    label: ''
+                }, {
+                    value: 'true',
+                    label: 'Да'
+                }, {
+                    value: false,
+                    label: 'Нет'
+                }],
+                value: '',
+                pickerOptions: {
+                    shortcuts: [{
+                        text: 'Last week',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: 'Last month',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: 'Last 3 months',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
                 sourceId:"",
                 patternId: "",
                 patternData:[],
@@ -181,6 +285,12 @@
                 hiddenUpdate: false,
                 labelPosition:"top",
                 activeName: "sourceInfo",
+                pagination:{
+                    pageSize: 10,
+                    currentPage: 1,
+                    totalPages: 0,
+                    totalElements: 0,
+                },
                 source:{
                     name:"",
                     longName:"",
@@ -202,15 +312,24 @@
                     id: "",
                     name: "",
                     fileCount: "",
+                    sourceId: "",
                     archiveFileCount: "",
                     description: "",
                     direction: "",
                     management: "",
                     isArchive: "",
                     dateCreation: "",
+                    dateCreation1: "",
+                    dateCreation2: "",
                     dateDeactivation: "",
+                    dateDeactivation1: "",
+                    dateDeactivation2: "",
                     dateActivation: "",
+                    dateActivation1: "",
+                    dateActivation2: "",
                     lastUpdate: "",
+                    lastUpdate1: "",
+                    lastUpdate2: "",
                 },
 
                 rules: {
@@ -266,20 +385,256 @@
             }
         },
         methods:{
-            noticeError(message) {
+            notify(title,message,type) {
                 this.$notify({
-                    title: 'Ошибка',
-                    message:message ,
-                    type: 'error',
+                    title: title,
+                    message: message,
+                    type: type
                 });
             },
 
-            noticeSuccess(message) {
-                this.$notify({
-                    title: 'Успешно',
-                    message: message,
-                    type: 'success',
+            sort(key){
+                if(this.pattern.dateCreation !== null && this.pattern.dateCreation !== "") {
+                    this.pattern.dateCreation1 = this.pattern.dateCreation[0];
+                    this.pattern.dateCreation2 = this.pattern.dateCreation[1];
+                } else {
+                    this.pattern.dateCreation1 = "";
+                    this.pattern.dateCreation2 = "";
+                }
+
+                if(this.pattern.dateDeactivation !== null && this.pattern.dateDeactivation !== "") {
+                    this.pattern.dateDeactivation1 = this.pattern.dateDeactivation[0];
+                    this.pattern.dateDeactivation2 = this.pattern.dateDeactivation[1];
+                } else {
+                    this.pattern.dateDeactivation1 = "";
+                    this.pattern.dateDeactivation2 = "";
+                }
+
+                if(this.pattern.dateActivation !== null && this.pattern.dateActivation !== "") {
+                    this.pattern.dateActivation1 = this.pattern.dateActivation[0];
+                    this.pattern.dateActivation2 = this.pattern.dateActivation[1];
+                } else {
+                    this.pattern.dateActivation1 = "";
+                    this.pattern.dateActivation2 = "";
+                }
+
+                if(this.pattern.lastUpdate !== null && this.pattern.lastUpdate !== "") {
+                    this.pattern.lastUpdate1 = this.pattern.lastUpdate[0];
+                    this.pattern.lastUpdate2 = this.pattern.lastUpdate[1];
+                } else {
+                    this.pattern.lastUpdate1 = "";
+                    this.pattern.lastUpdate2 = "";
+                }
+
+                if(this.pattern.key === key ) {
+                    switch(this.pattern.sort) {
+                        case "":
+                            this.pattern.sort = "asc";
+                            break;
+                        case "asc":
+                            this.pattern.sort = "desc";
+                            break;
+                        case "desc":
+                            this.pattern.sort = "";
+                            break;
+                    }
+                }
+                else {
+                    this.pattern.key = key;
+                    this.pattern.sort = "asc";
+                }
+                let formData = new FormData();
+                formData.append("isArchive",this.value);
+                formData.append("sort",this.pattern.sort);
+                formData.append("key",this.pattern.key);
+                formData.append("id",this.pattern.id);
+                formData.append("name",this.pattern.name);
+                formData.append("direction",this.pattern.direction);
+                formData.append("description",this.pattern.description);
+                formData.append("management",this.pattern.management);
+                formData.append("periodicity",this.pattern.periodicity);
+                formData.append("sourceId",this.pattern.sourceId);
+                formData.append("dateCreation1",this.pattern.dateCreation1);
+                formData.append("dateCreation2",this.pattern.dateCreation2);
+                formData.append("dateDeactivation1",this.pattern.dateDeactivation1);
+                formData.append("dateDeactivation2",this.pattern.dateDeactivation2);
+                formData.append("dateActivation1",this.pattern.dateActivation1);
+                formData.append("dateActivation2",this.pattern.dateActivation2);
+                formData.append("lastUpdate1",this.pattern.lastUpdate1);
+                formData.append("lastUpdate2",this.pattern.lastUpdate2);
+                formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage - 1);
+
+                AXIOS.post("/pattern/getAllSort",
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(response => {
+                    this.pagination.totalPages = response.data.totalPages;
+                    this.pagination.totalElements = response.data.totalElements;
+                    this.patternData = response.data.content;
+                })
+            },
+
+            onCurrentChange(value) {
+                this.pagination.currentPage = value;
+
+                if(this.pattern.dateCreation !== null && this.pattern.dateCreation !== "") {
+                    this.pattern.dateCreation1 = this.pattern.dateCreation[0];
+                    this.pattern.dateCreation2 = this.pattern.dateCreation[1];
+                } else {
+                    this.pattern.dateCreation1 = "";
+                    this.pattern.dateCreation2 = "";
+                }
+
+                if(this.pattern.dateDeactivation !== null && this.pattern.dateDeactivation !== "") {
+                    this.pattern.dateDeactivation1 = this.pattern.dateDeactivation[0];
+                    this.pattern.dateDeactivation2 = this.pattern.dateDeactivation[1];
+                } else {
+                    this.pattern.dateDeactivation1 = "";
+                    this.pattern.dateDeactivation2 = "";
+                }
+
+                if(this.pattern.dateActivation !== null && this.pattern.dateActivation !== "") {
+                    this.pattern.dateActivation1 = this.pattern.dateActivation[0];
+                    this.pattern.dateActivation2 = this.pattern.dateActivation[1];
+                } else {
+                    this.pattern.dateActivation1 = "";
+                    this.pattern.dateActivation2 = "";
+                }
+
+                if(this.pattern.lastUpdate !== null && this.pattern.lastUpdate !== "") {
+                    this.pattern.lastUpdate1 = this.pattern.lastUpdate[0];
+                    this.pattern.lastUpdate2 = this.pattern.lastUpdate[1];
+                } else {
+                    this.pattern.lastUpdate1 = "";
+                    this.pattern.lastUpdate2 = "";
+                }
+
+                let formData = new FormData();
+                formData.append("isArchive",this.value);
+                formData.append("sort",this.pattern.sort);
+                formData.append("key",this.pattern.key);
+                formData.append("id",this.pattern.id);
+                formData.append("name",this.pattern.name);
+                formData.append("description",this.pattern.description);
+                formData.append("management",this.pattern.management);
+                formData.append("periodicity",this.pattern.periodicity);
+                formData.append("dateCreation1",this.pattern.dateCreation1);
+                formData.append("dateCreation2",this.pattern.dateCreation2);
+                formData.append("dateDeactivation1",this.pattern.dateDeactivation1);
+                formData.append("dateDeactivation2",this.pattern.dateDeactivation2);
+                formData.append("dateActivation1",this.pattern.dateActivation1);
+                formData.append("dateActivation2",this.pattern.dateActivation2);
+                formData.append("lastUpdate1",this.pattern.lastUpdate1);
+                formData.append("lastUpdate2",this.pattern.lastUpdate2);
+                formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage - 1);
+
+                AXIOS.post("/pattern/getAllSort", formData)
+                    .then(response => {
+                        this.patternData = response.data.content;
+                    })
+                    .catch(error => {
+                        console.log('ERROR: ' + error);
+                    })
+            },
+
+            onSizeChange(value) {
+                if(this.pattern.dateCreation !== null && this.pattern.dateCreation !== "") {
+                    this.pattern.dateCreation1 = this.pattern.dateCreation[0];
+                    this.pattern.dateCreation2 = this.pattern.dateCreation[1];
+                } else {
+                    this.pattern.dateCreation1 = "";
+                    this.pattern.dateCreation2 = "";
+                }
+
+                if(this.pattern.dateDeactivation !== null && this.pattern.dateDeactivation !== "") {
+                    this.pattern.dateDeactivation1 = this.pattern.dateDeactivation[0];
+                    this.pattern.dateDeactivation2 = this.pattern.dateDeactivation[1];
+                } else {
+                    this.pattern.dateDeactivation1 = "";
+                    this.pattern.dateDeactivation2 = "";
+                }
+
+                if(this.pattern.dateActivation !== null && this.pattern.dateActivation !== "") {
+                    this.pattern.dateActivation1 = this.pattern.dateActivation[0];
+                    this.pattern.dateActivation2 = this.pattern.dateActivation[1];
+                } else {
+                    this.pattern.dateActivation1 = "";
+                    this.pattern.dateActivation2 = "";
+                }
+
+                if(this.pattern.lastUpdate !== null && this.pattern.lastUpdate !== "") {
+                    this.pattern.lastUpdate1 = this.pattern.lastUpdate[0];
+                    this.pattern.lastUpdate2 = this.pattern.lastUpdate[1];
+                } else {
+                    this.pattern.lastUpdate1 = "";
+                    this.pattern.lastUpdate2 = "";
+                }
+
+                this.pagination.pageSize = value;
+                this.pagination.currentPage = 1;
+
+                let formData = new FormData();
+                formData.append("isArchive",this.value);
+                formData.append("sort",this.pattern.sort);
+                formData.append("key",this.pattern.key);
+                formData.append("id",this.pattern.id);
+                formData.append("name",this.pattern.name);
+                formData.append("description",this.pattern.description);
+                formData.append("management",this.pattern.management);
+                formData.append("periodicity",this.pattern.periodicity);
+                formData.append("dateCreation1",this.pattern.dateCreation1);
+                formData.append("dateCreation2",this.pattern.dateCreation2);
+                formData.append("dateDeactivation1",this.pattern.dateDeactivation1);
+                formData.append("dateDeactivation2",this.pattern.dateDeactivation2);
+                formData.append("dateActivation1",this.pattern.dateActivation1);
+                formData.append("dateActivation2",this.pattern.dateActivation2);
+                formData.append("lastUpdate1",this.pattern.lastUpdate1);
+                formData.append("lastUpdate2",this.pattern.lastUpdate2);
+                formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage - 1);
+
+                AXIOS.post("/pattern/getAllSort", formData)
+                    .then(response => {
+                        this.patternData = response.data.content;
+                    })
+                    .catch(error => {
+                        console.log('ERROR: ' + error);
+                    })
+            },
+
+            deletePattern(id) {
+                AXIOS.get("pattern/archive/" + id).then(response => {
+                    if(response.data.name !== ""){
+                        this.notify('Успешно','Шаблон был архивирован','success');
+                        this.updatePage();
+                    } else {
+                        this.notify('Ошибка','Шаблон не был архивирован','error');
+                    }
                 });
+            },
+
+            deleteOnePattern(id) {
+                this.deletePattern(id);
+            },
+
+            deArchivePattern(id){
+                AXIOS.get("pattern/deArchive/" + id).then(response => {
+                    if(response.data.name !== ""){
+                        this.notify('Успешно','Шаблон был активирован','success');
+                        this.updatePage();
+                    } else {
+                        this.notify('Ошибка','Шаблон не был активирован','error');
+                    }
+                });
+            },
+
+            deArchiveOnePattern(id){
+                this.deArchivePattern(id);
             },
 
             patternView(id) {
@@ -356,6 +711,10 @@
                 formData.append("management",this.pattern.management);
                 formData.append("isArchive",this.pattern.isArchive);
                 formData.append("sourceId",this.pattern.sourceId);
+                formData.append("dateCreation",this.pattern.dateCreation);
+                formData.append("dateDeactivation",this.pattern.dateDeactivation);
+                formData.append("dateActivation",this.pattern.dateActivation);
+                // formData.append("lastUpdate",this.pattern.lastUpdate);
                 AXIOS.post("/pattern/update",
                     formData,
                     {
@@ -366,9 +725,9 @@
                 ).then(response => {
                     if(response.data.name == null){
                         console.log(this.pattern.sourceId);
-                        this.noticeError("Ошибка при изменении источника.");
+                        this.notify("Ошибка","Ошибка при изменении шаблона.","error");
                     } else {
-                        this.noticeSuccess('Шаблон "' + response.data.name + '" успешно изменен.');
+                        this.notify("Успешно",'Шаблон "' + response.data.name + '" успешно изменен.',"success");
                     }
                 });
             },
@@ -388,7 +747,11 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
-                formData.append("isArchive",false);
+                formData.append("isArchive",this.source.isArchive);
+                formData.append("dateCreation",this.source.dateCreation);
+                formData.append("dateDeactivation",this.source.dateDeactivation);
+                formData.append("dateActivation",this.source.dateActivation);
+                formData.append("lastUpdate",this.source.lastUpdate);
                 AXIOS.post("/source/update",
                     formData,
                     {
@@ -398,9 +761,9 @@
                     }
                 ).then(response => {
                     if(response.data.longName == null){
-                        this.noticeError("Ошибка при изменении источника.");
+                        this.notify("Ошибка","Ошибка при изменении источника.","error");
                     } else {
-                        this.noticeSuccess('Источник "' + response.data.name + '" успешно изменен.');
+                        this.notify("Успешно",'Источник "' + response.data.name + '" успешно изменен.',"success");
                     }
                 });
 

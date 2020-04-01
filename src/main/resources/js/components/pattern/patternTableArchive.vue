@@ -81,8 +81,7 @@
                 <tbody v-for="pattern in patternData">
                 <tr>
                     <td>
-                        <el-button @click="showCard(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
-                        <span v-if="pattern.isArchive">
+                         <span v-if="pattern.isArchive">
                              <el-button @click="deArchiveOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
                          </span>
                         <span v-else>
@@ -119,7 +118,7 @@
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
     export default {
-        name: "patternTable",
+        name: "patternTableArchive",
         components: {MyPagination},
         data() {
             return {
@@ -198,10 +197,6 @@
             }
         },
         methods: {
-            showCard(patternId){
-                router.push('card/'+ patternId);
-            },
-
             check(id) {
                 let key = this.pattern.check.indexOf(id);
                 if(key !== -1){

@@ -45,7 +45,16 @@
                     <td><el-input placeholder="Please input" v-model="source.tags"></el-input></td>
                     <td><el-input placeholder="Please input" v-model="source.providerLink"></el-input></td>
                     <td><el-input placeholder="Please input" v-model="source.dataSource"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.isArchive"></el-input></td>
+                    <td>
+                        <el-select v-model="value" placeholder="Select">
+                            <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </td>
                     <td> <div class="block">
                         <el-date-picker
                                 value-format="yyyy-MM-dd"
@@ -146,6 +155,17 @@
         components: {MyPagination},
         data() {
             return {
+                options: [{
+                    value: '',
+                    label: ''
+                }, {
+                    value: 'true',
+                    label: 'Да'
+                }, {
+                    value: false,
+                    label: 'Нет'
+                }],
+                value: '',
                 pickerOptions: {
                     shortcuts: [{
                         text: 'Last week',
@@ -416,6 +436,7 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("isArchive",this.value);
                 formData.append("dateCreation1",this.source.dateCreation1);
                 formData.append("dateCreation2",this.source.dateCreation2);
                 formData.append("dateDeactivation1",this.source.dateDeactivation1);
@@ -485,6 +506,7 @@
                 formData.append("renewalPeriod",this.source.renewalPeriod);
                 formData.append("type",this.source.type);
                 formData.append("tags",this.source.tags);
+                formData.append("isArchive",this.value);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
                 formData.append("dateCreation1",this.source.dateCreation1);
@@ -594,6 +616,7 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("isArchive",this.value);
                 formData.append("dateCreation1",this.source.dateCreation1);
                 formData.append("dateCreation2",this.source.dateCreation2);
                 formData.append("dateDeactivation1",this.source.dateDeactivation1);
@@ -668,6 +691,7 @@
                 formData.append("tags",this.source.tags);
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
+                formData.append("isArchive",this.value);
                 formData.append("dateCreation1",this.source.dateCreation1);
                 formData.append("dateCreation2",this.source.dateCreation2);
                 formData.append("dateDeactivation1",this.source.dateDeactivation1);

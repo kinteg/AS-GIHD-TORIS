@@ -62,6 +62,7 @@ public class PatternController {
     @PostMapping("/getAllSort")
     public Page<Pattern> getAll(@ModelAttribute PatternModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
+        log.info(pattern.toString());
         return patternRepo2.findAllSourceByQuery(pageable, pattern);
     }
 

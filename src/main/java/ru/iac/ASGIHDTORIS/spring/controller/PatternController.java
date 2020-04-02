@@ -210,7 +210,12 @@ public class PatternController {
         if (patternRepo.existsById(pattern.getId())
                 && patternValidator.isValid(pattern)) {
 
+            Pattern existPattern = patternRepo.findById((long)pattern.getId());
+
             pattern.setLastUpdate(LocalDateTime.now());
+            pattern.setDateCreation(existPattern.getDateCreation());
+            pattern.setDateActivation(existPattern.getDateActivation());
+            pattern.setDateDeactivation(existPattern.getDateDeactivation());
             patternRepo.save(pattern);
 
             return pattern;

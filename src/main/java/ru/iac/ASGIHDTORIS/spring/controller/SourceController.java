@@ -141,8 +141,12 @@ public class SourceController {
                 return new Source();
             }
 
+            Source existPattern = sourceRepo.findById((long)source.getId());
+
             source.setLastUpdate(LocalDateTime.now());
-            sourceRepo.save(source);
+            source.setDateCreation(existPattern.getDateCreation());
+            source.setDateActivation(existPattern.getDateActivation());
+            source.setDateDeactivation(existPattern.getDateDeactivation());
 
             return source;
         }

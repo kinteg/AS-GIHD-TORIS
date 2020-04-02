@@ -751,7 +751,6 @@
                 formData.append("dateCreation",this.source.dateCreation);
                 formData.append("dateDeactivation",this.source.dateDeactivation);
                 formData.append("dateActivation",this.source.dateActivation);
-                formData.append("lastUpdate",this.source.lastUpdate);
                 AXIOS.post("/source/update",
                     formData,
                     {

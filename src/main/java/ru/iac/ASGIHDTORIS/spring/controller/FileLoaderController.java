@@ -30,7 +30,7 @@ public class FileLoaderController {
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT)
                     Long limit,
-            @RequestParam(value = "sourceId", required = false, defaultValue = "")
+            @RequestParam(value = "patternId", required = false, defaultValue = "")
                     Long patternId) {
 
         if (multipartFile == null && patternId == null) {

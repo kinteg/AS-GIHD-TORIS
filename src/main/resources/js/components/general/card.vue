@@ -244,7 +244,9 @@
                 formData.append("management",this.pattern.management);
                 formData.append("sourceId",this.pattern.sourceId);
                 formData.append("isArchive",this.pattern.isArchive);
-
+                formData.append("dateCreation",this.pattern.dateCreation);
+                formData.append("dateDeactivation",this.pattern.dateDeactivation);
+                formData.append("dateActivation",this.pattern.dateActivation);
                 AXIOS.post("/pattern/update",
                     formData,
                     {

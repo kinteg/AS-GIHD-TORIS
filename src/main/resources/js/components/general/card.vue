@@ -247,6 +247,9 @@
                 formData.append("dateCreation",this.pattern.dateCreation);
                 formData.append("dateDeactivation",this.pattern.dateDeactivation);
                 formData.append("dateActivation",this.pattern.dateActivation);
+                console.log(this.pattern.dateCreation);
+                console.log(this.pattern.dateDeactivation);
+                console.log(this.pattern.dateActivation);
                 AXIOS.post("/pattern/update",
                     formData,
                     {

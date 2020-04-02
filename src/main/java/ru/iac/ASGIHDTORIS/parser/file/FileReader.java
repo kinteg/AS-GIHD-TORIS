@@ -34,7 +34,7 @@ public class FileReader {
         List<Map<String, String>> values = createValues(keys, limit);
         List<String> types = createType(values);
 
-        for (int i = 0; i < tableModel.getModels().size(); i++) {
+        for (int i = 0; i < tableModel.getModels().size() && i < types.size(); i++) {
             tableModel.getModels().get(i).setType(types.get(i));
         }
 

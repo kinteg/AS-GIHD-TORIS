@@ -209,6 +209,7 @@ public class PatternController {
         log.info(pattern.toString());
         if (patternRepo.existsById(pattern.getId())
                 && patternValidator.isValid(pattern)) {
+
             pattern.setLastUpdate(LocalDateTime.now());
             patternRepo.save(pattern);
 

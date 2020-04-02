@@ -10,6 +10,6 @@ public interface DataExporter extends AutoCloseable {
 
     FullTableModelPage exportData(TableModel tableModel, Pageable pageable) ;
 
-    FullTableModelPage exportData(TableModel tableModel, Pageable pageable, String nameColumn) ;
+    FullTableModelPage exportData(TableModel tableModel, Pageable pageable, String nameColumn, String sort) ;
 
 }

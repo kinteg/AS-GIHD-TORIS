@@ -23,17 +23,17 @@ public class ExportDataFromDbServiceImpl implements ExportDataFromDbService {
     }
 
     @Override
-    public FullTableModelPage getFullTableModel(PatternTable patternTable, Pageable pageable, String nameColumn) {
-        return createTableModel(patternTable, pageable, nameColumn);
+    public FullTableModelPage getFullTableModel(PatternTable patternTable, Pageable pageable, String nameColumn, String sort) {
+        return createTableModel(patternTable, pageable, nameColumn, sort);
     }
 
-    private FullTableModelPage createTableModel(PatternTable patternTable, Pageable pageable, String nameColumn) {
+    private FullTableModelPage createTableModel(PatternTable patternTable, Pageable pageable, String nameColumn, String sort) {
         TableModel tableModel = createTableModel(patternTable);
 
         if (nameColumn == null || nameColumn.isEmpty()) {
             return createTableModel(tableModel, pageable);
         } else {
-            return createTableModel(tableModel, pageable, nameColumn);
+            return createTableModel(tableModel, pageable, nameColumn, sort);
         }
 
     }
@@ -49,8 +49,8 @@ public class ExportDataFromDbServiceImpl implements ExportDataFromDbService {
                 .build();
     }
 
-    private FullTableModelPage createTableModel(TableModel tableModel, Pageable pageable, String nameColumn) {
-        return dataExporter.exportData(tableModel, pageable, nameColumn);
+    private FullTableModelPage createTableModel(TableModel tableModel, Pageable pageable, String nameColumn, String sort) {
+        return dataExporter.exportData(tableModel, pageable, nameColumn, sort);
     }
 
     private FullTableModelPage createTableModel(TableModel tableModel, Pageable pageable) {

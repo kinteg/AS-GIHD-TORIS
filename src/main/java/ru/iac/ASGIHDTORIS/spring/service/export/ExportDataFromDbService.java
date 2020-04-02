@@ -8,6 +8,6 @@ import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 @Service
 public interface ExportDataFromDbService {
 
-    FullTableModelPage getFullTableModel(PatternTable patternTable, Pageable pageable, String nameColumn);
+    FullTableModelPage getFullTableModel(PatternTable patternTable, Pageable pageable, String nameColumn, String sort);
 
 }

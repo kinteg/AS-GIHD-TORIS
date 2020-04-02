@@ -11,9 +11,7 @@ import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternTableModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModelPage;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
-import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
-import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo2;
 import ru.iac.ASGIHDTORIS.spring.service.export.ExportDataFromDbService;
@@ -68,14 +66,17 @@ public class PatternTableController {
     public FullTableModelPage getTable(
             @RequestParam Long id,
             @PageableDefault Pageable pageable,
-            @RequestParam(required = false, defaultValue = "") String nameColumn) {
+            @RequestParam(required = false, defaultValue = "") String nameColumn,
+            @RequestParam(required = false, defaultValue = "") String sort
+    ) {
 
         if (patternTableRepo.existsById(id)) {
 
             return exportDataFromDbService.getFullTableModel(
                     patternTableRepo.findById((long) id),
                     pageable,
-                    nameColumn
+                    nameColumn,
+                    sort
             );
         }
 
@@ -310,6 +311,11 @@ public class PatternTableController {
         }
 
         return Collections.emptyList();
+    }
+
+    @GetMapping("exist/{name}")
+    public boolean existByName(@PathVariable String name) {
+        return patternTableRepo.existsByNameTable(name);
     }
 
 }

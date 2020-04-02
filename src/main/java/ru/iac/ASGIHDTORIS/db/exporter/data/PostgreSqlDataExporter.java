@@ -45,18 +45,18 @@ public class PostgreSqlDataExporter implements DataExporter {
 
     @Override
     public FullTableModelPage exportData(TableModel tableModel, Pageable pageable) {
-        return getFullTableModelPage(tableModel, pageable, tableModel.getModels().get(0).getKey());
+        return exportData(tableModel, pageable, tableModel.getModels().get(0).getKey(), "ASC");
     }
 
     @Override
-    public FullTableModelPage exportData(TableModel tableModel, Pageable pageable, String nameColumn) {
-        return getFullTableModelPage(tableModel, pageable, nameColumn);
+    public FullTableModelPage exportData(TableModel tableModel, Pageable pageable, String nameColumn, String sort) {
+        return getFullTableModelPage(tableModel, pageable, nameColumn, sort);
     }
 
 
-    private FullTableModelPage getFullTableModelPage(TableModel tableModel, Pageable pageable, String nameColumn) {
+    private FullTableModelPage getFullTableModelPage(TableModel tableModel, Pageable pageable, String nameColumn, String sort) {
 
-        Page<Map<String, String>> pages = createValues(tableModel, pageable, nameColumn);
+        Page<Map<String, String>> pages = createValues(tableModel, pageable, nameColumn, sort);
 
         return FullTableModelPage
                 .builder()
@@ -66,14 +66,14 @@ public class PostgreSqlDataExporter implements DataExporter {
 
     }
 
-    private Page<Map<String, String>> createValues(TableModel tableModel, Pageable pageable, String nameColumn) {
+    private Page<Map<String, String>> createValues(TableModel tableModel, Pageable pageable, String nameColumn, String sort) {
         List<Map<String, String>> values = new ArrayList<>();
         int count;
         String tableName = tableModel.getTableName();
 
         try (Statement stmt = connection.createStatement()) {
             count = stmt.executeQuery(createQuery(tableName)).getRow();
-            ResultSet resultSet = stmt.executeQuery(createQuery(tableName, pageable, nameColumn));
+            ResultSet resultSet = stmt.executeQuery(createQuery(tableName, pageable, nameColumn, sort));
             while (resultSet.next()) {
                 values.add(createRow(resultSet, tableModel.getModels()));
             }
@@ -84,10 +84,10 @@ public class PostgreSqlDataExporter implements DataExporter {
         return new PageImpl<>(values, pageable, count);
     }
 
-    private String createQuery(String tableName, Pageable pageable, String nameColumn) {
+    private String createQuery(String tableName, Pageable pageable, String nameColumn, String sort) {
         String query = SQL_SELECT.replaceFirst(TABLE_NAME_REGEX, tableName);
         query = query.replaceFirst(NAME_COLUMN, String.valueOf(nameColumn));
-        query = query.replaceFirst(SORT, String.valueOf(pageable.getSort()));
+        query = query.replaceFirst(SORT, sort);
         query = query.replaceFirst(LIMIT_REGEX, String.valueOf(pageable.getPageSize()));
         query = query.replaceFirst(OFFSET, String.valueOf(pageable.getPageNumber() * pageable.getPageSize()));
 

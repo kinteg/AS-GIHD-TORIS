@@ -16,7 +16,7 @@ public class ColumnValidator implements Validator<String> {
     }
 
     private boolean isTarget(String name) {
-        return !name.matches("^[a-zA-Z]+[_0-9a-zA-Z]*");
+        return !name.matches("^[a-zA-Zа-яА-Я]+[_0-9a-zA-Zа-яА-Я ]*");
     }
 
     private boolean isNormalSize(String name) {

@@ -6,6 +6,6 @@ public interface DataModelCreator {
 
     List<DataModel> getDataModel();
 
-    void setDataModel(List<String> names, List<String> types, List<Boolean> primaries);
+    void setDataModel(DataModelList dataModelList);
 
 }

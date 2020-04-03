@@ -3,7 +3,6 @@ package ru.iac.ASGIHDTORIS.spring.repo.impl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
@@ -43,6 +42,7 @@ public class TableRepoImpl implements TableRepo {
     @Override
     public FullTableModelPage getTable(String tableName, String fileName, SearchModel searchModel) {
         MapSqlParameterSource params = new MapSqlParameterSource();
+
         TableModel tableModel = TableModel
                 .builder()
                 .filename(fileName)
@@ -60,32 +60,39 @@ public class TableRepoImpl implements TableRepo {
         List<Map<String, String>> values = fullRepoHelper.getAll(selectQuery, params, mapper);
         int count = fullRepoHelper.getCount(countQuery, params, countMapper);
 
-        Page<Map<String, String>> values1 = new PageImpl<>(values, searchModel.getPageable(), count);
+        Page<Map<String, String>> pageValues = new PageImpl<>(values, searchModel.getPageable(), count);
 
         return FullTableModelPage
                 .builder()
                 .tableModel(tableModel)
-                .values(values1)
+                .values(pageValues)
                 .build();
     }
 
     private String createQueryValue(SearchModel searchModel, MapSqlParameterSource params) {
-        List<String> values = new ArrayList<>();
+        List<String> valuesQuery = new ArrayList<>();
+        List<String> values = searchModel.getValues();
+        List<String> keys = searchModel.getKeys();
 
-        for (int i = 0; i < searchModel.getKeys().size() && i < searchModel.getValues().size(); i++) {
-            values.add(" cast(" +
-                    searchModel.getKeys().get(i).trim() +
-                    " as text) ILIKE :" +
-                    searchModel.getValues().get(i).trim()
-            );
-            params.addValue(
-                    searchModel.getKeys().get(i).trim(),
-                    "%" + searchModel.getValues().get(i).trim() + "%"
-                    );
+        if (keys != null && values != null) {
+
+            for (int i = 0; i < keys.size() && i < values.size(); i++) {
+
+                valuesQuery.add(" cast(" +
+                        keys.get(i).trim() +
+                        " as text) ILIKE :" +
+                        values.get(i).trim()
+                );
+
+                params.addValue(
+                        keys.get(i).trim(),
+                        "%" + values.get(i).trim() + "%"
+                );
+            }
         }
 
-        return (values.size() != 0 ? " WHERE " : "") +
-                String.join(" AND ", values);
+        return (valuesQuery.size() != 0 ? " WHERE " : "") +
+                String.join(" AND ", valuesQuery);
 
     }
 

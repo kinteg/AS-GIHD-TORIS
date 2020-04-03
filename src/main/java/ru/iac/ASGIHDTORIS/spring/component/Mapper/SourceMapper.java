@@ -47,4 +47,9 @@ public class SourceMapper implements Mapper<List<Source>> {
                 .isArchive(rs.getBoolean("archive"))
                 .build();
     }
+
+    @Override
+    public void setKeys(List<String> keys) {
+
+    }
 }

@@ -10,10 +10,12 @@ import ru.iac.ASGIHDTORIS.common.model.data.DataModelCreator;
 import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternTableModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModelPage;
+import ru.iac.ASGIHDTORIS.common.model.serch.SearchModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo2;
+import ru.iac.ASGIHDTORIS.spring.repo.TableRepo;
 import ru.iac.ASGIHDTORIS.spring.service.export.ExportDataFromDbService;
 import ru.iac.ASGIHDTORIS.spring.service.table.TableCreatorService;
 
@@ -32,13 +34,15 @@ public class PatternTableController {
     private final PatternTableRepo patternTableRepo;
     private final PatternTableRepo2 patternTableRepo2;
     private final ExportDataFromDbService exportDataFromDbService;
+    private final TableRepo tableRepo;
 
-    public PatternTableController(TableCreatorService tableCreatorService, DataModelCreator dataModelCreator, PatternTableRepo patternTableRepo, PatternTableRepo2 patternTableRepo2, ExportDataFromDbService exportDataFromDbService) {
+    public PatternTableController(TableCreatorService tableCreatorService, DataModelCreator dataModelCreator, PatternTableRepo patternTableRepo, PatternTableRepo2 patternTableRepo2, ExportDataFromDbService exportDataFromDbService, TableRepo tableRepo) {
         this.tableCreatorService = tableCreatorService;
         this.dataModelCreator = dataModelCreator;
         this.patternTableRepo = patternTableRepo;
         this.patternTableRepo2 = patternTableRepo2;
         this.exportDataFromDbService = exportDataFromDbService;
+        this.tableRepo = tableRepo;
     }
 
     @PostMapping("/create")
@@ -67,17 +71,25 @@ public class PatternTableController {
             @RequestParam Long id,
             @PageableDefault Pageable pageable,
             @RequestParam(required = false, defaultValue = "") String nameColumn,
-            @RequestParam(required = false, defaultValue = "") String sort
+            @RequestParam(required = false, defaultValue = "") String sort,
+            @RequestParam(required = false, defaultValue = "") List<String> keys,
+            @RequestParam(required = false, defaultValue = "") List<String> values
     ) {
 
         if (patternTableRepo.existsById(id)) {
 
-            return exportDataFromDbService.getFullTableModel(
-                    patternTableRepo.findById((long) id),
-                    pageable,
-                    nameColumn,
-                    sort
-            );
+            SearchModel searchModel = SearchModel
+                    .builder()
+                    .nameColumn(nameColumn)
+                    .sort(sort)
+                    .pageable(pageable)
+                    .keys(keys)
+                    .values(values)
+                    .build();
+
+            PatternTable patternTable = patternTableRepo.findById((long)id);
+
+            return tableRepo.getTable(patternTable.getNameTable(), patternTable.getNameFile(), searchModel);
         }
 
         return new FullTableModelPage();

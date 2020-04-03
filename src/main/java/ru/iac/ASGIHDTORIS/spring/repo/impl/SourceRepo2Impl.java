@@ -39,7 +39,7 @@ public class SourceRepo2Impl implements SourceRepo2 {
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         String valueQuery = createQueryValue(source, params);
-        String pageQuery = fullRepoHelper.createPageQuery(pageable, source.getHelpModel().getSort(), source.getHelpModel().getKey());
+        String pageQuery = fullRepoHelper.createPageQuery(pageable, source.getHelpModel().getSort(), source.getHelpModel().getKey(), "id");
 
         String selectQuery = SELECT_QUERY + valueQuery + pageQuery;
         String countQuery = COUNT_QUERY + valueQuery;

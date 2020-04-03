@@ -73,9 +73,9 @@ public class FullRepoHelper<T> {
         }
     }
 
-    public String createPageQuery(Pageable pageable, String sort, String key) {
+    public String createPageQuery(Pageable pageable, String sort, String key, String customKey) {
         if (key == null || key.isEmpty()) {
-            key = "id";
+            key = customKey;
         }
 
         if (sort == null || sort.isEmpty()) {

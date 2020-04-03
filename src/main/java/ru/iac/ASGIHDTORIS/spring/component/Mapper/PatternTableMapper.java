@@ -38,4 +38,9 @@ public class PatternTableMapper implements Mapper<List<PatternTable>> {
                 .isArchive(rs.getBoolean("archive"))
                 .build();
     }
+
+    @Override
+    public void setKeys(List<String> keys) {
+
+    }
 }

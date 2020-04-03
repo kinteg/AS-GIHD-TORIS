@@ -35,7 +35,7 @@ public class PatternTableRepo2Impl implements PatternTableRepo2 {
     public Page<PatternTable> findAllSourceByQuery(Pageable pageable, PatternTableModel pattern) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         String valueQuery = createQueryValue(pattern, params);
-        String pageQuery = fullRepoHelper.createPageQuery(pageable, pattern.getHelpModel().getSort(), pattern.getHelpModel().getKey());
+        String pageQuery = fullRepoHelper.createPageQuery(pageable, pattern.getHelpModel().getSort(), pattern.getHelpModel().getKey(), "id");
 
         String selectQuery = SELECT_QUERY + valueQuery + pageQuery;
         String countQuery = COUNT_QUERY + valueQuery;

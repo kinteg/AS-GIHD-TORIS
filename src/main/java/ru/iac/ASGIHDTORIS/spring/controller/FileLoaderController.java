@@ -10,7 +10,7 @@ import ru.iac.ASGIHDTORIS.spring.service.parser.ParserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/")
+@RequestMapping("api/fileLoader/")
 @Slf4j
 public class FileLoaderController {
 

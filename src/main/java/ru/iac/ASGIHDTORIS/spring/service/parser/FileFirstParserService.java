@@ -1,7 +1,7 @@
 package ru.iac.ASGIHDTORIS.spring.service.parser;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.compress.utils.FileNameUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.common.factory.FileParserFactory;
@@ -63,7 +63,7 @@ public class FileFirstParserService implements FirstParserService {
     }
 
     private FullTableModel getFullTableModel(File file, long limit) {
-        FileParser fileParser = FileParserFactory.getParser(FileNameUtils.getExtension(file.getName()));
+        FileParser fileParser = FileParserFactory.getParser(FilenameUtils.getExtension(file.getName()));
 
         if (fileParser == null) {
             return new FullTableModel();

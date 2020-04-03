@@ -2,47 +2,71 @@
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <p style="font-size: 20px">Архинвые источники
             <el-button @click="deArchiveSomeSource"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
+            <el-dropdown style="float: right" :hide-on-click="false">
+                <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item><el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.name = !hidden.name">Поставщик данных</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.longName = !hidden.longName">Полное наименование набора</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check3" @change="hidden.shortName = !hidden.shortName">Краткое наименование набора</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check4" @change="hidden.description = !hidden.description">Описание</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check5" @change="hidden.addDescription = !hidden.addDescription">Дополнительное описание</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check6" @change="hidden.scope = !hidden.scope">Сфера (направление)</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check7" @change="hidden.periodicity = !hidden.periodicity">Периодичность актуализации</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check8" @change="hidden.renewalPeriod = !hidden.renewalPeriod">Срок обновления набора данных</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check9" @change="hidden.type = !hidden.type">Вид набора</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check10" @change="hidden.tags = !hidden.tags">Ключевые слова (теги)</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check11" @change="hidden.providerLink = !hidden.providerLink">Информационная система - источник данных</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check12" @change="hidden.dataSource = !hidden.dataSource">Ссылка на данные на сайте поставщика</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check14" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check15" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check16" @change="hidden.dateActivation = !hidden.dateActivation">Дата активации</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check17" @change="hidden.lastUpdate = !hidden.lastUpdate">Последнее обновление</el-checkbox></el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
         </p>
         <div class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto; ">
                 <tr>
                     <th></th>
-                    <th><el-checkbox ></el-checkbox></th>
-                    <th @click="sort('id')">Номер</th>
-                    <th @click="sort('name')">Поставщик данных</th>
-                    <th @click="sort('long_name')">Полное наименование набора</th>
-                    <th @click="sort('short_name')">Краткое наименование набора</th>
-                    <th @click="sort('description')">Описание</th>
-                    <th @click="sort('add_description')">Дополнительное описание</th>
-                    <th @click="sort('scope')">Сфера (направление)</th>
-                    <th @click="sort('periodicity')">Периодичность актуализации </th>
-                    <th @click="sort('renewal_period')">Срок обновления набора данных</th>
-                    <th @click="sort('type')">Вид набора</th>
-                    <th @click="sort('tags')">Ключевые слова (теги)</th>
-                    <th @click="sort('provider_link')">Информационная система - источник данных</th>
-                    <th @click="sort('data_source')">Ссылка на данные на сайте поставщика</th>
-                    <th @click="sort('date_creation')">Дата создания</th>
-                    <th @click="sort('date_deactivation')">Дата деактивации</th>
-                    <th @click="sort('date_activation')">Дата активации</th>
-                    <th @click="sort('last_update')">Последнее обновление</th>
+                    <th></th>
+                    <th v-if="hidden.id" @click="sort('id')">Номер</th>
+                    <th v-if="hidden.name" @click="sort('name')">Поставщик данных</th>
+                    <th v-if="hidden.longName" @click="sort('long_name')">Полное наименование набора</th>
+                    <th v-if="hidden.shortName" @click="sort('short_name')">Краткое наименование набора</th>
+                    <th v-if="hidden.description" @click="sort('description')">Описание</th>
+                    <th v-if="hidden.addDescription" @click="sort('add_description')">Дополнительное описание</th>
+                    <th v-if="hidden.scope" @click="sort('scope')">Сфера (направление)</th>
+                    <th v-if="hidden.periodicity" @click="sort('periodicity')">Периодичность актуализации </th>
+                    <th v-if="hidden.renewalPeriod" @click="sort('renewal_period')">Срок обновления набора данных</th>
+                    <th v-if="hidden.type" @click="sort('type')">Вид набора</th>
+                    <th v-if="hidden.tags" @click="sort('tags')">Ключевые слова (теги)</th>
+                    <th v-if="hidden.providerLink" @click="sort('provider_link')">Информационная система - источник данных</th>
+                    <th v-if="hidden.dataSource" @click="sort('data_source')">Ссылка на данные на сайте поставщика</th>
+                    <th v-if="hidden.dateCreation" @click="sort('date_creation')">Дата создания</th>
+                    <th v-if="hidden.dateDeactivation" @click="sort('date_deactivation')">Дата деактивации</th>
+                    <th v-if="hidden.dateActivation" @click="sort('date_activation')">Дата активации</th>
+                    <th v-if="hidden.lastUpdate" @click="sort('last_update')">Последнее обновление</th>
                 </tr>
                 <tr>
                     <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
                     <td></td>
-                    <td><el-input placeholder="Please input" v-model="source.id"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.name"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.longName"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.shortName"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.description"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.addDescription"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.scope"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.periodicity"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.renewalPeriod"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.type"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.tags"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.providerLink"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="source.dataSource"></el-input></td>
-                    <td> <div class="block">
+                    <td v-if="hidden.id"><el-input placeholder="Please input" v-model="source.id"></el-input></td>
+                    <td v-if="hidden.name"><el-input placeholder="Please input" v-model="source.name"></el-input></td>
+                    <td v-if="hidden.longName"><el-input placeholder="Please input" v-model="source.longName"></el-input></td>
+                    <td v-if="hidden.shortName"><el-input placeholder="Please input" v-model="source.shortName"></el-input></td>
+                    <td v-if="hidden.description"><el-input placeholder="Please input" v-model="source.description"></el-input></td>
+                    <td v-if="hidden.addDescription"><el-input placeholder="Please input" v-model="source.addDescription"></el-input></td>
+                    <td v-if="hidden.scope"><el-input placeholder="Please input" v-model="source.scope"></el-input></td>
+                    <td v-if="hidden.periodicity"><el-input placeholder="Please input" v-model="source.periodicity"></el-input></td>
+                    <td v-if="hidden.renewalPeriod"><el-input placeholder="Please input" v-model="source.renewalPeriod"></el-input></td>
+                    <td v-if="hidden.type"><el-input placeholder="Please input" v-model="source.type"></el-input></td>
+                    <td v-if="hidden.tags"><el-input placeholder="Please input" v-model="source.tags"></el-input></td>
+                    <td v-if="hidden.providerLink"><el-input placeholder="Please input" v-model="source.providerLink"></el-input></td>
+                    <td v-if="hidden.dataSource"><el-input placeholder="Please input" v-model="source.dataSource"></el-input></td>
+                    <td v-if="hidden.dateCreation"> <div class="block">
                         <el-date-picker
                                 value-format="yyyy-MM-dd"
                                 v-model="source.dateCreation"
@@ -52,7 +76,7 @@
                                 end-placeholder="End date">
                         </el-date-picker>
                     </div></td>
-                    <td> <div class="block">
+                    <td v-if="hidden.dateDeactivation"> <div class="block">
                         <el-date-picker
                                 value-format="yyyy-MM-dd"
                                 v-model="source.dateDeactivation"
@@ -62,7 +86,7 @@
                                 end-placeholder="End date">
                         </el-date-picker>
                     </div></td>
-                    <td> <div class="block">
+                    <td v-if="hidden.dateActivation"> <div class="block">
                         <el-date-picker
                                 value-format="yyyy-MM-dd"
                                 v-model="source.dateActivation"
@@ -72,7 +96,7 @@
                                 end-placeholder="End date">
                         </el-date-picker>
                     </div></td>
-                    <td> <div class="block">
+                    <td v-if="hidden.lastUpdate"> <div class="block">
                         <el-date-picker
                                 value-format="yyyy-MM-dd"
                                 v-model="source.lastUpdate"
@@ -93,23 +117,23 @@
                         <el-button @click="sourceView(source.id)" style="background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
                     </td>
                     <td> <el-checkbox @change="check(source.id)"></el-checkbox></td>
-                    <td>{{source.id}}</td>
-                    <td>{{source.name}}</td>
-                    <td>{{source.longName}}</td>
-                    <td>{{source.shortName}}</td>
-                    <td>{{source.description}}</td>
-                    <td>{{source.addDescription}}</td>
-                    <td>{{source.scope}}</td>
-                    <td>{{source.periodicity}}</td>
-                    <td>{{source.renewalPeriod}}</td>
-                    <td>{{source.type}}</td>
-                    <td>{{source.tags}}</td>
-                    <td>{{source.providerLink}}</td>
-                    <td>{{source.dataSource}}</td>
-                    <td>{{source.dateCreation}}</td>
-                    <td>{{source.dateDeactivation}}</td>
-                    <td>{{source.dateActivation}}</td>
-                    <td>{{source.lastUpdate}}</td>
+                    <td v-if="hidden.id">{{source.id}}</td>
+                    <td v-if="hidden.name">{{source.name}}</td>
+                    <td v-if="hidden.longName">{{source.longName}}</td>
+                    <td v-if="hidden.shortName">{{source.shortName}}</td>
+                    <td v-if="hidden.description">{{source.description}}</td>
+                    <td v-if="hidden.addDescription">{{source.addDescription}}</td>
+                    <td v-if="hidden.scope">{{source.scope}}</td>
+                    <td v-if="hidden.periodicity">{{source.periodicity}}</td>
+                    <td v-if="hidden.renewalPeriod">{{source.renewalPeriod}}</td>
+                    <td v-if="hidden.type">{{source.type}}</td>
+                    <td v-if="hidden.tags">{{source.tags}}</td>
+                    <td v-if="hidden.providerLink">{{source.providerLink}}</td>
+                    <td v-if="hidden.dataSource">{{source.dataSource}}</td>
+                    <td v-if="hidden.dateCreation">{{source.dateCreation}}</td>
+                    <td v-if="hidden.dateDeactivation">{{source.dateDeactivation}}</td>
+                    <td v-if="hidden.dateActivation">{{source.dateActivation}}</td>
+                    <td v-if="hidden.lastUpdate">{{source.lastUpdate}}</td>
                 </tr>
                 </tbody>
 
@@ -169,6 +193,26 @@
                     totalPages: 0,
                     totalElements: 0,
                 },
+                hidden:{
+                    id:true,
+                    name:true,
+                    longName:true,
+                    shortName:true,
+                    description:true,
+                    addDescription:true,
+                    scope:true,
+                    periodicity:true,
+                    renewalPeriod:true,
+                    type:true,
+                    tags:true,
+                    providerLink:true,
+                    dataSource:true,
+                    isArchive:true,
+                    dateCreation:true,
+                    dateDeactivation:true,
+                    dateActivation:true,
+                    lastUpdate:true,
+                },
                 source:{
                     check:[],
                     key:"id",
@@ -203,6 +247,25 @@
             }
         },
         methods:{
+            hiddenAll(){
+                document.getElementById("check").click();
+                document.getElementById("check1").click();
+                document.getElementById("check2").click();
+                document.getElementById("check3").click();
+                document.getElementById("check4").click();
+                document.getElementById("check5").click();
+                document.getElementById("check6").click();
+                document.getElementById("check7").click();
+                document.getElementById("check8").click();
+                document.getElementById("check9").click();
+                document.getElementById("check10").click();
+                document.getElementById("check11").click();
+                document.getElementById("check12").click();
+                document.getElementById("check14").click();
+                document.getElementById("check15").click();
+                document.getElementById("check16").click();
+                document.getElementById("check17").click();
+            },
 
             check(id){
                 let key = this.source.check.indexOf(id);
@@ -653,4 +716,13 @@
         height: 50px;
     }
 
+    .el-dropdown {
+        vertical-align: top;
+    }
+    .el-dropdown + .el-dropdown {
+        margin-left: 15px;
+    }
+    .el-icon-arrow-down {
+        font-size: 12px;
+    }
 </style>

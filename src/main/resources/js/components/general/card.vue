@@ -152,13 +152,14 @@
                     </div>
                     <div v-else-if="createTable">
                         <el-upload
-                                action="",
-                                :http-request="addAttachment",
-                                :auto-upload="false"
-                                :on-remove="deleteAttachment",
-                                :file-list="fileList"
-                        >
-                            <el-button size="mini" type="primary">Add file</el-button>
+                                class="upload-demo"
+                                ref="upload"
+                                action=""
+                                :limit="1"
+                                :on-change="onChange"
+                                :auto-upload="false">
+                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">select file</el-button>
+                            <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
                         </el-upload>
                     </div>
                 </el-tab-pane>
@@ -185,6 +186,7 @@
                 createTable: false,
                 patternId:"",
                 sourceId:"",
+                file:'',
                 pagination:{
                     pageSize: 10,
                     currentPage: 1,
@@ -254,17 +256,48 @@
             }
         },
         methods:{
-            uploadFile(){
-                console.log(this.fileList);
+            handleFileUpload(){
+                this.file = this.$refs.file.files[0];
+                console.log(this.file);
+                let formData = new FormData();
+                formData.append("file", this.file);
+                AXIOS.post("fileLoader/firstUpload/", formData).then(response => {
+                    console.log(response.data);
+                });
             },
 
-            addAttachment ( file, fileList ) {
-                this.fileList.push( file );
+            submitUpload() {
+                for(let i = 0; i<this.fileList.length; i++){
+                    console.log(this.fileList[i]);
+                    let formData = new FormData();
+                    formData.append("file", this.fileList[i]);
+                    AXIOS.post("fileLoader/firstUpload/",
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }).then(response => {
+                        console.log(response.data);
+                    });
+                }
             },
 
-            deleteAttachment () {
-                // removes from array
+            onChange(file, fileList) {
+                let formData = new FormData();
+                console.log(file);
+                formData.append("file",file.raw);
+                AXIOS.post("fileLoader/firstUpload/",
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(response => {
+                    console.log(response.data);
+                });
             },
+
             notify(title,message,type) {
                 this.$notify({
                     title: title,

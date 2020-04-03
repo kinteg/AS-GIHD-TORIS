@@ -1,7 +1,8 @@
 package ru.iac.ASGIHDTORIS.spring.service.file;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.compress.utils.FileNameUtils;
+import org.apache.commons.compress.compressors.FileNameUtil;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.common.FileConverter;
@@ -23,7 +24,7 @@ public class FileServiceImpl implements FileService {
         List<File> files;
 
         if (TargetFiles.isArchive(file.getName())) {
-            ArchiveParser parser = ArchiveFactory.getParser(FileNameUtils.getExtension(file.getName()));
+            ArchiveParser parser = ArchiveFactory.getParser(FilenameUtils.getExtension(file.getName()));
 
             try {
 

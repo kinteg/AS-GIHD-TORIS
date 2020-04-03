@@ -40,4 +40,9 @@ public class PatternMapper implements Mapper<List<Pattern>> {
                 .isArchive(rs.getBoolean("archive"))
                 .build();
     }
+
+    @Override
+    public void setKeys(List<String> keys) {
+
+    }
 }

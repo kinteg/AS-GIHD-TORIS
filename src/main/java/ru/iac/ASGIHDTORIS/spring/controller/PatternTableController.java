@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -7,14 +8,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModelCreator;
+import ru.iac.ASGIHDTORIS.common.model.data.DataModelList;
 import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternTableModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModelPage;
+import ru.iac.ASGIHDTORIS.common.model.serch.SearchModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
+import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
+import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo2;
-import ru.iac.ASGIHDTORIS.spring.service.export.ExportDataFromDbService;
+import ru.iac.ASGIHDTORIS.spring.repo.TableRepo;
 import ru.iac.ASGIHDTORIS.spring.service.table.TableCreatorService;
 
 import java.time.LocalDateTime;
@@ -27,57 +32,67 @@ import java.util.stream.Collectors;
 @RestController
 public class PatternTableController {
 
-    private final TableCreatorService tableCreatorService;
+    private final TableRepo tableRepo;
+    private final PatternRepo patternRepo;
     private final DataModelCreator dataModelCreator;
     private final PatternTableRepo patternTableRepo;
     private final PatternTableRepo2 patternTableRepo2;
-    private final ExportDataFromDbService exportDataFromDbService;
+    private final Validator<DataModelList> dataModelListValidator;
+    private final TableCreatorService tableCreatorService;
+    private final Validator<Long> patternIdValidator;
 
-    public PatternTableController(TableCreatorService tableCreatorService, DataModelCreator dataModelCreator, PatternTableRepo patternTableRepo, PatternTableRepo2 patternTableRepo2, ExportDataFromDbService exportDataFromDbService) {
+    public PatternTableController(
+            TableCreatorService tableCreatorService,
+            DataModelCreator dataModelCreator,
+            PatternTableRepo patternTableRepo,
+            PatternTableRepo2 patternTableRepo2,
+            TableRepo tableRepo, PatternRepo patternRepo,
+            @Qualifier("dataModelListValidator") Validator<DataModelList> dataModelListValidator,
+            @Qualifier("patternIdValidator") Validator<Long> patternIdValidator) {
+
         this.tableCreatorService = tableCreatorService;
         this.dataModelCreator = dataModelCreator;
         this.patternTableRepo = patternTableRepo;
         this.patternTableRepo2 = patternTableRepo2;
-        this.exportDataFromDbService = exportDataFromDbService;
+        this.tableRepo = tableRepo;
+        this.patternRepo = patternRepo;
+        this.dataModelListValidator = dataModelListValidator;
+        this.patternIdValidator = patternIdValidator;
     }
 
     @PostMapping("/create")
     @ResponseBody
     public boolean createPattern(
             @RequestBody TableModel tableModel,
-            @RequestParam List<String> names,
-            @RequestParam List<String> types,
-            @RequestParam List<Boolean> primaries,
+            @ModelAttribute DataModelList dataModelList,
             @RequestParam Long patternId
     ) {
 
-        if (patternId == null) {
+        if (patternIdValidator.isValid(patternId)
+                || patternTableRepo.existsByNameTable(tableModel.getTableName())
+                || !dataModelListValidator.isValid(dataModelList)) {
+
             return false;
         }
 
-        dataModelCreator.setDataModel(names, types, primaries);
+        dataModelCreator.setDataModel(dataModelList);
         List<DataModel> dataModels = dataModelCreator.getDataModel();
         tableModel.setModels(dataModels);
 
         return tableCreatorService.addTable(tableModel, patternId);
     }
 
-    @GetMapping("getTable")
+    @PostMapping("/getTable")
     public FullTableModelPage getTable(
             @RequestParam Long id,
-            @PageableDefault Pageable pageable,
-            @RequestParam(required = false, defaultValue = "") String nameColumn,
-            @RequestParam(required = false, defaultValue = "") String sort
+            @ModelAttribute SearchModel searchModel
     ) {
 
         if (patternTableRepo.existsById(id)) {
 
-            return exportDataFromDbService.getFullTableModel(
-                    patternTableRepo.findById((long) id),
-                    pageable,
-                    nameColumn,
-                    sort
-            );
+            PatternTable patternTable = patternTableRepo.findById((long) id);
+
+            return tableRepo.getTable(patternTable.getNameTable(), patternTable.getNameFile(), searchModel);
         }
 
         return new FullTableModelPage();
@@ -90,105 +105,105 @@ public class PatternTableController {
     }
 
     @GetMapping("/getAll")
-    public Page<PatternTable> getAll(@PageableDefault Pageable pageable){
+    public Page<PatternTable> getAll(@PageableDefault Pageable pageable) {
         return patternTableRepo.findAll(pageable);
     }
 
     @GetMapping("/getAllSort")
-    public Page<PatternTable> getAll(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+    public Page<PatternTable> getAll(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAll/{patternId}")
-    public Page<PatternTable> getAll(@PathVariable Long patternId, @PageableDefault Pageable pageable){
+    public Page<PatternTable> getAll(@PathVariable Long patternId, @PageableDefault Pageable pageable) {
         return patternTableRepo.findAllByPatternId(patternId, pageable);
     }
 
     @GetMapping("/getAllBySource/{sourceId}")
-    public Page<PatternTable> getAllBySource(@PageableDefault Pageable pageable, @PathVariable Long sourceId){
+    public Page<PatternTable> getAllBySource(@PageableDefault Pageable pageable, @PathVariable Long sourceId) {
         return patternTableRepo.findAllBySourceId(sourceId, pageable);
     }
 
     @GetMapping("/getAllSort/{patternId}")
-    public Page<PatternTable> getAllWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+    public Page<PatternTable> getAllWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllBySourceSort/{sourceId}")
-    public Page<PatternTable> getAllWithSourceId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+    public Page<PatternTable> getAllWithSourceId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllArchive")
-    public Page<PatternTable> getAllArchive(@PageableDefault Pageable pageable){
+    public Page<PatternTable> getAllArchive(@PageableDefault Pageable pageable) {
         return patternTableRepo.findAllByIsArchive(true, pageable);
     }
 
     @GetMapping("/getAllArchiveSort")
-    public Page<PatternTable> getAllArchive(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+    public Page<PatternTable> getAllArchive(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllArchive/{patternId}")
-    public Page<PatternTable> getAllArchive(@PathVariable Long patternId, @PageableDefault Pageable pageable){
+    public Page<PatternTable> getAllArchive(@PathVariable Long patternId, @PageableDefault Pageable pageable) {
         return patternTableRepo.findAllByPatternIdAndIsArchive(patternId, true, pageable);
     }
 
     @GetMapping("/getAllArchiveSort/{patternId}")
-    public Page<PatternTable> getAllArchiveWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+    public Page<PatternTable> getAllArchiveWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllArchiveBySourceId/{sourceId}")
-    public Page<PatternTable> getAllArchiveBySourceId(@PathVariable Long sourceId, @PageableDefault Pageable pageable){
+    public Page<PatternTable> getAllArchiveBySourceId(@PathVariable Long sourceId, @PageableDefault Pageable pageable) {
         return patternTableRepo.findAllBySourceIdAndIsArchive(sourceId, true, pageable);
     }
 
     @GetMapping("/getAllArchiveSortBySourceId/{sourceId}")
-    public Page<PatternTable> getAllArchiveWithSourceId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+    public Page<PatternTable> getAllArchiveWithSourceId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllNotArchive")
-    public Page<PatternTable> getAllNotArchive(@PageableDefault Pageable pageable){
+    public Page<PatternTable> getAllNotArchive(@PageableDefault Pageable pageable) {
         return patternTableRepo.findAllByIsArchive(false, pageable);
     }
 
     @GetMapping("/getAllNotArchiveSort")
-    public Page<PatternTable> getAllNotArchive(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+    public Page<PatternTable> getAllNotArchive(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllNotArchive/{patternId}")
-    public Page<PatternTable> getAllNotArchive(@PathVariable Long patternId, @PageableDefault Pageable pageable){
+    public Page<PatternTable> getAllNotArchive(@PathVariable Long patternId, @PageableDefault Pageable pageable) {
         return patternTableRepo.findAllByPatternIdAndIsArchive(patternId, false, pageable);
     }
 
     @GetMapping("/getAllNotArchiveSort/{patternId}")
-    public Page<PatternTable> getAllNotArchiveWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+    public Page<PatternTable> getAllNotArchiveWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllNotArchiveBySourceId/{sourceId}")
-    public Page<PatternTable> getAllNotArchiveBySourceId(@PathVariable Long sourceId, @PageableDefault Pageable pageable){
+    public Page<PatternTable> getAllNotArchiveBySourceId(@PathVariable Long sourceId, @PageableDefault Pageable pageable) {
         return patternTableRepo.findAllBySourceIdAndIsArchive(sourceId, false, pageable);
     }
 
     @GetMapping("/getAllNotArchiveSortBySourceId/{sourceId}")
-    public Page<PatternTable> getAllNotArchiveWithPatternIdBySourceId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel){
+    public Page<PatternTable> getAllNotArchiveWithPatternIdBySourceId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);

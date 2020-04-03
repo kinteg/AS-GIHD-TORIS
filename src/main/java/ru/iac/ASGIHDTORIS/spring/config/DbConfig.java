@@ -27,11 +27,6 @@ public class DbConfig {
     }
 
     @Bean
-    public ColumnExporter columnExporter(Connection connection) {
-        return new PostgreSqlColumnExporter(connection);
-    }
-
-    @Bean
     public DataExporter dataExporter(Connection connection) {
         return new PostgreSqlDataExporter(connection);
     }

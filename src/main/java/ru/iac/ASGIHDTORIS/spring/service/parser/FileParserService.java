@@ -42,9 +42,7 @@ public class FileParserService implements ParserService {
     }
 
     @Override
-    public List<FullTableModel> getFullTable(MultipartFile multipartFile, long limit, long patternId) {
-        File file = fileService.convertFile(multipartFile);
-
+    public List<FullTableModel> getFullTable(File file, long limit, long patternId) {
         List<TableModel> tableModels = createTableModels(patternId);
         List<File> files = fileService.getFiles(file);
 

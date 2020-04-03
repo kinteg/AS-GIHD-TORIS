@@ -9,7 +9,6 @@ public final class FileParserFactory {
 
     private FileParserFactory() {}
 
-
     public static FileParser getParser(String extension) {
 
         switch (extension.toLowerCase()) {

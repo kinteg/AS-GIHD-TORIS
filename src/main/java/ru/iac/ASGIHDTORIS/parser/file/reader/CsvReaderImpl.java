@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -26,7 +27,7 @@ public class CsvReaderImpl implements Reader {
     public List<String> readNext() throws IOException, CsvValidationException {
         String[] strings = reader.readNext();
 
-        return strings == null ? null
+        return strings == null ? Collections.emptyList()
                 : strings.length == 0
                 || strings[0].trim().equals("")
                 ? readNext()

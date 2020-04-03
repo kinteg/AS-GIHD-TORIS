@@ -25,11 +25,8 @@ public class FileFirstParserService implements FirstParserService {
     }
 
     @Override
-    public List<FullTableModel> getFullTable(MultipartFile multipartFile, long limit) {
-        File file = fileService.convertFile(multipartFile);
-
+    public List<FullTableModel> getFullTable(File file, long limit) {
         if (file == null) {
-            file.delete();
             return Collections.emptyList();
         }
 

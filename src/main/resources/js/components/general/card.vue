@@ -141,6 +141,26 @@
                     </div>
                 </el-tab-pane>
                 <el-tab-pane label="Таблицы" name="tableInfo">
+                    <p style="font-size: 20px">Таблицы
+                        <el-button @click="addTableTab"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-plus"></el-button>
+                    </p>
+                    <div v-if="viewTable">
+                        view
+                    </div>
+                    <div v-else-if="updateTable">
+                        update
+                    </div>
+                    <div v-else-if="createTable">
+                        <el-upload
+                                action="",
+                                :http-request="addAttachment",
+                                :auto-upload="false"
+                                :on-remove="deleteAttachment",
+                                :file-list="fileList"
+                        >
+                            <el-button size="mini" type="primary">Add file</el-button>
+                        </el-upload>
+                    </div>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -154,12 +174,33 @@
         name: "card",
         data(){
             return{
+                fileList:[],
                 labelPosition: "top",
                 activeName: "patternInfo",
                 patternData:"",
+                patternTableData:"",
                 viewPattern: true,
+                viewTable: true,
+                updateTable: false,
+                createTable: false,
                 patternId:"",
                 sourceId:"",
+                pagination:{
+                    pageSize: 10,
+                    currentPage: 1,
+                    totalPages: 0,
+                    totalElements: 0,
+                },
+                patternTable:{
+                    id:"",
+                    nameTable:"",
+                    nameFile:"",
+                    isArchive: "",
+                    dateCreation: "",
+                    dateDeactivation: "",
+                    dateActivation: "",
+                    lastUpdate: "",
+                },
                 source:{
                     name:"",
                     longName:"",
@@ -173,6 +214,11 @@
                     tags:"",
                     providerLink:"",
                     dataSource:"",
+                    isArchive: "",
+                    dateCreation: "",
+                    dateDeactivation: "",
+                    dateActivation: "",
+                    lastUpdate: "",
                 },
                 pattern: {
                     check: [],
@@ -208,6 +254,17 @@
             }
         },
         methods:{
+            uploadFile(){
+                console.log(this.fileList);
+            },
+
+            addAttachment ( file, fileList ) {
+                this.fileList.push( file );
+            },
+
+            deleteAttachment () {
+                // removes from array
+            },
             notify(title,message,type) {
                 this.$notify({
                     title: title,
@@ -215,6 +272,16 @@
                     type: type
                 });
             },
+            addTableTab(){
+                this.viewTable = false;
+                this.updateTable = false;
+                this.createTable = true;
+            },
+
+            addTable(){
+
+            },
+
             backUpdate(){
                 this.$confirm('Уверены что хотите вернуться?', 'Назад', {
                     confirmButtonText: 'Да',
@@ -244,12 +311,6 @@
                 formData.append("management",this.pattern.management);
                 formData.append("sourceId",this.pattern.sourceId);
                 formData.append("isArchive",this.pattern.isArchive);
-                formData.append("dateCreation",this.pattern.dateCreation);
-                formData.append("dateDeactivation",this.pattern.dateDeactivation);
-                formData.append("dateActivation",this.pattern.dateActivation);
-                console.log(this.pattern.dateCreation);
-                console.log(this.pattern.dateDeactivation);
-                console.log(this.pattern.dateActivation);
                 AXIOS.post("/pattern/update",
                     formData,
                     {
@@ -282,6 +343,10 @@
                 AXIOS.get("source/" + this.sourceId).then(response => {
                     this.source = response.data;
                 });
+            });
+            AXIOS.get("tableCreator/getAll/" + this.patternId).then(response => {
+                console.log(response.data);
+                this.patternTableData = response.data;
             });
         }
     }

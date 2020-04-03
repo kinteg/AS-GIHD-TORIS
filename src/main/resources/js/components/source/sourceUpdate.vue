@@ -711,10 +711,7 @@
                 formData.append("management",this.pattern.management);
                 formData.append("isArchive",this.pattern.isArchive);
                 formData.append("sourceId",this.pattern.sourceId);
-                formData.append("dateCreation",this.pattern.dateCreation);
-                formData.append("dateDeactivation",this.pattern.dateDeactivation);
-                formData.append("dateActivation",this.pattern.dateActivation);
-                // formData.append("lastUpdate",this.pattern.lastUpdate);
+
                 AXIOS.post("/pattern/update",
                     formData,
                     {
@@ -748,9 +745,6 @@
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
                 formData.append("isArchive",this.source.isArchive);
-                formData.append("dateCreation",this.source.dateCreation);
-                formData.append("dateDeactivation",this.source.dateDeactivation);
-                formData.append("dateActivation",this.source.dateActivation);
                 AXIOS.post("/source/update",
                     formData,
                     {

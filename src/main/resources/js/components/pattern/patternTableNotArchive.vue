@@ -1,6 +1,6 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-        <p style="font-size: 20px">Архивные шаблоны
+        <p style="font-size: 20px">Не архивные шаблоны
             <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
             <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
         <div class="horizontal-scroll-wrapper  rectangles">
@@ -107,7 +107,7 @@
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
     export default {
-        name: "patternTableArchive",
+        name: "patternTableNotArchive",
         components: {MyPagination},
         data() {
             return {
@@ -332,7 +332,7 @@
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
 
-                AXIOS.post("/pattern/getAllArchiveSort",
+                AXIOS.post("/pattern/getAllNotArchiveSort",
                     formData,
                     {
                         headers: {
@@ -400,7 +400,7 @@
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
 
-                AXIOS.post("/pattern/getAllArchiveSort", formData)
+                AXIOS.post("/pattern/getAllNotArchiveSort", formData)
                     .then(response => {
                         this.patternData = response.data.content;
                     })
@@ -464,7 +464,7 @@
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
 
-                AXIOS.post("/pattern/getAllArchiveSort", formData)
+                AXIOS.post("/pattern/getAllNotArchiveSort", formData)
                     .then(response => {
                         this.patternData = response.data.content;
                     })
@@ -525,7 +525,7 @@
                 formData.append("size", this.pagination.pageSize);
                 formData.append("page", this.pagination.currentPage - 1);
 
-                AXIOS.post("/pattern/getAllArchiveSort",
+                AXIOS.post("/pattern/getAllNotArchiveSort",
                     formData,
                     {
                         headers: {
@@ -539,7 +539,7 @@
             }
         },
         mounted() {
-            AXIOS.get("pattern/getAllArchive").then(response => {
+            AXIOS.get("pattern/getAllNotArchive").then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.patternData = response.data.content;

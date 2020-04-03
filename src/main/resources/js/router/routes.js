@@ -11,6 +11,7 @@ import ShowSourceNoArchive from "../pages/source/ShowSourceNoArchive.vue";
 import ShowPattern from "../pages/pattern/ShowPattern.vue";
 import ShowPatternArchive from "../pages/pattern/ShowPatternArchive.vue";
 import cardView from "../pages/cardView.vue";
+import ShowPatternNoArchive from "../pages/pattern/ShowPatternNoArchive.vue";
 
 const routes = [
     {
@@ -70,6 +71,14 @@ const routes = [
                 name: 'showArchivePattern',
                 meta: {
                     title: 'Архивные'
+                },
+            },
+            {
+                path:'showNotArchive',
+                component: ShowPatternNoArchive,
+                name: 'showNotArchivePattern',
+                meta: {
+                    title: 'Не архивные'
                 },
             },
         ]

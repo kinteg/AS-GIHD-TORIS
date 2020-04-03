@@ -3,6 +3,7 @@
         <p style="font-size: 20px">Шаблоны
             <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
             <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
+        </p>
         <div class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto; ">
                 <tr>

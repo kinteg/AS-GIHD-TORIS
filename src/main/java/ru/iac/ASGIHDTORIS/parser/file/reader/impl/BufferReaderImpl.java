@@ -1,8 +1,11 @@
-package ru.iac.ASGIHDTORIS.parser.file.reader;
+package ru.iac.ASGIHDTORIS.parser.file.reader.impl;
+
+import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class BufferReaderImpl implements Reader {
@@ -29,7 +32,7 @@ public class BufferReaderImpl implements Reader {
         String str = readLine();
 
         return str == null
-                ? null
+                ? Collections.emptyList()
                 : str.trim().equals("")
                 ? readNext()
                 : Arrays.asList(str.split(spliterator));

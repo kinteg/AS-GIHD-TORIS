@@ -15,6 +15,7 @@ public class TargetFiles {
     static {
         fileList.add("csv");
         fileList.add("txt");
+        fileList.add("xlsx");
     }
 
     static {

@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModelCreator;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModelCreatorImpl;
+import ru.iac.ASGIHDTORIS.common.model.table.TableModelCreator;
+import ru.iac.ASGIHDTORIS.common.model.table.TableModelCreatorImpl;
 
 @Configuration
 public class ModelConfig {
@@ -11,6 +13,11 @@ public class ModelConfig {
     @Bean
     public DataModelCreator dataModelCreator() {
         return new DataModelCreatorImpl();
+    }
+
+    @Bean
+    public TableModelCreator tableModelCreator() {
+        return new TableModelCreatorImpl();
     }
 
 }

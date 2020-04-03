@@ -1,10 +1,11 @@
-package ru.iac.ASGIHDTORIS.parser.file.reader;
+package ru.iac.ASGIHDTORIS.parser.file.reader.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
 
 import java.util.ArrayList;
 import java.util.Collections;

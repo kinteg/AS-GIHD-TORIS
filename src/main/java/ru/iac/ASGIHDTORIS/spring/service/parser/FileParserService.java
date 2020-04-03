@@ -3,13 +3,12 @@ package ru.iac.ASGIHDTORIS.spring.service.parser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.FileNameUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.common.factory.FileParserFactory;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModelCreator;
-import ru.iac.ASGIHDTORIS.db.exporter.column.ColumnExporter;
+import ru.iac.ASGIHDTORIS.spring.repo.ColumnExporterRepo;
 import ru.iac.ASGIHDTORIS.parser.file.parser.FileParser;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
@@ -26,25 +25,22 @@ import java.util.List;
 @Service
 public class FileParserService implements ParserService {
 
-
     private final TableModelCreator tableModelCreator;
     private final PatternRepo patternRepo;
     private final PatternTableRepo patternTableRepo;
-    private final ColumnExporter columnExporter;
+    private final ColumnExporterRepo columnExporterRepo;
     private final FileService fileService;
 
-    public FileParserService(TableModelCreator tableModelCreator, PatternRepo patternRepo, PatternTableRepo patternTableRepo, ColumnExporter columnExporter, FileService fileService) {
+    public FileParserService(TableModelCreator tableModelCreator, PatternRepo patternRepo, PatternTableRepo patternTableRepo, ColumnExporterRepo columnExporterRepo, FileService fileService) {
         this.tableModelCreator = tableModelCreator;
         this.patternRepo = patternRepo;
         this.patternTableRepo = patternTableRepo;
-        this.columnExporter = columnExporter;
+        this.columnExporterRepo = columnExporterRepo;
         this.fileService = fileService;
     }
 
     @Override
-    public List<FullTableModel> getFullTable(MultipartFile multipartFile, long limit, long patternId) {
-        File file = fileService.convertFile(multipartFile);
-
+    public List<FullTableModel> getFullTable(File file, long limit, long patternId) {
         List<TableModel> tableModels = createTableModels(patternId);
         List<File> files = fileService.getFiles(file);
 
@@ -69,13 +65,13 @@ public class FileParserService implements ParserService {
         for (PatternTable patternTable :
                 patternTables) {
 
-            modelList.add(columnExporter.exportDataModel(patternTable.getNameTable()));
+            modelList.add(columnExporterRepo.exportDataModel(patternTable.getNameTable()));
             tableNames.add(patternTable.getNameTable());
             fileNames.add(patternTable.getNameFile());
         }
 
         try {
-            columnExporter.close();
+            columnExporterRepo.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }

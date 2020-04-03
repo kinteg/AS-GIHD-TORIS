@@ -1,8 +1,10 @@
-package ru.iac.ASGIHDTORIS.db.creator;
+package ru.iac.ASGIHDTORIS.spring.repo.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
+import ru.iac.ASGIHDTORIS.spring.repo.CreatorRepo;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,7 +12,8 @@ import java.sql.Statement;
 import java.util.List;
 
 @Slf4j
-public class PostgresqlCreator implements Creator {
+@Repository
+public class PostgresqlCreatorRepo implements CreatorRepo {
 
     private static final String SQL_CREATE =
             "CREATE TABLE IF NOT EXISTS ${table_name} (${keys})";
@@ -22,7 +25,7 @@ public class PostgresqlCreator implements Creator {
 
     private final Connection connection;
 
-    public PostgresqlCreator(Connection connection) {
+    public PostgresqlCreatorRepo(Connection connection) {
         this.connection = connection;
     }
 

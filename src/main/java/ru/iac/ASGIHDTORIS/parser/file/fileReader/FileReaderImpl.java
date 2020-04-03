@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.parser.file;
+package ru.iac.ASGIHDTORIS.parser.file.fileReader;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
@@ -14,22 +14,23 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class FileReader {
+public class FileReaderImpl implements FileReader {
 
     private final Reader reader;
 
-    public FileReader(Reader reader) {
+    public FileReaderImpl(Reader reader) {
         this.reader = reader;
     }
 
     public FullTableModel createTableModel(TableModel tableModel, long limit) throws Exception {
-        FullTableModel model = getWithLimit(tableModel, limit);
-        ;
-
-        return model;
+        return getWithLimit(tableModel, limit);
     }
 
     private FullTableModel getWithLimit(TableModel tableModel, long limit) throws Exception {
+        if (reader == null) {
+            return new FullTableModel();
+        }
+
         List<String> keys = tableModel.getModels().stream().map(DataModel::getKey).collect(Collectors.toList());
         List<Map<String, String>> values = createValues(keys, limit);
         List<String> types = createType(values);

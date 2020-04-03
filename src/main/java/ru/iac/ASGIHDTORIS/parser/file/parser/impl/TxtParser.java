@@ -1,11 +1,14 @@
-package ru.iac.ASGIHDTORIS.parser.file.parser;
+package ru.iac.ASGIHDTORIS.parser.file.parser.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
-import ru.iac.ASGIHDTORIS.parser.file.FileReader;
-import ru.iac.ASGIHDTORIS.parser.file.TableModelFixer;
-import ru.iac.ASGIHDTORIS.parser.file.reader.BufferReaderImpl;
+import ru.iac.ASGIHDTORIS.parser.file.fileReader.FileReader;
+import ru.iac.ASGIHDTORIS.parser.file.fileReader.FileReaderImpl;
+import ru.iac.ASGIHDTORIS.parser.file.fixer.TableModelFixer;
+import ru.iac.ASGIHDTORIS.parser.file.fixer.TableModelFixerImpl;
+import ru.iac.ASGIHDTORIS.parser.file.parser.FileParser;
+import ru.iac.ASGIHDTORIS.parser.file.reader.impl.BufferReaderImpl;
 import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
 
 import java.io.File;
@@ -28,11 +31,11 @@ public class TxtParser implements FileParser {
 
     private FullTableModel txtReader(File file, long limit, TableModel tableModel) throws Exception {
         Reader reader = createReader(file);
-        TableModelFixer tableModelFixer = new TableModelFixer();
+        TableModelFixer tableModelFixerImpl = new TableModelFixerImpl();
 
-        tableModel = tableModelFixer.fixTableModel(file, tableModel, reader);
+        tableModel = tableModelFixerImpl.fixTableModel(file, tableModel, reader);
 
-        FileReader creator = new FileReader(reader);
+        FileReader creator = new FileReaderImpl(reader);
 
         return creator.createTableModel(tableModel, limit);
     }

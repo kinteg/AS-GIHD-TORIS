@@ -1,12 +1,15 @@
-package ru.iac.ASGIHDTORIS.parser.file.parser;
+package ru.iac.ASGIHDTORIS.parser.file.parser.impl;
 
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
-import ru.iac.ASGIHDTORIS.parser.file.FileReader;
-import ru.iac.ASGIHDTORIS.parser.file.TableModelFixer;
+import ru.iac.ASGIHDTORIS.parser.file.fileReader.FileReader;
+import ru.iac.ASGIHDTORIS.parser.file.fileReader.FileReaderImpl;
+import ru.iac.ASGIHDTORIS.parser.file.fixer.TableModelFixer;
+import ru.iac.ASGIHDTORIS.parser.file.fixer.TableModelFixerImpl;
+import ru.iac.ASGIHDTORIS.parser.file.parser.FileParser;
 import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
-import ru.iac.ASGIHDTORIS.parser.file.reader.XlsxReader;
+import ru.iac.ASGIHDTORIS.parser.file.reader.impl.XlsxReader;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,11 +28,11 @@ public class XlsxParser implements FileParser {
 
     private FullTableModel csvReader(File file, long limit, TableModel tableModel) throws Exception {
         Reader reader = createReader(file);
-        TableModelFixer tableModelFixer = new TableModelFixer();
+        TableModelFixer tableModelFixerImpl = new TableModelFixerImpl();
 
-        tableModel = tableModelFixer.fixTableModel(file, tableModel, reader);
+        tableModel = tableModelFixerImpl.fixTableModel(file, tableModel, reader);
 
-        FileReader creator = new FileReader(reader);
+        FileReader creator = new FileReaderImpl(reader);
 
         return creator.createTableModel(tableModel, limit);
     }

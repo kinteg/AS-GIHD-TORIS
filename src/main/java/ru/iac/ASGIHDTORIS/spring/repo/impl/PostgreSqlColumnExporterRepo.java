@@ -1,8 +1,9 @@
-package ru.iac.ASGIHDTORIS.db.exporter.column;
+package ru.iac.ASGIHDTORIS.spring.repo.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
+import ru.iac.ASGIHDTORIS.spring.repo.ColumnExporterRepo;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @Repository
-public class PostgreSqlColumnExporter implements ColumnExporter {
+public class PostgreSqlColumnExporterRepo implements ColumnExporterRepo {
 
     private final String SQL_SELECT =
             "SELECT ${column_name} " +
@@ -34,7 +35,7 @@ public class PostgreSqlColumnExporter implements ColumnExporter {
 
     private Connection connection;
 
-    public PostgreSqlColumnExporter(Connection connection) {
+    public PostgreSqlColumnExporterRepo(Connection connection) {
         this.connection = connection;
     }
 

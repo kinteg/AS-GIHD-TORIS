@@ -4,7 +4,7 @@ import ru.iac.ASGIHDTORIS.parser.archive.ArchiveParser;
 import ru.iac.ASGIHDTORIS.parser.archive.SevenZParser;
 import ru.iac.ASGIHDTORIS.parser.archive.ZipParser;
 
-public class ArchiveFactory {
+public final class ArchiveFactory {
 
     private static final String ZIP = "zip";
     private static final String SEVEN_Z_PARSER = "7z";

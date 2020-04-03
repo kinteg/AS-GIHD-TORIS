@@ -9,7 +9,7 @@ import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModelPage;
 import ru.iac.ASGIHDTORIS.common.model.serch.SearchModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
-import ru.iac.ASGIHDTORIS.db.exporter.column.ColumnExporter;
+import ru.iac.ASGIHDTORIS.spring.repo.ColumnExporterRepo;
 import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
 import ru.iac.ASGIHDTORIS.spring.component.FullRepoHelper;
 import ru.iac.ASGIHDTORIS.spring.component.Mapper.Mapper;
@@ -26,14 +26,14 @@ public class TableRepoImpl implements TableRepo {
     private final String SELECT_QUERY = "SELECT * FROM ";
     private final String COUNT_QUERY = "SELECT count(*) FROM ";
 
-    private final ColumnExporter columnExporter;
+    private final ColumnExporterRepo columnExporterRepo;
     private final Mapper<List<Map<String, String>>> mapper;
     private final CountMapper countMapper;
     private final FullRepoHelper<Map<String, String>> fullRepoHelper;
 
 
-    public TableRepoImpl(ColumnExporter columnExporter, @Qualifier("tableMapper") Mapper<List<Map<String, String>>> mapper, CountMapper countMapper, FullRepoHelper<Map<String, String>> fullRepoHelper) {
-        this.columnExporter = columnExporter;
+    public TableRepoImpl(ColumnExporterRepo columnExporterRepo, @Qualifier("tableMapper") Mapper<List<Map<String, String>>> mapper, CountMapper countMapper, FullRepoHelper<Map<String, String>> fullRepoHelper) {
+        this.columnExporterRepo = columnExporterRepo;
         this.mapper = mapper;
         this.countMapper = countMapper;
         this.fullRepoHelper = fullRepoHelper;
@@ -47,7 +47,7 @@ public class TableRepoImpl implements TableRepo {
                 .builder()
                 .filename(fileName)
                 .tableName(tableName)
-                .models(columnExporter.exportDataModel(tableName))
+                .models(columnExporterRepo.exportDataModel(tableName))
                 .build();
 
         mapper.setKeys(tableModel.getModels().stream().map(DataModel::getKey).collect(Collectors.toList()));

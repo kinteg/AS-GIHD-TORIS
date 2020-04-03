@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.parser.file;
+package ru.iac.ASGIHDTORIS.parser.file.fixer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.RandomStringGenerator;
@@ -12,12 +12,6 @@ import java.util.List;
 @Slf4j
 public class ColumnCreator {
 
-    private static final RandomStringGenerator generator =
-            new RandomStringGenerator
-                    .Builder()
-                    .withinRange('a', 'z')
-                    .build();
-
     public static List<DataModel> createColumns(List<String> nameColumns) {
         List<DataModel> models = new ArrayList<>();
         Validator validator = new ColumnValidator();
@@ -26,7 +20,7 @@ public class ColumnCreator {
 
             String name = nameColumns.get(i).replaceAll("\uFEFF", "").trim();
 
-            if (validator.isValid(name)) {
+            if (!validator.isValid(name)) {
                 name = generator.generate(10);
             }
 
@@ -43,5 +37,11 @@ public class ColumnCreator {
 
         return models;
     }
+
+    private static final RandomStringGenerator generator =
+            new RandomStringGenerator
+                    .Builder()
+                    .withinRange('a', 'z')
+                    .build();
 
 }

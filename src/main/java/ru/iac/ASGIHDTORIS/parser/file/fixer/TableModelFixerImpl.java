@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.parser.file;
+package ru.iac.ASGIHDTORIS.parser.file.fixer;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.RandomStringGenerator;
@@ -11,12 +11,12 @@ import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
 import java.io.File;
 import java.util.List;
 
-public class TableModelFixer {
+public class TableModelFixerImpl implements TableModelFixer {
 
     private final Validator tableNameValidator;
     private final RandomStringGenerator generator;
 
-    public TableModelFixer() {
+    public TableModelFixerImpl() {
         this.tableNameValidator = new TableNameValidator();
         generator = new RandomStringGenerator
                 .Builder()
@@ -24,6 +24,7 @@ public class TableModelFixer {
                 .build();
     }
 
+    @Override
     public TableModel fixTableModel(File file, TableModel tableModel, Reader reader) throws Exception {
 
         if (tableModel.getModels() == null) {

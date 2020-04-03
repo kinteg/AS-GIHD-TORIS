@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.db.sender;
+package ru.iac.ASGIHDTORIS.spring.repo.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -6,6 +6,7 @@ import ru.iac.ASGIHDTORIS.common.factory.ReaderFactory;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
+import ru.iac.ASGIHDTORIS.spring.repo.SenderRepo;
 
 import java.io.File;
 import java.sql.Connection;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @Slf4j
-public class SenderImpl implements Sender {
+public class SenderRepoImpl implements SenderRepo {
 
     private final String SQL_INSERT =
             "INSERT INTO ${table} (${keys}) VALUES (${values}) ";
@@ -33,7 +34,7 @@ public class SenderImpl implements Sender {
 
     private final Connection connection;
 
-    public SenderImpl(Connection connection) {
+    public SenderRepoImpl(Connection connection) {
         this.connection = connection;
     }
 

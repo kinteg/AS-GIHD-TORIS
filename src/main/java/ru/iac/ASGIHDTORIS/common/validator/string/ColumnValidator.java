@@ -16,13 +16,13 @@ public class ColumnValidator implements Validator<String> {
     }
 
     private boolean isTarget(String name) {
-        return !name.matches("^[a-zA-Zа-яА-Я]+[_0-9a-zA-Zа-яА-Я ]*");
+        return name.matches("^[a-zA-Zа-яА-Я]+[_0-9a-zA-Zа-яА-Я ]*");
     }
 
     private boolean isNormalSize(String name) {
         int length = name.length();
 
-        return isMin(length) || isMax(length);
+        return !isMin(length) && !isMax(length);
     }
 
     private boolean isMin(int length) {

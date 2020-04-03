@@ -1,4 +1,6 @@
-package ru.iac.ASGIHDTORIS.parser.file.reader;
+package ru.iac.ASGIHDTORIS.parser.file.reader.impl;
+
+import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -3,7 +3,7 @@ package ru.iac.ASGIHDTORIS.spring.service.table;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
-import ru.iac.ASGIHDTORIS.db.creator.Creator;
+import ru.iac.ASGIHDTORIS.spring.repo.CreatorRepo;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
@@ -17,12 +17,12 @@ public class TableCreatorServiceImpl implements TableCreatorService {
 
     private final PatternRepo patternRepo;
     private final PatternTableRepo patternTableRepo;
-    private final Creator creator;
+    private final CreatorRepo creatorRepo;
 
-    public TableCreatorServiceImpl(PatternRepo patternRepo, PatternTableRepo patternTableRepo, Creator creator) {
+    public TableCreatorServiceImpl(PatternRepo patternRepo, PatternTableRepo patternTableRepo, CreatorRepo creatorRepo) {
         this.patternRepo = patternRepo;
         this.patternTableRepo = patternTableRepo;
-        this.creator = creator;
+        this.creatorRepo = creatorRepo;
     }
 
     @Override
@@ -39,10 +39,10 @@ public class TableCreatorServiceImpl implements TableCreatorService {
     }
 
     private boolean createTable(TableModel tableModel) {
-        boolean result = creator.createTable(tableModel);
+        boolean result = creatorRepo.createTable(tableModel);
 
         try {
-            creator.close();
+            creatorRepo.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }

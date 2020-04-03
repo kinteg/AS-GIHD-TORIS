@@ -1,8 +1,9 @@
-package ru.iac.ASGIHDTORIS.parser.file.reader;
+package ru.iac.ASGIHDTORIS.parser.file.reader.impl;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
+import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
 
 import java.io.IOException;
 import java.util.Arrays;

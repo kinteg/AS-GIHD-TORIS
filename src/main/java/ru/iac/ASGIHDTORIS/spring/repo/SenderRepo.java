@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.db.sender;
+package ru.iac.ASGIHDTORIS.spring.repo;
 
 import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
@@ -6,7 +6,7 @@ import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import java.io.File;
 
 @Repository
-public interface Sender extends AutoCloseable {
+public interface SenderRepo extends AutoCloseable {
 
     boolean insert(File file, TableModel tableModel);
 

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
-import ru.iac.ASGIHDTORIS.db.exporter.column.ColumnExporter;
-import ru.iac.ASGIHDTORIS.db.sender.Sender;
+import ru.iac.ASGIHDTORIS.spring.repo.ColumnExporterRepo;
+import ru.iac.ASGIHDTORIS.spring.repo.SenderRepo;
 
 import java.io.File;
 import java.util.List;
@@ -13,12 +13,12 @@ import java.util.List;
 @Service
 public class FileSenderServiceImpl implements FileSenderService {
 
-    private final ColumnExporter columnCreator;
-    private final Sender sender;
+    private final ColumnExporterRepo columnCreator;
+    private final SenderRepo senderRepo;
 
-    public FileSenderServiceImpl(@Qualifier("postgreSqlColumnExporter") ColumnExporter columnCreator, Sender sender) {
+    public FileSenderServiceImpl(@Qualifier("postgreSqlColumnExporterRepo") ColumnExporterRepo columnCreator, SenderRepo senderRepo) {
         this.columnCreator = columnCreator;
-        this.sender = sender;
+        this.senderRepo = senderRepo;
     }
 
     @Override
@@ -31,6 +31,6 @@ public class FileSenderServiceImpl implements FileSenderService {
                 .tableName(name)
                 .build();
 
-        return sender.insert(file, tableModel);
+        return senderRepo.insert(file, tableModel);
     }
 }

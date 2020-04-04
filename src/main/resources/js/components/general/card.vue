@@ -161,6 +161,23 @@
                             <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
                             <div class="el-upload__tip" slot="tip">Выберите файл для загрузки</div>
                         </el-upload>
+                        <el-collapse v-for="oneTable in table">
+                            <el-collapse-item :title="oneTable.tableModel.tableName" >
+                                <el-form v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
+                                    <el-form-item label="Approved by">
+                                        <el-input v-model="pole.key" placeholder="Approved by"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="Activity zone">
+                                        <el-autocomplete
+                                                class="inline-input"
+                                                v-model="pole.type"
+                                                :fetch-suggestions="querySearch"
+                                                placeholder="Please Input"
+                                        ></el-autocomplete>
+                                    </el-form-item>
+                                </el-form>
+                            </el-collapse-item>
+                        </el-collapse>
                     </div>
                 </el-tab-pane>
             </el-tabs>
@@ -257,9 +274,32 @@
             }
         },
         methods:{
+            querySearch(queryString, cb) {
+                let links = this.links;
+                let results = queryString ? links.filter(this.createFilter(queryString)) : links;
+                // call callback function to return suggestions
+                cb(results);
+            },
+            createFilter(queryString) {
+                return (link) => {
+                    return (link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                };
+            },
+            loadAll() {
+                return [
+                    { "value": "integer" },
+                    { "value": "bigint" },
+                    { "value": "real" },
+                    { "value": "double precision" },
+                    { "value": "time" },
+                    { "value": "date" },
+                    { "value": "timestamp" },
+                    { "value": "text" }
+                ];
+            },
+
             onChange(file, fileList) {
                 let formData = new FormData();
-                console.log(file);
                 formData.append("file",file.raw);
                 AXIOS.post("fileLoader/firstUpload/",
                     formData,
@@ -268,6 +308,7 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
+                    this.table = response.data;
                     console.log(response.data);
                 });
             },
@@ -355,6 +396,7 @@
                 console.log(response.data);
                 this.patternTableData = response.data;
             });
+            this.links = this.loadAll();
         }
     }
 </script>

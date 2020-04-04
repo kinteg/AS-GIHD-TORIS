@@ -121,7 +121,7 @@
                         this.noticeError('Ошибка при создании шаблона.');
                     } else {
                         console.log(this.pattern.sourceId);
-                        this.noticeSuccess('Шаблон "' + response.data.name + '" успешно создан.');
+                        this.noticeSuccess('Шаблон"' + response.data.name + '" успешно создан.');
                     }
                 });
             },
@@ -137,6 +137,7 @@
             noticeSuccess(message) {
                 this.$notify({
                     title: 'Успешно',
+                    dangerouslyUseHTMLString: true,
                     message: message,
                     type: 'success',
                 });

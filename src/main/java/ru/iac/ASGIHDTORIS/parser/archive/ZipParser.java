@@ -1,6 +1,7 @@
 package ru.iac.ASGIHDTORIS.parser.archive;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.archivers.sevenz.SevenZFile;
 import ru.iac.ASGIHDTORIS.common.TargetFiles;
 
 import java.io.File;
@@ -16,8 +17,8 @@ import java.util.zip.ZipInputStream;
 @Slf4j
 public class ZipParser implements ArchiveParser {
 
-    List<File> files;
-    byte[] buffer;
+    private byte[] buffer;
+    private ZipInputStream zis;
 
     public ZipParser() {
         buffer = new byte[1024];
@@ -29,44 +30,28 @@ public class ZipParser implements ArchiveParser {
     }
 
     private List<File> unzipFiles(File zip) throws IOException {
-        zip.deleteOnExit();
-        files = new ArrayList<>();
+        List<File> files = new ArrayList<>();
 
-        ZipInputStream zis = new ZipInputStream(new FileInputStream(zip), StandardCharsets.UTF_8);
+        zis = new ZipInputStream(new FileInputStream(zip), StandardCharsets.UTF_8);
+
         ZipEntry zipEntry;
-
         while ((zipEntry = zis.getNextEntry()) != null) {
             if (TargetFiles.isTargetFile(zipEntry.getName().toLowerCase())) {
                 files.add(createFile(zipEntry.getName(), zis));
             }
         }
 
-        exist(zis, zip);
-
         return files;
     }
 
     private File createFile(String name, ZipInputStream zis) throws IOException {
-        File newFile = new File(name);
-        newFile.deleteOnExit();
-
-        FileOutputStream fos = new FileOutputStream(newFile);
-
-        int len;
-
-        while ((len = zis.read(buffer)) > 0) {
-            fos.write(buffer, 0, len);
-        }
-
-        fos.close();
-
-        return newFile;
+        FileCreator fileCreator = new FileCreatorImpl();
+        return fileCreator.getFile(name, zis.read(buffer), buffer);
     }
 
-    private void exist(ZipInputStream zis, File zip) throws IOException {
+    @Override
+    public void close() throws Exception {
         zis.closeEntry();
         zis.close();
-        zip.delete();
     }
-
 }

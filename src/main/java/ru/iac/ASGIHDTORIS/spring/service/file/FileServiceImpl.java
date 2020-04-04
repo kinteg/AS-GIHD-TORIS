@@ -31,9 +31,10 @@ public class FileServiceImpl implements FileService {
                     files = Collections.emptyList();
                 } else {
                     files = parser.getFiles(file);
+                    parser.close();
                 }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 log.error(e.getMessage());
                 files = Collections.emptyList();
             } finally {

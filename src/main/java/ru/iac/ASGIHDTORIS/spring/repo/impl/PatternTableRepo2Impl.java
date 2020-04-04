@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternTableModel;
+import ru.iac.ASGIHDTORIS.spring.component.DataQueryHelper;
 import ru.iac.ASGIHDTORIS.spring.component.FullRepoHelper;
 import ru.iac.ASGIHDTORIS.spring.component.Mapper.PatternTableMapper;
 import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
@@ -24,11 +25,13 @@ public class PatternTableRepo2Impl implements PatternTableRepo2 {
     private final PatternTableMapper patternTableMapper;
     private final CountMapper countMapper;
     private final FullRepoHelper<PatternTable> fullRepoHelper;
+    private final DataQueryHelper dataQueryHelper;
 
-    public PatternTableRepo2Impl(PatternTableMapper patternTableMapper, CountMapper countMapper, FullRepoHelper<PatternTable> fullRepoHelper) {
+    public PatternTableRepo2Impl(PatternTableMapper patternTableMapper, CountMapper countMapper, FullRepoHelper<PatternTable> fullRepoHelper, DataQueryHelper dataQueryHelper) {
         this.patternTableMapper = patternTableMapper;
         this.countMapper = countMapper;
         this.fullRepoHelper = fullRepoHelper;
+        this.dataQueryHelper = dataQueryHelper;
     }
 
     @Override
@@ -69,10 +72,10 @@ public class PatternTableRepo2Impl implements PatternTableRepo2 {
             values.add(" source_id = :sourceId");
             params.addValue("sourceId",  + pattern.getSourceId());
         }
-        fullRepoHelper.createDataQuery(pattern.getHelpModel());
+        dataQueryHelper.createDataQuery(pattern.getHelpModel());
 
-        values.addAll(fullRepoHelper.getValues());
-        params.addValues(fullRepoHelper.getParams().getValues());
+        values.addAll(dataQueryHelper.getValues());
+        params.addValues(dataQueryHelper.getParams().getValues());
 
         return (values.size() != 0 ? " WHERE " : "") +
                 String.join(" AND ", values);

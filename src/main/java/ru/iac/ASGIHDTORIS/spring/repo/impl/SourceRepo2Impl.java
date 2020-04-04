@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
+import ru.iac.ASGIHDTORIS.spring.component.DataQueryHelper;
 import ru.iac.ASGIHDTORIS.spring.component.FullRepoHelper;
 import ru.iac.ASGIHDTORIS.spring.component.Mapper.Mapper;
 import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
@@ -27,11 +28,13 @@ public class SourceRepo2Impl implements SourceRepo2 {
     private final Mapper<List<Source>> sourceMapper;
     private final CountMapper countMapper;
     private final FullRepoHelper<Source> fullRepoHelper;
+    private final DataQueryHelper dataQueryHelper;
 
-    public SourceRepo2Impl(@Qualifier("sourceMapper") Mapper<List<Source>> sourceMapper, CountMapper countMapper, FullRepoHelper<Source> fullRepoHelper) {
+    public SourceRepo2Impl(@Qualifier("sourceMapper") Mapper<List<Source>> sourceMapper, CountMapper countMapper, FullRepoHelper<Source> fullRepoHelper, DataQueryHelper dataQueryHelper) {
         this.sourceMapper = sourceMapper;
         this.countMapper = countMapper;
         this.fullRepoHelper = fullRepoHelper;
+        this.dataQueryHelper = dataQueryHelper;
     }
 
     @Override
@@ -105,10 +108,10 @@ public class SourceRepo2Impl implements SourceRepo2 {
             values.add(" data_source ILIKE :dataSource");
             params.addValue("dataSource", "%" + source.getDataSource() + "%");
         }
-        fullRepoHelper.createDataQuery(source.getHelpModel());
+        dataQueryHelper.createDataQuery(source.getHelpModel());
 
-        values.addAll(fullRepoHelper.getValues());
-        params.addValues(fullRepoHelper.getParams().getValues());
+        values.addAll(dataQueryHelper.getValues());
+        params.addValues(dataQueryHelper.getParams().getValues());
 
         return (values.size() != 0 ? " WHERE " : "") +
                 String.join(" AND ", values);

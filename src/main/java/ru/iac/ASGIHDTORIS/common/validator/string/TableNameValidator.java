@@ -26,7 +26,7 @@ public class TableNameValidator implements Validator<String> {
     }
 
     private boolean isCorrectName(String name) {
-        return name.matches("^[A-ZА-Яa-zа-я][A-ZА-Яa-zа-я_0-9]+");
+        return name.matches("^[A-Za-zА-Яа-я][A-Za-z0-9А-Яа-я_]+");
     }
 
 }

@@ -3,18 +3,18 @@ create sequence hibernate_sequence start 1 increment 1;
 create table if not exists source
 (
     id                int8 not null,
-    name              varchar(255),
-    long_name         varchar(255),
-    short_name        varchar(255),
-    description       varchar(500),
-    add_description   varchar(255),
-    scope             varchar(255),
-    periodicity       varchar(255),
-    renewal_period    varchar(255),
-    type              varchar(255),
-    tags              varchar(255),
-    provider_link     varchar(255),
-    data_source       varchar(255),
+    name              text,
+    long_name         text,
+    short_name        text,
+    description       text,
+    add_description   text,
+    scope             text,
+    periodicity       text,
+    renewal_period    text,
+    type              text,
+    tags              text,
+    provider_link     text,
+    data_source       text,
     archive           boolean,
     date_creation     timestamp,
     date_deactivation timestamp,
@@ -27,13 +27,13 @@ create table if not exists source
 create table if not exists pattern
 (
     id                 int8 not null,
-    description        varchar(255),
-    direction          varchar(255),
+    description        text,
+    direction          text,
     file_count         integer,
     archive_file_count integer,
-    management         varchar(255),
+    management         text,
     archive            boolean,
-    name               varchar(255),
+    name               text,
     source_id          int8 not null,
     date_creation      timestamp,
     date_deactivation  timestamp,
@@ -48,8 +48,8 @@ create table if not exists pattern
 create table pattern_table
 (
     id                int8 not null,
-    name_file         varchar(255),
-    name_table        varchar(255),
+    name_file         text,
+    name_table        text,
     source_id         int8 not null,
     pattern_id        int8 not null,
     date_creation     timestamp,
@@ -66,15 +66,66 @@ create table pattern_table
         on update cascade
 );
 
+
+
+create table errors
+(
+    id    int8 not null,
+    name  text,
+    error text not null,
+    error_status text not null,
+    primary key (id),
+    unique (error)
+);
+
+create table statuses
+(
+    id     int8 not null,
+    name   text,
+    status text not null,
+    primary key (id),
+    unique (status)
+);
+
+create table objects
+(
+    id     int8 not null,
+    name   text,
+    object text not null,
+    primary key (id),
+    unique (object)
+);
+
+create table actions
+(
+    id     int8 not null,
+    name   text,
+    action text not null,
+    primary key (id),
+    unique (action)
+);
+
 create table logger
 (
     id            int8 not null,
-    action        text,
-    object        text,
-    status        text,
-    error         text,
+    action_id     int8 not null,
+    object_id     int8 not null,
+    status_id     int8 not null,
+    error_id      int8 not null,
     date_creation timestamp,
-    primary key (id)
+    primary key (id),
+    foreign key (action_id) references actions (id)
+        on delete cascade
+        on update cascade,
+    foreign key (object_id) references objects (id)
+        on delete cascade
+        on update cascade,
+    foreign key (status_id) references statuses (id)
+        on delete cascade
+        on update cascade,
+    foreign key (error_id) references errors (id)
+        on delete cascade
+        on update cascade
 );
 
 create table before_after

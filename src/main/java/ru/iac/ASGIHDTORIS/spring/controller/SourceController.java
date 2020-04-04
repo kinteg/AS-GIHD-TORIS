@@ -44,9 +44,10 @@ public class SourceController {
         source.setLastUpdate(LocalDateTime.now());
 
         return validator.isValid(source)
-                && !sourceRepo.existsByShortName(source.getShortName())
+                ? !sourceRepo.existsByShortName(source.getShortName())
                 ? sourceRepo.save(source)
-                : new Source();
+                : Source.builder().id(Long.parseLong("-2")).build()
+                : Source.builder().id(Long.parseLong("-1")).build();
     }
 
     @GetMapping("/checkName")
@@ -96,8 +97,13 @@ public class SourceController {
 
     @GetMapping("/archive/{id}")
     public Source archiveSource(@PathVariable Long id) {
+        if (id == null) {
+            return Source.builder().id((long) -4).build();
 
-        if (id != null && sourceRepo.existsById(id)) {
+        } else if (!sourceRepo.existsById(id)) {
+            return Source.builder().id((long) -3).build();
+
+        } else {
             Source source = sourceRepo.findById((long) id);
             source.setIsArchive(true);
             source.setDateDeactivation(LocalDateTime.now());
@@ -107,14 +113,18 @@ public class SourceController {
             return source;
         }
 
-        return new Source();
     }
 
     @GetMapping("/deArchive/{id}")
     public Source deArchiveSource(@PathVariable Long id) {
+        if (id == null) {
+            return Source.builder().id((long) -4).build();
 
-        if (id != null && sourceRepo.existsById(id)) {
-            Source source = sourceRepo.findById((long)id);
+        } else if (!sourceRepo.existsById(id)) {
+            return Source.builder().id((long) -3).build();
+
+        } else {
+            Source source = sourceRepo.findById((long) id);
             source.setIsArchive(false);
             source.setDateActivation(LocalDateTime.now());
 
@@ -122,37 +132,38 @@ public class SourceController {
 
             return source;
         }
-
-        return new Source();
     }
 
     @PostMapping("/update")
     @ResponseBody
-    public Source update(@ModelAttribute Source source) {
+    public Source updateSource(@ModelAttribute Source source) {
+        if (source.getId() == null) {
+            return Source.builder().id((long) -4).build();
 
-        if (source.getId() != null
-                && sourceRepo.existsById(source.getId())
-                && validator.isValid(source)) {
+        } else if (!sourceRepo.existsById(source.getId())) {
+            return Source.builder().id((long) -3).build();
 
-            if (sourceRepo.existsByShortName(source.getName())
-                    && !sourceRepo.existsByShortNameAndId(source.getName(),
+        } else if (!validator.isValid(source)) {
+            return Source.builder().id((long) -1).build();
+
+        } else {
+            if (sourceRepo.existsByShortName(source.getShortName())
+                    && !sourceRepo.existsByShortNameAndId(
+                    source.getShortName(),
                     source.getId())) {
 
-                return new Source();
+                return Source.builder().id((long) -2).build();
             }
 
-            Source existPattern = sourceRepo.findById((long)source.getId());
+            Source existPattern = sourceRepo.findById((long) source.getId());
 
             source.setLastUpdate(LocalDateTime.now());
             source.setDateCreation(existPattern.getDateCreation());
             source.setDateActivation(existPattern.getDateActivation());
             source.setDateDeactivation(existPattern.getDateDeactivation());
 
-            return source;
+            return sourceRepo.save(source);
         }
-
-        return new Source();
     }
-
 
 }

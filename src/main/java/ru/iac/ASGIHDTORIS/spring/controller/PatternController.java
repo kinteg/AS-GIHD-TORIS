@@ -10,6 +10,7 @@ import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
+import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo2;
 
@@ -27,7 +28,11 @@ public class PatternController {
     private final PatternRepo patternRepo;
     private final PatternRepo2 patternRepo2;
 
-    public PatternController(@Qualifier("getPatternValidator") Validator<Pattern> patternValidator, PatternRepo patternRepo, PatternRepo2 patternRepo2) {
+    public PatternController(
+            @Qualifier("getPatternValidator") Validator<Pattern> patternValidator,
+            PatternRepo patternRepo,
+            PatternRepo2 patternRepo2) {
+
         this.patternValidator = patternValidator;
         this.patternRepo = patternRepo;
         this.patternRepo2 = patternRepo2;
@@ -46,7 +51,7 @@ public class PatternController {
         log.info(pattern.toString());
         return patternValidator.isValid(pattern)
                 ? patternRepo.save(pattern)
-                : new Pattern();
+                : Pattern.builder().id(Long.parseLong("-1")).build();
     }
 
     @GetMapping("/{id}")
@@ -127,24 +132,33 @@ public class PatternController {
 
     @GetMapping("/archive/{id}")
     public Pattern archivePattern(@PathVariable Long id) {
+        if (id == null) {
+            return Pattern.builder().id((long) -4).build();
 
-        if (id != null && patternRepo.existsById(id)) {
+        } else if (!patternRepo.existsById(id)) {
+            return Pattern.builder().id((long) -3).build();
+
+        } else {
             Pattern pattern = patternRepo.findById((long) id);
             pattern.setIsArchive(true);
-            pattern.setDateActivation(LocalDateTime.now());
+            pattern.setDateDeactivation(LocalDateTime.now());
 
             patternRepo.save(pattern);
 
             return pattern;
         }
-
-        return new Pattern();
     }
 
     @GetMapping("/deArchive/{id}")
     public Pattern deArchivePattern(@PathVariable Long id) {
 
-        if (id != null && patternRepo.existsById(id)) {
+        if (id == null) {
+            return Pattern.builder().id((long) -4).build();
+
+        } else if (!patternRepo.existsById(id)) {
+            return Pattern.builder().id((long) -3).build();
+
+        } else {
             Pattern pattern = patternRepo.findById((long) id);
             pattern.setIsArchive(false);
             pattern.setDateActivation(LocalDateTime.now());
@@ -153,17 +167,19 @@ public class PatternController {
 
             return pattern;
         }
-
-        return new Pattern();
     }
 
 
     @GetMapping("/archivePatterns/{sourceId}")
     public List<Pattern> archivePatterns(@PathVariable Long sourceId) {
 
-        if (sourceId != null &&
-                patternRepo.existsBySourceId(sourceId)) {
+        if (sourceId == null) {
+            return Collections.singletonList(Pattern.builder().id((long) -4).build());
 
+        } else if (!patternRepo.existsBySourceId(sourceId)) {
+            return Collections.singletonList(Pattern.builder().id((long) -3).build());
+
+        } else {
             List<Pattern> patterns = patternRepo
                     .findAllBySourceId(sourceId)
                     .stream()
@@ -173,19 +189,21 @@ public class PatternController {
                     })
                     .collect(Collectors.toList());
 
-            patternRepo.saveAll(patterns);
-
-            return patterns;
+            return patternRepo.saveAll(patterns);
         }
 
-        return Collections.emptyList();
     }
 
     @GetMapping("/deArchivePatterns/{sourceId}")
     public List<Pattern> deArchivePatterns(@PathVariable Long sourceId) {
 
-        if (sourceId != null &&
-                patternRepo.existsBySourceId(sourceId)) {
+        if (sourceId == null) {
+            return Collections.singletonList(Pattern.builder().id((long) -4).build());
+
+        } else if (!patternRepo.existsBySourceId(sourceId)) {
+            return Collections.singletonList(Pattern.builder().id((long) -3).build());
+
+        } else {
 
             List<Pattern> patterns = patternRepo
                     .findAllBySourceId(sourceId)
@@ -196,19 +214,22 @@ public class PatternController {
                     })
                     .collect(Collectors.toList());
 
-            patternRepo.saveAll(patterns);
-
-            return patterns;
+            return patternRepo.saveAll(patterns);
         }
-
-        return Collections.emptyList();
     }
 
     @PostMapping("/update")
     public Pattern update(@ModelAttribute Pattern pattern) {
-        log.info(pattern.toString());
-        if (patternRepo.existsById(pattern.getId())
-                && patternValidator.isValid(pattern)) {
+        if (pattern.getId() == null) {
+            return Pattern.builder().id((long) -4).build();
+
+        } else if (!patternRepo.existsById(pattern.getId())) {
+            return Pattern.builder().id((long) -3).build();
+
+        } else if (!patternValidator.isValid(pattern)) {
+            return Pattern.builder().id((long) -1).build();
+
+        } else {
 
             Pattern existPattern = patternRepo.findById((long)pattern.getId());
 
@@ -220,8 +241,6 @@ public class PatternController {
 
             return pattern;
         }
-
-        return new Pattern();
     }
 
 }

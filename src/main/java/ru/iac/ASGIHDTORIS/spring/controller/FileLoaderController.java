@@ -65,8 +65,10 @@ public class FileLoaderController {
         if (multipartFile == null) {
             return Collections.emptyList();
         } else {
+            log.info(multipartFile.getName());
             File file = fileService.convertFile(multipartFile);
-            return file != null ? firstParserService.getFullTable(file, limit) : Collections.emptyList();
+            log.info(file.getName());
+            return firstParserService.getFullTable(file, limit);
         }
 
     }

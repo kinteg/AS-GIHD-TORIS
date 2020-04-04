@@ -27,6 +27,7 @@ public class SevenZParser implements ArchiveParser {
     }
 
     private List<File> unzipFiles(File zip) throws IOException {
+        zip.deleteOnExit();
         List<File> files = new ArrayList<>();
 
         sevenZFile = new SevenZFile(zip);
@@ -34,16 +35,28 @@ public class SevenZParser implements ArchiveParser {
 
         while ((zipEntry = sevenZFile.getNextEntry()) != null) {
             if (TargetFiles.isTargetFile(zipEntry.getName())) {
-                files.add(createFile(zipEntry.getName()));
+                files.add(createFile(zipEntry.getName(), sevenZFile));
             }
         }
 
         return files;
     }
 
-    private File createFile(String name) throws IOException {
-        FileCreator fileCreator = new FileCreatorImpl();
-        return fileCreator.getFile(name, sevenZFile.read(buffer), buffer);
+    private File createFile(String name, SevenZFile sevenZFile) throws IOException {
+        File newFile = new File(name);
+        newFile.deleteOnExit();
+
+        FileOutputStream fos = new FileOutputStream(newFile);
+
+        int len;
+
+        while ((len = sevenZFile.read(buffer)) > 0) {
+            fos.write(buffer, 0, len);
+        }
+
+        fos.close();
+
+        return newFile;
     }
 
     @Override

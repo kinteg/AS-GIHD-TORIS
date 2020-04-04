@@ -21,6 +21,7 @@ public class TargetFiles {
     static {
         archiveList.add("zip");
         archiveList.add("7z");
+        archiveList.add("tar");
     }
 
     public static boolean isTargetFile(String filename) {

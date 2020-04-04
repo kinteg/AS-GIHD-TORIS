@@ -1,7 +1,6 @@
 package ru.iac.ASGIHDTORIS.parser.archive;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.compress.archivers.sevenz.SevenZFile;
 import ru.iac.ASGIHDTORIS.common.TargetFiles;
 
 import java.io.File;
@@ -30,11 +29,12 @@ public class ZipParser implements ArchiveParser {
     }
 
     private List<File> unzipFiles(File zip) throws IOException {
+        zip.deleteOnExit();
         List<File> files = new ArrayList<>();
 
         zis = new ZipInputStream(new FileInputStream(zip), StandardCharsets.UTF_8);
-
         ZipEntry zipEntry;
+
         while ((zipEntry = zis.getNextEntry()) != null) {
             if (TargetFiles.isTargetFile(zipEntry.getName().toLowerCase())) {
                 files.add(createFile(zipEntry.getName(), zis));
@@ -45,8 +45,20 @@ public class ZipParser implements ArchiveParser {
     }
 
     private File createFile(String name, ZipInputStream zis) throws IOException {
-        FileCreator fileCreator = new FileCreatorImpl();
-        return fileCreator.getFile(name, zis.read(buffer), buffer);
+        File newFile = new File(name);
+        newFile.deleteOnExit();
+
+        FileOutputStream fos = new FileOutputStream(newFile);
+
+        int len;
+
+        while ((len = zis.read(buffer)) > 0) {
+            fos.write(buffer, 0, len);
+        }
+
+        fos.close();
+
+        return newFile;
     }
 
     @Override

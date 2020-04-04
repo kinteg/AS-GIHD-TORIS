@@ -7,6 +7,7 @@ import ru.iac.ASGIHDTORIS.common.TargetFiles;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -34,19 +35,31 @@ public class TarParser implements ArchiveParser {
 
         zis = new TarArchiveInputStream(new FileInputStream(zip));
 
-        TarArchiveEntry zipEntry;
-        while ((zipEntry = zis.getNextTarEntry()) != null) {
-            if (TargetFiles.isTargetFile(zipEntry.getName().toLowerCase())) {
-                files.add(createFile(zipEntry.getName()));
+        TarArchiveEntry tarEntry;
+        while ((tarEntry = zis.getNextTarEntry()) != null) {
+            if (TargetFiles.isTargetFile(tarEntry.getName().toLowerCase())) {
+                files.add(createFile(tarEntry.getName(), zis));
             }
         }
 
         return files;
     }
 
-    private File createFile(String name) throws IOException {
-        FileCreator fileCreator = new FileCreatorImpl();
-        return fileCreator.getFile(name, zis.read(buffer), buffer);
+    private File createFile(String name, TarArchiveInputStream zis) throws IOException {
+        File newFile = new File(name);
+        newFile.deleteOnExit();
+
+        FileOutputStream fos = new FileOutputStream(newFile);
+
+        int len;
+
+        while ((len = zis.read(buffer)) > 0) {
+            fos.write(buffer, 0, len);
+        }
+
+        fos.close();
+
+        return newFile;
     }
 
     @Override

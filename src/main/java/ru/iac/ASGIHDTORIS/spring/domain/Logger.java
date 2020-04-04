@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Builder(toBuilder = true)
 @NoArgsConstructor
@@ -21,10 +19,22 @@ public class Logger {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String action;
-    private String status;
-    private String error;
+    @OneToOne
+    @JoinColumn(name = "action_id", referencedColumnName = "id")
+    private Actions actions;
 
-    private String object;
+    @OneToOne
+    @JoinColumn(name = "status_id", referencedColumnName = "id")
+    private Statuses statuses;
+
+    @OneToOne
+    @JoinColumn(name = "error_id", referencedColumnName = "id")
+    private Errors errors;
+
+    @OneToOne
+    @JoinColumn(name = "object_id", referencedColumnName = "id")
+    private Objects objects;
+
+    private LocalDateTime dateCreation;
 
 }

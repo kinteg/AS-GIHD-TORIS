@@ -5,25 +5,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Data
-public class BeforeAfter {
+public class Actions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String before;
-    private String after;
+    private String name;
+    private String action;
 
-    private Long loggerId;
+    @OneToOne(mappedBy = "actions")
+    private Logger logger;
 
 }

@@ -163,12 +163,17 @@
                         </el-upload>
                         <el-collapse v-for="oneTable in table">
                             <el-collapse-item :title="oneTable.tableModel.tableName" >
+                                <el-input style="padding-bottom: 10px;" v-model="oneTable.tableModel.tableName" placeholder="Название таблицы"></el-input>
                                 <el-form v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
-                                    <el-form-item label="Approved by">
+                                    <el-form-item >
+                                        <input :checked="pole.primary" type="radio" :id="oneTable.tableModel.tableName" :name="oneTable.tableModel.tableName"/>
+                                    </el-form-item>
+                                    <el-form-item >
                                         <el-input v-model="pole.key" placeholder="Approved by"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="Activity zone">
+                                    <el-form-item >
                                         <el-autocomplete
+                                                style="float: right"
                                                 class="inline-input"
                                                 v-model="pole.type"
                                                 :fetch-suggestions="querySearch"
@@ -178,6 +183,8 @@
                                 </el-form>
                             </el-collapse-item>
                         </el-collapse>
+                        <el-button @click="addTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
+
                     </div>
                 </el-tab-pane>
             </el-tabs>
@@ -327,7 +334,43 @@
             },
 
             addTable(){
+                for(let i = 0; i<this.table.length; i++){
+                    let oneTable = this.table[i];
+                    let key = [];
+                    let type = [];
+                    let primary = [];
+                    let model = oneTable.tableModel.models;
+                    let tableName = oneTable.tableModel.tableName;
+                    let fileName = oneTable.tableModel.fileName;
+                    for(let j = 0; j<model.length; j++){
+                        key.push(model[j].key);
+                        type.push(model[j].type);
+                        primary.push(model[j].primary);
+                    }
+                    console.log(key);
+                    console.log(type);
+                    console.log(primary);
+                    let formData = new FormData();
+                    formData.append("filename", fileName );
+                    formData.append("tableName", fileName );
+                    formData.append("filename", tableName );
+                    formData.append("names", key );
+                    formData.append("types", type );
+                    formData.append("primaries", primary );
+                    formData.append("patternId", this.patternId);
 
+                    AXIOS.post("/tableCreator/create",
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }
+                    ).then(response => {
+
+                    });
+
+                }
             },
 
             backUpdate(){

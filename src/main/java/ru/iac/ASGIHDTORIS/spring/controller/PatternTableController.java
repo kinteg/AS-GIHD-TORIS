@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Controller
 @RequestMapping("api/tableCreator/")
 @RestController
@@ -61,8 +62,11 @@ public class PatternTableController {
     @PostMapping("/create")
     @ResponseBody
     public boolean createPattern(
-            @RequestBody TableModel tableModel,
+            @RequestParam TableModel tableModel,
             @ModelAttribute DataModelList dataModelList,
+//           @RequestParam List<String> names,
+//           @RequestParam List<String> types,
+//           @RequestParam List<Boolean> primaries,
             @RequestParam Long patternId
     ) {
 
@@ -72,11 +76,12 @@ public class PatternTableController {
 
             return false;
         }
-
+//      DataModelList dataModelList = DataModelList.builder().names().types().primaries().build();
         dataModelCreator.setDataModel(dataModelList);
         List<DataModel> dataModels = dataModelCreator.getDataModel();
         tableModel.setModels(dataModels);
-
+        log.info(dataModels.toString());
+        log.info(dataModelList.toString());
         return tableCreatorService.addTable(tableModel, patternId);
     }
 

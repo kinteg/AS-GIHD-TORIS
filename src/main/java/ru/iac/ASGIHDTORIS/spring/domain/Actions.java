@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder(toBuilder = true)
 @NoArgsConstructor
@@ -21,7 +22,7 @@ public class Actions {
     private String name;
     private String action;
 
-    @OneToOne(mappedBy = "actions")
-    private Logger logger;
+    @OneToMany(mappedBy = "actions")
+    private List<Logger> logger;
 
 }

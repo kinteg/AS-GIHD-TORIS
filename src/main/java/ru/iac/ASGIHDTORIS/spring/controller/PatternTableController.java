@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 public class PatternTableController {
 
     private final TableRepo tableRepo;
-    private final PatternRepo patternRepo;
     private final DataModelCreator dataModelCreator;
     private final PatternTableRepo patternTableRepo;
     private final PatternTableRepo2 patternTableRepo2;
@@ -46,7 +45,7 @@ public class PatternTableController {
             DataModelCreator dataModelCreator,
             PatternTableRepo patternTableRepo,
             PatternTableRepo2 patternTableRepo2,
-            TableRepo tableRepo, PatternRepo patternRepo,
+            TableRepo tableRepo,
             @Qualifier("dataModelListValidator") Validator<DataModelList> dataModelListValidator,
             @Qualifier("patternIdValidator") Validator<Long> patternIdValidator) {
 
@@ -55,7 +54,6 @@ public class PatternTableController {
         this.patternTableRepo = patternTableRepo;
         this.patternTableRepo2 = patternTableRepo2;
         this.tableRepo = tableRepo;
-        this.patternRepo = patternRepo;
         this.dataModelListValidator = dataModelListValidator;
         this.patternIdValidator = patternIdValidator;
     }

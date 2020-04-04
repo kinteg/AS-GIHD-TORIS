@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder(toBuilder = true)
 @NoArgsConstructor
@@ -21,7 +22,7 @@ public class Objects {
     private String name;
     private String object;
 
-    @OneToOne(mappedBy = "objects")
-    private Logger logger;
+    @OneToMany(mappedBy = "objects")
+    private List<Logger> logger;
 
 }

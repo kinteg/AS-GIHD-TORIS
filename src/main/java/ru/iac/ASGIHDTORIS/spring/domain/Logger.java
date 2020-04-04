@@ -19,19 +19,19 @@ public class Logger {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "action_id", referencedColumnName = "id")
     private Actions actions;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     private Statuses statuses;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "error_id", referencedColumnName = "id")
     private Errors errors;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "object_id", referencedColumnName = "id")
     private Objects objects;
 

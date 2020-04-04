@@ -776,6 +776,8 @@
             });
 
             AXIOS.get("pattern/getAll/" + this.$route.params.id).then(response => {
+                this.pagination.totalPages = response.data.totalPages;
+                this.pagination.totalElements = response.data.totalElements;
                 this.patternData = response.data.content;
             })
         }

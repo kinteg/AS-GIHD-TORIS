@@ -2,31 +2,47 @@
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <p style="font-size: 20px">Не архивные шаблоны
             <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
-            <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
+            <el-dropdown style="float: right" :hide-on-click="false">
+                <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item><el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.name = !hidden.name">Навание</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.description = !hidden.description">Описание</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check3" @change="hidden.direction = !hidden.direction">Направление</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check4" @change="hidden.management = !hidden.management">Ответсвенный за ведение </el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check6" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check7" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check8" @change="hidden.dateActivation = !hidden.dateActivation">Дата активации</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check9" @change="hidden.lastUpdate = !hidden.lastUpdate">Последнее обновление</el-checkbox></el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+        </p>
         <div class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto; ">
                 <tr>
                     <th></th>
                     <th><el-checkbox ></el-checkbox></th>
-                    <th @click="sort('id')">Номер</th>
-                    <th @click="sort('name')">Навание</th>
-                    <th @click="sort('description')">Описание</th>
-                    <th @click="sort('direction')">Направление </th>
-                    <th @click="sort('management')">Ответсвенный за ведение </th>
-                    <th @click="sort('date_creation')">Дата создания</th>
-                    <th @click="sort('date_deactivation')">Дата деактивации</th>
-                    <th @click="sort('date_activation')">Дата активации</th>
-                    <th @click="sort('last_update')">Последнее обновление</th>
+                    <th v-if="hidden.id" @click="sort('id')">Номер</th>
+                    <th v-if="hidden.name" @click="sort('name')">Навание</th>
+                    <th v-if="hidden.description" @click="sort('description')">Описание</th>
+                    <th v-if="hidden.direction" @click="sort('direction')">Направление </th>
+                    <th v-if="hidden.management" @click="sort('management')">Ответсвенный за ведение </th>
+                    <th v-if="hidden.dateCreation" @click="sort('date_creation')">Дата создания</th>
+                    <th v-if="hidden.dateDeactivation" @click="sort('date_deactivation')">Дата деактивации</th>
+                    <th v-if="hidden.dateActivation" @click="sort('date_activation')">Дата активации</th>
+                    <th v-if="hidden.lastUpdate" @click="sort('last_update')">Последнее обновление</th>
                 </tr>
                 <tr>
                     <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
                     <td></td>
-                    <td><el-input placeholder="Please input" v-model="pattern.id"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="pattern.name"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="pattern.description"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="pattern.direction"></el-input></td>
-                    <td><el-input placeholder="Please input" v-model="pattern.management"></el-input></td>
-                    <td> <div class="block">
+                    <td v-if="hidden.id"><el-input placeholder="Please input" v-model="pattern.id"></el-input></td>
+                    <td v-if="hidden.name"><el-input placeholder="Please input" v-model="pattern.name"></el-input></td>
+                    <td v-if="hidden.description"><el-input placeholder="Please input" v-model="pattern.description"></el-input></td>
+                    <td v-if="hidden.direction"><el-input placeholder="Please input" v-model="pattern.direction"></el-input></td>
+                    <td v-if="hidden.management"><el-input placeholder="Please input" v-model="pattern.management"></el-input></td>
+                    <td v-if="hidden.dateCreation"> <div class="block">
                         <el-date-picker
                                 value-format="yyyy-MM-dd"
                                 v-model="pattern.dateCreation"
@@ -36,7 +52,7 @@
                                 end-placeholder="End date">
                         </el-date-picker>
                     </div></td>
-                    <td> <div class="block">
+                    <td v-if="hidden.dateDeactivation"> <div class="block">
                         <el-date-picker
                                 value-format="yyyy-MM-dd"
                                 v-model="pattern.dateDeactivation"
@@ -46,7 +62,7 @@
                                 end-placeholder="End date">
                         </el-date-picker>
                     </div></td>
-                    <td> <div class="block">
+                    <td v-if="hidden.dateActivation"> <div class="block">
                         <el-date-picker
                                 value-format="yyyy-MM-dd"
                                 v-model="pattern.dateActivation"
@@ -56,7 +72,7 @@
                                 end-placeholder="End date">
                         </el-date-picker>
                     </div></td>
-                    <td> <div class="block">
+                    <td v-if="hidden.lastUpdate"> <div class="block">
                         <el-date-picker
                                 value-format="yyyy-MM-dd"
                                 v-model="pattern.lastUpdate"
@@ -79,15 +95,15 @@
                          </span>
                     </td>
                     <td> <el-checkbox @change="check(pattern.id)"></el-checkbox></td>
-                    <td>{{pattern.id}}</td>
-                    <td>{{pattern.name}}</td>
-                    <td>{{pattern.description}}</td>
-                    <td>{{pattern.direction}}</td>
-                    <td>{{pattern.management}}</td>
-                    <td>{{pattern.dateCreation}}</td>
-                    <td>{{pattern.dateDeactivation}}</td>
-                    <td>{{pattern.dateActivation}}</td>
-                    <td>{{pattern.lastUpdate}}</td>
+                    <td v-if="hidden.id">{{pattern.id}}</td>
+                    <td v-if="hidden.name">{{pattern.name}}</td>
+                    <td v-if="hidden.description">{{pattern.description}}</td>
+                    <td v-if="hidden.direction">{{pattern.direction}}</td>
+                    <td v-if="hidden.management">{{pattern.management}}</td>
+                    <td v-if="hidden.dateCreation">{{pattern.dateCreation}}</td>
+                    <td v-if="hidden.dateDeactivation">{{pattern.dateDeactivation}}</td>
+                    <td v-if="hidden.dateActivation">{{pattern.dateActivation}}</td>
+                    <td v-if="hidden.lastUpdate">{{pattern.lastUpdate}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -157,6 +173,19 @@
                     totalPages: 0,
                     totalElements: 0,
                 },
+
+                hidden:{
+                    id: true,
+                    name: true,
+                    description: true,
+                    direction: true,
+                    management: true,
+                    dateCreation: true,
+                    dateDeactivation: true,
+                    dateActivation: true,
+                    lastUpdate: true,
+                },
+
                 pattern: {
                     check: [],
                     key: "id",
@@ -186,6 +215,18 @@
             }
         },
         methods: {
+            hiddenAll(){
+                document.getElementById("check").click();
+                document.getElementById("check1").click();
+                document.getElementById("check2").click();
+                document.getElementById("check3").click();
+                document.getElementById("check4").click();
+                document.getElementById("check6").click();
+                document.getElementById("check7").click();
+                document.getElementById("check8").click();
+                document.getElementById("check9").click();
+            },
+
             showCard(patternId){
                 router.push('card/'+ patternId);
             },
@@ -200,9 +241,9 @@
             },
 
             deArchiveSomePattern(){
-                if(this.source.check.length !== 0){
-                    for(let i = 0; i < this.source.check.length; i++){
-                        this.deArchivePattern(this.source.check[i]);
+                if(this.pattern.check.length !== 0){
+                    for(let i = 0; i < this.pattern.check.length; i++){
+                        this.deArchivePattern(this.pattern.check[i]);
                     }
                     this.updatePage();
                 } else {
@@ -211,9 +252,9 @@
             },
 
             deleteSomePattern() {
-                if(this.source.check.length !== 0){
-                    for(let i = 0; i < this.source.check.length; i++){
-                        this.deletePattern(this.source.check[i]);
+                if(this.pattern.check.length !== 0){
+                    for(let i = 0; i < this.pattern.check.length; i++){
+                        this.deletePattern(this.pattern.check[i]);
                     }
                     this.updatePage();
                 } else {

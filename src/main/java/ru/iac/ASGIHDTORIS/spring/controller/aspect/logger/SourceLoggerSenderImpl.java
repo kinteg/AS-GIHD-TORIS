@@ -2,22 +2,19 @@ package ru.iac.ASGIHDTORIS.spring.controller.aspect.logger;
 
 import org.springframework.stereotype.Component;
 import ru.iac.ASGIHDTORIS.spring.domain.*;
-import ru.iac.ASGIHDTORIS.spring.repo.ActionsRepo;
-import ru.iac.ASGIHDTORIS.spring.repo.ErrorsRepo;
-import ru.iac.ASGIHDTORIS.spring.repo.LoggerRepo;
-import ru.iac.ASGIHDTORIS.spring.repo.StatusesRepo;
+import ru.iac.ASGIHDTORIS.spring.repo.*;
 
 import java.time.LocalDateTime;
 
 @Component
-public class LoggerSenderImpl implements LoggerSender {
+public class SourceLoggerSenderImpl implements LoggerSender<Source> {
 
     private final LoggerRepo loggerRepo;
     private final ActionsRepo actionsRepo;
     private final ErrorsRepo errorsRepo;
     private final StatusesRepo statusesRepo;
 
-    public LoggerSenderImpl(LoggerRepo loggerRepo, ActionsRepo actionsRepo, ErrorsRepo errorsRepo, StatusesRepo statusesRepo) {
+    public SourceLoggerSenderImpl(LoggerRepo loggerRepo, ActionsRepo actionsRepo, ErrorsRepo errorsRepo, StatusesRepo statusesRepo) {
         this.loggerRepo = loggerRepo;
         this.actionsRepo = actionsRepo;
         this.errorsRepo = errorsRepo;
@@ -25,7 +22,7 @@ public class LoggerSenderImpl implements LoggerSender {
     }
 
     @Override
-    public void afterReturningCreate(Long id, Objects object) {
+    public void afterReturningCreate(Long id, Source object) {
         Errors error = errorCreator(id);
         Statuses status;
 
@@ -35,20 +32,20 @@ public class LoggerSenderImpl implements LoggerSender {
             status = statusesRepo.findById(5);
         }
 
-        Logger logger = Logger
+        SourceLogger sourceLogger = SourceLogger
                 .builder()
                 .errors(error)
                 .statuses(status)
-                .objects(object)
+                .source(object)
                 .actions(actionsRepo.findById(4))
                 .dateCreation(LocalDateTime.now())
                 .build();
 
-        loggerRepo.save(logger);
+        loggerRepo.save(sourceLogger);
     }
 
     @Override
-    public void afterReturningArchive(Long id, Objects object) {
+    public void afterReturningArchive(Long id, Source object) {
         Errors error = errorCreator(id);
         Statuses status;
 
@@ -58,20 +55,20 @@ public class LoggerSenderImpl implements LoggerSender {
             status = statusesRepo.findById(3);
         }
 
-        Logger logger = Logger
+        SourceLogger sourceLogger = SourceLogger
                 .builder()
                 .errors(error)
                 .statuses(status)
-                .objects(object)
+                .source(object)
                 .actions(actionsRepo.findById(2))
                 .dateCreation(LocalDateTime.now())
                 .build();
 
-        loggerRepo.save(logger);
+        loggerRepo.save(sourceLogger);
     }
 
     @Override
-    public void afterReturningDeArchive(Long id, Objects object) {
+    public void afterReturningDeArchive(Long id, Source object) {
         Errors error = errorCreator(id);
         Statuses status;
 
@@ -81,20 +78,20 @@ public class LoggerSenderImpl implements LoggerSender {
             status = statusesRepo.findById(4);
         }
 
-        Logger logger = Logger
+        SourceLogger sourceLogger = SourceLogger
                 .builder()
                 .errors(error)
                 .statuses(status)
-                .objects(object)
+                .source(object)
                 .actions(actionsRepo.findById(3))
                 .dateCreation(LocalDateTime.now())
                 .build();
 
-        loggerRepo.save(logger);
+        loggerRepo.save(sourceLogger);
     }
 
     @Override
-    public void afterReturningUpdate(Long id, Objects object) {
+    public void afterReturningUpdate(Long id, Source object) {
         Errors error = errorCreator(id);
         Statuses status;
 
@@ -104,16 +101,16 @@ public class LoggerSenderImpl implements LoggerSender {
             status = statusesRepo.findById(6);
         }
 
-        Logger logger = Logger
+        SourceLogger sourceLogger = SourceLogger
                 .builder()
                 .errors(error)
                 .statuses(status)
-                .objects(object)
+                .source(object)
                 .actions(actionsRepo.findById(5))
                 .dateCreation(LocalDateTime.now())
                 .build();
 
-        loggerRepo.save(logger);
+        loggerRepo.save(sourceLogger);
     }
 
 

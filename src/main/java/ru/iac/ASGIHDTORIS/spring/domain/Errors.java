@@ -24,6 +24,6 @@ public class Errors {
     private String errorStatus;
 
     @OneToMany(mappedBy = "errors")
-    private List<Logger> logger;
+    private List<SourceLogger> sourceLogger;
 
 }

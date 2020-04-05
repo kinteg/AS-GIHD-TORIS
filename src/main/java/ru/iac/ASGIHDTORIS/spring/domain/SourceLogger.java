@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Data
-public class Logger {
+public class SourceLogger {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,8 +32,8 @@ public class Logger {
     private Errors errors;
 
     @ManyToOne
-    @JoinColumn(name = "object_id", referencedColumnName = "id")
-    private Objects objects;
+    @JoinColumn(name = "source_id", referencedColumnName = "id")
+    private Source source;
 
     private LocalDateTime dateCreation;
 

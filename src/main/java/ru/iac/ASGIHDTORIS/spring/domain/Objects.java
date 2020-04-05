@@ -22,7 +22,4 @@ public class Objects {
     private String name;
     private String object;
 
-    @OneToMany(mappedBy = "objects")
-    private List<Logger> logger;
-
 }

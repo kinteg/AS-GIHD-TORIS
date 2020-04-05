@@ -70,9 +70,9 @@ create table pattern_table
 
 create table errors
 (
-    id    int8 not null,
-    name  text,
-    error text not null,
+    id           int8 not null,
+    name         text,
+    error        text not null,
     error_status text not null,
     primary key (id),
     unique (error)
@@ -105,19 +105,19 @@ create table actions
     unique (action)
 );
 
-create table logger
+create table source_logger
 (
     id            int8 not null,
     action_id     int8 not null,
-    object_id     int8 not null,
     status_id     int8 not null,
     error_id      int8 not null,
+    source_id     int8 not null,
     date_creation timestamp,
     primary key (id),
     foreign key (action_id) references actions (id)
         on delete cascade
         on update cascade,
-    foreign key (object_id) references objects (id)
+    foreign key (source_id) references source (id)
         on delete cascade
         on update cascade,
     foreign key (status_id) references statuses (id)
@@ -131,11 +131,11 @@ create table logger
 create table before_after
 (
     id        int8 not null,
-    logger_id int8 not null,
+    source_logger_id int8 not null,
     before    text,
     after     text,
     primary key (id),
-    foreign key (logger_id) references logger (id)
+    foreign key (source_logger_id) references source_logger (id)
         on delete cascade
         on update cascade
 );

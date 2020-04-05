@@ -23,6 +23,6 @@ public class Statuses {
     private String name;
 
     @OneToMany(mappedBy = "statuses")
-    private List<Logger> logger;
+    private List<SourceLogger> sourceLogger;
 
 }

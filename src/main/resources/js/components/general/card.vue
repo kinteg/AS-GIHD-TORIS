@@ -584,8 +584,9 @@
             },
 
             sendData(){
-                
-            }
+
+            },
+
             onChange(file, fileList) {
                 let formData = new FormData();
                 formData.append("file",file.raw);

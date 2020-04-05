@@ -67,8 +67,7 @@ public class TableCreatorServiceImpl implements TableCreatorService {
 
             patternTableRepo.save(patternTable);
 
-
-            if (pattern.getFileCount() == null) {
+            if (pattern.getFileCount() == null || pattern.getFileCount() == 0) {
                 pattern.setFileCount(1);
             } else {
                 pattern.setFileCount(pattern.getFileCount() + 1);

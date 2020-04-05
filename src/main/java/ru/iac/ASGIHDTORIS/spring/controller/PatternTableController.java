@@ -62,26 +62,19 @@ public class PatternTableController {
     @PostMapping("/create")
     @ResponseBody
     public boolean createPattern(
-            @RequestParam TableModel tableModel,
+            @ModelAttribute TableModel tableModel,
             @ModelAttribute DataModelList dataModelList,
-//           @RequestParam List<String> names,
-//           @RequestParam List<String> types,
-//           @RequestParam List<Boolean> primaries,
             @RequestParam Long patternId
     ) {
-
-        if (patternIdValidator.isValid(patternId)
+        if (!patternIdValidator.isValid(patternId)
                 || patternTableRepo.existsByNameTable(tableModel.getTableName())
                 || !dataModelListValidator.isValid(dataModelList)) {
 
             return false;
         }
-//      DataModelList dataModelList = DataModelList.builder().names().types().primaries().build();
         dataModelCreator.setDataModel(dataModelList);
         List<DataModel> dataModels = dataModelCreator.getDataModel();
         tableModel.setModels(dataModels);
-        log.info(dataModels.toString());
-        log.info(dataModelList.toString());
         return tableCreatorService.addTable(tableModel, patternId);
     }
 

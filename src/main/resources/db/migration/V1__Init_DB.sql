@@ -61,7 +61,7 @@ create table pattern_table
     foreign key (pattern_id) references pattern (id)
         on delete cascade
         on update cascade,
-    foreign key (source_id) references pattern (id)
+    foreign key (source_id) references source (id)
         on delete cascade
         on update cascade
 );

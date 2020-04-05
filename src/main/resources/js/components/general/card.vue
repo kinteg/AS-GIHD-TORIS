@@ -352,8 +352,7 @@
                     console.log(primary);
                     let formData = new FormData();
                     formData.append("filename", fileName );
-                    formData.append("tableName", fileName );
-                    formData.append("filename", tableName );
+                    formData.append("tableName", tableName );
                     formData.append("names", key );
                     formData.append("types", type );
                     formData.append("primaries", primary );

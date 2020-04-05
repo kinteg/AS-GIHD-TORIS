@@ -9,7 +9,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -24,12 +26,27 @@ public class ZipParser implements ArchiveParser {
     }
 
     @Override
+    public File getFile(File zip, String name) throws IOException {
+        zis = new ZipInputStream(new FileInputStream(zip), StandardCharsets.UTF_8);
+        ZipEntry zipEntry;
+
+        while ((zipEntry = zis.getNextEntry()) != null) {
+            if (TargetFiles.isTargetFile(zipEntry.getName().toLowerCase())
+                    && zipEntry.getName().toLowerCase().equals(name.toLowerCase())) {
+
+                return createFile(zipEntry.getName(), zis);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public List<File> getFiles(File zip) throws IOException {
         return unzipFiles(zip);
     }
 
     private List<File> unzipFiles(File zip) throws IOException {
-        zip.deleteOnExit();
         List<File> files = new ArrayList<>();
 
         zis = new ZipInputStream(new FileInputStream(zip), StandardCharsets.UTF_8);

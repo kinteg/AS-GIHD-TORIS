@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ArchiveParser extends AutoCloseable {
 
+    File getFile(File zip, String name) throws IOException;
+
     List<File> getFiles(File file) throws IOException;
 
 }

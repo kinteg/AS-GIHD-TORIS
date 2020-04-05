@@ -26,6 +26,21 @@ public class TarParser implements ArchiveParser {
     }
 
     @Override
+    public File getFile(File zip, String name) throws IOException {
+        zis = new TarArchiveInputStream(new FileInputStream(zip));
+
+        TarArchiveEntry tarEntry;
+        while ((tarEntry = zis.getNextTarEntry()) != null) {
+            if (TargetFiles.isTargetFile(tarEntry.getName().toLowerCase())
+                    && tarEntry.getName().toLowerCase().equals(name.toLowerCase())) {
+                return createFile(tarEntry.getName(), zis);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public List<File> getFiles(File zip) throws IOException {
         return unzipFiles(zip);
     }

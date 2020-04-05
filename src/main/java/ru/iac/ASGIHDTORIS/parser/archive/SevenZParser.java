@@ -22,12 +22,26 @@ public class SevenZParser implements ArchiveParser {
     }
 
     @Override
+    public File getFile(File zip, String name) throws IOException {
+        sevenZFile = new SevenZFile(zip);
+        SevenZArchiveEntry zipEntry;
+
+        while ((zipEntry = sevenZFile.getNextEntry()) != null) {
+            if (TargetFiles.isTargetFile(zipEntry.getName())
+                    && zipEntry.getName().toLowerCase().equals(name.toLowerCase())) {
+                return createFile(zipEntry.getName(), sevenZFile);
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public List<File> getFiles(File zip) throws IOException {
         return unzipFiles(zip);
     }
 
     private List<File> unzipFiles(File zip) throws IOException {
-        zip.deleteOnExit();
         List<File> files = new ArrayList<>();
 
         sevenZFile = new SevenZFile(zip);

@@ -33,7 +33,7 @@ public class PostgresqlCreatorRepo implements CreatorRepo {
     public boolean createTable(TableModel tableModel) {
         String query = createSql(tableModel);
         try (Statement stmt = connection.createStatement()) {
-            log.error(query);
+            log.info(query);
             stmt.execute(query);
         } catch (SQLException e) {
             log.error(e.getMessage());

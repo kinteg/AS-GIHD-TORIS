@@ -39,15 +39,8 @@ public class TableCreatorServiceImpl implements TableCreatorService {
     }
 
     private boolean createTable(TableModel tableModel) {
-        boolean result = creatorRepo.createTable(tableModel);
 
-        try {
-            creatorRepo.close();
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-
-        return result;
+        return creatorRepo.createTable(tableModel);
     }
 
         private boolean createPatternTable (TableModel tableModel,long id){

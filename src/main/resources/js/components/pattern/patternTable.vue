@@ -31,7 +31,7 @@
                     <th v-if="hidden.description" @click="sort('description')">Описание</th>
                     <th v-if="hidden.direction" @click="sort('direction')">Направление </th>
                     <th v-if="hidden.management" @click="sort('management')">Ответсвенный за ведение </th>
-                    <th v-if="hidden.archive" @click="sort('archive')">Архивность</th>
+                    <th v-if="hidden.isArchive" @click="sort('archive')">Архивность</th>
                     <th v-if="hidden.dateCreation" @click="sort('date_creation')">Дата создания</th>
                     <th v-if="hidden.dateDeactivation" @click="sort('date_deactivation')">Дата деактивации</th>
                     <th v-if="hidden.dateActivation" @click="sort('date_activation')">Дата активации</th>

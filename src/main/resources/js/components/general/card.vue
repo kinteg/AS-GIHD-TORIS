@@ -145,8 +145,112 @@
                         <el-button @click="addTableTab"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-plus"></el-button>
                     </p>
                     <div v-if="viewTable">
-                        view
-
+                        <div>
+                            <!--                                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
+                            <!--                                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
+                            <div class="horizontal-scroll-wrapper  rectangles">
+                                <table style="display: block; overflow-x: auto; ">
+                                    <tr>
+                                        <th></th>
+                                        <th><el-checkbox ></el-checkbox></th>
+                                        <th @click="sort('id')">Номер</th>
+                                        <th @click="sort('name_table')">Навание таблицы</th>
+                                        <th @click="sort('name_file')">Навание файла</th>
+                                        <th @click="sort('archive')">Архивность</th>
+                                        <th @click="sort('date_creation')">Дата создания</th>
+                                        <th @click="sort('date_deactivation')">Дата деактивации</th>
+                                        <th @click="sort('date_activation')">Дата активации</th>
+                                        <th @click="sort('last_update')">Последнее обновление</th>
+                                    </tr>
+                                    <tr>
+                                        <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
+                                        <td></td>
+                                        <td><el-input placeholder="Please input" v-model="patternTable.id"></el-input></td>
+                                        <td><el-input placeholder="Please input" v-model="patternTable.nameTable"></el-input></td>
+                                        <td><el-input placeholder="Please input" v-model="patternTable.nameFile"></el-input></td>
+                                        <td>
+                                            <el-select v-model="value" placeholder="Select">
+                                                <el-option
+                                                        v-for="item in options"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value">
+                                                </el-option>
+                                            </el-select>
+                                        </td>
+                                        <td> <div class="block">
+                                            <el-date-picker
+                                                    value-format="yyyy-MM-dd"
+                                                    v-model="patternTable.dateCreation"
+                                                    type="daterange"
+                                                    range-separator="To"
+                                                    start-placeholder="Start date"
+                                                    end-placeholder="End date">
+                                            </el-date-picker>
+                                        </div></td>
+                                        <td> <div class="block">
+                                            <el-date-picker
+                                                    value-format="yyyy-MM-dd"
+                                                    v-model="patternTable.dateDeactivation"
+                                                    type="daterange"
+                                                    range-separator="To"
+                                                    start-placeholder="Start date"
+                                                    end-placeholder="End date">
+                                            </el-date-picker>
+                                        </div></td>
+                                        <td> <div class="block">
+                                            <el-date-picker
+                                                    value-format="yyyy-MM-dd"
+                                                    v-model="patternTable.dateActivation"
+                                                    type="daterange"
+                                                    range-separator="To"
+                                                    start-placeholder="Start date"
+                                                    end-placeholder="End date">
+                                            </el-date-picker>
+                                        </div></td>
+                                        <td> <div class="block">
+                                            <el-date-picker
+                                                    value-format="yyyy-MM-dd"
+                                                    v-model="patternTable.lastUpdate"
+                                                    type="daterange"
+                                                    range-separator="To"
+                                                    start-placeholder="Start date"
+                                                    end-placeholder="End date">
+                                            </el-date-picker>
+                                        </div></td>
+                                    </tr>
+                                    <tbody v-for="table in patternTableData">
+                                    <tr>
+                                        <td>
+                                            <el-button @click="showOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                                            <span v-if="table.isArchive">
+                                                <el-button @click="deArchiveOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
+                                            </span>
+                                            <span v-else>
+                                                <el-button @click="deleteOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                                            </span>
+                                        </td>
+                                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>
+                                        <td>{{table.id}}</td>
+                                        <td>{{table.nameTable}}</td>
+                                        <td>{{table.nameFile}}</td>
+                                        <td>{{table.isArchive ? "Да" : "Нет"}}</td>
+                                        <td>{{table.dateCreation}}</td>
+                                        <td>{{table.dateDeactivation}}</td>
+                                        <td>{{table.dateActivation}}</td>
+                                        <td>{{table.lastUpdate}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <my-pagination
+                                    :page-size="pagination.pageSize"
+                                    :current-page="pagination.currentPage"
+                                    :totalPages="pagination.totalPages"
+                                    :totalElements="pagination.totalElements"
+                                    @onCurrentChange=""
+                                    @onSizeChange=""/>
+                        </div>
                     </div>
                     <div v-else-if="updateTable">
                         update
@@ -167,7 +271,7 @@
                                 <el-input style="padding-bottom: 10px;" v-model="oneTable.tableModel.tableName" placeholder="Название таблицы"></el-input>
                                 <el-form v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
                                     <el-form-item >
-                                        <input :checked="pole.primary" type="radio" :id="oneTable.tableModel.tableName" :name="oneTable.tableModel.tableName"/>
+                                        <input :checked="pole.primary" type="radio" :name="oneTable.tableModel.tableName"/>
                                     </el-form-item>
                                     <el-form-item >
                                         <el-input v-model="pole.key" placeholder="Approved by"></el-input>
@@ -182,9 +286,35 @@
                                         ></el-autocomplete>
                                     </el-form-item>
                                 </el-form>
+                                <h2>Предпросмотр</h2>
+                                <table style=" padding: 0 5px 0 0;">
+                                    <tr>
+                                        <th v-for="pole in oneTable.tableModel.models">{{pole.key}}</th>
+                                    </tr>
+                                    <tr v-for="value in oneTable.values">
+                                        <td v-for="oneValue in value">{{oneValue}}</td>
+                                    </tr>
+                                </table>
                             </el-collapse-item>
                         </el-collapse>
+                        <el-button @click="showTableTab" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
                         <el-button @click="addTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
+                    </div>
+                    <div v-else-if="showTable">
+                        <div class="horizontal-scroll-wrapper  rectangles">
+                            <el-button style="margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394; color: white;">Загрузить</el-button>
+
+                            <table style=" padding: 0 5px 0 0; overflow-x: auto; ">
+                                <tr>
+                                    <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
+                                </tr>
+                                <tr v-for="value in showOnlyOneTable.values">
+                                    <td v-for="oneValue in value.content">{{oneValue}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div v-else-if="sendDataTable">
 
                     </div>
                 </el-tab-pane>
@@ -195,39 +325,140 @@
 
 <script>
     import {AXIOS} from "../../AXIOS/http-common";
+    import MyPagination from "./pagination.vue";
 
     export default {
         name: "card",
+        components: {MyPagination},
         data(){
             return{
+                options: [{
+                    value: '',
+                    label: ''
+                }, {
+                    value: 'true',
+                    label: 'Да'
+                }, {
+                    value: false,
+                    label: 'Нет'
+                }],
+                value: '',
+                pickerOptions: {
+                    shortcuts: [{
+                        text: 'Last week',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: 'Last month',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: 'Last 3 months',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                pagination: {
+                    pageSize: 10,
+                    currentPage: 1,
+                    totalPages: 0,
+                    totalElements: 0,
+                },
+
+                hidden:{
+                    id: true,
+                    nameFile: true,
+                    nameTable: true,
+                    isArchive: true,
+                    dateCreation: true,
+                    dateDeactivation: true,
+                    dateActivation: true,
+                    lastUpdate: true,
+                },
+
                 table:[],
                 fileList:[],
                 labelPosition: "top",
                 activeName: "patternInfo",
                 patternData:"",
+                showOnlyOneTable:"",
                 patternTableData:"",
                 viewPattern: true,
                 viewTable: true,
                 updateTable: false,
+                sendDataTable: false,
                 createTable: false,
+                showTable: false,
                 patternId:"",
                 sourceId:"",
                 file:'',
+
                 pagination:{
                     pageSize: 10,
                     currentPage: 1,
                     totalPages: 0,
                     totalElements: 0,
                 },
+
+                pattern: {
+                    check: [],
+                    key: "id",
+                    sort: "",
+                    id: "",
+                    nameTable: "",
+                    fileCount: "",
+                    sourceId: "",
+                    archiveFileCount: "",
+                    description: "",
+                    direction: "",
+                    management: "",
+                    isArchive: "",
+                    dateCreation: "",
+                    dateCreation1: "",
+                    dateCreation2: "",
+                    dateDeactivation: "",
+                    dateDeactivation1: "",
+                    dateDeactivation2: "",
+                    dateActivation: "",
+                    dateActivation1: "",
+                    dateActivation2: "",
+                    lastUpdate: "",
+                    lastUpdate1: "",
+                    lastUpdate2: "",
+                },
+
                 patternTable:{
+                    check: [],
+                    key: "id",
+                    sort: "",
                     id:"",
                     nameTable:"",
                     nameFile:"",
                     isArchive: "",
                     dateCreation: "",
+                    dateCreation1: "",
+                    dateCreation2: "",
                     dateDeactivation: "",
+                    dateDeactivation1: "",
+                    dateDeactivation2: "",
                     dateActivation: "",
+                    dateActivation1: "",
+                    dateActivation2: "",
                     lastUpdate: "",
+                    lastUpdate1: "",
+                    lastUpdate2: "",
                 },
                 source:{
                     name:"",
@@ -282,17 +513,63 @@
             }
         },
         methods:{
+            deleteTable(id) {
+                AXIOS.get("tableCreator/archive/" + id).then(response => {
+                    if(response.data.name !== ""){
+                        this.notify('Успешно','Таблица была активирована','success');
+                        this.updatePage();
+                    } else {
+                        this.notify('Ошибка','Таблица не была активирована','error');
+                    }
+                });
+            },
+
+            showOneTable(id){
+                this.viewTable = false;
+                this.updateTable = false;
+                this.createTable = false;
+                this.showTable = true;
+                this.sendDataTable = false;
+                let formData = new FormData();
+                formData.append("id",id);
+                console.log(id);
+                AXIOS.post("tableCreator/getTable/",formData).then(response => {
+                    console.log(response.data);
+                    this.showOnlyOneTable = response.data;
+                });
+            },
+
+            deleteOneTable(id) {
+                this.deleteTable(id);
+            },
+
+            deArchiveTable(id){
+                AXIOS.get("tableCreator/deArchive/" + id).then(response => {
+                    if(response.data.name !== ""){
+                        this.notify('Успешно','Таблица была активирована','success');
+                        this.updatePage();
+                    } else {
+                        this.notify('Ошибка','Таблица не была активирована','error');
+                    }
+                });
+            },
+
+            deArchiveOneTable(id){
+                this.deArchiveTable(id);
+            },
+
             querySearch(queryString, cb) {
                 let links = this.links;
                 let results = queryString ? links.filter(this.createFilter(queryString)) : links;
-                // call callback function to return suggestions
                 cb(results);
             },
+
             createFilter(queryString) {
                 return (link) => {
                     return (link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
                 };
             },
+
             loadAll() {
                 return [
                     { "value": "integer" },
@@ -306,6 +583,9 @@
                 ];
             },
 
+            sendData(){
+                
+            }
             onChange(file, fileList) {
                 let formData = new FormData();
                 formData.append("file",file.raw);
@@ -332,6 +612,24 @@
                 this.viewTable = false;
                 this.updateTable = false;
                 this.createTable = true;
+                this.showTable = false;
+                this.sendDataTable = false;
+            },
+
+            showTableTab(){
+                this.$confirm('Вы уверены что хотите вернуться назад?', 'Назад', {
+                    confirmButtonText: 'Да',
+                    cancelButtonText: 'Нет',
+                    type: 'warning'
+                }).then(() => {
+                    this.viewTable = true;
+                    this.updateTable = false;
+                    this.createTable = false;
+                    this.showTable = false;
+                    this.sendDataTable = false;
+                }).catch(() => {
+                });
+
             },
 
             addTable(){
@@ -342,16 +640,16 @@
                     let primary = [];
                     let model = oneTable.tableModel.models;
                     let tableName = oneTable.tableModel.tableName;
-                    let fileName = oneTable.tableModel.fileName;
+                    let fileName = oneTable.tableModel.filename;
+
                     for(let j = 0; j<model.length; j++){
                         key.push(model[j].key);
                         type.push(model[j].type);
                         primary.push(model[j].primary);
                     }
-                    console.log(key);
-                    console.log(type);
-                    console.log(primary);
+
                     let formData = new FormData();
+
                     formData.append("filename", fileName );
                     formData.append("tableName", tableName );
                     formData.append("names", key );
@@ -415,7 +713,6 @@
                     }
                 ).then(response => {
                     if(response.data.name == null){
-                        console.log(this.pattern.sourceId);
                         this.notify("Ошибка","Ошибка при изменении шаблона.","error");
                     } else {
                         this.notify("Успешно",'Шаблон "' + response.data.name + '" успешно изменен.',"success");
@@ -423,11 +720,152 @@
                 });
             },
 
-            updatePage(){
+            updatePage() {
                 AXIOS.get("pattern/" + this.patternId).then(response => {
                     this.pattern = response.data;
                 });
-            }
+
+                if (this.patternTable.dateCreation !== null && this.patternTable.dateCreation !== "") {
+                    this.patternTable.dateCreation1 = this.patternTable.dateCreation[0];
+                    this.patternTable.dateCreation2 = this.patternTable.dateCreation[1];
+                } else {
+                    this.patternTable.dateCreation1 = "";
+                    this.patternTable.dateCreation2 = "";
+                }
+
+                if (this.patternTable.dateDeactivation !== null && this.patternTable.dateDeactivation !== "") {
+                    this.patternTable.dateDeactivation1 = this.patternTable.dateDeactivation[0];
+                    this.patternTable.dateDeactivation2 = this.patternTable.dateDeactivation[1];
+                } else {
+                    this.patternTable.dateDeactivation1 = "";
+                    this.patternTable.dateDeactivation2 = "";
+                }
+
+                if (this.patternTable.dateActivation !== null && this.patternTable.dateActivation !== "") {
+                    this.patternTable.dateActivation1 = this.patternTable.dateActivation[0];
+                    this.patternTable.dateActivation2 = this.patternTable.dateActivation[1];
+                } else {
+                    this.patternTable.dateActivation1 = "";
+                    this.patternTable.dateActivation2 = "";
+                }
+
+                if (this.patternTable.lastUpdate !== null && this.patternTable.lastUpdate !== "") {
+                    this.patternTable.lastUpdate1 = this.patternTable.lastUpdate[0];
+                    this.patternTable.lastUpdate2 = this.patternTable.lastUpdate[1];
+                } else {
+                    this.patternTable.lastUpdate1 = "";
+                    this.patternTable.lastUpdate2 = "";
+                }
+
+                let formData = new FormData();
+                formData.append("isArchive", this.value);
+                formData.append("sort", this.patternTable.sort);
+                formData.append("key", this.patternTable.key);
+                formData.append("id", this.patternTable.id);
+                formData.append("name", this.patternTable.nameTable);
+                formData.append("direction", this.patternTable.nameFile);
+                formData.append("dateCreation1", this.patternTable.dateCreation1);
+                formData.append("dateCreation2", this.patternTable.dateCreation2);
+                formData.append("dateDeactivation1", this.patternTable.dateDeactivation1);
+                formData.append("dateDeactivation2", this.patternTable.dateDeactivation2);
+                formData.append("dateActivation1", this.patternTable.dateActivation1);
+                formData.append("dateActivation2", this.patternTable.dateActivation2);
+                formData.append("lastUpdate1", this.patternTable.lastUpdate1);
+                formData.append("lastUpdate2", this.patternTable.lastUpdate2);
+                formData.append("size", this.pagination.pageSize);
+                formData.append("page", this.pagination.currentPage - 1);
+                AXIOS.post("/tableCreator/getAllSort/" + this.patternId,
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(response => {
+                    this.pagination.totalPages = response.data.totalPages;
+                    this.pagination.totalElements = response.data.totalElements;
+                    this.patternTableData = response.data.content;
+                })
+            },
+
+            sort(key){
+                if(this.patternTable.dateCreation !== null && this.patternTable.dateCreation !== "") {
+                    this.patternTable.dateCreation1 = this.patternTable.dateCreation[0];
+                    this.patternTable.dateCreation2 = this.patternTable.dateCreation[1];
+                } else {
+                    this.patternTable.dateCreation1 = "";
+                    this.patternTable.dateCreation2 = "";
+                }
+
+                if(this.patternTable.dateDeactivation !== null && this.patternTable.dateDeactivation !== "") {
+                    this.patternTable.dateDeactivation1 = this.patternTable.dateDeactivation[0];
+                    this.patternTable.dateDeactivation2 = this.patternTable.dateDeactivation[1];
+                } else {
+                    this.patternTable.dateDeactivation1 = "";
+                    this.patternTable.dateDeactivation2 = "";
+                }
+
+                if(this.patternTable.dateActivation !== null && this.patternTable.dateActivation !== "") {
+                    this.patternTable.dateActivation1 = this.patternTable.dateActivation[0];
+                    this.patternTable.dateActivation2 = this.patternTable.dateActivation[1];
+                } else {
+                    this.patternTable.dateActivation1 = "";
+                    this.patternTable.dateActivation2 = "";
+                }
+
+                if(this.patternTable.lastUpdate !== null && this.patternTable.lastUpdate !== "") {
+                    this.patternTable.lastUpdate1 = this.patternTable.lastUpdate[0];
+                    this.patternTable.lastUpdate2 = this.patternTable.lastUpdate[1];
+                } else {
+                    this.patternTable.lastUpdate1 = "";
+                    this.patternTable.lastUpdate2 = "";
+                }
+
+                if(this.patternTable.key === key ) {
+                    switch(this.patternTable.sort) {
+                        case "":
+                            this.patternTable.sort = "asc";
+                            break;
+                        case "asc":
+                            this.patternTable.sort = "desc";
+                            break;
+                        case "desc":
+                            this.patternTable.sort = "";
+                            break;
+                    }
+                }
+                else {
+                    this.patternTable.key = key;
+                    this.patternTable.sort = "asc";
+                }
+                let formData = new FormData();
+                formData.append("isArchive",this.value);
+                formData.append("sort",this.patternTable.sort);
+                formData.append("key",this.patternTable.key);
+                formData.append("id",this.patternTable.id);
+                formData.append("name",this.patternTable.nameTable);
+                formData.append("direction",this.patternTable.nameFile);
+                formData.append("dateCreation1",this.patternTable.dateCreation1);
+                formData.append("dateCreation2",this.patternTable.dateCreation2);
+                formData.append("dateDeactivation1",this.patternTable.dateDeactivation1);
+                formData.append("dateDeactivation2",this.patternTable.dateDeactivation2);
+                formData.append("dateActivation1",this.patternTable.dateActivation1);
+                formData.append("dateActivation2",this.patternTable.dateActivation2);
+                formData.append("lastUpdate1",this.patternTable.lastUpdate1);
+                formData.append("lastUpdate2",this.patternTable.lastUpdate2);
+                formData.append("size",this.pagination.pageSize);
+                formData.append("page",this.pagination.currentPage - 1);
+                AXIOS.post("/tableCreator/getAllSort/" + this.patternId,
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(response => {
+                    this.pagination.totalPages = response.data.totalPages;
+                    this.pagination.totalElements = response.data.totalElements;
+                    this.patternTableData = response.data.content;
+                })
+            },
 
         },
         mounted() {
@@ -440,8 +878,9 @@
                 });
             });
             AXIOS.get("tableCreator/getAll/" + this.patternId).then(response => {
-                console.log(response.data);
-                this.patternTableData = response.data;
+                this.pagination.totalPages = response.data.totalPages;
+                this.pagination.totalElements = response.data.totalElements;
+                this.patternTableData = response.data.content;
             });
             this.links = this.loadAll();
         }
@@ -449,5 +888,22 @@
 </script>
 
 <style scoped>
+    table, td, th {
+        border: 1px solid #d7d7d7;
+        text-align: center;
+    }
 
+    td{
+        padding: 10px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        padding: 10px;
+        height: 50px;
+    }
 </style>

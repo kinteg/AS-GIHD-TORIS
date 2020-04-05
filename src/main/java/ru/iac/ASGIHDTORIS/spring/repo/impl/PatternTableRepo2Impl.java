@@ -68,7 +68,7 @@ public class PatternTableRepo2Impl implements PatternTableRepo2 {
             values.add(" pattern_id = :patternId");
             params.addValue("patternId",  + pattern.getPatternId());
         }
-        if (pattern.getPatternId() != null) {
+        if (pattern.getSourceId() != null) {
             values.add(" source_id = :sourceId");
             params.addValue("sourceId",  + pattern.getSourceId());
         }

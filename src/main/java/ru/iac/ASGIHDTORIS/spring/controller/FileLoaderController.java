@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 public class FileLoaderController {
 
-    private final String DEFAULT_LIMIT = "15";
+    private final String DEFAULT_LIMIT = "5";
 
     private final FirstParserService firstParserService;
     private final ParserService parserService;

@@ -81,13 +81,14 @@ public class PatternTableController {
     @PostMapping("/getTable")
     public FullTableModelPage getTable(
             @RequestParam Long id,
-            @ModelAttribute SearchModel searchModel
+            @ModelAttribute SearchModel searchModel,
+            @PageableDefault Pageable pageable
     ) {
 
         if (patternTableRepo.existsById(id)) {
 
             PatternTable patternTable = patternTableRepo.findById((long) id);
-
+            searchModel.setPageable(pageable);
             return tableRepo.getTable(patternTable.getNameTable(), patternTable.getNameFile(), searchModel);
         }
 
@@ -105,7 +106,7 @@ public class PatternTableController {
         return patternTableRepo.findAll(pageable);
     }
 
-    @GetMapping("/getAllSort")
+    @PostMapping("/getAllSort")
     public Page<PatternTable> getAll(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
@@ -116,14 +117,15 @@ public class PatternTableController {
         return patternTableRepo.findAllByPatternId(patternId, pageable);
     }
 
-    @GetMapping("/getAllBySource/{sourceId}")
+    @PostMapping("/getAllBySource/{sourceId}")
     public Page<PatternTable> getAllBySource(@PageableDefault Pageable pageable, @PathVariable Long sourceId) {
         return patternTableRepo.findAllBySourceId(sourceId, pageable);
     }
 
-    @GetMapping("/getAllSort/{patternId}")
+    @PostMapping("/getAllSort/{patternId}")
     public Page<PatternTable> getAllWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
+        log.info(pattern.toString());
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 

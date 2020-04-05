@@ -78,7 +78,7 @@ public class FileLoaderController {
     public boolean sendData(
             @RequestParam(value = "file", required = false)
                     MultipartFile multipartFile,
-            @RequestParam(value = "name", required = false, defaultValue = "")
+            @RequestParam(value = "patternTableId", required = false, defaultValue = "")
                     Long id) {
 
         if (multipartFile == null || id == null || id < 0 || !patternTableRepo.existsById(id)) {

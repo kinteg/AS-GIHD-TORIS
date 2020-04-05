@@ -302,8 +302,16 @@
                     </div>
                     <div v-else-if="showTable">
                         <div class="horizontal-scroll-wrapper  rectangles">
-                            <el-button style="margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394; color: white;">Загрузить</el-button>
-
+                            <el-upload
+                                    class="upload-demo"
+                                    ref="upload"
+                                    action=""
+                                    :limit="1"
+                                    :on-change="sendData"
+                                    :auto-upload="false">
+                                <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
+                                <div class="el-upload__tip" slot="tip">Загрузить данные в таблицу</div>
+                            </el-upload>
                             <table style=" padding: 0 5px 0 0; overflow-x: auto; ">
                                 <tr>
                                     <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
@@ -387,7 +395,7 @@
                     dateActivation: true,
                     lastUpdate: true,
                 },
-
+                patternTableId:"",
                 table:[],
                 fileList:[],
                 labelPosition: "top",
@@ -525,6 +533,7 @@
             },
 
             showOneTable(id){
+                this.patternTableId = id;
                 this.viewTable = false;
                 this.updateTable = false;
                 this.createTable = false;
@@ -583,8 +592,25 @@
                 ];
             },
 
-            sendData(){
-
+            sendData(file, fileList){
+                let formData = new FormData();
+                formData.append("file",file.raw);
+                formData.append("patternTableId",this.patternTableId);
+                AXIOS.post("fileLoader/firstUpload/",
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(response => {
+                    console.log(response);
+                });
+                let tableData = new FormData();
+                tableData.append("id",this.patternTableId);
+                AXIOS.post("tableCreator/getTable/",tableData).then(response => {
+                    console.log(response.data);
+                    this.showOnlyOneTable = response.data;
+                });
             },
 
             onChange(file, fileList) {

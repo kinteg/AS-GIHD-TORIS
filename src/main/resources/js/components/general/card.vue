@@ -146,6 +146,7 @@
                     </p>
                     <div v-if="viewTable">
                         view
+
                     </div>
                     <div v-else-if="updateTable">
                         update
@@ -366,7 +367,11 @@
                             }
                         }
                     ).then(response => {
-
+                        if(response === false) {
+                            this.notify("Ошибка","Таблица " + tableName + "не была создана", "error");
+                        } else {
+                            this.notify("Успешно","Таблица " + tableName + " была создана", "success");
+                        }
                     });
 
                 }

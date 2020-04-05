@@ -44,7 +44,35 @@ public class FileSenderServiceImpl implements FileSenderService {
                 .tableName(patternTable.getNameTable())
                 .build();
 
+        file.delete();
+        targetFile.delete();
         return senderRepo.insert(targetFile, tableModel);
+    }
+
+    @Override
+    public boolean sendFiles(List<PatternTable> patternTables, File file) {
+        for (PatternTable patternTable :
+                patternTables) {
+            File targetFile = getFile(file, patternTable.getNameFile());
+            if (targetFile == null) {
+                break;
+            }
+            List<DataModel> dataModels = columnCreator.exportDataModel(patternTable.getNameTable());
+
+            TableModel tableModel = TableModel
+                    .builder()
+                    .models(dataModels)
+                    .tableName(patternTable.getNameTable())
+                    .build();
+
+            file.delete();
+            targetFile.delete();
+
+            senderRepo.insert(targetFile, tableModel);
+        }
+
+
+        return true;
     }
 
     private File getFile(File file, String filename) {

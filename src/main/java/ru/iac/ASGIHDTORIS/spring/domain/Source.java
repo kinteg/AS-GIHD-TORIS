@@ -1,6 +1,7 @@
 package ru.iac.ASGIHDTORIS.spring.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder(toBuilder = true)
 @NoArgsConstructor
@@ -51,5 +53,9 @@ public class Source {
 
     @Column(name = "archive")
     private Boolean isArchive;
+
+    @OneToMany(mappedBy = "source")
+    @JsonIgnore
+    private List<SourceLogger> sourceLogger;
 
 }

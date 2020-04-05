@@ -23,6 +23,6 @@ public class Actions {
     private String action;
 
     @OneToMany(mappedBy = "actions")
-    private List<Logger> logger;
+    private List<SourceLogger> sourceLogger;
 
 }

@@ -24,6 +24,6 @@ public class BeforeAfter {
     private String before;
     private String after;
 
-    private Long loggerId;
+    private Long sourceLoggerId;
 
 }

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.iac.ASGIHDTORIS.spring.controller.aspect.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.*;
@@ -14,11 +15,9 @@ import ru.iac.ASGIHDTORIS.spring.repo.*;
 @Slf4j
 public class SourceControllerAspect {
 
-    private final Objects object;
-    private final LoggerSender loggerSender;
+    private final LoggerSender<Source> loggerSender;
 
-    public SourceControllerAspect(ObjectsRepo objectsRepo, LoggerSender loggerSender) {
-        object = objectsRepo.findById(1);
+    public SourceControllerAspect(@Qualifier("sourceLoggerSenderImpl") LoggerSender<Source> loggerSender) {
         this.loggerSender = loggerSender;
     }
 
@@ -40,22 +39,22 @@ public class SourceControllerAspect {
 
     @AfterReturning(pointcut = "callCreateSourceAfterReturning(source)", returning = "sourceAfter", argNames = "source,sourceAfter")
     public void afterReturningCreateSource(Source source, Source sourceAfter) {
-        loggerSender.afterReturningCreate(sourceAfter.getId(), object);
+        loggerSender.afterReturningCreate(sourceAfter.getId(), sourceAfter);
     }
 
     @AfterReturning(pointcut = "callArchiveSourceAfterReturning(id)", returning = "source", argNames = "source,id")
     public void afterReturningArchiveSource(Source source, Long id) {
-        loggerSender.afterReturningArchive(id, object);
+        loggerSender.afterReturningArchive(id, source);
     }
 
     @AfterReturning(pointcut = "callDeArchiveSourceAfterReturning(id)", returning = "source", argNames = "source,id")
     public void afterReturningDeArchiveSource(Source source, Long id) {
-        loggerSender.afterReturningDeArchive(id, object);
+        loggerSender.afterReturningDeArchive(id, source);
     }
 
     @AfterReturning(pointcut = "callUpdateSourceAfterReturning(source)", returning = "sourceAfter", argNames = "source,sourceAfter")
     public void afterReturningUpdateSource(Source source, Source sourceAfter) {
-        loggerSender.afterReturningUpdate(sourceAfter.getId(), object);
+        loggerSender.afterReturningUpdate(sourceAfter.getId(), sourceAfter);
     }
 
 }

@@ -33,6 +33,9 @@ public class FileSenderServiceImpl implements FileSenderService {
     @Override
     public boolean sendFile(PatternTable patternTable, File file) {
         File targetFile = getFile(file, patternTable.getNameFile());
+        if (targetFile == null) {
+            return false;
+        }
         List<DataModel> dataModels = columnCreator.exportDataModel(patternTable.getNameTable());
 
         TableModel tableModel = TableModel

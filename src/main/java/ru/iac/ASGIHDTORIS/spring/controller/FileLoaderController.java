@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
+import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.spring.service.file.FileService;
 import ru.iac.ASGIHDTORIS.spring.service.parser.FirstParserService;
@@ -78,13 +79,15 @@ public class FileLoaderController {
             @RequestParam(value = "file", required = false)
                     MultipartFile multipartFile,
             @RequestParam(value = "name", required = false, defaultValue = "")
-                    String name) {
+                    Long id) {
 
-        if (multipartFile == null || name == null || name.isEmpty() || !patternTableRepo.existsByNameTable(name)) {
+        if (multipartFile == null || id == null || id < 0 || !patternTableRepo.existsById(id)) {
             return false;
         } else {
+            PatternTable patternTable = patternTableRepo.findById((long)id);
             File file = fileService.convertFile(multipartFile);
-            return file != null && fileSenderService.sendFile(name, file);
+
+            return file != null && fileSenderService.sendFile(patternTable, file);
         }
 
     }

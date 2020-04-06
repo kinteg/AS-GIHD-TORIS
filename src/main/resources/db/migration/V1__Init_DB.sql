@@ -136,3 +136,35 @@ create table before_after_source
         on delete cascade
         on update cascade
 );
+
+create table pattern_logger
+(
+    id            int8 not null,
+    action_id     int8 not null,
+    status_id     int8 not null,
+    error_id      int8 not null,
+    pattern_id     int8 not null,
+    date_creation timestamp,
+    primary key (id),
+    foreign key (action_id) references actions (id)
+        on delete cascade
+        on update cascade,
+    foreign key (status_id) references statuses (id)
+        on delete cascade
+        on update cascade,
+    foreign key (error_id) references errors (id)
+        on delete cascade
+        on update cascade
+);
+
+create table before_after_pattern
+(
+    id        int8 not null,
+    pattern_logger_id int8 not null,
+    before    text,
+    after     text,
+    primary key (id),
+    foreign key (pattern_logger_id) references pattern_logger (id)
+        on delete cascade
+        on update cascade
+);

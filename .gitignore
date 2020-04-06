@@ -1,5 +1,6 @@
 HELP.md
 .gradle
+.application.%d{yyyy-MM-dd}.log
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**

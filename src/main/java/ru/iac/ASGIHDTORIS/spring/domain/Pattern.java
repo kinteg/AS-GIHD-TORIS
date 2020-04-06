@@ -45,6 +45,22 @@ public class Pattern {
 
     private Long sourceId;
 
+    public Pattern(Pattern pattern) {
+        id = pattern.getId();
+        name = pattern.getName();
+        fileCount = pattern.getFileCount();
+        archiveFileCount = pattern.getArchiveFileCount();
+        description = pattern.getDescription();
+        direction = pattern.getDirection();
+        management = pattern.getManagement();
+        dateCreation = pattern.getDateCreation();
+        dateDeactivation = pattern.getDateDeactivation();
+        dateActivation = pattern.getDateActivation();
+        lastUpdate = pattern.getLastUpdate();
+        isArchive = pattern.getIsArchive();
+        sourceId = pattern.getSourceId();
+    }
+
 }
 
 

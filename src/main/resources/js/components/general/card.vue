@@ -243,13 +243,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <my-pagination
-                                    :page-size="pagination.pageSize"
-                                    :current-page="pagination.currentPage"
-                                    :totalPages="pagination.totalPages"
-                                    :totalElements="pagination.totalElements"
-                                    @onCurrentChange=""
-                                    @onSizeChange=""/>
+
                         </div>
                     </div>
                     <div v-else-if="updateTable">
@@ -316,10 +310,11 @@
                                 <tr>
                                     <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
                                 </tr>
-                                <tr v-for="value in showOnlyOneTable.values">
-                                    <td v-for="oneValue in value.content">{{oneValue}}</td>
+                                <tr v-for="value in showOnlyOneTable.values.content">
+                                    <td v-for="oneValue in value">{{oneValue}}</td>
                                 </tr>
                             </table>
+                            <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
                         </div>
                     </div>
                     <div v-else-if="sendDataTable">
@@ -596,21 +591,21 @@
                 let formData = new FormData();
                 formData.append("file",file.raw);
                 formData.append("patternTableId",this.patternTableId);
-                AXIOS.post("fileLoader/firstUpload/",
+                AXIOS.post("fileLoader/sendData/",
                     formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-                    console.log(response);
+                    let tableData = new FormData();
+                    tableData.append("id",this.patternTableId);
+                    AXIOS.post("tableCreator/getTable/",tableData).then(response => {
+                        this.showOnlyOneTable = response.data;
+                    });
                 });
-                let tableData = new FormData();
-                tableData.append("id",this.patternTableId);
-                AXIOS.post("tableCreator/getTable/",tableData).then(response => {
-                    console.log(response.data);
-                    this.showOnlyOneTable = response.data;
-                });
+
+
             },
 
             onChange(file, fileList) {
@@ -654,6 +649,7 @@
                     this.createTable = false;
                     this.showTable = false;
                     this.sendDataTable = false;
+                    this.updatePage();
                 }).catch(() => {
                 });
 

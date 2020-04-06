@@ -1,11 +1,11 @@
 package ru.iac.ASGIHDTORIS.common.factory;
 
 import com.opencsv.CSVReader;
-import org.apache.commons.compress.utils.FileNameUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
 import ru.iac.ASGIHDTORIS.parser.file.reader.impl.BufferReaderImpl;
 import ru.iac.ASGIHDTORIS.parser.file.reader.impl.CsvReaderImpl;
-import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
 import ru.iac.ASGIHDTORIS.parser.file.reader.impl.XlsxReader;
 
 import java.io.File;
@@ -21,7 +21,7 @@ public final class ReaderFactory {
 
     public static Reader getReader(File file) throws IOException {
 
-        switch (FileNameUtils.getExtension(file.getName()).toLowerCase()) {
+        switch (FilenameUtils.getExtension(file.getName()).toLowerCase()) {
             case "txt":
                 return new BufferReaderImpl(Files.newBufferedReader(Paths.get(file.getAbsolutePath()), Charset.forName("windows-1251")));
             case "csv":

@@ -1,7 +1,7 @@
 package ru.iac.ASGIHDTORIS.spring.service.sender;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.compress.utils.FileNameUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.common.TargetFiles;
@@ -44,9 +44,10 @@ public class FileSenderServiceImpl implements FileSenderService {
                 .tableName(patternTable.getNameTable())
                 .build();
 
-        file.delete();
+        boolean result = senderRepo.insert(targetFile, tableModel);
         targetFile.delete();
-        return senderRepo.insert(targetFile, tableModel);
+        file.delete();
+        return result;
     }
 
     @Override
@@ -65,13 +66,11 @@ public class FileSenderServiceImpl implements FileSenderService {
                     .tableName(patternTable.getNameTable())
                     .build();
 
-            file.delete();
-            targetFile.delete();
-
             senderRepo.insert(targetFile, tableModel);
+            targetFile.delete();
         }
 
-
+        file.delete();
         return true;
     }
 
@@ -90,7 +89,7 @@ public class FileSenderServiceImpl implements FileSenderService {
     }
 
     private File getFileWithArchive(File file, String filename) throws IOException {
-        ArchiveParser parser = ArchiveFactory.getParser(FileNameUtils.getExtension(file.getName()));
+        ArchiveParser parser = ArchiveFactory.getParser(FilenameUtils.getExtension(file.getName()));
 
         if (parser == null) {
             return null;

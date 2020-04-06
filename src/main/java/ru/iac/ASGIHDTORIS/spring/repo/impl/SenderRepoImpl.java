@@ -59,6 +59,8 @@ public class SenderRepoImpl implements SenderRepo {
 
         } catch (Exception ex) {
             log.error(ex.getMessage());
+            log.error("ъуъ");
+
             return false;
         }
 

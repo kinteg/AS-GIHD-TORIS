@@ -1,29 +1,31 @@
-package ru.iac.ASGIHDTORIS.spring.component.logger;
+package ru.iac.ASGIHDTORIS.spring.component.logger.impl;
 
 import org.springframework.stereotype.Component;
+import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
+import ru.iac.ASGIHDTORIS.spring.component.logger.error.ErrorCreator;
 import ru.iac.ASGIHDTORIS.spring.domain.*;
 import ru.iac.ASGIHDTORIS.spring.repo.*;
 
 import java.time.LocalDateTime;
 
 @Component
-public class SourceLoggerSender implements LoggerSender<Source> {
+public class PatternLoggerSender implements LoggerSender<Pattern> {
 
-    private final SourceLoggerRepo sourceLoggerRepo;
+    private final PatternLoggerRepo patternLoggerRepo;
     private final ActionsRepo actionsRepo;
-    private final ErrorsRepo errorsRepo;
     private final StatusesRepo statusesRepo;
+    private final ErrorCreator errorCreator;
 
-    public SourceLoggerSender(SourceLoggerRepo sourceLoggerRepo, ActionsRepo actionsRepo, ErrorsRepo errorsRepo, StatusesRepo statusesRepo) {
-        this.sourceLoggerRepo = sourceLoggerRepo;
+    public PatternLoggerSender(PatternLoggerRepo patternLoggerRepo, ActionsRepo actionsRepo, StatusesRepo statusesRepo, ErrorCreator errorCreator) {
+        this.patternLoggerRepo = patternLoggerRepo;
         this.actionsRepo = actionsRepo;
-        this.errorsRepo = errorsRepo;
         this.statusesRepo = statusesRepo;
+        this.errorCreator = errorCreator;
     }
 
     @Override
-    public Long afterCreate(Source object) {
-        Errors error = errorCreator(object.getId());
+    public Long afterCreate(Pattern object) {
+        Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
         if (object.getId() == null || object.getId() < 0) {
@@ -32,21 +34,21 @@ public class SourceLoggerSender implements LoggerSender<Source> {
             status = statusesRepo.findById(5);
         }
 
-        SourceLogger sourceLogger = SourceLogger
+        PatternLogger patternLogger = PatternLogger
                 .builder()
                 .errors(error)
                 .statuses(status)
-                .sourceId(object.getId())
+                .patternId(object.getId())
                 .actions(actionsRepo.findById(4))
                 .dateCreation(LocalDateTime.now())
                 .build();
 
-        return sourceLoggerRepo.save(sourceLogger).getId();
+        return patternLoggerRepo.save(patternLogger).getId();
     }
 
     @Override
-    public Long afterArchive(Source object) {
-        Errors error = errorCreator(object.getId());
+    public Long afterArchive(Pattern object) {
+        Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
         if (object.getId() == null || object.getId() < 0) {
@@ -55,21 +57,21 @@ public class SourceLoggerSender implements LoggerSender<Source> {
             status = statusesRepo.findById(3);
         }
 
-        SourceLogger sourceLogger = SourceLogger
+        PatternLogger patternLogger = PatternLogger
                 .builder()
                 .errors(error)
                 .statuses(status)
-                .sourceId(object.getId())
+                .patternId(object.getId())
                 .actions(actionsRepo.findById(2))
                 .dateCreation(LocalDateTime.now())
                 .build();
 
-        return sourceLoggerRepo.save(sourceLogger).getId();
+        return patternLoggerRepo.save(patternLogger).getId();
     }
 
     @Override
-    public Long afterDeArchive(Source object) {
-        Errors error = errorCreator(object.getId());
+    public Long afterDeArchive(Pattern object) {
+        Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
         if (object.getId() == null || object.getId() < 0) {
@@ -78,21 +80,21 @@ public class SourceLoggerSender implements LoggerSender<Source> {
             status = statusesRepo.findById(4);
         }
 
-        SourceLogger sourceLogger = SourceLogger
+        PatternLogger patternLogger = PatternLogger
                 .builder()
                 .errors(error)
                 .statuses(status)
-                .sourceId(object.getId())
+                .patternId(object.getId())
                 .actions(actionsRepo.findById(3))
                 .dateCreation(LocalDateTime.now())
                 .build();
 
-        return sourceLoggerRepo.save(sourceLogger).getId();
+        return patternLoggerRepo.save(patternLogger).getId();
     }
 
     @Override
-    public Long afterUpdate(Source object) {
-        Errors error = errorCreator(object.getId());
+    public Long afterUpdate(Pattern object) {
+        Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
         if (object.getId() == null || object.getId() < 0) {
@@ -101,39 +103,16 @@ public class SourceLoggerSender implements LoggerSender<Source> {
             status = statusesRepo.findById(6);
         }
 
-        SourceLogger sourceLogger = SourceLogger
+        PatternLogger patternLogger = PatternLogger
                 .builder()
                 .errors(error)
                 .statuses(status)
-                .sourceId(object.getId())
+                .patternId(object.getId())
                 .actions(actionsRepo.findById(5))
                 .dateCreation(LocalDateTime.now())
                 .build();
 
-        return sourceLoggerRepo.save(sourceLogger).getId();
-    }
-
-
-    private Errors errorCreator(Long id) {
-        Errors error;
-
-        if (id == null) {
-            error = errorsRepo.findById(5);
-
-        } else if (id == -1) {
-            error = errorsRepo.findById(2);
-
-        } else if (id == -2) {
-            error = errorsRepo.findById(3);
-
-        } else if (id == -3) {
-            error = errorsRepo.findById(4);
-
-        } else {
-            error = errorsRepo.findById(1);
-        }
-
-        return error;
+        return patternLoggerRepo.save(patternLogger).getId();
     }
 
 }

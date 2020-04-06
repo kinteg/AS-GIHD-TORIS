@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.spring.component.ba.BeforeAfter;
+import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
@@ -27,15 +29,21 @@ public class PatternController {
     private final Validator<Pattern> patternValidator;
     private final PatternRepo patternRepo;
     private final PatternRepo2 patternRepo2;
+    private final LoggerSender<Pattern> patternLoggerSender;
+    private final BeforeAfter<Pattern> patternBeforeAfter;
 
     public PatternController(
             @Qualifier("getPatternValidator") Validator<Pattern> patternValidator,
             PatternRepo patternRepo,
-            PatternRepo2 patternRepo2) {
+            PatternRepo2 patternRepo2,
+            @Qualifier("patternLoggerSender") LoggerSender<Pattern> patternLoggerSender,
+            @Qualifier("patternBeforeAfter") BeforeAfter<Pattern> patternBeforeAfter) {
 
         this.patternValidator = patternValidator;
         this.patternRepo = patternRepo;
         this.patternRepo2 = patternRepo2;
+        this.patternLoggerSender = patternLoggerSender;
+        this.patternBeforeAfter = patternBeforeAfter;
     }
 
     @PostMapping("/create")
@@ -48,10 +56,18 @@ public class PatternController {
         pattern.setFileCount(0);
         pattern.setIsArchive(false);
 
-        log.info(pattern.toString());
-        return patternValidator.isValid(pattern)
+        Pattern patternAfter = patternValidator.isValid(pattern)
                 ? patternRepo.save(pattern)
                 : Pattern.builder().id(Long.parseLong("-1")).build();
+
+
+        long loggerId = patternLoggerSender.afterCreate(patternAfter);
+
+        if (patternAfter.getId() > 0) {
+            patternBeforeAfter.afterCreate(patternAfter, loggerId);
+        }
+
+        return patternAfter;
     }
 
     @GetMapping("/{id}")
@@ -132,41 +148,70 @@ public class PatternController {
 
     @GetMapping("/archive/{id}")
     public Pattern archivePattern(@PathVariable Long id) {
+        Pattern patternBefore, patternAfter;
         if (id == null) {
-            return Pattern.builder().id((long) -4).build();
-
+            patternAfter = Pattern.builder().id((long) -4).build();
+            patternBefore = patternAfter;
         } else if (!patternRepo.existsById(id)) {
-            return Pattern.builder().id((long) -3).build();
-
+            patternAfter =  Pattern.builder().id((long) -3).build();
+            patternBefore = patternAfter;
         } else {
-            Pattern pattern = patternRepo.findById((long) id);
-            pattern.setIsArchive(true);
-            pattern.setDateDeactivation(LocalDateTime.now());
+            patternAfter = patternRepo.findById((long) id);
+            patternBefore = Pattern
+                    .builder()
+                    .isArchive(patternAfter.getIsArchive())
+                    .dateDeactivation(patternAfter.getDateDeactivation())
+                    .build();
 
-            patternRepo.save(pattern);
+            patternAfter.setIsArchive(true);
+            patternAfter.setDateDeactivation(LocalDateTime.now());
 
-            return pattern;
+            patternRepo.save(patternAfter);
+
         }
+
+        long loggerId = patternLoggerSender.afterArchive(patternAfter);
+
+        if (patternAfter.getId() > 0) {
+            patternBeforeAfter.afterArchive(patternBefore, patternAfter, loggerId);
+        }
+
+        return patternAfter;
+
     }
 
     @GetMapping("/deArchive/{id}")
     public Pattern deArchivePattern(@PathVariable Long id) {
+        Pattern patternBefore, patternAfter;
 
         if (id == null) {
-            return Pattern.builder().id((long) -4).build();
-
+            patternAfter = Pattern.builder().id((long) -4).build();
+            patternBefore = patternAfter;
         } else if (!patternRepo.existsById(id)) {
-            return Pattern.builder().id((long) -3).build();
-
+            patternAfter =  Pattern.builder().id((long) -3).build();
+            patternBefore = patternAfter;
         } else {
-            Pattern pattern = patternRepo.findById((long) id);
-            pattern.setIsArchive(false);
-            pattern.setDateActivation(LocalDateTime.now());
+            patternAfter = patternRepo.findById((long) id);
+            patternBefore = Pattern
+                    .builder()
+                    .isArchive(patternAfter.getIsArchive())
+                    .dateActivation(patternAfter.getDateDeactivation())
+                    .build();
 
-            patternRepo.save(pattern);
+            patternAfter.setIsArchive(false);
+            patternAfter.setDateActivation(LocalDateTime.now());
 
-            return pattern;
+            patternRepo.save(patternAfter);
+
         }
+
+        long loggerId = patternLoggerSender.afterArchive(patternAfter);
+
+        if (patternAfter.getId() > 0) {
+            patternBeforeAfter.afterDeArchive(patternBefore, patternAfter, loggerId);
+        }
+
+        return patternAfter;
     }
 
 
@@ -220,27 +265,37 @@ public class PatternController {
 
     @PostMapping("/update")
     public Pattern update(@ModelAttribute Pattern pattern) {
+        Pattern afterUpdate;
+        Pattern beforeUpdate;
+
         if (pattern.getId() == null) {
-            return Pattern.builder().id((long) -4).build();
-
+            afterUpdate = Pattern.builder().id((long) -4).build();
+            beforeUpdate = afterUpdate;
         } else if (!patternRepo.existsById(pattern.getId())) {
-            return Pattern.builder().id((long) -3).build();
-
+            afterUpdate = Pattern.builder().id((long) -3).build();
+            beforeUpdate = afterUpdate;
         } else if (!patternValidator.isValid(pattern)) {
-            return Pattern.builder().id((long) -1).build();
-
+            afterUpdate = Pattern.builder().id((long) -1).build();
+            beforeUpdate = afterUpdate;
         } else {
 
-            Pattern existPattern = patternRepo.findById((long)pattern.getId());
+            beforeUpdate = new Pattern(patternRepo.findById((long) pattern.getId()));
 
             pattern.setLastUpdate(LocalDateTime.now());
-            pattern.setDateCreation(existPattern.getDateCreation());
-            pattern.setDateActivation(existPattern.getDateActivation());
-            pattern.setDateDeactivation(existPattern.getDateDeactivation());
-            patternRepo.save(pattern);
+            pattern.setDateCreation(beforeUpdate.getDateCreation());
+            pattern.setDateActivation(beforeUpdate.getDateActivation());
+            pattern.setDateDeactivation(beforeUpdate.getDateDeactivation());
 
-            return pattern;
+            afterUpdate = patternRepo.save(pattern);
         }
+
+        long loggerId = patternLoggerSender.afterUpdate(afterUpdate);
+
+        if (afterUpdate.getId() > 0) {
+            patternBeforeAfter.afterUpdate(beforeUpdate, afterUpdate, loggerId);
+        }
+
+        return afterUpdate;
     }
 
 }

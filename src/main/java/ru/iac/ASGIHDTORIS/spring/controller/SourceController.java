@@ -57,7 +57,7 @@ public class SourceController {
                 : Source.builder().id(Long.parseLong("-2")).build()
                 : Source.builder().id(Long.parseLong("-1")).build();
 
-        long loggerId = sourceLoggerSender.afterCreate(source);
+        long loggerId = sourceLoggerSender.afterCreate(sourceAfter);
 
         if (sourceAfter.getId() > 0) {
             sourceBeforeAfter.afterCreate(sourceAfter, loggerId);
@@ -82,7 +82,7 @@ public class SourceController {
     }
 
     @PostMapping("/getAllSort")
-    public Page<Source> getAll(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<Source> getAllSort(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         source.setHelpModel(helpModel);
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
@@ -93,7 +93,7 @@ public class SourceController {
     }
 
     @PostMapping("/getAllArchiveSort")
-    public Page<Source> getAllArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<Source> getAllArchiveSort(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         source.setHelpModel(helpModel);
         source.getHelpModel().setIsArchive(true);
         return sourceRepo2.findAllSourceByQuery(pageable, source);
@@ -105,7 +105,7 @@ public class SourceController {
     }
 
     @PostMapping("/getAllNotArchiveSort")
-    public Page<Source> getAllNotArchive(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<Source> getAllNotArchiveSort(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         source.setHelpModel(helpModel);
         source.getHelpModel().setIsArchive(false);
         return sourceRepo2.findAllSourceByQuery(pageable, source);
@@ -204,17 +204,13 @@ public class SourceController {
         } else {
 
             beforeUpdate = new Source(sourceRepo.findById((long) source.getId()));
-            log.info(beforeUpdate.getShortName());
 
             source.setLastUpdate(LocalDateTime.now());
             source.setDateCreation(beforeUpdate.getDateCreation());
             source.setDateActivation(beforeUpdate.getDateActivation());
             source.setDateDeactivation(beforeUpdate.getDateDeactivation());
-            log.info(beforeUpdate.getShortName());
 
             afterUpdate = sourceRepo.save(source);
-            log.info(beforeUpdate.getShortName());
-            log.info(afterUpdate.getShortName());
         }
 
         long loggerId = sourceLoggerSender.afterUpdate(afterUpdate);

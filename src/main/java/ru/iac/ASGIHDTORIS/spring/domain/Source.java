@@ -54,8 +54,24 @@ public class Source {
     @Column(name = "archive")
     private Boolean isArchive;
 
-    @OneToMany(mappedBy = "source")
-    @JsonIgnore
-    private List<SourceLogger> sourceLogger;
-
+    public Source(Source source) {
+        id = source.getId();
+        name = source.getName();
+        longName = source.getLongName();
+        shortName = source.getShortName();
+        description = source.getDescription();
+        addDescription = source.getAddDescription();
+        scope = source.getScope();
+        periodicity = source.getPeriodicity();
+        renewalPeriod = source.getRenewalPeriod();
+        type = source.getType();
+        tags = source.getTags();
+        providerLink = source.getProviderLink();
+        dataSource = source.getDataSource();
+        dateCreation = source.getDateCreation();
+        dateDeactivation = source.getDateDeactivation();
+        dateActivation = source.getDateActivation();
+        lastUpdate = source.getLastUpdate();
+        isArchive = source.getIsArchive();
+    }
 }

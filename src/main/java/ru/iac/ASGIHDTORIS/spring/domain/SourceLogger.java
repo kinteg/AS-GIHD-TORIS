@@ -31,9 +31,7 @@ public class SourceLogger {
     @JoinColumn(name = "error_id", referencedColumnName = "id")
     private Errors errors;
 
-    @ManyToOne
-    @JoinColumn(name = "source_id", referencedColumnName = "id")
-    private Source source;
+    private Long sourceId;
 
     private LocalDateTime dateCreation;
 

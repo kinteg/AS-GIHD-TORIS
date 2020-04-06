@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.spring.controller.aspect.logger;
+package ru.iac.ASGIHDTORIS.spring.component.logger;
 
 import org.springframework.stereotype.Component;
 import ru.iac.ASGIHDTORIS.spring.domain.*;
@@ -7,26 +7,26 @@ import ru.iac.ASGIHDTORIS.spring.repo.*;
 import java.time.LocalDateTime;
 
 @Component
-public class SourceLoggerSenderImpl implements LoggerSender<Source> {
+public class SourceLoggerSender implements LoggerSender<Source> {
 
-    private final LoggerRepo loggerRepo;
+    private final SourceLoggerRepo sourceLoggerRepo;
     private final ActionsRepo actionsRepo;
     private final ErrorsRepo errorsRepo;
     private final StatusesRepo statusesRepo;
 
-    public SourceLoggerSenderImpl(LoggerRepo loggerRepo, ActionsRepo actionsRepo, ErrorsRepo errorsRepo, StatusesRepo statusesRepo) {
-        this.loggerRepo = loggerRepo;
+    public SourceLoggerSender(SourceLoggerRepo sourceLoggerRepo, ActionsRepo actionsRepo, ErrorsRepo errorsRepo, StatusesRepo statusesRepo) {
+        this.sourceLoggerRepo = sourceLoggerRepo;
         this.actionsRepo = actionsRepo;
         this.errorsRepo = errorsRepo;
         this.statusesRepo = statusesRepo;
     }
 
     @Override
-    public void afterReturningCreate(Long id, Source object) {
-        Errors error = errorCreator(id);
+    public Long afterCreate(Source object) {
+        Errors error = errorCreator(object.getId());
         Statuses status;
 
-        if (id == null || id < 0) {
+        if (object.getId() == null || object.getId() < 0) {
             status = statusesRepo.findById(10);
         } else {
             status = statusesRepo.findById(5);
@@ -36,20 +36,20 @@ public class SourceLoggerSenderImpl implements LoggerSender<Source> {
                 .builder()
                 .errors(error)
                 .statuses(status)
-                .source(object)
+                .sourceId(object.getId())
                 .actions(actionsRepo.findById(4))
                 .dateCreation(LocalDateTime.now())
                 .build();
 
-        loggerRepo.save(sourceLogger);
+        return sourceLoggerRepo.save(sourceLogger).getId();
     }
 
     @Override
-    public void afterReturningArchive(Long id, Source object) {
-        Errors error = errorCreator(id);
+    public Long afterArchive(Source object) {
+        Errors error = errorCreator(object.getId());
         Statuses status;
 
-        if (id == null || id < 0) {
+        if (object.getId() == null || object.getId() < 0) {
             status = statusesRepo.findById(8);
         } else {
             status = statusesRepo.findById(3);
@@ -59,20 +59,20 @@ public class SourceLoggerSenderImpl implements LoggerSender<Source> {
                 .builder()
                 .errors(error)
                 .statuses(status)
-                .source(object)
+                .sourceId(object.getId())
                 .actions(actionsRepo.findById(2))
                 .dateCreation(LocalDateTime.now())
                 .build();
 
-        loggerRepo.save(sourceLogger);
+        return sourceLoggerRepo.save(sourceLogger).getId();
     }
 
     @Override
-    public void afterReturningDeArchive(Long id, Source object) {
-        Errors error = errorCreator(id);
+    public Long afterDeArchive(Source object) {
+        Errors error = errorCreator(object.getId());
         Statuses status;
 
-        if (id == null || id < 0) {
+        if (object.getId() == null || object.getId() < 0) {
             status = statusesRepo.findById(9);
         } else {
             status = statusesRepo.findById(4);
@@ -82,20 +82,20 @@ public class SourceLoggerSenderImpl implements LoggerSender<Source> {
                 .builder()
                 .errors(error)
                 .statuses(status)
-                .source(object)
+                .sourceId(object.getId())
                 .actions(actionsRepo.findById(3))
                 .dateCreation(LocalDateTime.now())
                 .build();
 
-        loggerRepo.save(sourceLogger);
+        return sourceLoggerRepo.save(sourceLogger).getId();
     }
 
     @Override
-    public void afterReturningUpdate(Long id, Source object) {
-        Errors error = errorCreator(id);
+    public Long afterUpdate(Source object) {
+        Errors error = errorCreator(object.getId());
         Statuses status;
 
-        if (id == null || id < 0) {
+        if (object.getId() == null || object.getId() < 0) {
             status = statusesRepo.findById(11);
         } else {
             status = statusesRepo.findById(6);
@@ -105,12 +105,12 @@ public class SourceLoggerSenderImpl implements LoggerSender<Source> {
                 .builder()
                 .errors(error)
                 .statuses(status)
-                .source(object)
+                .sourceId(object.getId())
                 .actions(actionsRepo.findById(5))
                 .dateCreation(LocalDateTime.now())
                 .build();
 
-        loggerRepo.save(sourceLogger);
+        return sourceLoggerRepo.save(sourceLogger).getId();
     }
 
 
@@ -131,7 +131,6 @@ public class SourceLoggerSenderImpl implements LoggerSender<Source> {
 
         } else {
             error = errorsRepo.findById(1);
-
         }
 
         return error;

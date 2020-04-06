@@ -44,9 +44,10 @@ public class FileSenderServiceImpl implements FileSenderService {
                 .tableName(patternTable.getNameTable())
                 .build();
 
-        file.delete();
+        boolean result = senderRepo.insert(targetFile, tableModel);
         targetFile.delete();
-        return senderRepo.insert(targetFile, tableModel);
+        file.delete();
+        return result;
     }
 
     @Override
@@ -65,12 +66,11 @@ public class FileSenderServiceImpl implements FileSenderService {
                     .tableName(patternTable.getNameTable())
                     .build();
 
-            file.delete();
-            targetFile.delete();
-
             senderRepo.insert(targetFile, tableModel);
+            targetFile.delete();
         }
 
+        file.delete();
 
         return true;
     }

@@ -90,7 +90,7 @@ public class FileSenderServiceImpl implements FileSenderService {
     }
 
     private File getFileWithArchive(File file, String filename) throws IOException {
-        ArchiveParser parser = ArchiveFactory.getParser(FileNameUtils.getExtension(file.getName()));
+        ArchiveParser parser = ArchiveFactory.getParser(FilenameUtils.getExtension(file.getName()));
 
         if (parser == null) {
             return null;

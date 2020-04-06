@@ -64,6 +64,9 @@
                         <el-button @click="backView" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
                     </div>
                 </el-tab-pane>
+                <el-tab-pane label="Шаблоны" name="tableInfo">
+
+                </el-tab-pane>
             </el-tabs>
         </div>
     </div>
@@ -79,6 +82,7 @@
         components: {PatternTable, PatternView},
         data() {
             return {
+                table:[],
                 patternData:[],
                 patternId: "",
                 hiddenTable: true,
@@ -136,10 +140,13 @@
                 console.log(response);
                 this.source = response.data;
             });
-
             AXIOS.get("pattern/getAll/" + this.$route.params.id).then(response => {
                 this.patternData = response.data.content;
-            })
+            });
+            AXIOS.get("tableCreator/getAllBySource/" + this.$route.params.id).then(response => {
+                console.log(response);
+                this.table = response.data;
+            });
         }
     }
 </script>

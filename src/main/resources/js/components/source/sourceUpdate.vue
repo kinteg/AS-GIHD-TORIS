@@ -67,6 +67,7 @@
                         </el-col>
                     </el-row>
                     <el-button @click="updateSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Изменить</el-button>
+                    <el-button @click="backTable" style="margin-right: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
                 </el-tab-pane>
                 <el-tab-pane label="Шаблоны" name="patternInfo">
                     <div v-if="hiddenTable"  style="background-color: white; padding: 0 5px 0 0;  border-radius: 5px; " >
@@ -677,6 +678,11 @@
                 });
             },
 
+            backTable(){
+                this.updatePage()
+                router.push({name:'show'});
+            },
+
             backUpdate() {
                 this.$confirm('Уверены что хотите вернуться?', 'Назад', {
                     confirmButtonText: 'Да',
@@ -759,11 +765,12 @@
                         this.notify("Успешно",'Источник "' + response.data.name + '" успешно изменен.',"success");
                     }
                 });
-
-                router.push({name:'show'});
             },
 
             updatePage(){
+                AXIOS.get("source/" + this.sourceId).then(response => {
+                    this.source = response.data;
+                });
                 AXIOS.get("pattern/getAll/" + this.$route.params.id).then(response => {
                     this.patternData = response.data.content;
                 })
@@ -773,6 +780,7 @@
         mounted() {
             AXIOS.get("source/" + this.$route.params.id).then(response => {
                 this.source = response.data;
+                this.sourceId = this.$route.params.id;
             });
 
             AXIOS.get("pattern/getAll/" + this.$route.params.id).then(response => {

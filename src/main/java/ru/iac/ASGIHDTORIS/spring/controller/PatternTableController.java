@@ -117,7 +117,7 @@ public class PatternTableController {
         return patternTableRepo.findAllByPatternId(patternId, pageable);
     }
 
-    @PostMapping("/getAllBySource/{sourceId}")
+    @GetMapping("/getAllBySource/{sourceId}")
     public Page<PatternTable> getAllBySource(@PageableDefault Pageable pageable, @PathVariable Long sourceId) {
         return patternTableRepo.findAllBySourceId(sourceId, pageable);
     }

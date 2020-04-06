@@ -142,7 +142,19 @@
                 </el-tab-pane>
                 <el-tab-pane label="Таблицы" name="tableInfo">
                     <p style="font-size: 20px">Таблицы
+                        <span v-if="isMainPage">
                         <el-button @click="addTableTab"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-plus"></el-button>
+                        <el-upload
+                                style="float: right; margin-right: 10px;"
+                                class="upload-demo"
+                                ref="upload"
+                                action=""
+                                :limit="1"
+                                :on-change="sendFiles"
+                                :auto-upload="false">
+                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
+                        </el-upload>
+                            </span>
                     </p>
                     <div v-if="viewTable">
                         <div>
@@ -317,9 +329,6 @@
                             <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
                         </div>
                     </div>
-                    <div v-else-if="sendDataTable">
-
-                    </div>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -346,6 +355,7 @@
                     label: 'Нет'
                 }],
                 value: '',
+                isMainPage: true,
                 pickerOptions: {
                     shortcuts: [{
                         text: 'Last week',
@@ -516,6 +526,56 @@
             }
         },
         methods:{
+            backUpdate(){
+                this.$confirm('Уверены что хотите вернуться?', 'Назад', {
+                    confirmButtonText: 'Да',
+                    cancelButtonText: 'Нет',
+                    type: 'warning'
+                }).then(() => {
+                    this.pattern = "";
+                    this.viewPattern = true;
+                    this.updatePage();
+                }).catch(() => {
+
+                });
+            },
+
+            sendData(file, fileList){
+                let formData = new FormData();
+                formData.append("file",file.raw);
+                formData.append("patternTableId",this.patternTableId);
+                AXIOS.post("fileLoader/sendData/",
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(response => {
+                    let tableData = new FormData();
+                    tableData.append("id",this.patternTableId);
+                    AXIOS.post("tableCreator/getTable/",tableData).then(response => {
+                        this.showOnlyOneTable = response.data;
+                    });
+                });
+
+
+            },
+
+            sendFiles(file, fileList){
+                let formData = new FormData();
+                formData.append("file",file.raw);
+                formData.append("patternTableId",this.patternTableId);
+                AXIOS.post("fileLoader/sendDates/",
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(response => {
+                    this.updatePage();
+                });
+            },
+
             deleteTable(id) {
                 AXIOS.get("tableCreator/archive/" + id).then(response => {
                     if(response.data.name !== ""){
@@ -524,22 +584,6 @@
                     } else {
                         this.notify('Ошибка','Таблица не была активирована','error');
                     }
-                });
-            },
-
-            showOneTable(id){
-                this.patternTableId = id;
-                this.viewTable = false;
-                this.updateTable = false;
-                this.createTable = false;
-                this.showTable = true;
-                this.sendDataTable = false;
-                let formData = new FormData();
-                formData.append("id",id);
-                console.log(id);
-                AXIOS.post("tableCreator/getTable/",formData).then(response => {
-                    console.log(response.data);
-                    this.showOnlyOneTable = response.data;
                 });
             },
 
@@ -560,6 +604,104 @@
 
             deArchiveOneTable(id){
                 this.deArchiveTable(id);
+            },
+
+            showOneTable(id){
+                this.isMainPage = false;
+                this.patternTableId = id;
+                this.viewTable = false;
+                this.updateTable = false;
+                this.createTable = false;
+                this.showTable = true;
+                this.sendDataTable = false;
+                let formData = new FormData();
+                formData.append("id",id);
+                console.log(id);
+                AXIOS.post("tableCreator/getTable/",formData).then(response => {
+                    console.log(response.data);
+                    this.showOnlyOneTable = response.data;
+                });
+            },
+
+            showTableTab(){
+                this.$confirm('Вы уверены что хотите вернуться назад?', 'Назад', {
+                    confirmButtonText: 'Да',
+                    cancelButtonText: 'Нет',
+                    type: 'warning'
+                }).then(() => {
+                    this.isMainPage = true;
+                    this.viewTable = true;
+                    this.updateTable = false;
+                    this.createTable = false;
+                    this.showTable = false;
+                    this.sendDataTable = false;
+                    this.updatePage();
+                }).catch(() => {
+                });
+
+            },
+
+            addTableTab(){
+                this.isMainPage = false;
+                this.viewTable = false;
+                this.updateTable = false;
+                this.createTable = true;
+                this.showTable = false;
+                this.sendDataTable = false;
+            },
+
+
+            addTable(){
+                let existingTable = false;
+                for(let i = 0; i<this.table.length; i++){
+                    let oneTable = this.table[i];
+                    let key = [];
+                    let type = [];
+                    let primary = [];
+                    let model = oneTable.tableModel.models;
+                    let tableName = oneTable.tableModel.tableName;
+                    let fileName = oneTable.tableModel.filename;
+
+                    for(let j = 0; j<model.length; j++){
+                        key.push(model[j].key);
+                        type.push(model[j].type);
+                        primary.push(model[j].primary);
+                    }
+
+                    let formData = new FormData();
+
+                    formData.append("filename", fileName );
+                    formData.append("tableName", tableName );
+                    formData.append("names", key );
+                    formData.append("types", type );
+                    formData.append("primaries", primary );
+                    formData.append("patternId", this.patternId);
+
+                    AXIOS.get("/tableCreator/exist/"+tableName).then(response => {
+                        existingTable = response.data;
+                        console.log(existingTable);
+
+                        if(existingTable === true) {
+                            this.notify("Ошибка","Таблица (" + tableName + ") c таким именем уже существует", "error");
+                        } else {
+                            AXIOS.post("/tableCreator/create",
+                                formData,
+                                {
+                                    headers: {
+                                        'Content-Type': 'multipart/form-data'
+                                    }
+                                }
+                            ).then(response => {
+                                if(response === false) {
+                                    this.notify("Ошибка","Таблица " + tableName + "не была создана", "error");
+                                } else {
+                                    this.notify("Успешно","Таблица " + tableName + " была создана", "success");
+                                }
+                            });
+                        }
+                    });
+
+                }
             },
 
             querySearch(queryString, cb) {
@@ -587,27 +729,6 @@
                 ];
             },
 
-            sendData(file, fileList){
-                let formData = new FormData();
-                formData.append("file",file.raw);
-                formData.append("patternTableId",this.patternTableId);
-                AXIOS.post("fileLoader/sendData/",
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    }).then(response => {
-                    let tableData = new FormData();
-                    tableData.append("id",this.patternTableId);
-                    AXIOS.post("tableCreator/getTable/",tableData).then(response => {
-                        this.showOnlyOneTable = response.data;
-                    });
-                });
-
-
-            },
-
             onChange(file, fileList) {
                 let formData = new FormData();
                 formData.append("file",file.raw);
@@ -628,87 +749,6 @@
                     title: title,
                     message: message,
                     type: type
-                });
-            },
-            addTableTab(){
-                this.viewTable = false;
-                this.updateTable = false;
-                this.createTable = true;
-                this.showTable = false;
-                this.sendDataTable = false;
-            },
-
-            showTableTab(){
-                this.$confirm('Вы уверены что хотите вернуться назад?', 'Назад', {
-                    confirmButtonText: 'Да',
-                    cancelButtonText: 'Нет',
-                    type: 'warning'
-                }).then(() => {
-                    this.viewTable = true;
-                    this.updateTable = false;
-                    this.createTable = false;
-                    this.showTable = false;
-                    this.sendDataTable = false;
-                    this.updatePage();
-                }).catch(() => {
-                });
-
-            },
-
-            addTable(){
-                for(let i = 0; i<this.table.length; i++){
-                    let oneTable = this.table[i];
-                    let key = [];
-                    let type = [];
-                    let primary = [];
-                    let model = oneTable.tableModel.models;
-                    let tableName = oneTable.tableModel.tableName;
-                    let fileName = oneTable.tableModel.filename;
-
-                    for(let j = 0; j<model.length; j++){
-                        key.push(model[j].key);
-                        type.push(model[j].type);
-                        primary.push(model[j].primary);
-                    }
-
-                    let formData = new FormData();
-
-                    formData.append("filename", fileName );
-                    formData.append("tableName", tableName );
-                    formData.append("names", key );
-                    formData.append("types", type );
-                    formData.append("primaries", primary );
-                    formData.append("patternId", this.patternId);
-
-                    AXIOS.post("/tableCreator/create",
-                        formData,
-                        {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        }
-                    ).then(response => {
-                        if(response === false) {
-                            this.notify("Ошибка","Таблица " + tableName + "не была создана", "error");
-                        } else {
-                            this.notify("Успешно","Таблица " + tableName + " была создана", "success");
-                        }
-                    });
-
-                }
-            },
-
-            backUpdate(){
-                this.$confirm('Уверены что хотите вернуться?', 'Назад', {
-                    confirmButtonText: 'Да',
-                    cancelButtonText: 'Нет',
-                    type: 'warning'
-                }).then(() => {
-                    this.pattern = "";
-                    this.viewPattern = true;
-                    this.updatePage();
-                }).catch(() => {
-
                 });
             },
 

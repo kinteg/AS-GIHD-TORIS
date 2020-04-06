@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Entity
 @Data
-public class BeforeAfter {
+public class BeforeAfterSource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

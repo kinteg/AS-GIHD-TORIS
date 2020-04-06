@@ -1,18 +1,8 @@
 package ru.iac.ASGIHDTORIS.spring.controller.aspect;
 
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
-import ru.iac.ASGIHDTORIS.spring.controller.aspect.logger.LoggerSender;
-import ru.iac.ASGIHDTORIS.spring.domain.Objects;
-import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
-import ru.iac.ASGIHDTORIS.spring.repo.ObjectsRepo;
-import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
-import ru.iac.ASGIHDTORIS.spring.repo.StatusesRepo;
-
-import java.util.List;
 
 @Aspect
 @Component

@@ -117,9 +117,6 @@ create table source_logger
     foreign key (action_id) references actions (id)
         on delete cascade
         on update cascade,
-    foreign key (source_id) references source (id)
-        on delete cascade
-        on update cascade,
     foreign key (status_id) references statuses (id)
         on delete cascade
         on update cascade,
@@ -128,7 +125,7 @@ create table source_logger
         on update cascade
 );
 
-create table before_after
+create table before_after_source
 (
     id        int8 not null,
     source_logger_id int8 not null,

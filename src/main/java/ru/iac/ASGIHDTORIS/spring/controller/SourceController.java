@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.spring.component.ba.BeforeAfter;
+import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo2;
@@ -25,14 +27,20 @@ public class SourceController {
     private final SourceRepo sourceRepo;
     private final Validator<Source> validator;
     private final SourceRepo2 sourceRepo2;
+    private final LoggerSender<Source> sourceLoggerSender;
+    private final BeforeAfter<Source> sourceBeforeAfter;
 
     public SourceController(
             SourceRepo sourceRepo,
             @Qualifier("getSourceValidator") Validator<Source> validator,
-            SourceRepo2 sourceRepo2) {
+            SourceRepo2 sourceRepo2,
+            @Qualifier("sourceLoggerSender") LoggerSender<Source> sourceLoggerSender,
+            @Qualifier("sourceBeforeAfter") BeforeAfter<Source> sourceBeforeAfter) {
         this.sourceRepo = sourceRepo;
         this.validator = validator;
         this.sourceRepo2 = sourceRepo2;
+        this.sourceLoggerSender = sourceLoggerSender;
+        this.sourceBeforeAfter = sourceBeforeAfter;
     }
 
     @PostMapping("/create")
@@ -43,11 +51,19 @@ public class SourceController {
         source.setDateActivation(LocalDateTime.now());
         source.setLastUpdate(LocalDateTime.now());
 
-        return validator.isValid(source)
+        Source sourceAfter = validator.isValid(source)
                 ? !sourceRepo.existsByShortName(source.getShortName())
                 ? sourceRepo.save(source)
                 : Source.builder().id(Long.parseLong("-2")).build()
                 : Source.builder().id(Long.parseLong("-1")).build();
+
+        long loggerId = sourceLoggerSender.afterCreate(source);
+
+        if (sourceAfter.getId() > 0) {
+            sourceBeforeAfter.afterCreate(sourceAfter, loggerId);
+        }
+
+        return sourceAfter;
     }
 
     @GetMapping("/checkName")
@@ -97,73 +113,117 @@ public class SourceController {
 
     @GetMapping("/archive/{id}")
     public Source archiveSource(@PathVariable Long id) {
+        Source sourceBefore, sourceAfter;
+
         if (id == null) {
-            return Source.builder().id((long) -4).build();
-
+            sourceAfter = Source.builder().id((long) -4).build();
+            sourceBefore = sourceAfter;
         } else if (!sourceRepo.existsById(id)) {
-            return Source.builder().id((long) -3).build();
-
+            sourceAfter = Source.builder().id((long) -3).build();
+            sourceBefore = sourceAfter;
         } else {
-            Source source = sourceRepo.findById((long) id);
-            source.setIsArchive(true);
-            source.setDateDeactivation(LocalDateTime.now());
+            sourceAfter = sourceRepo.findById((long) id);
+            sourceBefore = Source
+                    .builder()
+                    .isArchive(sourceAfter.getIsArchive())
+                    .dateDeactivation(sourceAfter.getDateDeactivation())
+                    .build();
+            sourceAfter.setIsArchive(true);
+            sourceAfter.setDateDeactivation(LocalDateTime.now());
 
-            sourceRepo.save(source);
+            sourceRepo.save(sourceAfter);
 
-            return source;
         }
+
+        long loggerId = sourceLoggerSender.afterArchive(sourceAfter);
+
+        if (sourceAfter.getId() > 0) {
+            sourceBeforeAfter.afterArchive(sourceBefore, sourceAfter, loggerId);
+        }
+
+        return sourceAfter;
 
     }
 
     @GetMapping("/deArchive/{id}")
     public Source deArchiveSource(@PathVariable Long id) {
+        Source sourceBefore, sourceAfter;
+
         if (id == null) {
-            return Source.builder().id((long) -4).build();
-
+            sourceAfter = Source.builder().id((long) -4).build();
+            sourceBefore = sourceAfter;
         } else if (!sourceRepo.existsById(id)) {
-            return Source.builder().id((long) -3).build();
-
+            sourceAfter = Source.builder().id((long) -3).build();
+            sourceBefore = sourceAfter;
         } else {
-            Source source = sourceRepo.findById((long) id);
-            source.setIsArchive(false);
-            source.setDateActivation(LocalDateTime.now());
+            sourceAfter = sourceRepo.findById((long) id);
+            sourceBefore = Source
+                    .builder()
+                    .isArchive(sourceAfter.getIsArchive())
+                    .dateActivation(sourceAfter.getDateActivation())
+                    .build();
 
-            sourceRepo.save(source);
+            sourceAfter.setIsArchive(false);
+            sourceAfter.setDateActivation(LocalDateTime.now());
 
-            return source;
+            sourceRepo.save(sourceAfter);
+
         }
+
+        long loggerId = sourceLoggerSender.afterDeArchive(sourceAfter);
+
+        if (sourceAfter.getId() > 0) {
+            sourceBeforeAfter.afterDeArchive(sourceBefore, sourceAfter, loggerId);
+        }
+
+        return sourceAfter;
     }
 
     @PostMapping("/update")
     @ResponseBody
     public Source updateSource(@ModelAttribute Source source) {
+        Source afterUpdate;
+        Source beforeUpdate;
+
         if (source.getId() == null) {
-            return Source.builder().id((long) -4).build();
-
+            afterUpdate = Source.builder().id((long) -4).build();
+            beforeUpdate = afterUpdate;
         } else if (!sourceRepo.existsById(source.getId())) {
-            return Source.builder().id((long) -3).build();
-
+            afterUpdate = Source.builder().id((long) -3).build();
+            beforeUpdate = afterUpdate;
         } else if (!validator.isValid(source)) {
-            return Source.builder().id((long) -1).build();
+            afterUpdate = Source.builder().id((long) -1).build();
+            beforeUpdate = afterUpdate;
+        } else if (sourceRepo.existsByShortName(source.getShortName())
+                && !sourceRepo.existsByShortNameAndId(
+                source.getShortName(),
+                source.getId())) {
 
+            afterUpdate = Source.builder().id((long) -2).build();
+            beforeUpdate = afterUpdate;
         } else {
-            if (sourceRepo.existsByShortName(source.getShortName())
-                    && !sourceRepo.existsByShortNameAndId(
-                    source.getShortName(),
-                    source.getId())) {
 
-                return Source.builder().id((long) -2).build();
-            }
-
-            Source existPattern = sourceRepo.findById((long) source.getId());
+            beforeUpdate = new Source(sourceRepo.findById((long) source.getId()));
+            log.info(beforeUpdate.getShortName());
 
             source.setLastUpdate(LocalDateTime.now());
-            source.setDateCreation(existPattern.getDateCreation());
-            source.setDateActivation(existPattern.getDateActivation());
-            source.setDateDeactivation(existPattern.getDateDeactivation());
+            source.setDateCreation(beforeUpdate.getDateCreation());
+            source.setDateActivation(beforeUpdate.getDateActivation());
+            source.setDateDeactivation(beforeUpdate.getDateDeactivation());
+            log.info(beforeUpdate.getShortName());
 
-            return sourceRepo.save(source);
+            afterUpdate = sourceRepo.save(source);
+            log.info(beforeUpdate.getShortName());
+            log.info(afterUpdate.getShortName());
         }
+
+        long loggerId = sourceLoggerSender.afterUpdate(afterUpdate);
+
+        if (afterUpdate.getId() > 0) {
+            sourceBeforeAfter.afterUpdate(beforeUpdate, afterUpdate, loggerId);
+        }
+
+        return afterUpdate;
     }
 
 }

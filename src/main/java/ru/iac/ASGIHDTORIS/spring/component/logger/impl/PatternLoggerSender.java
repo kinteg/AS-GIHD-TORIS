@@ -7,6 +7,8 @@ import ru.iac.ASGIHDTORIS.spring.domain.*;
 import ru.iac.ASGIHDTORIS.spring.repo.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class PatternLoggerSender implements LoggerSender<Pattern> {
@@ -70,6 +72,13 @@ public class PatternLoggerSender implements LoggerSender<Pattern> {
     }
 
     @Override
+    public List<Long> afterArchive(List<Pattern> object) {
+        return object.stream()
+                .map(this::afterArchive)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Long afterDeArchive(Pattern object) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
@@ -90,6 +99,13 @@ public class PatternLoggerSender implements LoggerSender<Pattern> {
                 .build();
 
         return patternLoggerRepo.save(patternLogger).getId();
+    }
+
+    @Override
+    public List<Long> afterDeArchive(List<Pattern> object) {
+        return object.stream()
+                .map(this::afterDeArchive)
+                .collect(Collectors.toList());
     }
 
     @Override

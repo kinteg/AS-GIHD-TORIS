@@ -153,7 +153,7 @@ public class PatternController {
             patternAfter = Pattern.builder().id((long) -4).build();
             patternBefore = patternAfter;
         } else if (!patternRepo.existsById(id)) {
-            patternAfter =  Pattern.builder().id((long) -3).build();
+            patternAfter = Pattern.builder().id((long) -3).build();
             patternBefore = patternAfter;
         } else {
             patternAfter = patternRepo.findById((long) id);
@@ -188,7 +188,7 @@ public class PatternController {
             patternAfter = Pattern.builder().id((long) -4).build();
             patternBefore = patternAfter;
         } else if (!patternRepo.existsById(id)) {
-            patternAfter =  Pattern.builder().id((long) -3).build();
+            patternAfter = Pattern.builder().id((long) -3).build();
             patternBefore = patternAfter;
         } else {
             patternAfter = patternRepo.findById((long) id);
@@ -217,15 +217,26 @@ public class PatternController {
 
     @GetMapping("/archivePatterns/{sourceId}")
     public List<Pattern> archivePatterns(@PathVariable Long sourceId) {
+        List<Pattern> patternsBefore, patternsAfter;
 
         if (sourceId == null) {
-            return Collections.singletonList(Pattern.builder().id((long) -4).build());
-
+            patternsAfter = Collections.singletonList(Pattern.builder().id((long) -4).build());
+            patternsBefore = patternsAfter;
         } else if (!patternRepo.existsBySourceId(sourceId)) {
-            return Collections.singletonList(Pattern.builder().id((long) -3).build());
-
+            patternsAfter = Collections.singletonList(Pattern.builder().id((long) -3).build());
+            patternsBefore = patternsAfter;
         } else {
-            List<Pattern> patterns = patternRepo
+            patternsBefore = patternRepo
+                    .findAllBySourceId(sourceId)
+                    .stream()
+                    .map(v -> Pattern
+                            .builder()
+                            .isArchive(v.getIsArchive())
+                            .dateDeactivation(v.getDateDeactivation())
+                            .build())
+                    .collect(Collectors.toList());
+
+            patternsAfter = patternRepo
                     .findAllBySourceId(sourceId)
                     .stream()
                     .peek(v -> {
@@ -234,23 +245,44 @@ public class PatternController {
                     })
                     .collect(Collectors.toList());
 
-            return patternRepo.saveAll(patterns);
         }
+
+        List<Long> loggerId = patternLoggerSender.afterArchive(patternsAfter);
+
+        if (patternsAfter.get(0).getId() > 0) {
+            for (int i = 0; i < patternsAfter.size() && i < patternsBefore.size() && i < loggerId.size(); i++) {
+                patternBeforeAfter.afterArchive(patternsBefore.get(i),
+                        patternsAfter.get(i),
+                        loggerId.get(i));
+            }
+        }
+
+        return patternRepo.saveAll(patternsAfter);
 
     }
 
     @GetMapping("/deArchivePatterns/{sourceId}")
     public List<Pattern> deArchivePatterns(@PathVariable Long sourceId) {
+        List<Pattern> patternsBefore, patternsAfter;
 
         if (sourceId == null) {
-            return Collections.singletonList(Pattern.builder().id((long) -4).build());
-
+            patternsAfter = Collections.singletonList(Pattern.builder().id((long) -4).build());
+            patternsBefore = patternsAfter;
         } else if (!patternRepo.existsBySourceId(sourceId)) {
-            return Collections.singletonList(Pattern.builder().id((long) -3).build());
-
+            patternsAfter = Collections.singletonList(Pattern.builder().id((long) -3).build());
+            patternsBefore = patternsAfter;
         } else {
+            patternsBefore = patternRepo
+                    .findAllBySourceId(sourceId)
+                    .stream()
+                    .map(v -> Pattern
+                            .builder()
+                            .isArchive(v.getIsArchive())
+                            .dateActivation(v.getDateActivation())
+                            .build())
+                    .collect(Collectors.toList());
 
-            List<Pattern> patterns = patternRepo
+            patternsAfter = patternRepo
                     .findAllBySourceId(sourceId)
                     .stream()
                     .peek(v -> {
@@ -259,8 +291,20 @@ public class PatternController {
                     })
                     .collect(Collectors.toList());
 
-            return patternRepo.saveAll(patterns);
         }
+
+        List<Long> loggerId = patternLoggerSender.afterDeArchive(patternsAfter);
+
+        if (patternsAfter.get(0).getId() > 0) {
+            for (int i = 0; i < patternsAfter.size() && i < patternsBefore.size() && i < loggerId.size(); i++) {
+                patternBeforeAfter.afterDeArchive(patternsBefore.get(i),
+                        patternsAfter.get(i),
+                        loggerId.get(i));
+            }
+        }
+
+        return patternRepo.saveAll(patternsAfter);
+
     }
 
     @PostMapping("/update")

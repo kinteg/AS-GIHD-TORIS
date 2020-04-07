@@ -7,6 +7,8 @@ import ru.iac.ASGIHDTORIS.spring.domain.*;
 import ru.iac.ASGIHDTORIS.spring.repo.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class SourceLoggerSender implements LoggerSender<Source> {
@@ -70,6 +72,13 @@ public class SourceLoggerSender implements LoggerSender<Source> {
     }
 
     @Override
+    public List<Long> afterArchive(List<Source> object) {
+        return object.stream()
+                .map(this::afterArchive)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Long afterDeArchive(Source object) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
@@ -90,6 +99,13 @@ public class SourceLoggerSender implements LoggerSender<Source> {
                 .build();
 
         return sourceLoggerRepo.save(sourceLogger).getId();
+    }
+
+    @Override
+    public List<Long> afterDeArchive(List<Source> object) {
+        return object.stream()
+                .map(this::afterDeArchive)
+                .collect(Collectors.toList());
     }
 
     @Override

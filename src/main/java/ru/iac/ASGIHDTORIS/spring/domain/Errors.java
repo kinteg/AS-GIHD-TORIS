@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,7 +24,8 @@ public class Errors {
     private String error;
     private String errorStatus;
 
-    @OneToMany(mappedBy = "errors")
+    @JsonIgnore
+    @OneToMany(mappedBy = "errors", fetch = FetchType.EAGER)
     private List<SourceLogger> sourceLogger;
 
 }

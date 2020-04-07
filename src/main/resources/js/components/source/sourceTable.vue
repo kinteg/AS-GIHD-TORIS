@@ -781,9 +781,13 @@
         },
         mounted() {
             AXIOS.get("source/getAll").then(response => {
-                this.pagination.totalPages = response.data.totalPages;
-                this.pagination.totalElements = response.data.totalElements;
-                this.sourceData = response.data.content;
+                    this.pagination.totalPages = response.data.totalPages;
+                    this.pagination.totalElements = response.data.totalElements;
+                    this.sourceData = response.data.content;
+            });
+
+            AXIOS.get("sourceLogger/getAll").then(response => {
+                console.log(response);
             })
         }
     }

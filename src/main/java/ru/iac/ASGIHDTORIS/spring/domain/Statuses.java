@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,7 +23,8 @@ public class Statuses {
     private String status;
     private String name;
 
-    @OneToMany(mappedBy = "statuses")
+    @JsonIgnore
+    @OneToMany(mappedBy = "statuses", fetch = FetchType.EAGER)
     private List<SourceLogger> sourceLogger;
 
 }

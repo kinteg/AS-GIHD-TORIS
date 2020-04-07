@@ -1,6 +1,7 @@
 package ru.iac.ASGIHDTORIS.spring.repo.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.factory.ReaderFactory;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
@@ -13,6 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,6 +54,14 @@ public class SenderRepoImpl implements SenderRepo {
 
             List<String> nextRecord;
 
+            if (!(nextRecord = reader.readNext()).isEmpty()
+                    && !CollectionUtils.containsAny(nextRecord,
+                    keys.stream().map(DataModel::getKey).collect(Collectors.toList()))
+            ) {
+                String query = createSql(tableName, keys, nextRecord);
+                execute(query);
+            }
+
             while (!(nextRecord = reader.readNext()).isEmpty()) {
                 String query = createSql(tableName, keys, nextRecord);
                 execute(query);
@@ -59,8 +69,6 @@ public class SenderRepoImpl implements SenderRepo {
 
         } catch (Exception ex) {
             log.error(ex.getMessage());
-            log.error("ъуъ");
-
             return false;
         }
 

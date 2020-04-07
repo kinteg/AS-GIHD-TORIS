@@ -77,7 +77,7 @@ public class SourceController {
     }
 
     @GetMapping("/getAll")
-    public Page<Source> getAll(@PageableDefault Pageable pageable) {
+    public Page<Source> getAll(@PageableDefault(sort = "id") Pageable pageable) {
         return sourceRepo.findAll(pageable);
     }
 
@@ -88,7 +88,7 @@ public class SourceController {
     }
 
     @GetMapping("/getAllArchive")
-    public Page<Source> getAllArchive(@PageableDefault Pageable pageable) {
+    public Page<Source> getAllArchive(@PageableDefault(sort = "id") Pageable pageable) {
         return sourceRepo.findAllByIsArchive(true, pageable);
     }
 
@@ -100,12 +100,12 @@ public class SourceController {
     }
 
     @GetMapping("/getAllNotArchive")
-    public Page<Source> getAllNotArchive(@PageableDefault Pageable pageable) {
+    public Page<Source> getAllNotArchive(@PageableDefault(sort = "id") Pageable pageable) {
         return sourceRepo.findAllByIsArchive(false, pageable);
     }
 
     @PostMapping("/getAllNotArchiveSort")
-    public Page<Source> getAllNotArchiveSort(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<Source> getAllNotArchiveSort(@PageableDefault(sort = "id") SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         source.setHelpModel(helpModel);
         source.getHelpModel().setIsArchive(false);
         return sourceRepo2.findAllSourceByQuery(pageable, source);

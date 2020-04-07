@@ -102,7 +102,7 @@ public class PatternTableController {
     }
 
     @GetMapping("/getAll")
-    public Page<PatternTable> getAll(@PageableDefault Pageable pageable) {
+    public Page<PatternTable> getAll(@PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAll(pageable);
     }
 
@@ -113,12 +113,12 @@ public class PatternTableController {
     }
 
     @GetMapping("/getAll/{patternId}")
-    public Page<PatternTable> getAll(@PathVariable Long patternId, @PageableDefault Pageable pageable) {
+    public Page<PatternTable> getAll(@PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByPatternId(patternId, pageable);
     }
 
     @GetMapping("/getAllBySource/{sourceId}")
-    public Page<PatternTable> getAllBySource(@PageableDefault Pageable pageable, @PathVariable Long sourceId) {
+    public Page<PatternTable> getAllBySource(@PageableDefault(sort = "id") Pageable pageable, @PathVariable Long sourceId) {
         return patternTableRepo.findAllBySourceId(sourceId, pageable);
     }
 
@@ -136,7 +136,7 @@ public class PatternTableController {
     }
 
     @GetMapping("/getAllArchive")
-    public Page<PatternTable> getAllArchive(@PageableDefault Pageable pageable) {
+    public Page<PatternTable> getAllArchive(@PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByIsArchive(true, pageable);
     }
 
@@ -148,7 +148,7 @@ public class PatternTableController {
     }
 
     @GetMapping("/getAllArchive/{patternId}")
-    public Page<PatternTable> getAllArchive(@PathVariable Long patternId, @PageableDefault Pageable pageable) {
+    public Page<PatternTable> getAllArchive(@PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByPatternIdAndIsArchive(patternId, true, pageable);
     }
 
@@ -160,7 +160,7 @@ public class PatternTableController {
     }
 
     @GetMapping("/getAllArchiveBySourceId/{sourceId}")
-    public Page<PatternTable> getAllArchiveBySourceId(@PathVariable Long sourceId, @PageableDefault Pageable pageable) {
+    public Page<PatternTable> getAllArchiveBySourceId(@PathVariable Long sourceId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllBySourceIdAndIsArchive(sourceId, true, pageable);
     }
 
@@ -172,7 +172,7 @@ public class PatternTableController {
     }
 
     @GetMapping("/getAllNotArchive")
-    public Page<PatternTable> getAllNotArchive(@PageableDefault Pageable pageable) {
+    public Page<PatternTable> getAllNotArchive(@PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByIsArchive(false, pageable);
     }
 
@@ -184,7 +184,7 @@ public class PatternTableController {
     }
 
     @GetMapping("/getAllNotArchive/{patternId}")
-    public Page<PatternTable> getAllNotArchive(@PathVariable Long patternId, @PageableDefault Pageable pageable) {
+    public Page<PatternTable> getAllNotArchive(@PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByPatternIdAndIsArchive(patternId, false, pageable);
     }
 
@@ -196,7 +196,7 @@ public class PatternTableController {
     }
 
     @GetMapping("/getAllNotArchiveBySourceId/{sourceId}")
-    public Page<PatternTable> getAllNotArchiveBySourceId(@PathVariable Long sourceId, @PageableDefault Pageable pageable) {
+    public Page<PatternTable> getAllNotArchiveBySourceId(@PathVariable Long sourceId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllBySourceIdAndIsArchive(sourceId, false, pageable);
     }
 

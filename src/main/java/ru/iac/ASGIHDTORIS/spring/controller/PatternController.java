@@ -76,7 +76,7 @@ public class PatternController {
     }
 
     @GetMapping("/getAll")
-    public Page<Pattern> getAll(@PageableDefault Pageable pageable) {
+    public Page<Pattern> getAll(@PageableDefault(sort = "id") Pageable pageable) {
         return patternRepo.findAll(pageable);
     }
 
@@ -88,7 +88,7 @@ public class PatternController {
     }
 
     @GetMapping("/getAll/{sourceId}")
-    public Page<Pattern> getAll(@PathVariable Long sourceId, @PageableDefault Pageable pageable) {
+    public Page<Pattern> getAll(@PathVariable Long sourceId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternRepo.findAllBySourceId(sourceId, pageable);
     }
 
@@ -99,7 +99,7 @@ public class PatternController {
     }
 
     @GetMapping("/getAllArchive")
-    public Page<Pattern> getAllArchive(@PageableDefault Pageable pageable) {
+    public Page<Pattern> getAllArchive(@PageableDefault(sort = "id") Pageable pageable) {
         return patternRepo.findAllByIsArchive(true, pageable);
     }
 
@@ -111,7 +111,7 @@ public class PatternController {
     }
 
     @GetMapping("/getAllArchive/{sourceId}")
-    public Page<Pattern> getAllArchive(@PathVariable Long sourceId, @PageableDefault Pageable pageable) {
+    public Page<Pattern> getAllArchive(@PathVariable Long sourceId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternRepo.findAllBySourceIdAndIsArchive(sourceId, true, pageable);
     }
 
@@ -123,7 +123,7 @@ public class PatternController {
     }
 
     @GetMapping("/getAllNotArchive")
-    public Page<Pattern> getAllNotArchive(@PageableDefault Pageable pageable) {
+    public Page<Pattern> getAllNotArchive(@PageableDefault(sort = "id") Pageable pageable) {
         return patternRepo.findAllByIsArchive(false, pageable);
     }
 
@@ -135,7 +135,7 @@ public class PatternController {
     }
 
     @GetMapping("/getAllNotArchive/{sourceId}")
-    public Page<Pattern> getAllNotArchive(@PathVariable Long sourceId, @PageableDefault Pageable pageable) {
+    public Page<Pattern> getAllNotArchive(@PathVariable Long sourceId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternRepo.findAllBySourceIdAndIsArchive(sourceId, false, pageable);
     }
 

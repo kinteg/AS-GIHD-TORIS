@@ -24,55 +24,55 @@ public class PatternControllerAspect {
     public void callCreatePattern() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getById(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getPatternById(..))")
     public void callGetById() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAll(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPattern(..))")
     public void callGetAll() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllSort(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternSort(..))")
     public void callGetAllSort() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllBySourceId(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternBySourceId(..))")
     public void callGetAllBySourceId() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllBySourceIdSort(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternBySourceIdSort(..))")
     public void callGetAllBySourceIdSort() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllArchive(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternArchive(..))")
     public void callGetAllArchive() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllArchiveSort(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternArchiveSort(..))")
     public void callGetAllArchiveSort() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllArchiveBySourceId(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternArchiveBySourceId(..))")
     public void callGetAllArchiveBySourceId() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllArchiveBySourceIdSort(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternArchiveBySourceIdSort(..))")
     public void callGetAllArchiveBySourceIdSort() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllNotArchive(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternNotArchive(..))")
     public void callGetAllNotArchive() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllNotArchiveSort(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternNotArchiveSort(..))")
     public void callGetAllNotArchiveSort() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllNotArchiveBySourceId(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternNotArchiveBySourceId(..))")
     public void callGetAllNotArchiveBySourceId() {
     }
 
-    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllNotArchiveBuSourceIdSort(..))")
+    @Pointcut("execution(public * ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternNotArchiveBuSourceIdSort(..))")
     public void callGetAllNotArchiveBuSourceIdSort() {
     }
 

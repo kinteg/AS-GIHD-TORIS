@@ -255,7 +255,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                     <div v-else-if="updateTable">
@@ -473,6 +472,7 @@
                     lastUpdate1: "",
                     lastUpdate2: "",
                 },
+
                 source:{
                     name:"",
                     longName:"",
@@ -563,8 +563,9 @@
 
             sendFiles(file, fileList){
                 let formData = new FormData();
+                console.log(file.raw);
                 formData.append("file",file.raw);
-                formData.append("patternTableId",this.patternTableId);
+                formData.append("patternId",this.patternId);
                 AXIOS.post("fileLoader/sendDates/",
                     formData,
                     {

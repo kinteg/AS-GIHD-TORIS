@@ -12,6 +12,8 @@ import ShowPattern from "../pages/pattern/ShowPattern.vue";
 import ShowPatternArchive from "../pages/pattern/ShowPatternArchive.vue";
 import cardView from "../pages/cardView.vue";
 import ShowPatternNoArchive from "../pages/pattern/ShowPatternNoArchive.vue";
+import PatternTable from "../pages/patternTable/PatternTable.vue";
+import ShowPatternTable from "../pages/patternTable/ShowPatternTable.vue";
 
 const routes = [
     {
@@ -83,6 +85,26 @@ const routes = [
             },
         ]
     },
+
+    {
+        path:'/patternTable',
+        name: 'patternTable',
+        component: PatternTable,
+        meta: {
+            title: 'Таблицы',
+        },
+        children:[
+            {
+                path:'show',
+                component: ShowPatternTable,
+                name: 'ShowPatternTable',
+                meta: {
+                    title: 'Все таблицы'
+                },
+            },
+        ]
+    },
+
     {
         path:'/source/update/:id',
         component: UpdateSource,

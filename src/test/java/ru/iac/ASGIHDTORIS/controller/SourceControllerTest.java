@@ -17,7 +17,6 @@ public class SourceControllerTest {
     @Autowired
     private SourceController sourceController;
 
-
     @Test
     public void createSource() {
         Source source = sourceBuilder();
@@ -25,7 +24,6 @@ public class SourceControllerTest {
         System.out.println(sourceController.createSource(source));
 
     }
-
 
     private Source sourceBuilder() {
 

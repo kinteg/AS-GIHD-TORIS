@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.spring.controller;
+package ru.iac.ASGIHDTORIS.spring.controller.logger;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

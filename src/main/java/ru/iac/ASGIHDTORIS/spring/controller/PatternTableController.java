@@ -2,6 +2,8 @@ package ru.iac.ASGIHDTORIS.spring.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -59,6 +61,19 @@ public class PatternTableController {
         this.patternIdValidator = patternIdValidator;
     }
 
+    @CacheEvict(value =
+            "getTable, getByPatternTableId, " +
+                    "getAllPatternTable, getAllPatternTableSort, " +
+                    "getAllPatternTableByPatternId, getAllPatternTableBySourceId, " +
+                    "getAllPatternTableByPatternIdSort, getAllPatternTableBySourceIdSort" +
+                    "getAllPatternTableArchive, getAllPatternTableArchiveSort" +
+                    "getAllPatternTableArchiveByPatternId, getAllPatternTableArchiveByPatternIdSort" +
+                    "getAllPatternTableArchiveBySourceId, getAllPatternTableArchiveBySourceIdSort" +
+                    "getAllPatternTableNotArchive, getAllPatternTableNotArchiveSort" +
+                    "getAllPatternTableNotArchiveByPatternId, getAllPatternTableNotArchiveByPatternIdSort" +
+                    "getAllPatternTableNotArchiveBySourceId, getAllPatternTableNotArchiveBySourceIdSort" +
+                    "existByPatternTableName",
+            allEntries = true)
     @PostMapping("/create")
     @ResponseBody
     public boolean createPattern(
@@ -72,12 +87,14 @@ public class PatternTableController {
 
             return false;
         }
+
         dataModelCreator.setDataModel(dataModelList);
         List<DataModel> dataModels = dataModelCreator.getDataModel();
         tableModel.setModels(dataModels);
         return tableCreatorService.addTable(tableModel, patternId);
     }
 
+    @Cacheable(cacheNames = "getTable")
     @PostMapping("/getTable")
     public FullTableModelPage getTable(
             @RequestParam Long id,
@@ -96,118 +113,149 @@ public class PatternTableController {
 
     }
 
+    @Cacheable(cacheNames = "getByPatternTableId")
     @GetMapping("/{id}")
     public PatternTable getById(@PathVariable Long id) {
         return patternTableRepo.findById((long) id);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTable")
     @GetMapping("/getAll")
     public Page<PatternTable> getAll(@PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAll(pageable);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableSort")
     @PostMapping("/getAllSort")
-    public Page<PatternTable> getAll(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableByPatternId")
     @GetMapping("/getAll/{patternId}")
-    public Page<PatternTable> getAll(@PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
+    public Page<PatternTable> getAllByPatternId(@PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByPatternId(patternId, pageable);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableBySourceId")
     @GetMapping("/getAllBySource/{sourceId}")
-    public Page<PatternTable> getAllBySource(@PageableDefault(sort = "id") Pageable pageable, @PathVariable Long sourceId) {
+    public Page<PatternTable> getAllBySourceId(@PageableDefault(sort = "id") Pageable pageable, @PathVariable Long sourceId) {
         return patternTableRepo.findAllBySourceId(sourceId, pageable);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableByPatternIdSort")
     @PostMapping("/getAllSort/{patternId}")
-    public Page<PatternTable> getAllWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllByPatternIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         log.info(pattern.toString());
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableBySourceIdSort")
     @GetMapping("/getAllBySourceSort/{sourceId}")
-    public Page<PatternTable> getAllWithSourceId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllBySourceIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableArchive")
     @GetMapping("/getAllArchive")
     public Page<PatternTable> getAllArchive(@PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByIsArchive(true, pageable);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableArchiveSort")
     @GetMapping("/getAllArchiveSort")
-    public Page<PatternTable> getAllArchive(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllArchiveSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableArchiveByPatternId")
     @GetMapping("/getAllArchive/{patternId}")
-    public Page<PatternTable> getAllArchive(@PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
+    public Page<PatternTable> getAllArchiveByPatternId(@PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByPatternIdAndIsArchive(patternId, true, pageable);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableArchiveByPatternIdSort")
     @GetMapping("/getAllArchiveSort/{patternId}")
-    public Page<PatternTable> getAllArchiveWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllArchiveByPatternIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableArchiveBySourceId")
     @GetMapping("/getAllArchiveBySourceId/{sourceId}")
     public Page<PatternTable> getAllArchiveBySourceId(@PathVariable Long sourceId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllBySourceIdAndIsArchive(sourceId, true, pageable);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableArchiveBySourceIdSort")
     @GetMapping("/getAllArchiveSortBySourceId/{sourceId}")
-    public Page<PatternTable> getAllArchiveWithSourceId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllArchiveBySourceIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableNotArchive")
     @GetMapping("/getAllNotArchive")
     public Page<PatternTable> getAllNotArchive(@PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByIsArchive(false, pageable);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableNotArchiveSort")
     @GetMapping("/getAllNotArchiveSort")
-    public Page<PatternTable> getAllNotArchive(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllNotArchiveSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableNotArchiveByPatternId")
     @GetMapping("/getAllNotArchive/{patternId}")
-    public Page<PatternTable> getAllNotArchive(@PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
+    public Page<PatternTable> getAllNotArchiveByPatternId(@PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByPatternIdAndIsArchive(patternId, false, pageable);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableNotArchiveByPatternIdSort")
     @GetMapping("/getAllNotArchiveSort/{patternId}")
-    public Page<PatternTable> getAllNotArchiveWithPatternId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllNotArchiveByPatternIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableNotArchiveBySourceId")
     @GetMapping("/getAllNotArchiveBySourceId/{sourceId}")
     public Page<PatternTable> getAllNotArchiveBySourceId(@PathVariable Long sourceId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllBySourceIdAndIsArchive(sourceId, false, pageable);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableNotArchiveBySourceIdSort")
     @GetMapping("/getAllNotArchiveSortBySourceId/{sourceId}")
-    public Page<PatternTable> getAllNotArchiveWithPatternIdBySourceId(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllNotArchiveBySourceIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
     }
 
-
+    @CacheEvict(value =
+            "getTable, getByPatternTableId, " +
+                    "getAllPatternTable, getAllPatternTableSort, " +
+                    "getAllPatternTableByPatternId, getAllPatternTableBySourceId, " +
+                    "getAllPatternTableByPatternIdSort, getAllPatternTableBySourceIdSort" +
+                    "getAllPatternTableArchive, getAllPatternTableArchiveSort" +
+                    "getAllPatternTableArchiveByPatternId, getAllPatternTableArchiveByPatternIdSort" +
+                    "getAllPatternTableArchiveBySourceId, getAllPatternTableArchiveBySourceIdSort" +
+                    "getAllPatternTableNotArchive, getAllPatternTableNotArchiveSort" +
+                    "getAllPatternTableNotArchiveByPatternId, getAllPatternTableNotArchiveByPatternIdSort" +
+                    "getAllPatternTableNotArchiveBySourceId, getAllPatternTableNotArchiveBySourceIdSort" +
+                    "existByPatternTableName",
+            allEntries = true)
     @GetMapping("/archive/{id}")
     public PatternTable archivePattern(@PathVariable Long id) {
 
@@ -224,6 +272,19 @@ public class PatternTableController {
         return new PatternTable();
     }
 
+    @CacheEvict(value =
+            "getTable, getByPatternTableId, " +
+                    "getAllPatternTable, getAllPatternTableSort, " +
+                    "getAllPatternTableByPatternId, getAllPatternTableBySourceId, " +
+                    "getAllPatternTableByPatternIdSort, getAllPatternTableBySourceIdSort" +
+                    "getAllPatternTableArchive, getAllPatternTableArchiveSort" +
+                    "getAllPatternTableArchiveByPatternId, getAllPatternTableArchiveByPatternIdSort" +
+                    "getAllPatternTableArchiveBySourceId, getAllPatternTableArchiveBySourceIdSort" +
+                    "getAllPatternTableNotArchive, getAllPatternTableNotArchiveSort" +
+                    "getAllPatternTableNotArchiveByPatternId, getAllPatternTableNotArchiveByPatternIdSort" +
+                    "getAllPatternTableNotArchiveBySourceId, getAllPatternTableNotArchiveBySourceIdSort" +
+                    "existByPatternTableName",
+            allEntries = true)
     @GetMapping("/deArchive/{id}")
     public PatternTable deArchivePattern(@PathVariable Long id) {
 
@@ -240,7 +301,19 @@ public class PatternTableController {
         return new PatternTable();
     }
 
-
+    @CacheEvict(value =
+            "getTable, getByPatternTableId, " +
+                    "getAllPatternTable, getAllPatternTableSort, " +
+                    "getAllPatternTableByPatternId, getAllPatternTableBySourceId, " +
+                    "getAllPatternTableByPatternIdSort, getAllPatternTableBySourceIdSort" +
+                    "getAllPatternTableArchive, getAllPatternTableArchiveSort" +
+                    "getAllPatternTableArchiveByPatternId, getAllPatternTableArchiveByPatternIdSort" +
+                    "getAllPatternTableArchiveBySourceId, getAllPatternTableArchiveBySourceIdSort" +
+                    "getAllPatternTableNotArchive, getAllPatternTableNotArchiveSort" +
+                    "getAllPatternTableNotArchiveByPatternId, getAllPatternTableNotArchiveByPatternIdSort" +
+                    "getAllPatternTableNotArchiveBySourceId, getAllPatternTableNotArchiveBySourceIdSort" +
+                    "existByPatternTableName",
+            allEntries = true)
     @GetMapping("/archivePatterns/{id}")
     public List<PatternTable> archivePatterns(@PathVariable Long id) {
 
@@ -262,6 +335,19 @@ public class PatternTableController {
         return Collections.emptyList();
     }
 
+    @CacheEvict(value =
+            "getTable, getByPatternTableId, " +
+                    "getAllPatternTable, getAllPatternTableSort, " +
+                    "getAllPatternTableByPatternId, getAllPatternTableBySourceId, " +
+                    "getAllPatternTableByPatternIdSort, getAllPatternTableBySourceIdSort" +
+                    "getAllPatternTableArchive, getAllPatternTableArchiveSort" +
+                    "getAllPatternTableArchiveByPatternId, getAllPatternTableArchiveByPatternIdSort" +
+                    "getAllPatternTableArchiveBySourceId, getAllPatternTableArchiveBySourceIdSort" +
+                    "getAllPatternTableNotArchive, getAllPatternTableNotArchiveSort" +
+                    "getAllPatternTableNotArchiveByPatternId, getAllPatternTableNotArchiveByPatternIdSort" +
+                    "getAllPatternTableNotArchiveBySourceId, getAllPatternTableNotArchiveBySourceIdSort" +
+                    "existByPatternTableName",
+            allEntries = true)
     @GetMapping("/deArchivePatterns/{id}")
     public List<PatternTable> deArchivePatterns(@PathVariable Long id) {
 
@@ -283,7 +369,19 @@ public class PatternTableController {
         return Collections.emptyList();
     }
 
-
+    @CacheEvict(value =
+            "getTable, getByPatternTableId, " +
+                    "getAllPatternTable, getAllPatternTableSort, " +
+                    "getAllPatternTableByPatternId, getAllPatternTableBySourceId, " +
+                    "getAllPatternTableByPatternIdSort, getAllPatternTableBySourceIdSort" +
+                    "getAllPatternTableArchive, getAllPatternTableArchiveSort" +
+                    "getAllPatternTableArchiveByPatternId, getAllPatternTableArchiveByPatternIdSort" +
+                    "getAllPatternTableArchiveBySourceId, getAllPatternTableArchiveBySourceIdSort" +
+                    "getAllPatternTableNotArchive, getAllPatternTableNotArchiveSort" +
+                    "getAllPatternTableNotArchiveByPatternId, getAllPatternTableNotArchiveByPatternIdSort" +
+                    "getAllPatternTableNotArchiveBySourceId, getAllPatternTableNotArchiveBySourceIdSort" +
+                    "existByPatternTableName",
+            allEntries = true)
     @GetMapping("/archivePatternsBySource/{id}")
     public List<PatternTable> archivePatternsBySource(@PathVariable Long id) {
 
@@ -305,6 +403,19 @@ public class PatternTableController {
         return Collections.emptyList();
     }
 
+    @CacheEvict(value =
+            "getTable, getByPatternTableId, " +
+                    "getAllPatternTable, getAllPatternTableSort, " +
+                    "getAllPatternTableByPatternId, getAllPatternTableBySourceId, " +
+                    "getAllPatternTableByPatternIdSort, getAllPatternTableBySourceIdSort" +
+                    "getAllPatternTableArchive, getAllPatternTableArchiveSort" +
+                    "getAllPatternTableArchiveByPatternId, getAllPatternTableArchiveByPatternIdSort" +
+                    "getAllPatternTableArchiveBySourceId, getAllPatternTableArchiveBySourceIdSort" +
+                    "getAllPatternTableNotArchive, getAllPatternTableNotArchiveSort" +
+                    "getAllPatternTableNotArchiveByPatternId, getAllPatternTableNotArchiveByPatternIdSort" +
+                    "getAllPatternTableNotArchiveBySourceId, getAllPatternTableNotArchiveBySourceIdSort" +
+                    "existByPatternTableName",
+            allEntries = true)
     @GetMapping("/deArchivePatternsBySource/{id}")
     public List<PatternTable> deArchivePatternsBySource(@PathVariable Long id) {
 
@@ -326,6 +437,7 @@ public class PatternTableController {
         return Collections.emptyList();
     }
 
+    @Cacheable(cacheNames = "existByPatternTableName")
     @GetMapping("exist/{name}")
     public boolean existByName(@PathVariable String name) {
         return patternTableRepo.existsByNameTable(name);

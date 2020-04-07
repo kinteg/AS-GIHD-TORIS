@@ -2,6 +2,8 @@ package ru.iac.ASGIHDTORIS.spring.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,6 +45,12 @@ public class SourceController {
         this.sourceBeforeAfter = sourceBeforeAfter;
     }
 
+    @CacheEvict(value =
+            "checkSourceName, getBySourceId, " +
+                    "getAllSource, getAllSourceSort, " +
+                    "getAllSourceArchive, getAllSourceArchiveSort, " +
+                    "getAllSourceNotArchive, getAllSourceNotArchiveSort",
+            allEntries = true)
     @PostMapping("/create")
     @ResponseBody
     public Source createSource(@ModelAttribute Source source) {
@@ -66,32 +74,38 @@ public class SourceController {
         return sourceAfter;
     }
 
+    @Cacheable(cacheNames = "checkSourceName")
     @GetMapping("/checkName")
     public boolean checkName(String name) {
         return sourceRepo.existsByShortName(name);
     }
 
+    @Cacheable(cacheNames = "getBySourceId")
     @GetMapping("/{id}")
     public Source getById(@PathVariable Long id) {
         return sourceRepo.findById((long) id);
     }
 
+    @Cacheable(cacheNames = "getAllSource")
     @GetMapping("/getAll")
     public Page<Source> getAll(@PageableDefault(sort = "id") Pageable pageable) {
         return sourceRepo.findAll(pageable);
     }
 
+    @Cacheable(cacheNames = "getAllSourceSort")
     @PostMapping("/getAllSort")
     public Page<Source> getAllSort(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         source.setHelpModel(helpModel);
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
 
+    @Cacheable(cacheNames = "getAllSourceArchive")
     @GetMapping("/getAllArchive")
     public Page<Source> getAllArchive(@PageableDefault(sort = "id") Pageable pageable) {
         return sourceRepo.findAllByIsArchive(true, pageable);
     }
 
+    @Cacheable(cacheNames = "getAllSourceArchiveSort")
     @PostMapping("/getAllArchiveSort")
     public Page<Source> getAllArchiveSort(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         source.setHelpModel(helpModel);
@@ -99,11 +113,13 @@ public class SourceController {
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
 
+    @Cacheable(cacheNames = "getAllSourceNotArchive")
     @GetMapping("/getAllNotArchive")
     public Page<Source> getAllNotArchive(@PageableDefault(sort = "id") Pageable pageable) {
         return sourceRepo.findAllByIsArchive(false, pageable);
     }
 
+    @Cacheable(cacheNames = "getAllSourceNotArchiveSort")
     @PostMapping("/getAllNotArchiveSort")
     public Page<Source> getAllNotArchiveSort(@PageableDefault(sort = "id") SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         source.setHelpModel(helpModel);
@@ -111,6 +127,12 @@ public class SourceController {
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
 
+    @CacheEvict(value =
+            "checkSourceName, getBySourceId, " +
+                    "getAllSource, getAllSourceSort, " +
+                    "getAllSourceArchive, getAllSourceArchiveSort, " +
+                    "getAllSourceNotArchive, getAllSourceNotArchiveSort",
+            allEntries = true)
     @GetMapping("/archive/{id}")
     public Source archiveSource(@PathVariable Long id) {
         Source sourceBefore, sourceAfter;
@@ -145,6 +167,12 @@ public class SourceController {
 
     }
 
+    @CacheEvict(value =
+            "checkSourceName, getBySourceId, " +
+                    "getAllSource, getAllSourceSort, " +
+                    "getAllSourceArchive, getAllSourceArchiveSort, " +
+                    "getAllSourceNotArchive, getAllSourceNotArchiveSort",
+            allEntries = true)
     @GetMapping("/deArchive/{id}")
     public Source deArchiveSource(@PathVariable Long id) {
         Source sourceBefore, sourceAfter;
@@ -179,6 +207,12 @@ public class SourceController {
         return sourceAfter;
     }
 
+    @CacheEvict(value =
+            "checkSourceName, getBySourceId, " +
+                    "getAllSource, getAllSourceSort, " +
+                    "getAllSourceArchive, getAllSourceArchiveSort, " +
+                    "getAllSourceNotArchive, getAllSourceNotArchiveSort",
+            allEntries = true)
     @PostMapping("/update")
     @ResponseBody
     public Source updateSource(@ModelAttribute Source source) {

@@ -20,6 +20,9 @@ import ru.iac.ASGIHDTORIS.common.model.table.PatternTableModelStatus;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModelStatus;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.spring.component.ba.BeforeAfter;
+import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
+import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo2;
@@ -44,6 +47,8 @@ public class PatternTableController {
     private final Validator<DataModelList> dataModelListValidator;
     private final TableCreatorService tableCreatorService;
     private final Validator<Long> patternIdValidator;
+    private final LoggerSender<PatternTable> patternTableLoggerSender;
+    private final BeforeAfter<PatternTable> patternTableBeforeAfter;
 
     public PatternTableController(
             TableCreatorService tableCreatorService,
@@ -52,7 +57,9 @@ public class PatternTableController {
             PatternTableRepo2 patternTableRepo2,
             TableRepo tableRepo,
             @Qualifier("dataModelListValidator") Validator<DataModelList> dataModelListValidator,
-            @Qualifier("patternIdValidator") Validator<Long> patternIdValidator) {
+            @Qualifier("patternIdValidator") Validator<Long> patternIdValidator,
+            @Qualifier("patternTableLoggerSender") LoggerSender<PatternTable> patternTableLoggerSender,
+            @Qualifier("patternTableBeforeAfter") BeforeAfter<PatternTable> patternTableBeforeAfter) {
 
         this.tableCreatorService = tableCreatorService;
         this.dataModelCreator = dataModelCreator;
@@ -61,6 +68,8 @@ public class PatternTableController {
         this.tableRepo = tableRepo;
         this.dataModelListValidator = dataModelListValidator;
         this.patternIdValidator = patternIdValidator;
+        this.patternTableLoggerSender = patternTableLoggerSender;
+        this.patternTableBeforeAfter = patternTableBeforeAfter;
     }
 
     @CacheEvict(value =
@@ -84,32 +93,46 @@ public class PatternTableController {
             @RequestParam Long patternId
     ) {
 
+        PatternTableModelStatus patternAfter;
+        long loggerId;
+
         if (!patternIdValidator.isValid(patternId)) {
-            return PatternTableModelStatus
+            patternAfter = PatternTableModelStatus
                     .builder()
                     .tableModel(TableModelStatus.emptyTableModelStatus())
                     .patternTable(PatternTable.builder().id(Long.parseLong("-1")).build())
                     .build();
+            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable());
         } else if (patternTableRepo.existsByNameTable(tableModel.getTableName())) {
-            return PatternTableModelStatus
+            patternAfter = PatternTableModelStatus
                     .builder()
                     .tableModel(TableModelStatus.emptyTableModelStatus())
                     .patternTable(PatternTable.builder().id(Long.parseLong("-2")).build())
                     .build();
+            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable());
         } else if (!dataModelListValidator.isValid(dataModelList)) {
-            return PatternTableModelStatus
+            patternAfter = PatternTableModelStatus
                     .builder()
                     .tableModel(TableModelStatus.emptyTableModelStatus())
                     .patternTable(PatternTable.builder().id(Long.parseLong("-1")).build())
                     .build();
+            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable());
         } else {
 
             dataModelCreator.setDataModel(dataModelList);
             List<DataModel> dataModels = dataModelCreator.getDataModel();
             tableModel.setModels(dataModels);
 
-            return tableCreatorService.addTable(tableModel, patternId);
+            patternAfter = tableCreatorService.addTable(tableModel, patternId);
+            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable());
+
         }
+
+        if (patternAfter.getPatternTable().getId() > 0) {
+            patternTableBeforeAfter.afterCreate(patternAfter.getPatternTable(), loggerId);
+        }
+
+        return patternAfter;
     }
 
     @Cacheable(cacheNames = "getTable")
@@ -276,18 +299,35 @@ public class PatternTableController {
             allEntries = true)
     @GetMapping("/archive/{id}")
     public PatternTable archivePattern(@PathVariable Long id) {
+        PatternTable patternBefore, patternAfter;
 
-        if (id != null && patternTableRepo.existsById(id)) {
-            PatternTable pattern = patternTableRepo.findById((long) id);
-            pattern.setIsArchive(true);
-            pattern.setDateActivation(LocalDateTime.now());
+        if (id == null) {
+            patternAfter = PatternTable.builder().id((long) -4).build();
+            patternBefore = patternAfter;
+        } else if (!patternTableRepo.existsById(id)) {
+            patternAfter = PatternTable.builder().id((long) -3).build();
+            patternBefore = patternAfter;
+        } else {
+            patternAfter = patternTableRepo.findById((long) id);
+            patternBefore = PatternTable
+                    .builder()
+                    .isArchive(patternAfter.getIsArchive())
+                    .dateDeactivation(patternAfter.getDateDeactivation())
+                    .build();
+            patternAfter.setIsArchive(true);
+            patternAfter.setDateDeactivation(LocalDateTime.now());
 
-            patternTableRepo.save(pattern);
+            patternTableRepo.save(patternAfter);
 
-            return pattern;
         }
 
-        return new PatternTable();
+        long loggerId = patternTableLoggerSender.afterArchive(patternAfter);
+
+        if (patternAfter.getId() > 0) {
+            patternTableBeforeAfter.afterArchive(patternBefore, patternAfter, loggerId);
+        }
+
+        return patternAfter;
     }
 
     @CacheEvict(value =
@@ -305,18 +345,35 @@ public class PatternTableController {
             allEntries = true)
     @GetMapping("/deArchive/{id}")
     public PatternTable deArchivePattern(@PathVariable Long id) {
+        PatternTable patternBefore, patternAfter;
 
-        if (id != null && patternTableRepo.existsById(id)) {
-            PatternTable pattern = patternTableRepo.findById((long) id);
-            pattern.setIsArchive(false);
-            pattern.setDateActivation(LocalDateTime.now());
+        if (id == null) {
+            patternAfter = PatternTable.builder().id((long) -4).build();
+            patternBefore = patternAfter;
+        } else if (!patternTableRepo.existsById(id)) {
+            patternAfter = PatternTable.builder().id((long) -3).build();
+            patternBefore = patternAfter;
+        } else {
+            patternAfter = patternTableRepo.findById((long) id);
+            patternBefore = PatternTable
+                    .builder()
+                    .isArchive(patternAfter.getIsArchive())
+                    .dateDeactivation(patternAfter.getDateDeactivation())
+                    .build();
+            patternAfter.setIsArchive(false);
+            patternAfter.setDateActivation(LocalDateTime.now());
 
-            patternTableRepo.save(pattern);
+            patternTableRepo.save(patternAfter);
 
-            return pattern;
         }
 
-        return new PatternTable();
+        long loggerId = patternTableLoggerSender.afterArchive(patternAfter);
+
+        if (patternAfter.getId() > 0) {
+            patternTableBeforeAfter.afterArchive(patternBefore, patternAfter, loggerId);
+        }
+
+        return patternAfter;
     }
 
     @CacheEvict(value =
@@ -334,9 +391,26 @@ public class PatternTableController {
             allEntries = true)
     @GetMapping("/archivePatterns/{id}")
     public List<PatternTable> archivePatterns(@PathVariable Long id) {
+        List<PatternTable> patternsBefore, patternsAfter;
 
-        if (id != null && patternTableRepo.existsByPatternId(id)) {
-            List<PatternTable> patterns = patternTableRepo
+        if (id == null) {
+            patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -4).build());
+            patternsBefore = patternsAfter;
+        } else if (!patternTableRepo.existsByPatternId(id)) {
+            patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -3).build());
+            patternsBefore = patternsAfter;
+        } else {
+            patternsBefore = patternTableRepo
+                    .findAllByPatternId(id)
+                    .stream()
+                    .map(v -> PatternTable
+                            .builder()
+                            .isArchive(v.getIsArchive())
+                            .dateDeactivation(v.getDateDeactivation())
+                            .build())
+                    .collect(Collectors.toList());
+
+            patternsAfter = patternTableRepo
                     .findAllByPatternId(id)
                     .stream()
                     .peek(v -> {
@@ -345,12 +419,19 @@ public class PatternTableController {
                     })
                     .collect(Collectors.toList());
 
-            patternTableRepo.saveAll(patterns);
-
-            return patterns;
         }
 
-        return Collections.emptyList();
+        List<Long> loggerId = patternTableLoggerSender.afterArchive(patternsAfter);
+
+        if (patternsAfter.get(0).getId() > 0) {
+            for (int i = 0; i < patternsAfter.size() && i < patternsBefore.size() && i < loggerId.size(); i++) {
+                patternTableBeforeAfter.afterArchive(patternsBefore.get(i),
+                        patternsAfter.get(i),
+                        loggerId.get(i));
+            }
+        }
+
+        return patternTableRepo.saveAll(patternsAfter);
     }
 
     @CacheEvict(value =
@@ -368,9 +449,26 @@ public class PatternTableController {
             allEntries = true)
     @GetMapping("/deArchivePatterns/{id}")
     public List<PatternTable> deArchivePatterns(@PathVariable Long id) {
+        List<PatternTable> patternsBefore, patternsAfter;
 
-        if (id != null && patternTableRepo.existsByPatternId(id)) {
-            List<PatternTable> patterns = patternTableRepo
+        if (id == null) {
+            patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -4).build());
+            patternsBefore = patternsAfter;
+        } else if (!patternTableRepo.existsByPatternId(id)) {
+            patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -3).build());
+            patternsBefore = patternsAfter;
+        } else {
+            patternsBefore = patternTableRepo
+                    .findAllByPatternId(id)
+                    .stream()
+                    .map(v -> PatternTable
+                            .builder()
+                            .isArchive(v.getIsArchive())
+                            .dateActivation(v.getDateActivation())
+                            .build())
+                    .collect(Collectors.toList());
+
+            patternsAfter = patternTableRepo
                     .findAllByPatternId(id)
                     .stream()
                     .peek(v -> {
@@ -379,12 +477,19 @@ public class PatternTableController {
                     })
                     .collect(Collectors.toList());
 
-            patternTableRepo.saveAll(patterns);
-
-            return patterns;
         }
 
-        return Collections.emptyList();
+        List<Long> loggerId = patternTableLoggerSender.afterDeArchive(patternsAfter);
+
+        if (patternsAfter.get(0).getId() > 0) {
+            for (int i = 0; i < patternsAfter.size() && i < patternsBefore.size() && i < loggerId.size(); i++) {
+                patternTableBeforeAfter.afterDeArchive(patternsBefore.get(i),
+                        patternsAfter.get(i),
+                        loggerId.get(i));
+            }
+        }
+
+        return patternTableRepo.saveAll(patternsAfter);
     }
 
     @CacheEvict(value =
@@ -402,9 +507,26 @@ public class PatternTableController {
             allEntries = true)
     @GetMapping("/archivePatternsBySource/{id}")
     public List<PatternTable> archivePatternsBySource(@PathVariable Long id) {
+        List<PatternTable> patternsBefore, patternsAfter;
 
-        if (id != null && patternTableRepo.existsBySourceId(id)) {
-            List<PatternTable> patterns = patternTableRepo
+        if (id == null) {
+            patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -4).build());
+            patternsBefore = patternsAfter;
+        } else if (!patternTableRepo.existsBySourceId(id)) {
+            patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -3).build());
+            patternsBefore = patternsAfter;
+        } else {
+            patternsBefore = patternTableRepo
+                    .findAllBySourceId(id)
+                    .stream()
+                    .map(v -> PatternTable
+                            .builder()
+                            .isArchive(v.getIsArchive())
+                            .dateDeactivation(v.getDateDeactivation())
+                            .build())
+                    .collect(Collectors.toList());
+
+            patternsAfter = patternTableRepo
                     .findAllBySourceId(id)
                     .stream()
                     .peek(v -> {
@@ -413,12 +535,19 @@ public class PatternTableController {
                     })
                     .collect(Collectors.toList());
 
-            patternTableRepo.saveAll(patterns);
-
-            return patterns;
         }
 
-        return Collections.emptyList();
+        List<Long> loggerId = patternTableLoggerSender.afterArchive(patternsAfter);
+
+        if (patternsAfter.get(0).getId() > 0) {
+            for (int i = 0; i < patternsAfter.size() && i < patternsBefore.size() && i < loggerId.size(); i++) {
+                patternTableBeforeAfter.afterArchive(patternsBefore.get(i),
+                        patternsAfter.get(i),
+                        loggerId.get(i));
+            }
+        }
+
+        return patternTableRepo.saveAll(patternsAfter);
     }
 
     @CacheEvict(value =
@@ -436,9 +565,26 @@ public class PatternTableController {
             allEntries = true)
     @GetMapping("/deArchivePatternsBySource/{id}")
     public List<PatternTable> deArchivePatternsBySource(@PathVariable Long id) {
+        List<PatternTable> patternsBefore, patternsAfter;
 
-        if (id != null && patternTableRepo.existsBySourceId(id)) {
-            List<PatternTable> patterns = patternTableRepo
+        if (id == null) {
+            patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -4).build());
+            patternsBefore = patternsAfter;
+        } else if (!patternTableRepo.existsBySourceId(id)) {
+            patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -3).build());
+            patternsBefore = patternsAfter;
+        } else {
+            patternsBefore = patternTableRepo
+                    .findAllBySourceId(id)
+                    .stream()
+                    .map(v -> PatternTable
+                            .builder()
+                            .isArchive(v.getIsArchive())
+                            .dateActivation(v.getDateActivation())
+                            .build())
+                    .collect(Collectors.toList());
+
+            patternsAfter = patternTableRepo
                     .findAllBySourceId(id)
                     .stream()
                     .peek(v -> {
@@ -447,12 +593,19 @@ public class PatternTableController {
                     })
                     .collect(Collectors.toList());
 
-            patternTableRepo.saveAll(patterns);
-
-            return patterns;
         }
 
-        return Collections.emptyList();
+        List<Long> loggerId = patternTableLoggerSender.afterDeArchive(patternsAfter);
+
+        if (patternsAfter.get(0).getId() > 0) {
+            for (int i = 0; i < patternsAfter.size() && i < patternsBefore.size() && i < loggerId.size(); i++) {
+                patternTableBeforeAfter.afterDeArchive(patternsBefore.get(i),
+                        patternsAfter.get(i),
+                        loggerId.get(i));
+            }
+        }
+
+        return patternTableRepo.saveAll(patternsAfter);
     }
 
     @Cacheable(cacheNames = "existByPatternTableName")

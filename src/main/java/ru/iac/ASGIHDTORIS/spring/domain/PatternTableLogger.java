@@ -31,7 +31,7 @@ public class PatternTableLogger {
     @JoinColumn(name = "error_id", referencedColumnName = "id")
     private Errors errors;
 
-    private Long patternId;
+    private Long patternTableId;
 
     private LocalDateTime dateCreation;
 

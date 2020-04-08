@@ -16,7 +16,7 @@ import ru.iac.ASGIHDTORIS.spring.repo.PatternLoggerRepo;
 
 @RestController
 @EnableAspectJAutoProxy
-@RequestMapping("api/patternLogger/")
+@RequestMapping("api/patternTableLogger/")
 @Slf4j
 public class PatternTableLoggerController {
 

@@ -12,6 +12,6 @@ public interface PatternTableLoggerRepo extends JpaRepository<PatternTableLogger
 
     Page<PatternTableLogger> findAll(Pageable pageable);
 
-    Page<PatternTableLogger> findAllByPatternId(Pageable pageable, long patternId);
+    Page<PatternTableLogger> findAllByPatternTableId(Pageable pageable, long patternTableId);
 
 }

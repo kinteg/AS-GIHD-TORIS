@@ -12,19 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.iac.ASGIHDTORIS.spring.domain.BeforeAfterPattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternLogger;
 import ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo;
-import ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternLoggerRepo;
 
 @RestController
 @EnableAspectJAutoProxy
 @RequestMapping("api/patternLogger/")
 @Slf4j
-public class PatternLoggerController {
+public class PatternTableLoggerController {
 
     private final PatternLoggerRepo patternLoggerRepo;
     private final BeforeAfterPatternRepo beforeAfterPatternRepo;
 
-    public PatternLoggerController(PatternLoggerRepo patternLoggerRepo, BeforeAfterPatternRepo beforeAfterPatternRepo) {
+    public PatternTableLoggerController(PatternLoggerRepo patternLoggerRepo, BeforeAfterPatternRepo beforeAfterPatternRepo) {
         this.patternLoggerRepo = patternLoggerRepo;
         this.beforeAfterPatternRepo = beforeAfterPatternRepo;
     }
@@ -39,9 +38,9 @@ public class PatternLoggerController {
         return patternLoggerRepo.findAll(pageable);
     }
 
-    @GetMapping("/getAll/{patternId}")
-    public Page<PatternLogger> getAllLogger(@PageableDefault Pageable pageable, @PathVariable Long patternId) {
-        return patternLoggerRepo.findAllByPatternId(pageable, patternId);
+    @GetMapping("/getAll/{patternTableId}")
+    public Page<PatternLogger> getAllLogger(@PageableDefault Pageable pageable, @PathVariable Long patternTableId) {
+        return patternLoggerRepo.findAllByPatternId(pageable, patternTableId);
     }
 
     @GetMapping("/beforeAfter/{id}")
@@ -54,9 +53,9 @@ public class PatternLoggerController {
         return beforeAfterPatternRepo.findAll(pageable);
     }
 
-    @GetMapping("/getAll/beforeAfter/{patternLoggerId}")
-    public Page<BeforeAfterPattern> getAllBeforeAfter(@PageableDefault Pageable pageable, @PathVariable Long patternLoggerId) {
-        return beforeAfterPatternRepo.findAllByPatternLoggerId(pageable, patternLoggerId);
+    @GetMapping("/getAll/beforeAfter/{patternTableLoggerId}")
+    public Page<BeforeAfterPattern> getAllBeforeAfter(@PageableDefault Pageable pageable, @PathVariable Long patternTableLoggerId) {
+        return beforeAfterPatternRepo.findAllByPatternLoggerId(pageable, patternTableLoggerId);
     }
 
 }

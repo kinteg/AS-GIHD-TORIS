@@ -46,7 +46,6 @@ public class FileSenderServiceImpl implements FileSenderService {
 
         boolean result = senderRepo.insert(targetFile, tableModel);
         targetFile.delete();
-        file.delete();
         return result;
     }
 
@@ -69,8 +68,6 @@ public class FileSenderServiceImpl implements FileSenderService {
             senderRepo.insert(targetFile, tableModel);
             targetFile.delete();
         }
-
-        file.delete();
 
         return true;
     }

@@ -2,8 +2,10 @@ package ru.iac.ASGIHDTORIS.spring.repo.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import ru.iac.ASGIHDTORIS.common.Status;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
+import ru.iac.ASGIHDTORIS.common.model.table.TableModelStatus;
 import ru.iac.ASGIHDTORIS.spring.repo.CreatorRepo;
 
 import java.sql.Connection;
@@ -30,18 +32,37 @@ public class PostgresqlCreatorRepo implements CreatorRepo {
     }
 
     @Override
-    public boolean createTable(TableModel tableModel) {
+    public TableModelStatus createTable(TableModel tableModel) {
         String query = createSql(tableModel);
-        try (Statement stmt = connection.createStatement()) {
-            log.info(query);
-            stmt.execute(query);
-        } catch (SQLException e) {
-            log.error(e.getMessage());
-            log.error(query);
-            return false;
-        }
 
-        return true;
+        try (Statement stmt = connection.createStatement()) {
+            return stmt.execute(query) ?
+                    TableModelStatus
+                            .builder()
+                            .status(Status.OK)
+                            .exception("")
+                            .answer("Таблица создана")
+                            .tableModel(tableModel)
+                            .build()
+                    : TableModelStatus
+                    .builder()
+                    .status(Status.WARN)
+                    .exception("")
+                    .answer("Таблица не создана")
+                    .tableModel(TableModel.emptyTableModel())
+                    .build();
+
+        } catch (SQLException e) {
+
+            log.warn(e.getMessage() + "\n       " + query);
+            return TableModelStatus
+                    .builder()
+                    .status(Status.ERROR)
+                    .exception(e.getMessage())
+                    .answer("Таблица создана")
+                    .tableModel(TableModel.emptyTableModel())
+                    .build();
+        }
     }
 
     private String createSql(TableModel tableModel) {

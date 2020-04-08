@@ -16,10 +16,11 @@ import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternTableModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModelPage;
 import ru.iac.ASGIHDTORIS.common.model.serch.SearchModel;
+import ru.iac.ASGIHDTORIS.common.model.table.PatternTableModelStatus;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
+import ru.iac.ASGIHDTORIS.common.model.table.TableModelStatus;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
-import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo2;
 import ru.iac.ASGIHDTORIS.spring.repo.TableRepo;
@@ -29,6 +30,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Slf4j
 @Controller
 @RequestMapping("api/tableCreator/")
@@ -76,22 +78,38 @@ public class PatternTableController {
             allEntries = true)
     @PostMapping("/create")
     @ResponseBody
-    public boolean createPattern(
+    public PatternTableModelStatus createPattern(
             @ModelAttribute TableModel tableModel,
             @ModelAttribute DataModelList dataModelList,
             @RequestParam Long patternId
     ) {
-        if (!patternIdValidator.isValid(patternId)
-                || patternTableRepo.existsByNameTable(tableModel.getTableName())
-                || !dataModelListValidator.isValid(dataModelList)) {
 
-            return false;
+        if (!patternIdValidator.isValid(patternId)) {
+            return PatternTableModelStatus
+                    .builder()
+                    .tableModel(TableModelStatus.emptyTableModelStatus())
+                    .patternTable(PatternTable.builder().id(Long.parseLong("-1")).build())
+                    .build();
+        } else if (patternTableRepo.existsByNameTable(tableModel.getTableName())) {
+            return PatternTableModelStatus
+                    .builder()
+                    .tableModel(TableModelStatus.emptyTableModelStatus())
+                    .patternTable(PatternTable.builder().id(Long.parseLong("-2")).build())
+                    .build();
+        } else if (!dataModelListValidator.isValid(dataModelList)) {
+            return PatternTableModelStatus
+                    .builder()
+                    .tableModel(TableModelStatus.emptyTableModelStatus())
+                    .patternTable(PatternTable.builder().id(Long.parseLong("-1")).build())
+                    .build();
+        } else {
+
+            dataModelCreator.setDataModel(dataModelList);
+            List<DataModel> dataModels = dataModelCreator.getDataModel();
+            tableModel.setModels(dataModels);
+
+            return tableCreatorService.addTable(tableModel, patternId);
         }
-
-        dataModelCreator.setDataModel(dataModelList);
-        List<DataModel> dataModels = dataModelCreator.getDataModel();
-        tableModel.setModels(dataModels);
-        return tableCreatorService.addTable(tableModel, patternId);
     }
 
     @Cacheable(cacheNames = "getTable")

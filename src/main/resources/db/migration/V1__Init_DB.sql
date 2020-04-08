@@ -159,10 +159,10 @@ create table pattern_logger
 
 create table before_after_pattern
 (
-    id                      int8 not null,
+    id                int8 not null,
     pattern_logger_id int8 not null,
-    before                  text,
-    after                   text,
+    before            text,
+    after             text,
     primary key (id),
     foreign key (pattern_logger_id) references pattern_logger (id)
         on delete cascade
@@ -197,6 +197,52 @@ create table before_after_pattern_table
     after                   text,
     primary key (id),
     foreign key (pattern_table_logger_id) references pattern_table_logger (id)
+        on delete cascade
+        on update cascade
+);
+
+create table pattern_file
+(
+    id            int8 not null,
+    pattern_id    int8 not null,
+    file          text not null,
+    date_creation timestamp,
+    primary key (id),
+    foreign key (pattern_id) references pattern (id)
+        on delete cascade
+        on update cascade
+);
+
+create table pattern_table_file
+(
+    id               int8 not null,
+    pattern_table_id int8 not null,
+    file             text not null,
+    date_creation    timestamp,
+    primary key (id),
+    foreign key (pattern_table_id) references pattern_table (id)
+        on delete cascade
+        on update cascade
+);
+
+create table pattern_file2
+(
+    id            int8 not null,
+    pattern_id    int8 not null,
+    date_creation timestamp,
+    primary key (id),
+    foreign key (pattern_id) references pattern (id)
+        on delete cascade
+        on update cascade
+);
+
+create table pattern_table_file2
+(
+    id               int8 not null,
+    pattern_table_id int8 not null,
+    date_creation    timestamp,
+    primary key (id),
+    foreign key (pattern_table_id) references pattern_table (id)
         on delete cascade
         on update cascade
 );

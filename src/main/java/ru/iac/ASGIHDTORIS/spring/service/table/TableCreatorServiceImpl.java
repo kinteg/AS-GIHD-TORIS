@@ -2,7 +2,10 @@ package ru.iac.ASGIHDTORIS.spring.service.table;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.iac.ASGIHDTORIS.common.Status;
+import ru.iac.ASGIHDTORIS.common.model.table.PatternTableModelStatus;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
+import ru.iac.ASGIHDTORIS.common.model.table.TableModelStatus;
 import ru.iac.ASGIHDTORIS.spring.repo.CreatorRepo;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
@@ -26,11 +29,27 @@ public class TableCreatorServiceImpl implements TableCreatorService {
     }
 
     @Override
-    public boolean addTable(TableModel tableModel, long id) {
+    public PatternTableModelStatus addTable(TableModel tableModel, long id) {
+        TableModelStatus tableModelStatus;
+        PatternTable patternTable;
 
-        return checkPattern(id)
-                && createTable(tableModel)
-                && createPatternTable(tableModel, id);
+        if (checkPattern(id)) {
+            tableModelStatus = createTable(tableModel);
+            if (tableModelStatus.getStatus().equals(Status.OK)) {
+                patternTable = createPatternTable(tableModel, id);
+            } else {
+                patternTable = PatternTable.builder().id(Long.parseLong("-1")).build();
+            }
+        } else {
+            tableModelStatus = TableModelStatus.emptyTableModelStatus();
+            patternTable = PatternTable.builder().id(Long.parseLong("-1")).build();
+        }
+
+        return PatternTableModelStatus
+                .builder()
+                .patternTable(patternTable)
+                .tableModel(tableModelStatus)
+                .build();
 
     }
 
@@ -38,36 +57,35 @@ public class TableCreatorServiceImpl implements TableCreatorService {
         return patternRepo.existsById(id);
     }
 
-    private boolean createTable(TableModel tableModel) {
-
+    private TableModelStatus createTable(TableModel tableModel) {
         return creatorRepo.createTable(tableModel);
     }
 
-        private boolean createPatternTable (TableModel tableModel,long id){
-            Pattern pattern = patternRepo.findById(id);
+    private PatternTable createPatternTable(TableModel tableModel, long id) {
+        Pattern pattern = patternRepo.findById(id);
 
-            PatternTable patternTable = new PatternTable()
-                    .toBuilder()
-                    .nameFile(tableModel.getFilename())
-                    .nameTable(tableModel.getTableName())
-                    .patternId(id)
-                    .isArchive(false)
-                    .dateActivation(LocalDateTime.now())
-                    .dateCreation(LocalDateTime.now())
-                    .lastUpdate(LocalDateTime.now())
-                    .sourceId(pattern.getSourceId())
-                    .build();
+        PatternTable patternTable = new PatternTable()
+                .toBuilder()
+                .nameFile(tableModel.getFilename())
+                .nameTable(tableModel.getTableName())
+                .patternId(id)
+                .isArchive(false)
+                .dateActivation(LocalDateTime.now())
+                .dateCreation(LocalDateTime.now())
+                .lastUpdate(LocalDateTime.now())
+                .sourceId(pattern.getSourceId())
+                .build();
 
-            patternTableRepo.save(patternTable);
 
-            if (pattern.getFileCount() == null || pattern.getFileCount() == 0) {
-                pattern.setFileCount(1);
-            } else {
-                pattern.setFileCount(pattern.getFileCount() + 1);
-            }
-            patternRepo.save(pattern);
-
-            return true;
+        if (pattern.getFileCount() == null || pattern.getFileCount() == 0) {
+            pattern.setFileCount(1);
+        } else {
+            pattern.setFileCount(pattern.getFileCount() + 1);
         }
 
+        patternRepo.save(pattern);
+
+        return patternTableRepo.save(patternTable);
     }
+
+}

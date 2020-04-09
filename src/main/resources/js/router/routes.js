@@ -14,6 +14,7 @@ import cardView from "../pages/cardView.vue";
 import ShowPatternNoArchive from "../pages/pattern/ShowPatternNoArchive.vue";
 import PatternTable from "../pages/patternTable/PatternTable.vue";
 import ShowPatternTable from "../pages/patternTable/ShowPatternTable.vue";
+import SourceLogs from "../pages/logs/SourceLogs.vue";
 
 const routes = [
     {
@@ -100,6 +101,32 @@ const routes = [
                 name: 'ShowPatternTable',
                 meta: {
                     title: 'Все таблицы'
+                },
+            },
+        ]
+    },
+
+    {
+        path:'/logs',
+        name: 'logs',
+        meta: {
+            title: 'Логи',
+        },
+        children:[
+            {
+                path:'sourceLogs',
+                component: SourceLogs,
+                name: 'SourceLogs',
+                meta: {
+                    title: 'По источникам'
+                },
+            },
+            {
+                path:'sourceLogs',
+                component: SourceLogs,
+                name: 'SourceLogs',
+                meta: {
+                    title: 'По источникам'
                 },
             },
         ]

@@ -608,7 +608,6 @@ public class PatternTableController {
         return patternTableRepo.saveAll(patternsAfter);
     }
 
-    @Cacheable(cacheNames = "existByPatternTableName")
     @GetMapping("exist/{name}")
     public boolean existByName(@PathVariable String name) {
         return patternTableRepo.existsByNameTable(name);

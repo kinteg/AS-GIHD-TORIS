@@ -36,20 +36,13 @@ public class PostgresqlCreatorRepo implements CreatorRepo {
         String query = createSql(tableModel);
 
         try (Statement stmt = connection.createStatement()) {
-            return stmt.execute(query) ?
-                    TableModelStatus
-                            .builder()
-                            .status(Status.OK)
-                            .exception("")
-                            .answer("Таблица создана")
-                            .tableModel(tableModel)
-                            .build()
-                    : TableModelStatus
+            stmt.execute(query);
+            return TableModelStatus
                     .builder()
-                    .status(Status.WARN)
+                    .status(Status.OK)
                     .exception("")
-                    .answer("Таблица не создана")
-                    .tableModel(TableModel.emptyTableModel())
+                    .answer("Таблица создана")
+                    .tableModel(tableModel)
                     .build();
 
         } catch (SQLException e) {

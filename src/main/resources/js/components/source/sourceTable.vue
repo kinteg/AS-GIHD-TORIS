@@ -785,10 +785,6 @@
                     this.pagination.totalElements = response.data.totalElements;
                     this.sourceData = response.data.content;
             });
-
-            AXIOS.get("sourceLogger/getAll").then(response => {
-                console.log(response);
-            })
         }
     }
 </script>

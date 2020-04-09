@@ -2,6 +2,7 @@ package ru.iac.ASGIHDTORIS.spring.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
@@ -94,6 +95,11 @@ public class FileLoaderController {
 
     }
 
+    @CacheEvict(value =
+            "findPatternFileById, getAllPatternFileByPatternId, " +
+                    "getAllPatternFileByPatternId, findPatternTableFileById, " +
+                    "getAllPatternTableFileByPatternId, getAllPatternFileByPatternId, ",
+            allEntries = true)
     @PostMapping("/sendData")
     public boolean sendData(
             @RequestParam(value = "file", required = false)
@@ -117,6 +123,11 @@ public class FileLoaderController {
 
     }
 
+    @CacheEvict(value =
+            "findPatternFileById, getAllPatternFileByPatternId, " +
+                    "getAllPatternFileByPatternId, findPatternTableFileById, " +
+                    "getAllPatternTableFileByPatternId, getAllPatternFileByPatternId, ",
+            allEntries = true)
     @PostMapping("/sendDates")
     public boolean sendDates(
             @RequestParam(value = "file", required = false)

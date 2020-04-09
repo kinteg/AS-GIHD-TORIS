@@ -1,6 +1,7 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -29,6 +30,7 @@ public class FileUnLoaderController {
         this.patternTableFileRepo = patternTableFileRepo;
     }
 
+    @Cacheable(cacheNames = "findPatternFileById")
     @GetMapping("/findPatternFileById/{id}")
     public PatternFile findPatternFileById(@PathVariable Long id) {
         return patternFileRepo.findById((long) id);
@@ -39,6 +41,7 @@ public class FileUnLoaderController {
         return patternFileRepo.findAll(pageable);
     }
 
+    @Cacheable(cacheNames = "getAllPatternFileByPatternId")
     @GetMapping("/getAllPatternFileByPatternId/{patternId}")
     public List<PatternFile> getAllPatternFileByPatternId(@PathVariable Long patternId) {
         if (patternId == null || patternId < 0 || patternFileRepo.existsByPatternId(patternId)) {
@@ -48,16 +51,19 @@ public class FileUnLoaderController {
         return patternFileRepo.findAllByPatternId(patternId);
     }
 
+    @Cacheable(cacheNames = "findPatternTableFileById")
     @GetMapping("/findPatternTableFileById/{id}")
     public PatternTableFile findPatternTableFileById(@PathVariable Long id) {
         return patternTableFileRepo.findById((long) id);
     }
 
+    @Cacheable(cacheNames = "getAllPatternTableFileByPatternId")
     @GetMapping("/getAllPatternTableFileByPatternId")
     public Page<PatternTableFile> getAllPatternTableFile(@PageableDefault(sort = "id") Pageable pageable) {
         return patternTableFileRepo.findAll(pageable);
     }
 
+    @Cacheable(cacheNames = "getAllPatternFileByPatternId")
     @GetMapping("/getAllPatternFileByPatternId/{patternTableId}")
     public List<PatternTableFile> getAllPatternTableFileByPatternId(@PathVariable Long patternTableId) {
         if (patternTableId == null || patternTableId < 0 || patternTableFileRepo.existsByPatternTableId(patternTableId)) {

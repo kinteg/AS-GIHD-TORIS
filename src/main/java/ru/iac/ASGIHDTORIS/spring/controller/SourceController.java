@@ -45,12 +45,11 @@ public class SourceController {
         this.sourceBeforeAfter = sourceBeforeAfter;
     }
 
-    @CacheEvict(value =
-            "checkSourceName, getBySourceId, " +
-                    "getAllSource, getAllSourceSort, " +
-                    "getAllSourceArchive, getAllSourceArchiveSort, " +
-                    "getAllSourceNotArchive, getAllSourceNotArchiveSort",
-            allEntries = true)
+    @CacheEvict(value = {
+            "checkSourceName", "getBySourceId",
+            "getAllSource", "getAllSourceArchive",
+            "getAllSourceNotArchive"},
+            beforeInvocation = true, allEntries = true)
     @PostMapping("/create")
     @ResponseBody
     public Source createSource(@ModelAttribute Source source) {
@@ -92,7 +91,6 @@ public class SourceController {
         return sourceRepo.findAll(pageable);
     }
 
-    @Cacheable(cacheNames = "getAllSourceSort")
     @PostMapping("/getAllSort")
     public Page<Source> getAllSort(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         source.setHelpModel(helpModel);
@@ -105,7 +103,6 @@ public class SourceController {
         return sourceRepo.findAllByIsArchive(true, pageable);
     }
 
-    @Cacheable(cacheNames = "getAllSourceArchiveSort")
     @PostMapping("/getAllArchiveSort")
     public Page<Source> getAllArchiveSort(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         source.setHelpModel(helpModel);
@@ -119,7 +116,6 @@ public class SourceController {
         return sourceRepo.findAllByIsArchive(false, pageable);
     }
 
-    @Cacheable(cacheNames = "getAllSourceNotArchiveSort")
     @PostMapping("/getAllNotArchiveSort")
     public Page<Source> getAllNotArchiveSort(@PageableDefault(sort = "id") SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         source.setHelpModel(helpModel);
@@ -127,12 +123,11 @@ public class SourceController {
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
 
-    @CacheEvict(value =
-            "checkSourceName, getBySourceId, " +
-                    "getAllSource, getAllSourceSort, " +
-                    "getAllSourceArchive, getAllSourceArchiveSort, " +
-                    "getAllSourceNotArchive, getAllSourceNotArchiveSort",
-            allEntries = true)
+    @CacheEvict(value = {
+            "checkSourceName", "getBySourceId",
+            "getAllSource", "getAllSourceArchive",
+            "getAllSourceNotArchive"},
+            beforeInvocation = true, allEntries = true)
     @GetMapping("/archive/{id}")
     public Source archiveSource(@PathVariable Long id) {
         Source sourceBefore, sourceAfter;
@@ -167,12 +162,11 @@ public class SourceController {
 
     }
 
-    @CacheEvict(value =
-            "checkSourceName, getBySourceId, " +
-                    "getAllSource, getAllSourceSort, " +
-                    "getAllSourceArchive, getAllSourceArchiveSort, " +
-                    "getAllSourceNotArchive, getAllSourceNotArchiveSort",
-            allEntries = true)
+    @CacheEvict(value = {
+            "checkSourceName", "getBySourceId",
+            "getAllSource", "getAllSourceArchive",
+            "getAllSourceNotArchive"},
+            beforeInvocation = true, allEntries = true)
     @GetMapping("/deArchive/{id}")
     public Source deArchiveSource(@PathVariable Long id) {
         Source sourceBefore, sourceAfter;
@@ -207,12 +201,11 @@ public class SourceController {
         return sourceAfter;
     }
 
-    @CacheEvict(value =
-            "checkSourceName, getBySourceId, " +
-                    "getAllSource, getAllSourceSort, " +
-                    "getAllSourceArchive, getAllSourceArchiveSort, " +
-                    "getAllSourceNotArchive, getAllSourceNotArchiveSort",
-            allEntries = true)
+    @CacheEvict(value = {
+            "checkSourceName", "getBySourceId",
+            "getAllSource", "getAllSourceArchive",
+            "getAllSourceNotArchive"},
+            beforeInvocation = true, allEntries = true)
     @PostMapping("/update")
     @ResponseBody
     public Source updateSource(@ModelAttribute Source source) {

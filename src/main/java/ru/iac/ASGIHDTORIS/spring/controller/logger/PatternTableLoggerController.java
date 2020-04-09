@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.iac.ASGIHDTORIS.spring.domain.*;
-import ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo;
+import ru.iac.ASGIHDTORIS.spring.domain.BeforeAfterPatternTable;
+import ru.iac.ASGIHDTORIS.spring.domain.PatternTableLogger;
 import ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternTableRepo;
-import ru.iac.ASGIHDTORIS.spring.repo.PatternLoggerRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableLoggerRepo;
 
 @RestController

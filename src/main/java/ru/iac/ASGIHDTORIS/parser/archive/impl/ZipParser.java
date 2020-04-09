@@ -1,7 +1,8 @@
-package ru.iac.ASGIHDTORIS.parser.archive;
+package ru.iac.ASGIHDTORIS.parser.archive.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.iac.ASGIHDTORIS.common.TargetFiles;
+import ru.iac.ASGIHDTORIS.parser.archive.ArchiveParser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,9 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 

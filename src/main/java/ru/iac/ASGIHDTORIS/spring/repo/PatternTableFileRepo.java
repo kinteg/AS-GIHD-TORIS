@@ -3,7 +3,6 @@ package ru.iac.ASGIHDTORIS.spring.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ru.iac.ASGIHDTORIS.spring.domain.PatternFile;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTableFile;
 
 import java.util.List;

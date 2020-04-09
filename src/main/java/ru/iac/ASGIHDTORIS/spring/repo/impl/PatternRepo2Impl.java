@@ -6,10 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternModel;
+import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
 import ru.iac.ASGIHDTORIS.spring.component.DataQueryHelper;
 import ru.iac.ASGIHDTORIS.spring.component.FullRepoHelper;
 import ru.iac.ASGIHDTORIS.spring.component.Mapper.PatternMapper;
-import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo2;
 
@@ -52,27 +52,27 @@ public class PatternRepo2Impl implements PatternRepo2 {
     private String createQueryValue(PatternModel pattern, MapSqlParameterSource params) {
         List<String> values = new ArrayList<>();
 
-        if (pattern.getId() != null  && !pattern.getId().equals("")) {
+        if (pattern.getId() != null && !pattern.getId().equals("")) {
             values.add(" cast(id as text) ILIKE :id");
             params.addValue("id", "%" + pattern.getId() + "%");
         }
         if (pattern.getSourceId() != null) {
             values.add(" source_id = :sourceId");
-            params.addValue("sourceId",  + pattern.getSourceId());
+            params.addValue("sourceId", +pattern.getSourceId());
         }
-        if (pattern.getDescription() != null  && !pattern.getDescription().equals("")) {
+        if (pattern.getDescription() != null && !pattern.getDescription().equals("")) {
             values.add(" description ILIKE :description ");
             params.addValue("description", "%" + pattern.getDescription() + "%");
         }
-        if (pattern.getDirection() != null  && !pattern.getDirection().equals("")) {
+        if (pattern.getDirection() != null && !pattern.getDirection().equals("")) {
             values.add(" direction ILIKE :direction");
             params.addValue("direction", "%" + pattern.getDirection() + "%");
         }
-        if (pattern.getManagement() != null  && !pattern.getManagement().equals("")) {
+        if (pattern.getManagement() != null && !pattern.getManagement().equals("")) {
             values.add(" management ILIKE :management");
             params.addValue("management", "%" + pattern.getManagement() + "%");
         }
-        if (pattern.getName() != null  && !pattern.getName().equals("")) {
+        if (pattern.getName() != null && !pattern.getName().equals("")) {
             values.add(" name ILIKE :name");
             params.addValue("name", "%" + pattern.getName() + "%");
         }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Aspect

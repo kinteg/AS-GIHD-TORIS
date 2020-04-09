@@ -1,6 +1,5 @@
 package ru.iac.ASGIHDTORIS.common.model.table;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

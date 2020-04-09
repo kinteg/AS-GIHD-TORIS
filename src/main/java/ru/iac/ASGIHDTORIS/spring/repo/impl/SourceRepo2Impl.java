@@ -8,10 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
+import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
 import ru.iac.ASGIHDTORIS.spring.component.DataQueryHelper;
 import ru.iac.ASGIHDTORIS.spring.component.FullRepoHelper;
 import ru.iac.ASGIHDTORIS.spring.component.Mapper.Mapper;
-import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo2;
 
@@ -56,55 +56,55 @@ public class SourceRepo2Impl implements SourceRepo2 {
     private String createQueryValue(SourceModel source, MapSqlParameterSource params) {
         List<String> values = new ArrayList<>();
 
-        if (source.getId() != null  && !source.getId().equals("")) {
+        if (source.getId() != null && !source.getId().equals("")) {
             values.add(" cast(id as text) ILIKE :id");
             params.addValue("id", "%" + source.getId() + "%");
         }
-        if (source.getName() != null  && !source.getName().equals("")) {
+        if (source.getName() != null && !source.getName().equals("")) {
             values.add(" name ILIKE :name ");
             params.addValue("name", "%" + source.getName() + "%");
         }
-        if (source.getLongName() != null  && !source.getLongName().equals("")) {
+        if (source.getLongName() != null && !source.getLongName().equals("")) {
             values.add(" long_name ILIKE :longName");
             params.addValue("longName", "%" + source.getLongName() + "%");
         }
-        if (source.getShortName() != null  && !source.getShortName().equals("")) {
+        if (source.getShortName() != null && !source.getShortName().equals("")) {
             values.add(" short_name ILIKE :shortName");
             params.addValue("shortName", "%" + source.getShortName() + "%");
         }
-        if (source.getDescription() != null  && !source.getDescription().equals("")) {
+        if (source.getDescription() != null && !source.getDescription().equals("")) {
             values.add(" description ILIKE :description");
             params.addValue("description", "%" + source.getDescription() + "%");
         }
-        if (source.getAddDescription() != null  && !source.getAddDescription().equals("")) {
+        if (source.getAddDescription() != null && !source.getAddDescription().equals("")) {
             values.add(" add_description ILIKE :addDescription");
             params.addValue("addDescription", "%" + source.getAddDescription() + "%");
         }
-        if (source.getScope() != null  && !source.getScope().equals("")) {
+        if (source.getScope() != null && !source.getScope().equals("")) {
             values.add(" scope ILIKE :scope");
             params.addValue("scope", "%" + source.getScope() + "%");
         }
-        if (source.getPeriodicity() != null  && !source.getPeriodicity().equals("")) {
+        if (source.getPeriodicity() != null && !source.getPeriodicity().equals("")) {
             values.add(" periodicity ILIKE :periodicity");
             params.addValue("periodicity", "%" + source.getPeriodicity() + "%");
         }
-        if (source.getRenewalPeriod() != null  && !source.getRenewalPeriod().equals("")) {
+        if (source.getRenewalPeriod() != null && !source.getRenewalPeriod().equals("")) {
             values.add(" renewal_period ILIKE :renewalPeriod");
             params.addValue("renewalPeriod", "%" + source.getRenewalPeriod() + "%");
         }
-        if (source.getType() != null  && !source.getType().equals("")) {
+        if (source.getType() != null && !source.getType().equals("")) {
             values.add(" type ILIKE :type");
             params.addValue("type", "%" + source.getType() + "%");
         }
-        if (source.getTags() != null  && !source.getTags().equals("")) {
+        if (source.getTags() != null && !source.getTags().equals("")) {
             values.add(" tags ILIKE :tags");
             params.addValue("tags", "%" + source.getTags() + "%");
         }
-        if (source.getProviderLink() != null  && !source.getProviderLink().equals("")) {
+        if (source.getProviderLink() != null && !source.getProviderLink().equals("")) {
             values.add(" provider_link ILIKE :providerLink");
             params.addValue("providerLink", "%" + source.getProviderLink() + "%");
         }
-        if (source.getDataSource() != null  && !source.getDataSource().equals("")) {
+        if (source.getDataSource() != null && !source.getDataSource().equals("")) {
             values.add(" data_source ILIKE :dataSource");
             params.addValue("dataSource", "%" + source.getDataSource() + "%");
         }

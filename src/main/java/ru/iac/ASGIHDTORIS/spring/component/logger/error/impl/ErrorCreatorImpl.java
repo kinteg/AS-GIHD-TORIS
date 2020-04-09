@@ -1,11 +1,12 @@
-package ru.iac.ASGIHDTORIS.spring.component.logger.error;
+package ru.iac.ASGIHDTORIS.spring.component.logger.error.impl;
 
 import org.springframework.stereotype.Component;
+import ru.iac.ASGIHDTORIS.spring.component.logger.error.ErrorCreator;
 import ru.iac.ASGIHDTORIS.spring.domain.Errors;
 import ru.iac.ASGIHDTORIS.spring.repo.ErrorsRepo;
 
 @Component
-public class ErrorCreatorImpl implements ErrorCreator{
+public class ErrorCreatorImpl implements ErrorCreator {
 
     private final ErrorsRepo errorsRepo;
 

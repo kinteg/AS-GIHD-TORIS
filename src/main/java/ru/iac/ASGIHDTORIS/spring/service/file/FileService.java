@@ -10,6 +10,7 @@ import java.util.List;
 public interface FileService {
 
     List<File> getFiles(File file);
+
     File convertFile(MultipartFile multipartFile);
 
 }

@@ -3,8 +3,13 @@ package ru.iac.ASGIHDTORIS.spring.component.logger.impl;
 import org.springframework.stereotype.Component;
 import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.component.logger.error.ErrorCreator;
-import ru.iac.ASGIHDTORIS.spring.domain.*;
-import ru.iac.ASGIHDTORIS.spring.repo.*;
+import ru.iac.ASGIHDTORIS.spring.domain.Errors;
+import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
+import ru.iac.ASGIHDTORIS.spring.domain.PatternLogger;
+import ru.iac.ASGIHDTORIS.spring.domain.Statuses;
+import ru.iac.ASGIHDTORIS.spring.repo.ActionsRepo;
+import ru.iac.ASGIHDTORIS.spring.repo.PatternLoggerRepo;
+import ru.iac.ASGIHDTORIS.spring.repo.StatusesRepo;
 
 import java.time.LocalDateTime;
 import java.util.List;

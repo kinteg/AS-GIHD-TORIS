@@ -20,9 +20,9 @@ public class SourceServiceImpl implements SourceService {
 
     public SourceServiceImpl(
             SourceRepo sourceRepo,
-                         @Qualifier("getSourceValidator") Validator<Source> validator,
-                         @Qualifier("sourceLoggerSender") LoggerSender<Source> sourceLoggerSender,
-                         @Qualifier("sourceBeforeAfter") BeforeAfter<Source> sourceBeforeAfter) {
+            @Qualifier("getSourceValidator") Validator<Source> validator,
+            @Qualifier("sourceLoggerSender") LoggerSender<Source> sourceLoggerSender,
+            @Qualifier("sourceBeforeAfter") BeforeAfter<Source> sourceBeforeAfter) {
         this.sourceRepo = sourceRepo;
         this.sourceLoggerSender = sourceLoggerSender;
         this.sourceBeforeAfter = sourceBeforeAfter;

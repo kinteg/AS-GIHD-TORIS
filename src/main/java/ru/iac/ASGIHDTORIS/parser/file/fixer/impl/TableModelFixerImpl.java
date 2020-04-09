@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.parser.file.fixer;
+package ru.iac.ASGIHDTORIS.parser.file.fixer.impl;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.RandomStringGenerator;
@@ -6,6 +6,8 @@ import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.common.validator.string.TableNameValidator;
+import ru.iac.ASGIHDTORIS.parser.file.fixer.ColumnCreator;
+import ru.iac.ASGIHDTORIS.parser.file.fixer.TableModelFixer;
 import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
 
 import java.io.File;

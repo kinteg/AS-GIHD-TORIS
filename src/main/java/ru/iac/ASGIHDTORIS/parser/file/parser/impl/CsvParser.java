@@ -5,12 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.parser.file.fileReader.FileReader;
-import ru.iac.ASGIHDTORIS.parser.file.fileReader.FileReaderImpl;
+import ru.iac.ASGIHDTORIS.parser.file.fileReader.impl.FileReaderImpl;
 import ru.iac.ASGIHDTORIS.parser.file.fixer.TableModelFixer;
-import ru.iac.ASGIHDTORIS.parser.file.fixer.TableModelFixerImpl;
+import ru.iac.ASGIHDTORIS.parser.file.fixer.impl.TableModelFixerImpl;
 import ru.iac.ASGIHDTORIS.parser.file.parser.FileParser;
-import ru.iac.ASGIHDTORIS.parser.file.reader.impl.CsvReaderImpl;
 import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
+import ru.iac.ASGIHDTORIS.parser.file.reader.impl.CsvReaderImpl;
 
 import java.io.File;
 import java.io.FileNotFoundException;

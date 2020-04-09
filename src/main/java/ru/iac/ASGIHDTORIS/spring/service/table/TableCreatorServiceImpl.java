@@ -6,9 +6,9 @@ import ru.iac.ASGIHDTORIS.common.Status;
 import ru.iac.ASGIHDTORIS.common.model.table.PatternTableModelStatus;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModelStatus;
-import ru.iac.ASGIHDTORIS.spring.repo.CreatorRepo;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
+import ru.iac.ASGIHDTORIS.spring.repo.CreatorRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 

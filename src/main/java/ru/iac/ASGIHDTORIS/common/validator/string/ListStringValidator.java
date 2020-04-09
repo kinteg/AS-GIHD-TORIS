@@ -12,8 +12,8 @@ public class ListStringValidator implements Validator<List<String>> {
     public boolean isValid(List<String> name) {
         return
                 isNotNull(name)
-                && isNotEmpty(name)
-                && isNotNullItems(name);
+                        && isNotEmpty(name)
+                        && isNotNullItems(name);
     }
 
     private boolean isNotNull(List<String> name) {

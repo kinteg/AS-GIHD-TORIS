@@ -6,10 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternTableModel;
+import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
 import ru.iac.ASGIHDTORIS.spring.component.DataQueryHelper;
 import ru.iac.ASGIHDTORIS.spring.component.FullRepoHelper;
 import ru.iac.ASGIHDTORIS.spring.component.Mapper.PatternTableMapper;
-import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo2;
 
@@ -52,7 +52,7 @@ public class PatternTableRepo2Impl implements PatternTableRepo2 {
     private String createQueryValue(PatternTableModel pattern, MapSqlParameterSource params) {
         List<String> values = new ArrayList<>();
 
-        if (pattern.getId() != null  && !pattern.getId().equals("")) {
+        if (pattern.getId() != null && !pattern.getId().equals("")) {
             values.add(" cast(id as text) ILIKE :id");
             params.addValue("id", "%" + pattern.getId() + "%");
         }
@@ -60,17 +60,17 @@ public class PatternTableRepo2Impl implements PatternTableRepo2 {
             values.add(" name_table = :nameTable");
             params.addValue("nameTable", "%" + pattern.getNameTable() + "%");
         }
-        if (pattern.getNameFile() != null  && !pattern.getNameFile().equals("")) {
+        if (pattern.getNameFile() != null && !pattern.getNameFile().equals("")) {
             values.add(" name_file ILIKE :nameFile ");
             params.addValue("nameFile", "%" + pattern.getNameFile() + "%");
         }
         if (pattern.getPatternId() != null) {
             values.add(" pattern_id = :patternId");
-            params.addValue("patternId",  + pattern.getPatternId());
+            params.addValue("patternId", +pattern.getPatternId());
         }
         if (pattern.getSourceId() != null) {
             values.add(" source_id = :sourceId");
-            params.addValue("sourceId",  + pattern.getSourceId());
+            params.addValue("sourceId", +pattern.getSourceId());
         }
         dataQueryHelper.createDataQuery(pattern.getHelpModel());
 

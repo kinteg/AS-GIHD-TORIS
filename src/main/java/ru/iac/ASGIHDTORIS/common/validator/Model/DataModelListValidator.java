@@ -25,9 +25,9 @@ public class DataModelListValidator implements Validator<DataModelList> {
     public boolean isValid(DataModelList name) {
         return
                 isNotNull(name)
-                 && isValidNames(name.getNames())
-                 && isValidTypes(name.getTypes())
-                 && isValidPrimaries(name.getPrimaries())
+                        && isValidNames(name.getNames())
+                        && isValidTypes(name.getTypes())
+                        && isValidPrimaries(name.getPrimaries())
                 ;
     }
 

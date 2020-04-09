@@ -1,9 +1,10 @@
-package ru.iac.ASGIHDTORIS.parser.archive;
+package ru.iac.ASGIHDTORIS.parser.archive.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.archivers.sevenz.SevenZArchiveEntry;
 import org.apache.commons.compress.archivers.sevenz.SevenZFile;
 import ru.iac.ASGIHDTORIS.common.TargetFiles;
+import ru.iac.ASGIHDTORIS.parser.archive.ArchiveParser;
 
 import java.io.File;
 import java.io.FileOutputStream;

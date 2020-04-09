@@ -1,10 +1,10 @@
-package ru.iac.ASGIHDTORIS.common.model.table;
-
+package ru.iac.ASGIHDTORIS.common.model.table.impl;
 
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
+import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
+import ru.iac.ASGIHDTORIS.common.model.table.TableModelCreator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class TableModelCreatorImpl implements TableModelCreator {
@@ -14,11 +14,6 @@ public class TableModelCreatorImpl implements TableModelCreator {
     @Override
     public List<TableModel> getTableModel() {
         return models;
-    }
-
-    @Override
-    public void setTableModel(String fileName, String tableName, List<DataModel> models) {
-        this.models = Collections.singletonList(createTableModel(fileName, tableName, models));
     }
 
     @Override

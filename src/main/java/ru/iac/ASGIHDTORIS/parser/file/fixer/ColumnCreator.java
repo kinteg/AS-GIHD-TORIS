@@ -27,9 +27,9 @@ public class ColumnCreator {
             DataModel model;
 
             if (i == 0) {
-                 model = new DataModel(name, true);
+                model = new DataModel(name, true);
             } else {
-                 model = new DataModel(name);
+                model = new DataModel(name);
             }
 
             models.add(model);

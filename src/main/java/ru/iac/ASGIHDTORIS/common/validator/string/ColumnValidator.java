@@ -3,8 +3,8 @@ package ru.iac.ASGIHDTORIS.common.validator.string;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
 
 public class ColumnValidator implements Validator<String> {
-    private final int MIN_TEXT_SIZE = 2;
-    private final int MAX_TEXT_SIZE = 20;
+    private static final int MIN_TEXT_SIZE = 2;
+    private static final int MAX_TEXT_SIZE = 20;
 
     @Override
     public boolean isValid(String name) {

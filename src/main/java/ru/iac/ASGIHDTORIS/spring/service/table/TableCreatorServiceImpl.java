@@ -35,6 +35,7 @@ public class TableCreatorServiceImpl implements TableCreatorService {
 
         if (checkPattern(id)) {
             tableModelStatus = createTable(tableModel);
+            log.info("qwe1 " + tableModelStatus.toString());
             if (tableModelStatus.getStatus().equals(Status.OK)) {
                 patternTable = createPatternTable(tableModel, id);
             } else {

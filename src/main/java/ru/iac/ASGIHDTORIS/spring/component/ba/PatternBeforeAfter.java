@@ -27,56 +27,64 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
         beforeAfterPatterns.add(BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
-                .before(null)
+                .columnName("id")
+                .before("-")
                 .after(after.getId().toString())
                 .build());
 
         beforeAfterPatterns.add(BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
-                .before(null)
+                .columnName("name")
+                .before("-")
                 .after(after.getName())
                 .build());
 
         beforeAfterPatterns.add(BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
-                .before(null)
+                .columnName("file_count")
+                .before("-")
                 .after(after.getFileCount().toString())
                 .build());
 
         beforeAfterPatterns.add(BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
-                .before(null)
+                .columnName("archive_file_count")
+                .before("-")
                 .after(after.getArchiveFileCount().toString())
                 .build());
 
         beforeAfterPatterns.add(BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
-                .before(null)
+                .columnName("description")
+                .before("-")
                 .after(after.getDescription())
                 .build());
 
         beforeAfterPatterns.add(BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
-                .before(null)
+                .columnName("direction")
+                .before("-")
                 .after(after.getDirection())
                 .build());
 
         beforeAfterPatterns.add(BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
-                .before(null)
+                .columnName("management")
+                .before("-")
                 .after(after.getManagement())
                 .build());
 
         beforeAfterPatterns.add(BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
-                .before(null)
+                .columnName("date_creation")
+                .before("-")
                 .after(after.getDateCreation().toString())
                 .build());
 
@@ -84,7 +92,8 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
             beforeAfterPatterns.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)
-                    .before(null)
+                    .columnName("date_deactivation")
+                    .before("-")
                     .after(after.getDateDeactivation().toString())
                     .build());
         }
@@ -92,21 +101,24 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
         beforeAfterPatterns.add(BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
-                .before(null)
+                .columnName("date_activation")
+                .before("-")
                 .after(after.getDateActivation().toString())
                 .build());
 
         beforeAfterPatterns.add(BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
-                .before(null)
+                .columnName("last_update")
+                .before("-")
                 .after(after.getLastUpdate().toString())
                 .build());
 
         beforeAfterPatterns.add(BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
-                .before(null)
+                .columnName("archive")
+                .before("-")
                 .after(after.getIsArchive().toString())
                 .build());
 
@@ -118,6 +130,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
         BeforeAfterPattern beforeAfterSource = BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
+                .columnName("archive")
                 .before(before.getIsArchive().toString())
                 .after(after.getIsArchive().toString())
                 .build();
@@ -127,6 +140,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
         beforeAfterSource = BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
+                .columnName("date_deactivation")
                 .before(before.getDateDeactivation() == null ?
                         null : before.getDateDeactivation().toString())
                 .after(after.getDateDeactivation().toString())
@@ -140,6 +154,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
         BeforeAfterPattern beforeAfterSource = BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
+                .columnName("archive")
                 .before(before.getIsArchive().toString())
                 .after(after.getIsArchive().toString())
                 .build();
@@ -149,6 +164,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
         beforeAfterSource = BeforeAfterPattern
                 .builder()
                 .patternLoggerId(loggerId)
+                .columnName("date_activation")
                 .before(before.getDateActivation().toString())
                 .after(after.getDateActivation().toString())
                 .build();
@@ -164,6 +180,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)
+                    .columnName("id")
                     .before(before.getId().toString())
                     .after(after.getId().toString())
                     .build());
@@ -173,6 +190,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)
+                    .columnName("name")
                     .before(before.getName())
                     .after(after.getName())
                     .build());
@@ -181,6 +199,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
         if (!before.getFileCount().equals(after.getFileCount())) {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
+                    .columnName("file_count")
                     .patternLoggerId(loggerId)
                     .before(before.getFileCount().toString())
                     .after(after.getFileCount().toString())
@@ -191,6 +210,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)
+                    .columnName("archive_file_count")
                     .before(before.getArchiveFileCount().toString())
                     .after(after.getArchiveFileCount().toString())
                     .build());
@@ -200,6 +220,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)
+                    .columnName("description")
                     .before(before.getDescription())
                     .after(after.getDescription())
                     .build());
@@ -209,6 +230,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)
+                    .columnName("direction")
                     .before(before.getDirection())
                     .after(after.getDirection())
                     .build());
@@ -218,6 +240,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)
+                    .columnName("management")
                     .before(before.getManagement())
                     .after(after.getManagement())
                     .build());
@@ -227,6 +250,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)
+                    .columnName("date_creation")
                     .before(before.getDateCreation().toString())
                     .after(after.getDateCreation().toString())
                     .build());
@@ -237,6 +261,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)
+                    .columnName("date_deactivation")
                     .before(before.getDateDeactivation().toString())
                     .after(after.getDateDeactivation().toString())
                     .build());
@@ -247,6 +272,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)
+                    .columnName("date_activation")
                     .before(before.getDateActivation().toString())
                     .after(after.getDateActivation().toString())
                     .build());
@@ -256,6 +282,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)
+                    .columnName("last_update")
                     .before(before.getLastUpdate().toString())
                     .after(after.getLastUpdate().toString())
                     .build());
@@ -265,6 +292,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)
+                    .columnName("archive")
                     .before(before.getIsArchive().toString())
                     .after(after.getIsArchive().toString())
                     .build());

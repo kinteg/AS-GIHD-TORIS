@@ -52,16 +52,8 @@
         methods:{
             onCurrentChange(value) {
                 this.pagination.currentPage = value;
-                let formData = new FormData();
-                formData.append("size",this.pagination.pageSize);
-                formData.append("page",this.pagination.currentPage - 1);
-                AXIOS.post("/patternLogger/getAll",
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    }).then(response => {
+                let currentPage = this.pagination.currentPage - 1;
+                AXIOS.post("/patternLogger/getAll?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
                     this.patternLog = response.data.content;
                 })
                     .catch(error => {
@@ -71,17 +63,9 @@
             onSizeChange(value) {
                 this.pagination.pageSize = value;
                 this.pagination.currentPage = 1;
+                let currentPage = this.pagination.currentPage - 1;
 
-                let formData = new FormData();
-                formData.append("size",this.pagination.pageSize);
-                formData.append("page",this.pagination.currentPage - 1);
-                AXIOS.post("/patternLogger/getAll",
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    }).then(response => {
+                AXIOS.post("/patternLogger/getAll?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
                     this.patternLog = response.data.content;
                 })
                     .catch(error => {

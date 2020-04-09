@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import ru.iac.ASGIHDTORIS.spring.controller.aspect.helper.AspectHelper;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 
 import java.util.Arrays;
@@ -130,7 +131,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetAll()", returning = "pagePattern")
     public void afterReturningCallAtGetAll(JoinPoint jp, Page<Pattern> pagePattern) {
-        printPageSource(jp, pagePattern);
+        printPagePattern(jp, pagePattern);
     }
 
     @Before("callGetAllSort()")
@@ -143,7 +144,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetAllSort()", returning = "pagePattern")
     public void afterReturningCallAtGetAllSort(JoinPoint jp, Page<Pattern> pagePattern) {
-        printPageSource(jp, pagePattern);
+        printPagePattern(jp, pagePattern);
     }
 
     @Before("callGetAllBySourceId()")
@@ -156,7 +157,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetAllBySourceId()", returning = "pagePattern")
     public void afterReturningCallAtGetAllBySourceId(JoinPoint jp, Page<Pattern> pagePattern) {
-        printPageSource(jp, pagePattern);
+        printPagePattern(jp, pagePattern);
     }
 
     @Before("callGetAllBySourceIdSort()")
@@ -169,7 +170,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetAllBySourceIdSort()", returning = "pagePattern")
     public void afterReturningCallAtGetAllBySourceIdSort(JoinPoint jp, Page<Pattern> pagePattern) {
-        printPageSource(jp, pagePattern);
+        printPagePattern(jp, pagePattern);
     }
 
     @Before("callGetAllArchive()")
@@ -182,7 +183,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetAllArchive()", returning = "pagePattern")
     public void afterReturningCallAtGetAllArchive(JoinPoint jp, Page<Pattern> pagePattern) {
-        printPageSource(jp, pagePattern);
+        printPagePattern(jp, pagePattern);
     }
 
     @Before("callGetAllArchiveSort()")
@@ -195,7 +196,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetAllArchiveSort()", returning = "pagePattern")
     public void afterReturningCallAtGetAllArchiveSort(JoinPoint jp, Page<Pattern> pagePattern) {
-        printPageSource(jp, pagePattern);
+        printPagePattern(jp, pagePattern);
     }
 
     @Before("callGetAllArchiveBySourceId()")
@@ -208,7 +209,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetAllArchiveBySourceId()", returning = "pagePattern")
     public void afterReturningCallAtGetAllArchiveBySourceId(JoinPoint jp, Page<Pattern> pagePattern) {
-        printPageSource(jp, pagePattern);
+        printPagePattern(jp, pagePattern);
     }
 
     @Before("callGetAllArchiveBySourceIdSort()")
@@ -221,7 +222,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetAllArchiveBySourceIdSort()", returning = "pagePattern")
     public void afterReturningCallAtGetAllArchiveBySourceIdSort(JoinPoint jp, Page<Pattern> pagePattern) {
-        printPageSource(jp, pagePattern);
+        printPagePattern(jp, pagePattern);
     }
 
     @Before("callGetAllNotArchive()")
@@ -234,7 +235,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetAllNotArchive()", returning = "pagePattern")
     public void afterReturningCallAtGetAllNotArchive(JoinPoint jp, Page<Pattern> pagePattern) {
-        printPageSource(jp, pagePattern);
+        printPagePattern(jp, pagePattern);
     }
 
     @Before("callGetAllNotArchiveSort()")
@@ -247,7 +248,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetAllNotArchiveSort()", returning = "pagePattern")
     public void afterReturningCallAtGetAllNotArchiveSort(JoinPoint jp, Page<Pattern> pagePattern) {
-        printPageSource(jp, pagePattern);
+        printPagePattern(jp, pagePattern);
     }
 
     @Before("callGetAllNotArchiveBySourceId()")
@@ -260,7 +261,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetAllNotArchiveBySourceId()", returning = "pagePattern")
     public void afterReturningCallAtGetAllNotArchiveBySourceId(JoinPoint jp, Page<Pattern> pagePattern) {
-        printPageSource(jp, pagePattern);
+        printPagePattern(jp, pagePattern);
     }
 
     @Before("callGetAllNotArchiveBuSourceIdSort()")
@@ -273,7 +274,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetAllNotArchiveBuSourceIdSort()", returning = "pagePattern")
     public void afterReturningCallAtGetAllNotArchiveBuSourceIdSort(JoinPoint jp, Page<Pattern> pagePattern) {
-        printPageSource(jp, pagePattern);
+        printPagePattern(jp, pagePattern);
     }
 
     @Before("callArchivePattern()")
@@ -341,7 +342,7 @@ public class PatternControllerAspect {
         log.info("afterReturning " + jp.toString() + ", return= " + pattern.toString());
     }
 
-    private void printPageSource(JoinPoint jp, Page<Pattern> pagePattern) {
+    private void printPagePattern(JoinPoint jp, Page<Pattern> pagePattern) {
         log.info("afterReturning " + jp.toString() + ",\n" +
                 "return=[\n" +
                 "   pageCount=" + pagePattern.getTotalPages() + ",\n" +

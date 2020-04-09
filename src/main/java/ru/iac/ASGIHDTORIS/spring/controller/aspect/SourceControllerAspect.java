@@ -8,6 +8,8 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import ru.iac.ASGIHDTORIS.spring.controller.aspect.helper.AspectHelper;
+import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 
 import java.util.Arrays;
@@ -231,7 +233,12 @@ public class SourceControllerAspect {
                 "   pageSize=" + pageSource.getPageable().getPageSize() + ",\n" +
                 "   sort=" + pageSource.getPageable().getSort() + ",\n" +
                 "   values=[\n" +
-                "       " + pageSource.getContent().stream().map(Source::toString).collect(Collectors.joining("\n       ")) + "\n" +
+                "       " +
+                pageSource.getContent()
+                        .stream()
+                        .map(Source::toString)
+                        .collect(Collectors.joining("\n       ")) +
+                "\n" +
                 "       ]\n" +
                 "]");
     }

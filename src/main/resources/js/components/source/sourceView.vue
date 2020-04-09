@@ -1,87 +1,123 @@
 <template>
-    <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-        <p style="font-size: 20px">Просмотр источника</p>
-        <div>
-            <el-tabs v-model="activeName">
-                <el-tab-pane label="Источник" name="sourceInfo">
-                    <el-row :gutter="20">
-                        <el-col :span="12">
-                            <div>
-                                <el-form :label-position="labelPosition" label-width="100px" :model="source">
-                                    <el-form-item label="Поставщик данных:">
-                                        {{source.name}}
-                                    </el-form-item>
-                                    <el-form-item label="Полное наименование набора:">
-                                        {{source.longName}}
-                                    </el-form-item>
-                                    <el-form-item label="Краткое наименование набора:">
-                                        {{source.shortName}}
-                                    </el-form-item>
-                                    <el-form-item label="Описание:">
-                                        {{source.description}}
-                                    </el-form-item>
-                                    <el-form-item label="Дополнительное описание:">
-                                        {{source.addDescription}}
-                                    </el-form-item>
-                                    <el-form-item label="Сфера (направление):">
-                                        {{source.scope}}
-                                    </el-form-item>
-                                </el-form>
-                            </div>
-                        </el-col>
-                        <el-col :span="12">
-                            <div>
-                                <el-form :label-position="labelPosition" label-width="100px" :model="source">
-                                    <el-form-item label="Периодичность актуализации:">
-                                        {{source.periodicity}}
-                                    </el-form-item>
-                                    <el-form-item label="Срок обновления набора данных:">
-                                        {{source.renewalPeriod}}
-                                    </el-form-item>
-                                    <el-form-item label="Вид набора:">
-                                        {{source.type}}
-                                    </el-form-item>
-                                    <el-form-item label="Ключевые слова (теги):">
-                                        {{source.tags}}
-                                    </el-form-item>
-                                    <el-form-item label="Источник данных:">
-                                        {{source.providerLink}}
-                                    </el-form-item>
-                                    <el-form-item label="Ссылка на данные на сайте поставщика:">
-                                        {{source.dataSource}}
-                                    </el-form-item>
-                                </el-form>
-                            </div>
-                        </el-col>
-                    </el-row>
-                </el-tab-pane>
-                <el-tab-pane label="Шаблоны" name="patternInfo">
+    <div>
+        <el-row :gutter="20">
+            <el-col :span="16">
+                <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                    <p style="font-size: 20px">Просмотр источника</p>
+                    <div>
+                        <el-tabs v-model="activeName">
+                            <el-tab-pane label="Источник" name="sourceInfo">
+                                <el-row :gutter="20">
+                                    <el-col :span="12">
+                                        <div>
+                                            <el-form :label-position="labelPosition" label-width="100px" :model="source">
+                                                <el-form-item label="Поставщик данных:">
+                                                    {{source.name}}
+                                                </el-form-item>
+                                                <el-form-item label="Полное наименование набора:">
+                                                    {{source.longName}}
+                                                </el-form-item>
+                                                <el-form-item label="Краткое наименование набора:">
+                                                    {{source.shortName}}
+                                                </el-form-item>
+                                                <el-form-item label="Описание:">
+                                                    {{source.description}}
+                                                </el-form-item>
+                                                <el-form-item label="Дополнительное описание:">
+                                                    {{source.addDescription}}
+                                                </el-form-item>
+                                                <el-form-item label="Сфера (направление):">
+                                                    {{source.scope}}
+                                                </el-form-item>
+                                            </el-form>
+                                        </div>
+                                    </el-col>
+                                    <el-col :span="12">
+                                        <div>
+                                            <el-form :label-position="labelPosition" label-width="100px" :model="source">
+                                                <el-form-item label="Периодичность актуализации:">
+                                                    {{source.periodicity}}
+                                                </el-form-item>
+                                                <el-form-item label="Срок обновления набора данных:">
+                                                    {{source.renewalPeriod}}
+                                                </el-form-item>
+                                                <el-form-item label="Вид набора:">
+                                                    {{source.type}}
+                                                </el-form-item>
+                                                <el-form-item label="Ключевые слова (теги):">
+                                                    {{source.tags}}
+                                                </el-form-item>
+                                                <el-form-item label="Источник данных:">
+                                                    {{source.providerLink}}
+                                                </el-form-item>
+                                                <el-form-item label="Ссылка на данные на сайте поставщика:">
+                                                    {{source.dataSource}}
+                                                </el-form-item>
+                                            </el-form>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                            </el-tab-pane>
+                            <el-tab-pane label="Шаблоны" name="patternInfo">
                     <span v-if="hiddenTable"  style="background-color: white;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
                        <pattern-table style="padding: 0 5px 0 0; box-shadow: none "/>
                     </span>
-                    <div v-else>
-                        <pattern-view :pattern-id="this.patternId" />
-                        <el-button @click="backView" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-                    </div>
-                </el-tab-pane>
-                <el-tab-pane label="Шаблоны" name="tableInfo">
+                                <div v-else>
+                                    <pattern-view :pattern-id="this.patternId" />
+                                    <el-button @click="backView" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                                </div>
+                            </el-tab-pane>
+                            <el-tab-pane label="таблицы" name="tableInfo">
 
-                </el-tab-pane>
-            </el-tabs>
-        </div>
+                            </el-tab-pane>
+                        </el-tabs>
+                    </div>
+                </div>
+            </el-col>
+            <el-col :span="8">
+                <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                    <p style="font-size: 20px">История изменений</p>
+                    <table style="overflow-x: auto; ">
+                        <tr>
+                            <th>Дата изменения</th>
+                            <th>Ссылка</th>
+                        </tr>
+                        <tr v-for="log in sourceLog">
+                            <td>{{log.dateCreation}}</td>
+                            <td><router-link :to="'/logs/sourceLogs/' + log.id">Просмотр</router-link></td>
+                        </tr>
+                    </table>
+                    <el-pagination
+                            style="margin: 10px auto; text-align: center "
+                            class="pager"
+                            background
+                            layout="prev, pager, next"
+                            :page-size="pagination.pageSize"
+                            :page-count="pagination.totalPages"
+                            :current-page="pagination.currentPage"
+                            :pager-count="pagination.pagerCount"
+                            @current-change="onCurrentChange"
+                            :total="pagination.totalElements">
+                    </el-pagination>
+                </div>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
 <script>
+    import router from "../../router/router";
     import {AXIOS} from "../../AXIOS/http-common";
     import PatternView from "../pattern/patternView.vue";
     import PatternTable from "../pattern/patternTable.vue";
+    import MyPagination from "../general/pagination.vue";
 
     export default {
         name: "sourceView",
-        components: {PatternTable, PatternView},
+        components: {MyPagination, PatternTable, PatternView},
         data() {
             return {
+                sourceLog:"",
                 table:[],
                 patternData:[],
                 patternId: "",
@@ -90,6 +126,15 @@
                 hiddenUpdate: false,
                 activeName: "sourceInfo",
                 labelPosition: "top",
+
+                pagination:{
+                    pageSize: 5,
+                    currentPage: 1,
+                    totalPages: 0,
+                    totalElements: 0,
+                    pagerCount: 2,
+                },
+
                 source:{
                     name:"",
                     longName:"",
@@ -125,6 +170,18 @@
         },
 
         methods:{
+            onCurrentChange(value){
+                this.pagination.currentPage = value;
+                let currentPage = this.pagination.currentPage - 1;
+                AXIOS.get("sourceLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
+                    this.sourceLog = response.data.content;
+                })
+            },
+
+            viewLog(id){
+
+            },
+
             patternView(id) {
                 this.hiddenTable = false;
                 this.patternId = id;
@@ -146,6 +203,14 @@
             AXIOS.get("tableCreator/getAllBySource/" + this.$route.params.id).then(response => {
                 console.log(response);
                 this.table = response.data;
+            });
+            AXIOS.get("sourceLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize).then(response => {
+                this.sourceLog = response.data.content;
+                this.pagination.totalPages = response.data.totalPages;
+                this.pagination.totalElements = response.data.totalElements;
+                console.log(this.pagination.totalPages);
+                console.log(this.pagination.totalElements);
+                console.log(this.sourceLog);
             });
         }
     }

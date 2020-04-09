@@ -556,7 +556,7 @@ public class PatternTableController {
             "getAllPatternTableNotArchiveBySourceId",
             "existByPatternTableName"},
             allEntries = true)
-    @GetMapping("/deArchivePatternsBySource/{id}")
+    @GetMapping("/deArchivePatternTablesBySource/{id}")
     public List<PatternTable> deArchivePatternsBySource(@PathVariable Long id) {
         List<PatternTable> patternsBefore, patternsAfter;
 

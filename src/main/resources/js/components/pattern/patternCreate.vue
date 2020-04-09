@@ -117,10 +117,8 @@
                     }
                 ).then(response => {
                     if(response.data.name == null){
-                        console.log(this.pattern.sourceId);
                         this.noticeError('Ошибка при создании шаблона.');
                     } else {
-                        console.log(this.pattern.sourceId);
                         this.noticeSuccess('Шаблон"' + response.data.name + '" успешно создан.');
                     }
                 });

@@ -21,7 +21,7 @@
                 </el-dropdown>
             </p>
             <div class="horizontal-scroll-wrapper  rectangles">
-                <table style="display: block; overflow-x: auto; ">
+                <table style="display: block; overflow-x: auto;">
                     <tr>
                         <th></th>
                         <th v-if="hidden.id" @click="sort('id')">Номер</th>
@@ -123,7 +123,7 @@
         </div>
         <div v-else-if="oneTable">
             <div class="horizontal-scroll-wrapper  rectangles">
-                <table style=" padding: 0 5px 0 0; overflow-x: auto; ">
+                <table style="display: block; overflow-x: auto;">
                     <tr>
                         <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
                     </tr>

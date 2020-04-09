@@ -2,7 +2,7 @@
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <p style="font-size: 20px">Логи источников </p>
         <div class="horizontal-scroll-wrapper  rectangles">
-            <table style="overflow-x: auto; ">
+            <table style=" overflow-x: auto; ">
                 <tr>
                     <th>Номер</th>
                     <th>Действие</th>
@@ -55,8 +55,7 @@
                 let currentPage = this.pagination.currentPage - 1;
                 AXIOS.get("/sourceLogger/getAll?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
                     this.sourceLog = response.data.content;
-                })
-                    .catch(error => {
+                }).catch(error => {
                         console.log('ERROR: ' + error);
                     })
             },

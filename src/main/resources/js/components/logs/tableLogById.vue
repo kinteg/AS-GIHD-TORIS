@@ -71,6 +71,7 @@
 
         mounted() {
             this.patternTableLogId = this.$route.params.id;
+            console.log(this.patternTableLogId);
             AXIOS.get("patternTableLogger/getAll/beforeAfter/" + this.patternTableLogId).then(response => {
                 console.log(response);
                 this.patternTableLog = response.data.content;

@@ -15,6 +15,7 @@ import SourceLogs from "../pages/logs/SourceLogs.vue";
 import Logs from "../pages/logs/Logs.vue";
 import PatternLogs from "../pages/logs/PatternLogs.vue";
 import TableLogs from "../pages/logs/TableLogs.vue";
+import SourceLogsById from "../pages/logs/SourceLogsById.vue";
 
 const routes = [
     {
@@ -142,6 +143,12 @@ const routes = [
     },
 
     {
+        path:'/logs/sourceLogs/:id',
+        component: SourceLogsById,
+        name: 'sourceLogsById',
+    },
+
+    {
         path:'/source/update/:id',
         component: UpdateSource,
         name: 'sourceUpdate',
@@ -161,7 +168,6 @@ const routes = [
         component: CreateSource,
         name: 'CreateSource',
     }
-
 ]
 
 export default routes

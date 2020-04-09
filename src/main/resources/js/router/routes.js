@@ -20,6 +20,7 @@ import PatternLogsById from "../pages/logs/PatternTableLogsById.vue";
 import patternTableView from "../components/patternTable/patternTableView.vue";
 import OnePatternTableView from "../pages/patternTable/OnePatternTableView.vue";
 import PatternTableLogsById from "../pages/logs/PatternTableLogsById.vue";
+import TableLogsById from "../pages/logs/TableLogsById.vue";
 
 const routes = [
     {
@@ -160,7 +161,7 @@ const routes = [
 
     {
         path:'/logs/patternTableLogs/:id',
-        component: PatternTableLogsById,
+        component: TableLogsById,
         name: 'patternLogsById',
     },
 

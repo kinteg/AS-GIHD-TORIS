@@ -21,6 +21,8 @@ import patternTableView from "../components/patternTable/patternTableView.vue";
 import OnePatternTableView from "../pages/patternTable/OnePatternTableView.vue";
 import PatternTableLogsById from "../pages/logs/PatternTableLogsById.vue";
 import TableLogsById from "../pages/logs/TableLogsById.vue";
+import ShowPatternTableArchive from "../pages/patternTable/ShowPatternTableArchive.vue";
+import ShowPatternTableNotArchive from "../pages/patternTable/ShowPatternTableNotArchive.vue";
 
 const routes = [
     {
@@ -107,6 +109,24 @@ const routes = [
                 name: 'ShowPatternTable',
                 meta: {
                     title: 'Все таблицы'
+                },
+            },
+
+            {
+                path:'showArchive',
+                component: ShowPatternTableArchive,
+                name: 'ShowPatternTableArchive',
+                meta: {
+                    title: 'Архивные'
+                },
+            },
+
+            {
+                path:'showNotArchive',
+                component: ShowPatternTableNotArchive,
+                name: 'ShowPatternTableNotArchive',
+                meta: {
+                    title: 'Не архивные'
                 },
             },
         ]

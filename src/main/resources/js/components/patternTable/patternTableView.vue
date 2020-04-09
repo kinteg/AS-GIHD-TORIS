@@ -52,6 +52,31 @@
                 </div>
             </el-col>
         </el-row>
+        <el-row :gutter="20">
+            <el-col :span="16">
+                <div style="background-color: white; padding: 30px; margin-top: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                    <p style="font-size: 20px">Файлы</p>
+                    <table style="overflow-x: auto; ">
+                        <tr>
+                            <th>Номер</th>
+                            <th>Шаблон</th>
+                            <th>Файл</th>
+                            <th>Дата создания</th>
+                        </tr>
+                        <tr v-for="file in patternTableFile">
+                            <td>{{file.id}}</td>
+                            <td>{{file.patternTableId}}</td>
+                            <td>
+                                <el-button @click="downloadFile(file.file)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-download"></el-button>
+                            </td>
+                            <td>{{file.dateCreation}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </el-col>
+            <el-col :span="8">
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -64,6 +89,7 @@
         props:['tableId'],
         data() {
             return {
+                patternTableFile:"",
                 patternTableLog:"",
                 patternTableId:"",
                 showOnlyOneTable: "",
@@ -84,6 +110,22 @@
         },
 
         methods:{
+            downloadFile(fileName){
+                console.log(fileName);
+                AXIOS({
+                    url: 'fileUnLoader/getPatternTableFile/'+fileName,
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', fileName); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                });
+            },
+
             onCurrentChange(value){
                 this.pagination.currentPage = value;
                 let currentPage = this.pagination.currentPage - 1;
@@ -130,6 +172,11 @@
                 this.patternTableLog = response.data.content;
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
+            });
+
+            AXIOS.get("fileUnLoader/getAllPatternTableFileByPatternId/"+this.patternTableId).then(response => {
+                this.patternTableFile = response.data;
+                console.log(response);
             });
         }
     }

@@ -1,9 +1,9 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <div v-if="allTable">
-            <p style="font-size: 20px">Все таблицы
-<!--                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
-<!--                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
+            <p style="font-size: 20px">Архивные таблицы
+                <!--                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
+                <!--                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
                 <el-dropdown style="float: right" :hide-on-click="false">
                     <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                     </el-button>
@@ -12,7 +12,6 @@
                         <el-dropdown-item><el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.nameTable = !hidden.nameTable">Навание</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.nameFile = !hidden.nameFile">Описание</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check3" @change="hidden.isArchive = !hidden.isArchive">Архивность</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check4" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check5" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check6" @change="hidden.dateActivation = !hidden.dateActivation">Дата активации</el-checkbox></el-dropdown-item>
@@ -27,7 +26,6 @@
                         <th v-if="hidden.id" @click="sort('id')">Номер</th>
                         <th v-if="hidden.nameTable" @click="sort('name_table')">Навание таблицы</th>
                         <th v-if="hidden.nameFile" @click="sort('name_file')">Навание файла</th>
-                        <th v-if="hidden.isArchive" @click="sort('archive')">Архивность</th>
                         <th v-if="hidden.dateCreation" @click="sort('date_creation')">Дата создания</th>
                         <th v-if="hidden.dateDeactivation" @click="sort('date_deactivation')">Дата деактивации</th>
                         <th v-if="hidden.dateActivation" @click="sort('date_activation')">Дата активации</th>
@@ -38,16 +36,6 @@
                         <td v-if="hidden.id"><el-input placeholder="Please input" v-model="patternTable.id"></el-input></td>
                         <td v-if="hidden.nameTable"><el-input placeholder="Please input" v-model="patternTable.nameTable"></el-input></td>
                         <td v-if="hidden.nameFile"><el-input placeholder="Please input" v-model="patternTable.nameFile"></el-input></td>
-                        <td v-if="hidden.isArchive">
-                            <el-select v-model="value" placeholder="Select">
-                                <el-option
-                                        v-for="item in options"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                </el-option>
-                            </el-select>
-                        </td>
                         <td v-if="hidden.dateCreation"> <div class="block">
                             <el-date-picker
                                     value-format="yyyy-MM-dd"
@@ -100,11 +88,10 @@
                             <el-button @click="deleteOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
                         </span>
                         </td>
-<!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
+                        <!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
                         <td v-if="hidden.id">{{table.id}}</td>
                         <td v-if="hidden.nameTable">{{table.nameTable}}</td>
                         <td v-if="hidden.nameFile">{{table.nameFile}}</td>
-                        <td v-if="hidden.isArchive">{{table.isArchive ? "Да" : "Нет"}}</td>
                         <td v-if="hidden.dateCreation">{{table.dateCreation}}</td>
                         <td v-if="hidden.dateDeactivation">{{table.dateDeactivation}}</td>
                         <td v-if="hidden.dateActivation">{{table.dateActivation}}</td>
@@ -150,7 +137,7 @@
     import MyPagination from "../general/pagination.vue";
 
     export default {
-        name: "patternTableAll",
+        name: "tableArchive",
         components: {MyPagination},
         data() {
             return {
@@ -267,7 +254,6 @@
                 document.getElementById("check").click();
                 document.getElementById("check1").click();
                 document.getElementById("check2").click();
-                document.getElementById("check3").click();
                 document.getElementById("check4").click();
                 document.getElementById("check5").click();
                 document.getElementById("check6").click();
@@ -323,7 +309,6 @@
                 }
 
                 let formData = new FormData();
-                formData.append("isArchive",this.value);
                 formData.append("sort",this.patternTable.sort);
                 formData.append("key",this.patternTable.key);
                 formData.append("id",this.patternTable.id);
@@ -339,7 +324,7 @@
                 formData.append("lastUpdate2",this.patternTable.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
-                AXIOS.post("/tableCreator/getAllSort/",
+                AXIOS.post("/tableCreator/getAllArchiveSort/",
                     formData,
                     {
                         headers: {
@@ -401,7 +386,6 @@
                 }
 
                 let formData = new FormData();
-                formData.append("isArchive",this.value);
                 formData.append("sort",this.patternTable.sort);
                 formData.append("key",this.patternTable.key);
                 formData.append("id",this.patternTable.id);
@@ -417,7 +401,7 @@
                 formData.append("lastUpdate2",this.patternTable.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
-                AXIOS.post("/tableCreator/getAllSort/",
+                AXIOS.post("/tableCreator/getAllArchiveSort/",
                     formData,
                     {
                         headers: {
@@ -464,7 +448,6 @@
                 }
 
                 let formData = new FormData();
-                formData.append("isArchive",this.value);
                 formData.append("sort",this.patternTable.sort);
                 formData.append("key",this.patternTable.key);
                 formData.append("id",this.patternTable.id);
@@ -480,7 +463,7 @@
                 formData.append("lastUpdate2",this.patternTable.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
-                AXIOS.post("/tableCreator/getAllSort/",
+                AXIOS.post("/tableCreator/getAllArchiveSort/",
                     formData,
                     {
                         headers: {
@@ -542,7 +525,6 @@
                     this.patternTable.sort = "asc";
                 }
                 let formData = new FormData();
-                formData.append("isArchive",this.value);
                 formData.append("sort",this.patternTable.sort);
                 formData.append("key",this.patternTable.key);
                 formData.append("id",this.patternTable.id);
@@ -558,7 +540,7 @@
                 formData.append("lastUpdate2",this.patternTable.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
-                AXIOS.post("/tableCreator/getAllSort/",
+                AXIOS.post("/tableCreator/getAllArchiveSort/",
                     formData,
                     {
                         headers: {
@@ -573,7 +555,7 @@
         },
 
         mounted() {
-            AXIOS.get("tableCreator/getAll").then(response => {
+            AXIOS.get("tableCreator/getAllArchive").then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.patternTableData = response.data.content;

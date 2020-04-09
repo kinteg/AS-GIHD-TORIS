@@ -567,19 +567,18 @@
         methods:{
             downloadFile(fileName){
                 console.log(fileName);
-                AXIOS.get("fileUnLoader/getPatternFile/"+fileName,
-                    {
-                        headers: {
-                            'Content-Type': 'arraybuffer'
-                        }
-                    }).then(response => {
-                    console.log(response);
-                    let blob = new Blob([response.data],{ type:'application/zip'});
-                    let link = document.createElement('a');
-                    link.href = window.URL.createObjectURL(blob);
-                    link.download = fileName;
+                AXIOS({
+                    url: 'fileUnLoader/getPatternFile/'+fileName,
+                    method: 'GET',
+                    responseType: 'blob', // important
+                }).then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', fileName); //or any other extension
+                    document.body.appendChild(link);
                     link.click();
-                })
+                });
             },
 
             onCurrentChange(){

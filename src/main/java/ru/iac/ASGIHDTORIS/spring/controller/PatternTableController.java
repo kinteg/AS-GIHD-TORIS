@@ -124,7 +124,7 @@ public class PatternTableController {
         return patternTableRepo.findAllByIsArchive(true, pageable);
     }
 
-    @GetMapping("/getAllArchiveSort")
+    @PostMapping("/getAllArchiveSort")
     public Page<PatternTable> getAllArchiveSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
@@ -162,7 +162,7 @@ public class PatternTableController {
         return patternTableRepo.findAllByIsArchive(false, pageable);
     }
 
-    @GetMapping("/getAllNotArchiveSort")
+    @PostMapping("/getAllNotArchiveSort")
     public Page<PatternTable> getAllNotArchiveSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);

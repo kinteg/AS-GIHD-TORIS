@@ -296,7 +296,7 @@
                     type: 'warning'
                 }).then(() => {
                     this.deArchiveSource(id);
-                    AXIOS.get("pattern/archivePatterns/" + id);
+                    AXIOS.get("pattern/deArchivePatterns/" + id);
                     this.$message({
                         type: 'success',
                         message: 'Источник разархивирован вместе с шаблонами'

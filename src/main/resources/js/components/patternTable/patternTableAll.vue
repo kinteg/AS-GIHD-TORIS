@@ -24,7 +24,6 @@
                 <table style="display: block; overflow-x: auto; ">
                     <tr>
                         <th></th>
-                        <th><el-checkbox ></el-checkbox></th>
                         <th v-if="hidden.id" @click="sort('id')">Номер</th>
                         <th v-if="hidden.nameTable" @click="sort('name_table')">Навание таблицы</th>
                         <th v-if="hidden.nameFile" @click="sort('name_file')">Навание файла</th>
@@ -36,7 +35,6 @@
                     </tr>
                     <tr>
                         <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
-                        <td></td>
                         <td v-if="hidden.id"><el-input placeholder="Please input" v-model="patternTable.id"></el-input></td>
                         <td v-if="hidden.nameTable"><el-input placeholder="Please input" v-model="patternTable.nameTable"></el-input></td>
                         <td v-if="hidden.nameFile"><el-input placeholder="Please input" v-model="patternTable.nameFile"></el-input></td>

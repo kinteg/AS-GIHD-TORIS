@@ -148,6 +148,7 @@
     import router from "../../router/router";
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
+
     export default {
         name: "patternTableAll",
         components: {MyPagination},
@@ -252,18 +253,19 @@
             },
 
             showOneTable(id){
-                this.patternTableId = id;
-                this.oneTable = true;
-                this.allTable = false;
-                let formData = new FormData();
-                formData.append("id",id);
-                console.log(id);
-                AXIOS.post("tableCreator/getTable/",formData).then(response => {
-                    console.log(response.data);
-                    this.paginationOneTable.totalPages = response.data.values.totalPages;
-                    this.paginationOneTable.totalElements = response.data.values.totalElements;
-                    this.showOnlyOneTable = response.data;
-                });
+                router.push('show/'+ id);
+                // this.patternTableId = id;
+                // this.oneTable = true;
+                // this.allTable = false;
+                // let formData = new FormData();
+                // formData.append("id",id);
+                // console.log(id);
+                // AXIOS.post("tableCreator/getTable/",formData).then(response => {
+                //     console.log(response.data);
+                //     this.paginationOneTable.totalPages = response.data.values.totalPages;
+                //     this.paginationOneTable.totalElements = response.data.values.totalElements;
+                //     this.showOnlyOneTable = response.data;
+                // });
             },
 
             notify(title,message,type) {

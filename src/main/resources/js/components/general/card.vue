@@ -1,148 +1,151 @@
 <template>
-    <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-        <p style="font-size: 20px">Просмотр</p>
-        <div>
-            <el-tabs v-model="activeName">
-                <el-tab-pane label="Источник" name="sourceInfo">
+    <div>
+        <el-row :gutter="20">
+            <el-col :span="16">
+                <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                    <p style="font-size: 20px">Просмотр</p>
                     <div>
-                        <el-row :gutter="20">
-                            <el-col :span="12">
+                        <el-tabs v-model="activeName">
+                            <el-tab-pane label="Источник" name="sourceInfo">
                                 <div>
-                                    <el-form :label-position="labelPosition" label-width="100px" :model="source">
-                                        <el-form-item label="Поставщик данных:">
-                                            {{source.name}}
-                                        </el-form-item>
-                                        <el-form-item label="Полное наименование набора:">
-                                            {{source.longName}}
-                                        </el-form-item>
-                                        <el-form-item label="Краткое наименование набора:">
-                                            {{source.shortName}}
-                                        </el-form-item>
-                                        <el-form-item label="Описание:">
-                                            {{source.description}}
-                                        </el-form-item>
-                                        <el-form-item label="Дополнительное описание:">
-                                            {{source.addDescription}}
-                                        </el-form-item>
-                                        <el-form-item label="Сфера (направление):">
-                                            {{source.scope}}
-                                        </el-form-item>
-                                    </el-form>
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div>
+                                                <el-form :label-position="labelPosition" label-width="100px" :model="source">
+                                                    <el-form-item label="Поставщик данных:">
+                                                        {{source.name}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Полное наименование набора:">
+                                                        {{source.longName}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Краткое наименование набора:">
+                                                        {{source.shortName}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Описание:">
+                                                        {{source.description}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Дополнительное описание:">
+                                                        {{source.addDescription}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Сфера (направление):">
+                                                        {{source.scope}}
+                                                    </el-form-item>
+                                                </el-form>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div>
+                                                <el-form :label-position="labelPosition" label-width="100px" :model="source">
+                                                    <el-form-item label="Периодичность актуализации:">
+                                                        {{source.periodicity}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Срок обновления набора данных:">
+                                                        {{source.renewalPeriod}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Вид набора:">
+                                                        {{source.type}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Ключевые слова (теги):">
+                                                        {{source.tags}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Источник данных:">
+                                                        {{source.providerLink}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Ссылка на данные на сайте поставщика:">
+                                                        {{source.dataSource}}
+                                                    </el-form-item>
+                                                </el-form>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
                                 </div>
-                            </el-col>
-                            <el-col :span="12">
-                                <div>
-                                    <el-form :label-position="labelPosition" label-width="100px" :model="source">
-                                        <el-form-item label="Периодичность актуализации:">
-                                            {{source.periodicity}}
-                                        </el-form-item>
-                                        <el-form-item label="Срок обновления набора данных:">
-                                            {{source.renewalPeriod}}
-                                        </el-form-item>
-                                        <el-form-item label="Вид набора:">
-                                            {{source.type}}
-                                        </el-form-item>
-                                        <el-form-item label="Ключевые слова (теги):">
-                                            {{source.tags}}
-                                        </el-form-item>
-                                        <el-form-item label="Источник данных:">
-                                            {{source.providerLink}}
-                                        </el-form-item>
-                                        <el-form-item label="Ссылка на данные на сайте поставщика:">
-                                            {{source.dataSource}}
-                                        </el-form-item>
-                                    </el-form>
+                            </el-tab-pane>
+                            <el-tab-pane label="Шаблон" name="patternInfo">
+                                <div v-if="viewPattern" >
+                                    <p style="font-size: 20px">Просмотр шаблона</p>
+                                    <el-row :gutter="20">
+                                        <el-col :span="8">
+                                            <div>
+                                                <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
+                                                    <el-form-item label="Название:">
+                                                        {{pattern.name}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Описание:">
+                                                        {{pattern.description}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Сфера (направление):">
+                                                        {{pattern.direction}}
+                                                    </el-form-item>
+                                                </el-form>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="8">
+                                            <div>
+                                                <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
+                                                    <el-form-item label="Ответственный за ведение:">
+                                                        {{pattern.management}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Архивность:">
+                                                        {{pattern.isArchive ? "Да" : "Нет"}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Дата создания:">
+                                                        {{pattern.dateCreation}}
+                                                    </el-form-item>
+                                                </el-form>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="8">
+                                            <div>
+                                                <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
+                                                    <el-form-item label="Дата архивации:">
+                                                        {{pattern.dateDeactivation}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Дата активации:">
+                                                        {{pattern.dateActivation}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Последнее обновление:">
+                                                        {{pattern.lastUpdate}}
+                                                    </el-form-item>
+                                                </el-form>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                    <el-button @click="updatePattern"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  >Редактировать</el-button>
                                 </div>
-                            </el-col>
-                        </el-row>
-                    </div>
-                </el-tab-pane>
-                <el-tab-pane label="Шаблон" name="patternInfo">
-                    <div v-if="viewPattern" >
-                        <p style="font-size: 20px">Просмотр шаблона</p>
-                        <el-row :gutter="20">
-                            <el-col :span="8">
-                                <div>
-                                    <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
-                                        <el-form-item label="Название:">
-                                            {{pattern.name}}
-                                        </el-form-item>
-                                        <el-form-item label="Описание:">
-                                            {{pattern.description}}
-                                        </el-form-item>
-                                        <el-form-item label="Сфера (направление):">
-                                            {{pattern.direction}}
-                                        </el-form-item>
-                                    </el-form>
+                                <div v-else >
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div>
+                                                <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
+                                                    <el-form-item prop="name" label="Название">
+                                                        <el-input v-model="pattern.name"></el-input>
+                                                    </el-form-item>
+                                                    <el-form-item prop="description" label="Описание">
+                                                        <el-input v-model="pattern.description"></el-input>
+                                                    </el-form-item>
+                                                </el-form>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div>
+                                                <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
+                                                    <el-form-item prop="direction" label="Направление:">
+                                                        <el-input v-model="pattern.direction"></el-input>
+                                                    </el-form-item>
+                                                    <el-form-item prop="management" label="Отвтественный за ведение:">
+                                                        <el-input v-model="pattern.management"></el-input>
+                                                    </el-form-item>
+                                                </el-form>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                    <el-button @click="backUpdate" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                                    <el-button @click="updatePatternAccept" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
                                 </div>
-                            </el-col>
-                            <el-col :span="8">
-                                <div>
-                                    <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
-                                        <el-form-item label="Ответственный за ведение:">
-                                            {{pattern.management}}
-                                        </el-form-item>
-                                        <el-form-item label="Архивность:">
-                                            {{pattern.isArchive ? "Да" : "Нет"}}
-                                        </el-form-item>
-                                        <el-form-item label="Дата создания:">
-                                            {{pattern.dateCreation}}
-                                        </el-form-item>
-                                    </el-form>
-                                </div>
-                            </el-col>
-                            <el-col :span="8">
-                                <div>
-                                    <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
-                                        <el-form-item label="Дата архивации:">
-                                            {{pattern.dateDeactivation}}
-                                        </el-form-item>
-                                        <el-form-item label="Дата активации:">
-                                            {{pattern.dateActivation}}
-                                        </el-form-item>
-                                        <el-form-item label="Последнее обновление:">
-                                            {{pattern.lastUpdate}}
-                                        </el-form-item>
-                                    </el-form>
-                                </div>
-                            </el-col>
-                        </el-row>
-                        <el-button @click="updatePattern"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  >Редактировать</el-button>
-                    </div>
-                    <div v-else >
-                        <el-row :gutter="20">
-                            <el-col :span="12">
-                                <div>
-                                    <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
-                                        <el-form-item prop="name" label="Название">
-                                            <el-input v-model="pattern.name"></el-input>
-                                        </el-form-item>
-                                        <el-form-item prop="description" label="Описание">
-                                            <el-input v-model="pattern.description"></el-input>
-                                        </el-form-item>
-                                    </el-form>
-                                </div>
-                            </el-col>
-                            <el-col :span="12">
-                                <div>
-                                    <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
-                                        <el-form-item prop="direction" label="Направление:">
-                                            <el-input v-model="pattern.direction"></el-input>
-                                        </el-form-item>
-                                        <el-form-item prop="management" label="Отвтественный за ведение:">
-                                            <el-input v-model="pattern.management"></el-input>
-                                        </el-form-item>
-                                    </el-form>
-                                </div>
-                            </el-col>
-                        </el-row>
-                        <el-button @click="backUpdate" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-                        <el-button @click="updatePatternAccept" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
-                    </div>
-                </el-tab-pane>
-                <el-tab-pane label="Таблицы" name="tableInfo">
-                    <p style="font-size: 20px">Таблицы
-                        <span v-if="isMainPage">
+                            </el-tab-pane>
+                            <el-tab-pane label="Таблицы" name="tableInfo">
+                                <p style="font-size: 20px">Таблицы
+                                    <span v-if="isMainPage">
                         <el-button @click="addTableTab"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-plus"></el-button>
                         <el-upload
                                 style="float: right; margin-right: 10px;"
@@ -155,182 +158,212 @@
                             <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
                         </el-upload>
                             </span>
-                    </p>
-                    <div v-if="viewTable">
-                        <div>
-                            <!--                                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
-                            <!--                                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
-                            <div class="horizontal-scroll-wrapper  rectangles">
-                                <table style="display: block; overflow-x: auto; ">
-                                    <tr>
-                                        <th></th>
-                                        <th><el-checkbox ></el-checkbox></th>
-                                        <th @click="sort('id')">Номер</th>
-                                        <th @click="sort('name_table')">Навание таблицы</th>
-                                        <th @click="sort('name_file')">Навание файла</th>
-                                        <th @click="sort('archive')">Архивность</th>
-                                        <th @click="sort('date_creation')">Дата создания</th>
-                                        <th @click="sort('date_deactivation')">Дата деактивации</th>
-                                        <th @click="sort('date_activation')">Дата активации</th>
-                                        <th @click="sort('last_update')">Последнее обновление</th>
-                                    </tr>
-                                    <tr>
-                                        <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
-                                        <td></td>
-                                        <td><el-input placeholder="Please input" v-model="patternTable.id"></el-input></td>
-                                        <td><el-input placeholder="Please input" v-model="patternTable.nameTable"></el-input></td>
-                                        <td><el-input placeholder="Please input" v-model="patternTable.nameFile"></el-input></td>
-                                        <td>
-                                            <el-select v-model="value" placeholder="Select">
-                                                <el-option
-                                                        v-for="item in options"
-                                                        :key="item.value"
-                                                        :label="item.label"
-                                                        :value="item.value">
-                                                </el-option>
-                                            </el-select>
-                                        </td>
-                                        <td> <div class="block">
-                                            <el-date-picker
-                                                    value-format="yyyy-MM-dd"
-                                                    v-model="patternTable.dateCreation"
-                                                    type="daterange"
-                                                    range-separator="To"
-                                                    start-placeholder="Start date"
-                                                    end-placeholder="End date">
-                                            </el-date-picker>
-                                        </div></td>
-                                        <td> <div class="block">
-                                            <el-date-picker
-                                                    value-format="yyyy-MM-dd"
-                                                    v-model="patternTable.dateDeactivation"
-                                                    type="daterange"
-                                                    range-separator="To"
-                                                    start-placeholder="Start date"
-                                                    end-placeholder="End date">
-                                            </el-date-picker>
-                                        </div></td>
-                                        <td> <div class="block">
-                                            <el-date-picker
-                                                    value-format="yyyy-MM-dd"
-                                                    v-model="patternTable.dateActivation"
-                                                    type="daterange"
-                                                    range-separator="To"
-                                                    start-placeholder="Start date"
-                                                    end-placeholder="End date">
-                                            </el-date-picker>
-                                        </div></td>
-                                        <td> <div class="block">
-                                            <el-date-picker
-                                                    value-format="yyyy-MM-dd"
-                                                    v-model="patternTable.lastUpdate"
-                                                    type="daterange"
-                                                    range-separator="To"
-                                                    start-placeholder="Start date"
-                                                    end-placeholder="End date">
-                                            </el-date-picker>
-                                        </div></td>
-                                    </tr>
-                                    <tbody v-for="table in patternTableData">
-                                    <tr>
-                                        <td>
-                                            <el-button @click="showOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
-                                            <span v-if="table.isArchive">
+                                </p>
+                                <div v-if="viewTable">
+                                    <div>
+                                        <!--                                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
+                                        <!--                                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
+                                        <div class="horizontal-scroll-wrapper  rectangles">
+                                            <table style="display: block; overflow-x: auto; ">
+                                                <tr>
+                                                    <th></th>
+                                                    <th><el-checkbox ></el-checkbox></th>
+                                                    <th @click="sort('id')">Номер</th>
+                                                    <th @click="sort('name_table')">Навание таблицы</th>
+                                                    <th @click="sort('name_file')">Навание файла</th>
+                                                    <th @click="sort('archive')">Архивность</th>
+                                                    <th @click="sort('date_creation')">Дата создания</th>
+                                                    <th @click="sort('date_deactivation')">Дата деактивации</th>
+                                                    <th @click="sort('date_activation')">Дата активации</th>
+                                                    <th @click="sort('last_update')">Последнее обновление</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
+                                                    <td></td>
+                                                    <td><el-input placeholder="Please input" v-model="patternTable.id"></el-input></td>
+                                                    <td><el-input placeholder="Please input" v-model="patternTable.nameTable"></el-input></td>
+                                                    <td><el-input placeholder="Please input" v-model="patternTable.nameFile"></el-input></td>
+                                                    <td>
+                                                        <el-select v-model="value" placeholder="Select">
+                                                            <el-option
+                                                                    v-for="item in options"
+                                                                    :key="item.value"
+                                                                    :label="item.label"
+                                                                    :value="item.value">
+                                                            </el-option>
+                                                        </el-select>
+                                                    </td>
+                                                    <td> <div class="block">
+                                                        <el-date-picker
+                                                                value-format="yyyy-MM-dd"
+                                                                v-model="patternTable.dateCreation"
+                                                                type="daterange"
+                                                                range-separator="To"
+                                                                start-placeholder="Start date"
+                                                                end-placeholder="End date">
+                                                        </el-date-picker>
+                                                    </div></td>
+                                                    <td> <div class="block">
+                                                        <el-date-picker
+                                                                value-format="yyyy-MM-dd"
+                                                                v-model="patternTable.dateDeactivation"
+                                                                type="daterange"
+                                                                range-separator="To"
+                                                                start-placeholder="Start date"
+                                                                end-placeholder="End date">
+                                                        </el-date-picker>
+                                                    </div></td>
+                                                    <td> <div class="block">
+                                                        <el-date-picker
+                                                                value-format="yyyy-MM-dd"
+                                                                v-model="patternTable.dateActivation"
+                                                                type="daterange"
+                                                                range-separator="To"
+                                                                start-placeholder="Start date"
+                                                                end-placeholder="End date">
+                                                        </el-date-picker>
+                                                    </div></td>
+                                                    <td> <div class="block">
+                                                        <el-date-picker
+                                                                value-format="yyyy-MM-dd"
+                                                                v-model="patternTable.lastUpdate"
+                                                                type="daterange"
+                                                                range-separator="To"
+                                                                start-placeholder="Start date"
+                                                                end-placeholder="End date">
+                                                        </el-date-picker>
+                                                    </div></td>
+                                                </tr>
+                                                <tbody v-for="table in patternTableData">
+                                                <tr>
+                                                    <td>
+                                                        <el-button @click="showOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                                                        <span v-if="table.isArchive">
                                                 <el-button @click="deArchiveOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
                                             </span>
-                                            <span v-else>
+                                                        <span v-else>
                                                 <el-button @click="deleteOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
                                             </span>
-                                        </td>
-                                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>
-                                        <td>{{table.id}}</td>
-                                        <td>{{table.nameTable}}</td>
-                                        <td>{{table.nameFile}}</td>
-                                        <td>{{table.isArchive ? "Да" : "Нет"}}</td>
-                                        <td>{{table.dateCreation}}</td>
-                                        <td>{{table.dateDeactivation}}</td>
-                                        <td>{{table.dateActivation}}</td>
-                                        <td>{{table.lastUpdate}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                                    </td>
+                                                    <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>
+                                                    <td>{{table.id}}</td>
+                                                    <td>{{table.nameTable}}</td>
+                                                    <td>{{table.nameFile}}</td>
+                                                    <td>{{table.isArchive ? "Да" : "Нет"}}</td>
+                                                    <td>{{table.dateCreation}}</td>
+                                                    <td>{{table.dateDeactivation}}</td>
+                                                    <td>{{table.dateActivation}}</td>
+                                                    <td>{{table.lastUpdate}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else-if="updateTable">
+                                    update
+                                </div>
+                                <div v-else-if="createTable">
+                                    <el-upload
+                                            class="upload-demo"
+                                            ref="upload"
+                                            action=""
+                                            :limit="1"
+                                            :on-change="onChange"
+                                            :auto-upload="false">
+                                        <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
+                                        <div class="el-upload__tip" slot="tip">Выберите файл для загрузки</div>
+                                    </el-upload>
+                                    <el-collapse v-for="oneTable in table">
+                                        <el-collapse-item :title="oneTable.tableModel.tableName" >
+                                            <el-input style="padding-bottom: 10px;" v-model="oneTable.tableModel.tableName" placeholder="Название таблицы"></el-input>
+                                            <el-form v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
+                                                <el-form-item >
+                                                    <input :checked="pole.primary" type="radio" :name="oneTable.tableModel.tableName"/>
+                                                </el-form-item>
+                                                <el-form-item >
+                                                    <el-input v-model="pole.key" placeholder="Approved by"></el-input>
+                                                </el-form-item>
+                                                <el-form-item >
+                                                    <el-autocomplete
+                                                            style="float: right"
+                                                            class="inline-input"
+                                                            v-model="pole.type"
+                                                            :fetch-suggestions="querySearch"
+                                                            placeholder="Please Input"
+                                                    ></el-autocomplete>
+                                                </el-form-item>
+                                            </el-form>
+                                            <h2>Предпросмотр</h2>
+                                            <table style=" padding: 0 5px 0 0;">
+                                                <tr>
+                                                    <th v-for="pole in oneTable.tableModel.models">{{pole.key}}</th>
+                                                </tr>
+                                                <tr v-for="value in oneTable.values">
+                                                    <td v-for="oneValue in value">{{oneValue}}</td>
+                                                </tr>
+                                            </table>
+                                        </el-collapse-item>
+                                    </el-collapse>
+                                    <el-button @click="showTableTab" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                                    <el-button @click="addTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
+                                </div>
+                                <div v-else-if="showTable">
+                                    <div class="horizontal-scroll-wrapper  rectangles">
+                                        <el-upload
+                                                class="upload-demo"
+                                                ref="upload"
+                                                action=""
+                                                :limit="1"
+                                                :on-change="sendData"
+                                                :auto-upload="false">
+                                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
+                                            <div class="el-upload__tip" slot="tip">Загрузить данные в таблицу</div>
+                                        </el-upload>
+                                        <table style=" padding: 0 5px 0 0; overflow-x: auto; ">
+                                            <tr>
+                                                <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
+                                            </tr>
+                                            <tr v-for="value in showOnlyOneTable.values.content">
+                                                <td v-for="oneValue in value">{{oneValue}}</td>
+                                            </tr>
+                                        </table>
+                                        <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                                    </div>
+                                </div>
+                            </el-tab-pane>
+                        </el-tabs>
                     </div>
-                    <div v-else-if="updateTable">
-                        update
-                    </div>
-                    <div v-else-if="createTable">
-                        <el-upload
-                                class="upload-demo"
-                                ref="upload"
-                                action=""
-                                :limit="1"
-                                :on-change="onChange"
-                                :auto-upload="false">
-                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
-                            <div class="el-upload__tip" slot="tip">Выберите файл для загрузки</div>
-                        </el-upload>
-                        <el-collapse v-for="oneTable in table">
-                            <el-collapse-item :title="oneTable.tableModel.tableName" >
-                                <el-input style="padding-bottom: 10px;" v-model="oneTable.tableModel.tableName" placeholder="Название таблицы"></el-input>
-                                <el-form v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
-                                    <el-form-item >
-                                        <input :checked="pole.primary" type="radio" :name="oneTable.tableModel.tableName"/>
-                                    </el-form-item>
-                                    <el-form-item >
-                                        <el-input v-model="pole.key" placeholder="Approved by"></el-input>
-                                    </el-form-item>
-                                    <el-form-item >
-                                        <el-autocomplete
-                                                style="float: right"
-                                                class="inline-input"
-                                                v-model="pole.type"
-                                                :fetch-suggestions="querySearch"
-                                                placeholder="Please Input"
-                                        ></el-autocomplete>
-                                    </el-form-item>
-                                </el-form>
-                                <h2>Предпросмотр</h2>
-                                <table style=" padding: 0 5px 0 0;">
-                                    <tr>
-                                        <th v-for="pole in oneTable.tableModel.models">{{pole.key}}</th>
-                                    </tr>
-                                    <tr v-for="value in oneTable.values">
-                                        <td v-for="oneValue in value">{{oneValue}}</td>
-                                    </tr>
-                                </table>
-                            </el-collapse-item>
-                        </el-collapse>
-                        <el-button @click="showTableTab" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-                        <el-button @click="addTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
-                    </div>
-                    <div v-else-if="showTable">
-                        <div class="horizontal-scroll-wrapper  rectangles">
-                            <el-upload
-                                    class="upload-demo"
-                                    ref="upload"
-                                    action=""
-                                    :limit="1"
-                                    :on-change="sendData"
-                                    :auto-upload="false">
-                                <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
-                                <div class="el-upload__tip" slot="tip">Загрузить данные в таблицу</div>
-                            </el-upload>
-                            <table style=" padding: 0 5px 0 0; overflow-x: auto; ">
-                                <tr>
-                                    <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
-                                </tr>
-                                <tr v-for="value in showOnlyOneTable.values.content">
-                                    <td v-for="oneValue in value">{{oneValue}}</td>
-                                </tr>
-                            </table>
-                            <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-                        </div>
-                    </div>
-                </el-tab-pane>
-            </el-tabs>
-        </div>
+                </div>
+            </el-col>
+            <el-col :span="8">
+                <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                    <p style="font-size: 20px">История изменений</p>
+                    <table style="overflow-x: auto; ">
+                        <tr>
+                            <th>Дата изменения</th>
+                            <th>Ссылка</th>
+                        </tr>
+                        <tr v-for="log in patternLog">
+                            <td>{{log.dateCreation}}</td>
+                            <td><router-link :to="'/logs/patternLogs/' + log.id">Просмотр</router-link></td>
+                        </tr>
+                    </table>
+                    <el-pagination
+                            style="margin: 10px auto; text-align: center "
+                            class="pager"
+                            background
+                            layout="prev, pager, next"
+                            :page-size="pagination.pageSize"
+                            :page-count="pagination.totalPages"
+                            :current-page="pagination.currentPage"
+                            :pager-count="pagination.pagerCount"
+                            @current-change="onCurrentChange"
+                            :total="pagination.totalElements">
+                    </el-pagination>
+                </div>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -354,6 +387,7 @@
                     label: 'Нет'
                 }],
                 value: '',
+                patternLog:"",
                 isMainPage: true,
                 pickerOptions: {
                     shortcuts: [{
@@ -382,12 +416,6 @@
                         }
                     }]
                 },
-                pagination: {
-                    pageSize: 10,
-                    currentPage: 1,
-                    totalPages: 0,
-                    totalElements: 0,
-                },
 
                 hidden:{
                     id: true,
@@ -399,6 +427,7 @@
                     dateActivation: true,
                     lastUpdate: true,
                 },
+
                 patternTableId:"",
                 table:[],
                 fileList:[],
@@ -526,6 +555,14 @@
             }
         },
         methods:{
+            onCurrentChange(){
+                this.pagination.currentPage = value;
+                let currentPage = this.pagination.currentPage - 1;
+                AXIOS.get("sourceLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
+                    this.patternLog = response.data.content;
+                })
+            },
+
             backUpdate(){
                 this.$confirm('Уверены что хотите вернуться?', 'Назад', {
                     confirmButtonText: 'Да',
@@ -945,6 +982,12 @@
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.patternTableData = response.data.content;
+            });
+
+            AXIOS.get("patternLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize).then(response => {
+                this.patternLog = response.data.content;
+                this.pagination.totalPages = response.data.totalPages;
+                this.pagination.totalElements = response.data.totalElements;
             });
             this.links = this.loadAll();
         }

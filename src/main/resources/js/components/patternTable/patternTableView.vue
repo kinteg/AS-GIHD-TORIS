@@ -1,43 +1,158 @@
 <template>
-    <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-        <p style="font-size: 20px">Просмотр шаблона</p>
-        <div class="horizontal-scroll-wrapper  rectangles">
-            <el-upload
-                    class="upload-demo"
-                    ref="upload"
-                    action=""
-                    :limit="1"
-                    :on-change="sendData"
-                    :auto-upload="false">
-                <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
-                <div class="el-upload__tip" slot="tip">Загрузить данные в таблицу</div>
-            </el-upload>
-            <div class="horizontal-scroll-wrapper  rectangles">
-                <table style="display: block; padding: 0 5px 0 0; overflow-x: auto; ">
-                    <tr>
-                        <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
-                    </tr>
-                    <tr v-for="value in showOnlyOneTable.values.content">
-                        <td v-for="oneValue in value">{{oneValue}}</td>
-                    </tr>
-                </table>
-            </div>
-            <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-        </div>
+    <div>
+        <el-row :gutter="20">
+            <el-col :span="16">
+                <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                    <p style="font-size: 20px">Просмотр таблицы</p>
+                    <div class="horizontal-scroll-wrapper  rectangles">
+                        <table style="display: block; overflow-x: auto;">
+                            <tr>
+                                <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
+                            </tr>
+                            <tr v-for="value in showOnlyOneTable.values.content">
+                                <td v-for="oneValue in value">{{oneValue}}</td>
+                            </tr>
+                        </table>
+                        <my-pagination
+                                :page-size="paginationOneTable.pageSize"
+                                :current-page="paginationOneTable.currentPage"
+                                :totalPages="paginationOneTable.totalPages"
+                                :totalElements="paginationOneTable.totalElements"
+                                @onCurrentChange="onCurrentChangeOneTable"
+                                @onSizeChange="onSizeChangeOneTable"/>
+                        <!--            <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>-->
+                    </div>
+                </div>
+            </el-col>
+            <el-col :span="8">
+                <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                    <p style="font-size: 20px">История изменений</p>
+                    <table style="overflow-x: auto; ">
+                        <tr>
+                            <th>Дата изменения</th>
+                            <th>Ссылка</th>
+                        </tr>
+                        <tr v-for="log in patternTableLog">
+                            <td>{{log.dateCreation}}</td>
+                            <td><router-link :to="'/logs/patternTableLogs/' + log.id">Просмотр</router-link></td>
+                        </tr>
+                    </table>
+                    <el-pagination
+                            style="margin: 10px auto; text-align: center "
+                            class="pager"
+                            background
+                            layout="prev, pager, next"
+                            :page-size="pagination.pageSize"
+                            :page-count="pagination.totalPages"
+                            :current-page="pagination.currentPage"
+                            :pager-count="pagination.pagerCount"
+                            @current-change="onCurrentChange"
+                            :total="pagination.totalElements">
+                    </el-pagination>
+                </div>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
 <script>
+    import MyPagination from "../general/pagination.vue";
+    import {AXIOS} from "../../AXIOS/http-common";
     export default {
         name: "patternTableView",
+        components: {MyPagination},
         props:['tableId'],
+        data() {
+            return {
+                patternTableLog:"",
+                patternTableId:"",
+                showOnlyOneTable: "",
+                paginationOneTable: {
+                    pageSize: 10,
+                    currentPage: 1,
+                    totalPages: 0,
+                    totalElements: 0,
+                },
+                pagination:{
+                    pageSize: 5,
+                    currentPage: 1,
+                    totalPages: 0,
+                    totalElements: 0,
+                    pagerCount: 2,
+                },
+            }
+        },
+
+        methods:{
+            onCurrentChange(value){
+                this.pagination.currentPage = value;
+                let currentPage = this.pagination.currentPage - 1;
+                AXIOS.get("sourceLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
+                    this.patternTableLog = response.data.content;
+                })
+            },
+
+            onSizeChangeOneTable(value){
+                this.paginationOneTable.pageSize = value;
+                this.paginationOneTable.currentPage = 1;
+                let formData = new FormData();
+                formData.append("id",this.patternTableId);
+                formData.append("size",this.paginationOneTable.pageSize);
+                formData.append("page",this.paginationOneTable.currentPage - 1);
+                AXIOS.post("tableCreator/getTable/",formData).then(response => {
+                    this.showOnlyOneTable = response.data;
+                });
+            },
+
+            onCurrentChangeOneTable(value){
+                this.paginationOneTable.currentPage = value;
+                let formData = new FormData();
+                formData.append("id",this.patternTableId);
+                formData.append("size",this.paginationOneTable.pageSize);
+                formData.append("page",this.paginationOneTable.currentPage - 1);
+                AXIOS.post("tableCreator/getTable/",formData).then(response => {
+                    this.showOnlyOneTable = response.data;
+                });
+            },
+        },
 
         mounted() {
+            this.patternTableId = this.$route.params.id;
+            let formData = new FormData();
+            formData.append("id", this.patternTableId);
+            AXIOS.post("tableCreator/getTable/",formData).then(response => {
+                this.paginationOneTable.totalPages = response.data.values.totalPages;
+                this.paginationOneTable.totalElements = response.data.values.totalElements;
+                this.showOnlyOneTable = response.data;
+            });
 
+            AXIOS.get("patternTableLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize).then(response => {
+                this.patternTableLog = response.data.content;
+                this.pagination.totalPages = response.data.totalPages;
+                this.pagination.totalElements = response.data.totalElements;
+            });
         }
     }
 </script>
 
 <style scoped>
+    table, td, th {
+        border: 1px solid #d7d7d7;
+        text-align: center;
+    }
+
+    td{
+        padding: 10px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        padding: 10px;
+        height: 50px;
+    }
 
 </style>

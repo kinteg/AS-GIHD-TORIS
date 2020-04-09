@@ -4,30 +4,30 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <div>
-                    <el-form :label-position="labelPosition" label-width="100px" :model="sourceLogInfo">
+                    <el-form :label-position="labelPosition" label-width="100px" :model="patternTableLogInfo">
                         <el-form-item label="Номер:">
-                            {{sourceLogInfo.id}}
+                            {{patternTableLogInfo.id}}
                         </el-form-item>
                         <el-form-item label="Действие:">
-                            {{sourceLogInfo.actions.action}}
+                            {{patternTableLogInfo.actions.action}}
                         </el-form-item>
                         <el-form-item label="Краткое наименование набора:">
-                            {{sourceLogInfo.statuses.status}}
+                            {{patternTableLogInfo.statuses.status}}
                         </el-form-item>
                     </el-form>
                 </div>
             </el-col>
             <el-col :span="12">
                 <div>
-                    <el-form :label-position="labelPosition" label-width="100px" :model="sourceLogInfo">
+                    <el-form :label-position="labelPosition" label-width="100px" :model="patternTableLogInfo">
                         <el-form-item label="Ошибка:">
-                            {{sourceLogInfo.errors.error}}
+                            {{patternTableLogInfo.errors.error}}
                         </el-form-item>
                         <el-form-item label="Источник:">
-                            {{sourceLogInfo.sourceId}}
+                            {{patternTableLogInfo.sourceId}}
                         </el-form-item>
                         <el-form-item label="Дата изменения:">
-                            {{sourceLogInfo.dateCreation}}
+                            {{patternTableLogInfo.dateCreation}}
                         </el-form-item>
                     </el-form>
                 </div>
@@ -41,7 +41,7 @@
                     <th>Было</th>
                     <th>Стало</th>
                 </tr>
-                <tr v-for="log in sourceLog">
+                <tr v-for="log in patternTableLog">
                     <td>{{log.columnName}}</td>
                     <td>{{log.before}}</td>
                     <td>{{log.after}}</td>
@@ -55,13 +55,13 @@
     import router from "../../router/router";
     import {AXIOS} from "../../AXIOS/http-common";
     export default {
-        name: "sourceLogById",
+        name: "tableLogById",
         data() {
             return{
                 labelPosition: "top",
-                sourceLogId:"",
-                sourceLogInfo: "",
-                sourceLog:"",
+                patternTableLogId:"",
+                patternTableLogInfo: "",
+                patternTableLog:"",
             }
         },
 
@@ -70,16 +70,15 @@
         },
 
         mounted() {
-            this.sourceLogId = this.$route.params.id;
-            // /getAll/beforeAfter/
-            AXIOS.get("sourceLogger/getAll/beforeAfter/" + this.sourceLogId).then(response => {
+            this.patternTableLogId = this.$route.params.id;
+            AXIOS.get("patternTableLogger/getAll/beforeAfter/" + this.patternTableLogId).then(response => {
                 console.log(response);
-                this.sourceLog = response.data.content;
+                this.patternTableLog = response.data.content;
             });
 
-            AXIOS.get("sourceLogger/" + this.sourceLogId).then(response => {
+            AXIOS.get("patternTableLogger/" + this.patternTableLogId).then(response => {
                 console.log(response);
-                this.sourceLogInfo = response.data;
+                this.patternTableLogInfo = response.data;
             })
         }
     }

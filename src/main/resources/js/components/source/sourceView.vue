@@ -178,10 +178,6 @@
                 })
             },
 
-            viewLog(id){
-
-            },
-
             patternView(id) {
                 this.hiddenTable = false;
                 this.patternId = id;
@@ -194,23 +190,21 @@
         },
         mounted() {
             AXIOS.get("source/" + this.$route.params.id).then(response => {
-                console.log(response);
                 this.source = response.data;
             });
+
             AXIOS.get("pattern/getAll/" + this.$route.params.id).then(response => {
                 this.patternData = response.data.content;
             });
+
             AXIOS.get("tableCreator/getAllBySource/" + this.$route.params.id).then(response => {
-                console.log(response);
                 this.table = response.data;
             });
+
             AXIOS.get("sourceLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize).then(response => {
                 this.sourceLog = response.data.content;
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
-                console.log(this.pagination.totalPages);
-                console.log(this.pagination.totalElements);
-                console.log(this.sourceLog);
             });
         }
     }

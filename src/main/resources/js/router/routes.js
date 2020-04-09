@@ -16,6 +16,10 @@ import Logs from "../pages/logs/Logs.vue";
 import PatternLogs from "../pages/logs/PatternLogs.vue";
 import TableLogs from "../pages/logs/TableLogs.vue";
 import SourceLogsById from "../pages/logs/SourceLogsById.vue";
+import PatternLogsById from "../pages/logs/PatternTableLogsById.vue";
+import patternTableView from "../components/patternTable/patternTableView.vue";
+import OnePatternTableView from "../pages/patternTable/OnePatternTableView.vue";
+import PatternTableLogsById from "../pages/logs/PatternTableLogsById.vue";
 
 const routes = [
     {
@@ -149,6 +153,19 @@ const routes = [
     },
 
     {
+        path:'/logs/patternLogs/:id',
+        component: PatternLogsById,
+        name: 'patternLogsById',
+    },
+
+    {
+        path:'/logs/patternTableLogs/:id',
+        component: PatternTableLogsById,
+        name: 'patternLogsById',
+    },
+
+
+    {
         path:'/source/update/:id',
         component: UpdateSource,
         name: 'sourceUpdate',
@@ -163,6 +180,13 @@ const routes = [
         component: ViewSource,
         name: 'sourceUpdate',
     },
+
+    {
+        path:'/patternTable/show/:id',
+        component: OnePatternTableView,
+        name: 'OnePatternTableView',
+    },
+
     {
         path:'/source/create',
         component: CreateSource,

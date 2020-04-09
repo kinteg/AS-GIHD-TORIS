@@ -52,16 +52,8 @@
         methods:{
             onCurrentChange(value) {
                 this.pagination.currentPage = value;
-                let formData = new FormData();
-                formData.append("size",this.pagination.pageSize);
-                formData.append("page",this.pagination.currentPage - 1);
-                AXIOS.post("/patternTableLogger/getAll",
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    }).then(response => {
+                let currentPage = this.pagination.currentPage - 1;
+                AXIOS.get("/patternTableLogger/getAll?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
                     this.tableLog = response.data.content;
                 })
                     .catch(error => {
@@ -71,17 +63,9 @@
             onSizeChange(value) {
                 this.pagination.pageSize = value;
                 this.pagination.currentPage = 1;
+                let currentPage = this.pagination.currentPage - 1;
 
-                let formData = new FormData();
-                formData.append("size",this.pagination.pageSize);
-                formData.append("page",this.pagination.currentPage - 1);
-                AXIOS.post("/patternTableLogger/getAll",
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    }).then(response => {
+                AXIOS.get("/patternTableLogger/getAll?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
                     this.tableLog = response.data.content;
                 })
                     .catch(error => {
@@ -90,7 +74,7 @@
             }
         },
         mounted() {
-            AXIOS.post("patternTableLogger/getAll").then(response => {
+            AXIOS.get("patternTableLogger/getAll").then(response => {
                 this.tableLog = response.data.content;
                 console.log(this.tableLog);
                 this.pagination.totalPages = response.data.totalPages;

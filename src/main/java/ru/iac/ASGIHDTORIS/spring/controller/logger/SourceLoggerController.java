@@ -5,7 +5,10 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.iac.ASGIHDTORIS.spring.domain.BeforeAfterSource;
 import ru.iac.ASGIHDTORIS.spring.domain.SourceLogger;
 import ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterSourceRepo;
@@ -30,7 +33,7 @@ public class SourceLoggerController {
         return sourceLoggerRepo.findById((long) id);
     }
 
-    @PostMapping("/getAll")
+    @GetMapping("/getAll")
     public Page<SourceLogger> getAllLogger(@PageableDefault Pageable pageable) {
         return sourceLoggerRepo.findAll(pageable);
     }

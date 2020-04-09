@@ -5,7 +5,10 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.iac.ASGIHDTORIS.spring.domain.BeforeAfterPattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternLogger;
 import ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo;
@@ -31,7 +34,7 @@ public class PatternLoggerController {
         return patternLoggerRepo.findById((long) id);
     }
 
-    @PostMapping("/getAll")
+    @GetMapping("/getAll")
     public Page<PatternLogger> getAllLogger(@PageableDefault Pageable pageable) {
         return patternLoggerRepo.findAll(pageable);
     }

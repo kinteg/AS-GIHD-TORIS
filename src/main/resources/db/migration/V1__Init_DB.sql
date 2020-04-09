@@ -129,6 +129,7 @@ create table before_after_source
 (
     id               int8 not null,
     source_logger_id int8 not null,
+    column_name      text,
     before           text,
     after            text,
     primary key (id),
@@ -161,6 +162,7 @@ create table before_after_pattern
 (
     id                int8 not null,
     pattern_logger_id int8 not null,
+    column_name       text,
     before            text,
     after             text,
     primary key (id),
@@ -193,6 +195,7 @@ create table before_after_pattern_table
 (
     id                      int8 not null,
     pattern_table_logger_id int8 not null,
+    column_name             text,
     before                  text,
     after                   text,
     primary key (id),

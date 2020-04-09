@@ -27,42 +27,48 @@ public class PatternTableBeforeAfter implements BeforeAfter<PatternTable> {
         beforeAfterPatternTables.add(BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
-                .before(null)
+                .columnName("id")
+                .before("-")
                 .after(after.getId().toString())
                 .build());
 
         beforeAfterPatternTables.add(BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
-                .before(null)
+                .columnName("name_table")
+                .before("-")
                 .after(after.getNameTable())
                 .build());
 
         beforeAfterPatternTables.add(BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
-                .before(null)
+                .columnName("name_file")
+                .before("-")
                 .after(after.getNameFile())
                 .build());
 
         beforeAfterPatternTables.add(BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
-                .before(null)
+                .columnName("pattern_id")
+                .before("-")
                 .after(after.getPatternId().toString())
                 .build());
 
         beforeAfterPatternTables.add(BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
-                .before(null)
+                .columnName("source_id")
+                .before("-")
                 .after(after.getSourceId().toString())
                 .build());
 
         beforeAfterPatternTables.add(BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
-                .before(null)
+                .columnName("date_creation")
+                .before("-")
                 .after(after.getDateCreation().toString())
                 .build());
 
@@ -70,7 +76,8 @@ public class PatternTableBeforeAfter implements BeforeAfter<PatternTable> {
             beforeAfterPatternTables.add(BeforeAfterPatternTable
                     .builder()
                     .patternTableLoggerId(loggerId)
-                    .before(null)
+                    .columnName("date_deactivation")
+                    .before("-")
                     .after(after.getDateDeactivation().toString())
                     .build());
         }
@@ -78,21 +85,24 @@ public class PatternTableBeforeAfter implements BeforeAfter<PatternTable> {
         beforeAfterPatternTables.add(BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
-                .before(null)
+                .columnName("date_activation")
+                .before("-")
                 .after(after.getDateActivation().toString())
                 .build());
 
         beforeAfterPatternTables.add(BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
-                .before(null)
+                .columnName("last_update")
+                .before("-")
                 .after(after.getLastUpdate().toString())
                 .build());
 
         beforeAfterPatternTables.add(BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
-                .before(null)
+                .columnName("archive")
+                .before("-")
                 .after(after.getIsArchive().toString())
                 .build());
 
@@ -104,6 +114,7 @@ public class PatternTableBeforeAfter implements BeforeAfter<PatternTable> {
         BeforeAfterPatternTable beforeAfterPatternTable = BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
+                .columnName("archive")
                 .before(before.getIsArchive().toString())
                 .after(after.getIsArchive().toString())
                 .build();
@@ -113,6 +124,7 @@ public class PatternTableBeforeAfter implements BeforeAfter<PatternTable> {
         beforeAfterPatternTable = BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
+                .columnName("date_deactivation")
                 .before(before.getDateDeactivation() == null ?
                         null : before.getDateDeactivation().toString())
                 .after(after.getDateDeactivation().toString())
@@ -126,6 +138,7 @@ public class PatternTableBeforeAfter implements BeforeAfter<PatternTable> {
         BeforeAfterPatternTable beforeAfterPatternTable = BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
+                .columnName("archive")
                 .before(before.getIsArchive().toString())
                 .after(after.getIsArchive().toString())
                 .build();
@@ -135,6 +148,7 @@ public class PatternTableBeforeAfter implements BeforeAfter<PatternTable> {
         beforeAfterPatternTable = BeforeAfterPatternTable
                 .builder()
                 .patternTableLoggerId(loggerId)
+                .columnName("date_activation")
                 .before(before.getDateActivation().toString())
                 .after(after.getDateActivation().toString())
                 .build();

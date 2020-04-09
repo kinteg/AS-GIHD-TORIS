@@ -21,6 +21,7 @@ public class BeforeAfterPatternTable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String columnName;
     private String before;
     private String after;
 

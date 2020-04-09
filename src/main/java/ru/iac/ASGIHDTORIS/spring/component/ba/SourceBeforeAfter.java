@@ -24,98 +24,112 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("id")
+                .before("-")
                 .after(after.getId().toString())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("name")
+                .before("-")
                 .after(after.getName())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("long_name")
+                .before("-")
                 .after(after.getLongName())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("short_name")
+                .before("-")
                 .after(after.getShortName())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("description")
+                .before("-")
                 .after(after.getDescription())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("add_description")
+                .before("-")
                 .after(after.getAddDescription())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("scope")
+                .before("-")
                 .after(after.getScope())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("periodicity")
+                .before("-")
                 .after(after.getPeriodicity())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("renewal_period")
+                .before("-")
                 .after(after.getRenewalPeriod())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("type")
+                .before("-")
                 .after(after.getType())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("tags")
+                .before("-")
                 .after(after.getTags())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("provider_link")
+                .before("-")
                 .after(after.getProviderLink())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("data_source")
+                .before("-")
                 .after(after.getDataSource())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("date_creation")
+                .before("-")
                 .after(after.getDateCreation().toString())
                 .build());
 
@@ -123,7 +137,8 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
-                    .before(null)
+                    .columnName("date_deactivation")
+                    .before("-")
                     .after(after.getDateDeactivation().toString())
                     .build());
         }
@@ -131,21 +146,24 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("date_activation")
+                .before("-")
                 .after(after.getDateActivation().toString())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("last_update")
+                .before("-")
                 .after(after.getLastUpdate().toString())
                 .build());
 
         beforeAfterSources.add(BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
-                .before(null)
+                .columnName("archive")
+                .before("-")
                 .after(after.getIsArchive().toString())
                 .build());
 
@@ -157,6 +175,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
         BeforeAfterSource beforeAfterSource = BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
+                .columnName("archive")
                 .before(before.getIsArchive().toString())
                 .after(after.getIsArchive().toString())
                 .build();
@@ -166,6 +185,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
         beforeAfterSource = BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
+                .columnName("date_deactivation")
                 .before(before.getDateDeactivation() == null ?
                         null : before.getDateDeactivation().toString())
                 .after(after.getDateDeactivation().toString())
@@ -179,6 +199,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
         BeforeAfterSource beforeAfterSource = BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
+                .columnName("archive")
                 .before(before.getIsArchive().toString())
                 .after(after.getIsArchive().toString())
                 .build();
@@ -188,6 +209,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
         beforeAfterSource = BeforeAfterSource
                 .builder()
                 .sourceLoggerId(loggerId)
+                .columnName("date_activation")
                 .before(before.getDateActivation().toString())
                 .after(after.getDateActivation().toString())
                 .build();
@@ -203,6 +225,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("id")
                     .before(before.getId().toString())
                     .after(after.getId().toString())
                     .build());
@@ -212,6 +235,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("name")
                     .before(before.getName())
                     .after(after.getName())
                     .build());
@@ -221,6 +245,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("long_name")
                     .before(before.getLongName())
                     .after(after.getLongName())
                     .build());
@@ -230,6 +255,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("short_name")
                     .before(before.getShortName())
                     .after(after.getShortName())
                     .build());
@@ -239,6 +265,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("description")
                     .before(before.getDescription())
                     .after(after.getDescription())
                     .build());
@@ -248,6 +275,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("add_description")
                     .before(before.getAddDescription())
                     .after(after.getAddDescription())
                     .build());
@@ -257,6 +285,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("scope")
                     .before(before.getScope())
                     .after(after.getScope())
                     .build());
@@ -266,6 +295,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("periodicity")
                     .before(before.getPeriodicity())
                     .after(after.getPeriodicity())
                     .build());
@@ -275,6 +305,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("renewal_period")
                     .before(before.getRenewalPeriod())
                     .after(after.getRenewalPeriod())
                     .build());
@@ -284,6 +315,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("type")
                     .before(before.getType())
                     .after(after.getType())
                     .build());
@@ -293,6 +325,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("tags")
                     .before(before.getTags())
                     .after(after.getTags())
                     .build());
@@ -302,6 +335,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("provider_link")
                     .before(before.getProviderLink())
                     .after(after.getProviderLink())
                     .build());
@@ -311,6 +345,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("data_source")
                     .before(before.getDataSource())
                     .after(after.getDataSource())
                     .build());
@@ -320,6 +355,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("date_creation")
                     .before(before.getDateCreation().toString())
                     .after(after.getDateCreation().toString())
                     .build());
@@ -330,6 +366,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("date_deactivation")
                     .before(before.getDateDeactivation().toString())
                     .after(after.getDateDeactivation().toString())
                     .build());
@@ -339,6 +376,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("date_activation")
                     .before(before.getDateActivation().toString())
                     .after(after.getDateActivation().toString())
                     .build());
@@ -348,6 +386,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("last_update")
                     .before(before.getLastUpdate().toString())
                     .after(after.getLastUpdate().toString())
                     .build());
@@ -357,6 +396,7 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)
+                    .columnName("archive")
                     .before(before.getIsArchive().toString())
                     .after(after.getIsArchive().toString())
                     .build());

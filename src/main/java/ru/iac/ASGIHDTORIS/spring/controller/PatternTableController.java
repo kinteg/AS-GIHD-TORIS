@@ -360,7 +360,7 @@ public class PatternTableController {
 
         }
 
-        long loggerId = patternTableLoggerSender.afterArchive(patternAfter);
+        long loggerId = patternTableLoggerSender.afterDeArchive(patternAfter);
 
         if (patternAfter.getId() > 0) {
             patternTableBeforeAfter.afterArchive(patternBefore, patternAfter, loggerId);
@@ -440,6 +440,7 @@ public class PatternTableController {
             "getAllPatternTableNotArchiveBySourceId",
             "existByPatternTableName"},
             allEntries = true)
+    @GetMapping("/deArchivePatternsBySource/{id}")
     public List<PatternTable> deArchivePatterns(@PathVariable Long id) {
         List<PatternTable> patternsBefore, patternsAfter;
 

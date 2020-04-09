@@ -34,7 +34,7 @@ public class FileUnLoaderController {
         return patternFileRepo.findById((long) id);
     }
 
-    @GetMapping("/getAllPatternFileByPatternId")
+    @GetMapping("/getAllPatternFile")
     public Page<PatternFile> getAllPatternFile(@PageableDefault(sort = "id") Pageable pageable) {
         return patternFileRepo.findAll(pageable);
     }
@@ -42,7 +42,7 @@ public class FileUnLoaderController {
     @GetMapping("/getAllPatternFileByPatternId/{patternId}")
     @Cacheable(cacheNames = "getAllPatternFileByPatternId")
     public List<PatternFile> getAllPatternFileByPatternId(@PathVariable Long patternId) {
-        if (patternId == null || patternId < 0 || patternFileRepo.existsByPatternId(patternId)) {
+        if (patternId == null || patternId < 0 || !patternFileRepo.existsByPatternId(patternId)) {
             return Collections.emptyList();
         }
 
@@ -55,16 +55,16 @@ public class FileUnLoaderController {
         return patternTableFileRepo.findById((long) id);
     }
 
-    @GetMapping("/getAllPatternTableFileByPatternId")
+    @GetMapping("/getAllPatternTableFile")
     @Cacheable(cacheNames = "getAllPatternTableFileByPatternId")
     public Page<PatternTableFile> getAllPatternTableFile(@PageableDefault(sort = "id") Pageable pageable) {
         return patternTableFileRepo.findAll(pageable);
     }
 
-    @GetMapping("/getAllPatternFileByPatternId/{patternTableId}")
+    @GetMapping("/getAllPatternTableFileByPatternId/{patternTableId}")
     @Cacheable(cacheNames = "getAllPatternFileByPatternId")
     public List<PatternTableFile> getAllPatternTableFileByPatternId(@PathVariable Long patternTableId) {
-        if (patternTableId == null || patternTableId < 0 || patternTableFileRepo.existsByPatternTableId(patternTableId)) {
+        if (patternTableId == null || patternTableId < 0 || !patternTableFileRepo.existsByPatternTableId(patternTableId)) {
             return Collections.emptyList();
         }
 

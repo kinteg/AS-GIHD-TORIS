@@ -364,6 +364,29 @@
                 </div>
             </el-col>
         </el-row>
+        <el-row :gutter="20">
+            <el-col :span="16">
+                <div style="background-color: white; padding: 30px; margin-top: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                    <p style="font-size: 20px">Файлы</p>
+                    <table style="overflow-x: auto; ">
+                        <tr>
+                            <th>Номер</th>
+                            <th>Шаблон</th>
+                            <th>Файл</th>
+                            <th>Дата создания</th>
+                        </tr>
+                        <tr v-for="file in patternFile">
+                            <td>{{file.id}}</td>
+                            <td>{{file.patternId}}</td>
+                            <td>{{file.file}}</td>
+                            <td>{{file.dateCreation}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </el-col>
+            <el-col :span="8">
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -376,6 +399,7 @@
         components: {MyPagination},
         data(){
             return{
+                patternFile:"",
                 options: [{
                     value: '',
                     label: ''
@@ -521,23 +545,7 @@
                     dateActivation: "",
                     lastUpdate: "",
                 },
-                pattern: {
-                    check: [],
-                    key: "id",
-                    sort: "",
-                    id: "",
-                    name: "",
-                    fileCount: "",
-                    archiveFileCount: "",
-                    description: "",
-                    direction: "",
-                    management: "",
-                    isArchive: "",
-                    dateCreation: "",
-                    dateDeactivation: "",
-                    dateActivation: "",
-                    lastUpdate: "",
-                },
+
                 rules: {
                     name: [
                         { required: true, message: 'Заполните поле', trigger: 'blur' }
@@ -969,8 +977,10 @@
             },
 
         },
+
         mounted() {
             this.patternId = this.$route.params.id;
+
             AXIOS.get("pattern/" + this.patternId).then(response => {
                 this.pattern = response.data;
                 this.sourceId = response.data.sourceId;
@@ -978,6 +988,7 @@
                     this.source = response.data;
                 });
             });
+
             AXIOS.get("tableCreator/getAll/" + this.patternId).then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
@@ -988,6 +999,11 @@
                 this.patternLog = response.data.content;
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
+            });
+
+            AXIOS.get("fileUnLoader/getAllPatternFileByPatternId/"+this.patternId).then(response => {
+                this.patternFile = response.data;
+                console.log(response);
             });
             this.links = this.loadAll();
         }

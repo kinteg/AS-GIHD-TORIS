@@ -1,6 +1,6 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-        <p style="font-size: 20px">Логи источников </p>
+        <p style="font-size: 20px">Логи таблиц </p>
         <div class="horizontal-scroll-wrapper  rectangles">
             <table style="overflow-x: auto; ">
                 <tr>
@@ -8,15 +8,15 @@
                     <th>Действие</th>
                     <th>Статус</th>
                     <th>Ошибка</th>
-                    <th>Источник</th>
+                    <th>Таблица</th>
                     <th>Дата</th>
                 </tr>
-                <tr v-for="log in sourceLog">
+                <tr v-for="log in tableLog">
                     <td>{{log.id}}</td>
                     <td>{{log.actions.action}}</td>
                     <td>{{log.statuses.status}}</td>
                     <td>{{log.errors.error}}</td>
-                    <td>{{log.sourceId}}</td>
+                    <td>{{log.patternTableId}}</td>
                     <td>{{log.dateCreation}}</td>
                 </tr>
             </table>
@@ -36,11 +36,11 @@
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
     export default {
-        name: "sourceLog",
+        name: "tableLog",
         components: {MyPagination},
         data() {
             return {
-                sourceLog:"",
+                tableLog:"",
                 pagination:{
                     pageSize: 10,
                     currentPage: 1,
@@ -55,14 +55,14 @@
                 let formData = new FormData();
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
-                AXIOS.post("/sourceLogger/getAll",
+                AXIOS.post("/patternTableLogger/getAll",
                     formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-                    this.sourceLog = response.data.content;
+                    this.tableLog = response.data.content;
                 })
                     .catch(error => {
                         console.log('ERROR: ' + error);
@@ -75,14 +75,14 @@
                 let formData = new FormData();
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
-                AXIOS.post("/sourceLogger/getAll",
+                AXIOS.post("/patternTableLogger/getAll",
                     formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-                    this.sourceLog = response.data.content;
+                    this.tableLog = response.data.content;
                 })
                     .catch(error => {
                         console.log('ERROR: ' + error);
@@ -90,11 +90,11 @@
             }
         },
         mounted() {
-            AXIOS.post("sourceLogger/getAll").then(response => {
-                this.sourceLog = response.data.content;
+            AXIOS.post("patternTableLogger/getAll").then(response => {
+                this.tableLog = response.data.content;
+                console.log(this.tableLog);
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
-                console.log(this.sourceLog);
             });
         }
     }

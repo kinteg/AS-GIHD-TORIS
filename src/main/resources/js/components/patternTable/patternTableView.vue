@@ -12,7 +12,7 @@
                 <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
                 <div class="el-upload__tip" slot="tip">Загрузить данные в таблицу</div>
             </el-upload>
-            <table style=" padding: 0 5px 0 0; overflow-x: auto; ">
+            <table style=" display: block; padding: 0 5px 0 0; overflow-x: auto; ">
                 <tr>
                     <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
                 </tr>

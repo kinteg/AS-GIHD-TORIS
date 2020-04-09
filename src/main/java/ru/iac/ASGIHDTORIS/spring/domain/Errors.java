@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class Errors {
     private String errorStatus;
 
     @JsonIgnore
+    @JsonBackReference
     @OneToMany(mappedBy = "errors", fetch = FetchType.EAGER)
     private List<SourceLogger> sourceLogger;
 

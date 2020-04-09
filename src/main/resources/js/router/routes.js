@@ -1,9 +1,6 @@
-import FileLoader from "../../old-front/components/pages/FileLoader.vue";
-import Pattern from "../../old-front/components/pages/CreatePatternPage.vue";
 import ShowSource from "../pages/source/ShowSource.vue";
 import Source from "../pages/source/Source.vue";
 import UpdateSource from "../pages/source/UpdateSource.vue";
-import VueRouter from "vue-router";
 import CreateSource from "../pages/source/CreateSource.vue";
 import ViewSource from "../pages/source/ViewSource.vue";
 import ShowSourceArchive from "../pages/source/ShowSourceArchive.vue";
@@ -15,6 +12,9 @@ import ShowPatternNoArchive from "../pages/pattern/ShowPatternNoArchive.vue";
 import PatternTable from "../pages/patternTable/PatternTable.vue";
 import ShowPatternTable from "../pages/patternTable/ShowPatternTable.vue";
 import SourceLogs from "../pages/logs/SourceLogs.vue";
+import Logs from "../pages/logs/Logs.vue";
+import PatternLogs from "../pages/logs/PatternLogs.vue";
+import TableLogs from "../pages/logs/TableLogs.vue";
 
 const routes = [
     {
@@ -109,6 +109,7 @@ const routes = [
     {
         path:'/logs',
         name: 'logs',
+        component: Logs,
         meta: {
             title: 'Логи',
         },
@@ -122,11 +123,19 @@ const routes = [
                 },
             },
             {
-                path:'sourceLogs',
-                component: SourceLogs,
-                name: 'SourceLogs',
+                path:'patternLogs',
+                component: PatternLogs,
+                name: 'patternLogs',
                 meta: {
-                    title: 'По источникам'
+                    title: 'По шаблонам'
+                },
+            },
+            {
+                path:'patternTableLogs',
+                component: TableLogs,
+                name: 'patternTableLogs',
+                meta: {
+                    title: 'По таблицам'
                 },
             },
         ]

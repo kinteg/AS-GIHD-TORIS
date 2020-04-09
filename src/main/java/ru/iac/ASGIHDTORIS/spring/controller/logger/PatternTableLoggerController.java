@@ -5,14 +5,12 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.spring.domain.BeforeAfterPattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternLogger;
 import ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternLoggerRepo;
+import ru.iac.ASGIHDTORIS.spring.repo.PatternTableLoggerRepo;
 
 @RestController
 @EnableAspectJAutoProxy
@@ -22,10 +20,11 @@ public class PatternTableLoggerController {
 
     private final PatternLoggerRepo patternLoggerRepo;
     private final BeforeAfterPatternRepo beforeAfterPatternRepo;
-
-    public PatternTableLoggerController(PatternLoggerRepo patternLoggerRepo, BeforeAfterPatternRepo beforeAfterPatternRepo) {
+    private final PatternTableLoggerRepo patternTableLoggerRepo;
+    public PatternTableLoggerController(PatternLoggerRepo patternLoggerRepo, BeforeAfterPatternRepo beforeAfterPatternRepo, PatternTableLoggerRepo patternTableLoggerRepo) {
         this.patternLoggerRepo = patternLoggerRepo;
         this.beforeAfterPatternRepo = beforeAfterPatternRepo;
+        this.patternTableLoggerRepo = patternTableLoggerRepo;
     }
 
     @GetMapping("/{id}")
@@ -33,9 +32,9 @@ public class PatternTableLoggerController {
         return patternLoggerRepo.findById((long) id);
     }
 
-    @GetMapping("/getAll")
+    @PostMapping("/getAll")
     public Page<PatternLogger> getAllLogger(@PageableDefault Pageable pageable) {
-        return patternLoggerRepo.findAll(pageable);
+        return patternTableLoggerRepo.findAll(pageable);
     }
 
     @GetMapping("/getAll/{patternTableId}")

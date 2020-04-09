@@ -325,7 +325,8 @@ public class SourceBeforeAfter implements BeforeAfter<Source> {
                     .build());
         }
 
-        if (!before.getDateDeactivation().equals(after.getDateDeactivation())) {
+        if (before.getDateDeactivation() != null && after.getDateDeactivation() != null
+                && !before.getDateDeactivation().equals(after.getDateDeactivation())) {
             beforeAfterSources.add(BeforeAfterSource
                     .builder()
                     .sourceLoggerId(loggerId)

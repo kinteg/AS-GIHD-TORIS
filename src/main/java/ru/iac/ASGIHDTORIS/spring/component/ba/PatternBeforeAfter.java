@@ -241,7 +241,8 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
                     .build());
         }
 
-        if (!before.getDateActivation().equals(after.getDateActivation())) {
+        if (before.getDateDeactivation() != null && after.getDateDeactivation() != null
+                && !before.getDateActivation().equals(after.getDateActivation())) {
             beforeAfterSources.add(BeforeAfterPattern
                     .builder()
                     .patternLoggerId(loggerId)

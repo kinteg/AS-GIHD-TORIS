@@ -378,7 +378,9 @@
                         <tr v-for="file in patternFile">
                             <td>{{file.id}}</td>
                             <td>{{file.patternId}}</td>
-                            <td>{{file.file}}</td>
+                            <td>
+                                <el-button @click="downloadFile(file.file)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-download"></el-button>
+                            </td>
                             <td>{{file.dateCreation}}</td>
                         </tr>
                     </table>
@@ -563,6 +565,23 @@
             }
         },
         methods:{
+            downloadFile(fileName){
+                console.log(fileName);
+                AXIOS.get("fileUnLoader/getPatternFile/"+fileName,
+                    {
+                        headers: {
+                            'Content-Type': 'arraybuffer'
+                        }
+                    }).then(response => {
+                    console.log(response);
+                    let blob = new Blob([response.data],{ type:'application/zip'});
+                    let link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    link.click();
+                })
+            },
+
             onCurrentChange(){
                 this.pagination.currentPage = value;
                 let currentPage = this.pagination.currentPage - 1;

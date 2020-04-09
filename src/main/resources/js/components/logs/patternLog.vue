@@ -53,7 +53,7 @@
             onCurrentChange(value) {
                 this.pagination.currentPage = value;
                 let currentPage = this.pagination.currentPage - 1;
-                AXIOS.post("/patternLogger/getAll?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
+                AXIOS.get("/patternLogger/getAll?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
                     this.patternLog = response.data.content;
                 })
                     .catch(error => {
@@ -65,7 +65,7 @@
                 this.pagination.currentPage = 1;
                 let currentPage = this.pagination.currentPage - 1;
 
-                AXIOS.post("/patternLogger/getAll?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
+                AXIOS.get("/patternLogger/getAll?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
                     this.patternLog = response.data.content;
                 })
                     .catch(error => {
@@ -74,7 +74,7 @@
             }
         },
         mounted() {
-            AXIOS.post("patternLogger/getAll").then(response => {
+            AXIOS.get("patternLogger/getAll").then(response => {
                 this.patternLog = response.data.content;
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;

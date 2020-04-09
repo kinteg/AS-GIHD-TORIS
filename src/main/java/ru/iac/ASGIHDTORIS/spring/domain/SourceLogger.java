@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Data
 public class SourceLogger {
 
-        @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

@@ -238,7 +238,7 @@ public class PatternController {
 
         }
 
-        long loggerId = patternLoggerSender.afterArchive(patternAfter);
+        long loggerId = patternLoggerSender.afterDeArchive(patternAfter);
 
         if (patternAfter.getId() > 0) {
             patternBeforeAfter.afterDeArchive(patternBefore, patternAfter, loggerId);

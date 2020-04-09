@@ -2,12 +2,9 @@ package ru.iac.ASGIHDTORIS.spring.component;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import ru.iac.ASGIHDTORIS.spring.domain.Source;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class CountMapper implements RowMapper<Integer> {

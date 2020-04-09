@@ -19,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private String uploadPathPatternTable;
 
     @Bean
-    WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> webServerCustomizer () {
+    WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> webServerCustomizer() {
         return container -> container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/"));
     }
 

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.iac.ASGIHDTORIS.spring.domain.BeforeAfterPattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternLogger;
 import ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo;
-import ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternLoggerRepo;
 
 @RestController

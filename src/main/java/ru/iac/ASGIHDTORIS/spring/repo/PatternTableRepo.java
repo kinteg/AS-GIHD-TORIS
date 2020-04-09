@@ -9,18 +9,24 @@ import java.util.List;
 
 public interface PatternTableRepo extends JpaRepository<PatternTable, Long> {
     Page<PatternTable> findAllByPatternId(long id, Pageable pageable);
+
     Page<PatternTable> findAllByPatternIdAndIsArchive(long id, boolean isArchive, Pageable pageable);
+
     Page<PatternTable> findAllBySourceIdAndIsArchive(long id, boolean isArchive, Pageable pageable);
+
     List<PatternTable> findAllByPatternId(long id);
 
     Page<PatternTable> findAllByIsArchive(boolean isArchive, Pageable pageable);
 
     Page<PatternTable> findAllBySourceId(long id, Pageable pageable);
+
     List<PatternTable> findAllBySourceId(long id);
 
     PatternTable findById(long id);
 
     boolean existsBySourceId(long id);
+
     boolean existsByPatternId(long id);
+
     boolean existsByNameTable(String name);
 }

@@ -30,7 +30,7 @@ public class TargetFiles {
                 fileList) {
 
             if (FilenameUtils.getExtension(filename)
-                    .equals(target) ) {
+                    .equals(target)) {
 
                 return true;
             }
@@ -45,7 +45,7 @@ public class TargetFiles {
                 archiveList) {
 
             if (FilenameUtils.getExtension(filename)
-                    .equals(target) ) {
+                    .equals(target)) {
 
                 return true;
             }

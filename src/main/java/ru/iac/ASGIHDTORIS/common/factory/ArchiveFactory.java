@@ -1,9 +1,9 @@
 package ru.iac.ASGIHDTORIS.common.factory;
 
 import ru.iac.ASGIHDTORIS.parser.archive.ArchiveParser;
-import ru.iac.ASGIHDTORIS.parser.archive.SevenZParser;
-import ru.iac.ASGIHDTORIS.parser.archive.TarParser;
-import ru.iac.ASGIHDTORIS.parser.archive.ZipParser;
+import ru.iac.ASGIHDTORIS.parser.archive.impl.SevenZParser;
+import ru.iac.ASGIHDTORIS.parser.archive.impl.TarParser;
+import ru.iac.ASGIHDTORIS.parser.archive.impl.ZipParser;
 
 public final class ArchiveFactory {
 
@@ -16,9 +16,9 @@ public final class ArchiveFactory {
         switch (extension.toLowerCase()) {
             case ZIP:
                 return new ZipParser();
-            case SEVEN_Z_PARSER :
+            case SEVEN_Z_PARSER:
                 return new SevenZParser();
-            case TAR_PARSER :
+            case TAR_PARSER:
                 return new TarParser();
             default:
                 return null;

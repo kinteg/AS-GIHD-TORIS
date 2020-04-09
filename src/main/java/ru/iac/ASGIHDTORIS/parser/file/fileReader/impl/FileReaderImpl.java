@@ -1,9 +1,10 @@
-package ru.iac.ASGIHDTORIS.parser.file.fileReader;
+package ru.iac.ASGIHDTORIS.parser.file.fileReader.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
+import ru.iac.ASGIHDTORIS.parser.file.fileReader.FileReader;
 import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
 import ru.iac.ASGIHDTORIS.parser.file.type.TypeGenerator;
 

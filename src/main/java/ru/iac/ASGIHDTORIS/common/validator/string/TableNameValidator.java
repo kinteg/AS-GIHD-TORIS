@@ -8,9 +8,9 @@ public class TableNameValidator implements Validator<String> {
     public boolean isValid(String name) {
 
         return !(isNull(name)
-        || isEmpty(name))
-        && isCorrectLength(name)
-        && isCorrectName(name);
+                || isEmpty(name))
+                && isCorrectLength(name)
+                && isCorrectName(name);
     }
 
     private boolean isNull(String name) {

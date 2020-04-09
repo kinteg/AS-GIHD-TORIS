@@ -1,7 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.component.Mapper;
 
 import org.springframework.stereotype.Component;
-import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 
 import java.sql.ResultSet;
@@ -11,6 +10,7 @@ import java.util.List;
 
 @Component
 public class PatternTableMapper implements Mapper<List<PatternTable>> {
+
     @Override
     public List<PatternTable> mapRow(ResultSet rs, int rowNum) throws SQLException {
         List<PatternTable> values = new ArrayList<>();
@@ -21,7 +21,6 @@ public class PatternTableMapper implements Mapper<List<PatternTable>> {
         }
 
         return values;
-
     }
 
     private PatternTable getSource(ResultSet rs) throws SQLException {

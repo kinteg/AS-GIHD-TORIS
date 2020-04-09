@@ -1,6 +1,7 @@
-package ru.iac.ASGIHDTORIS.spring.component.ba;
+package ru.iac.ASGIHDTORIS.spring.component.ba.impl;
 
 import org.springframework.stereotype.Component;
+import ru.iac.ASGIHDTORIS.spring.component.ba.BeforeAfter;
 import ru.iac.ASGIHDTORIS.spring.domain.BeforeAfterSource;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterSourceRepo;

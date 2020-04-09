@@ -10,6 +10,7 @@ public interface BeforeAfterSourceRepo extends JpaRepository<BeforeAfterSource, 
     BeforeAfterSource findById(long id);
 
     Page<BeforeAfterSource> findAll(Pageable pageable);
+
     Page<BeforeAfterSource> findAllBySourceLoggerId(Pageable pageable, long sourceLoggerId);
 
 }

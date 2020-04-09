@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.common.TargetFiles;
 import ru.iac.ASGIHDTORIS.common.factory.ArchiveFactory;
-import ru.iac.ASGIHDTORIS.common.factory.FileParserFactory;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.parser.archive.ArchiveParser;

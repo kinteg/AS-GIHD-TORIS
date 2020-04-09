@@ -10,6 +10,7 @@ import java.util.List;
 
 @Component
 public class PatternMapper implements Mapper<List<Pattern>> {
+
     @Override
     public List<Pattern> mapRow(ResultSet rs, int rowNum) throws SQLException {
         List<Pattern> values = new ArrayList<>();
@@ -20,7 +21,6 @@ public class PatternMapper implements Mapper<List<Pattern>> {
         }
 
         return values;
-
     }
 
     private Pattern getSource(ResultSet rs) throws SQLException {

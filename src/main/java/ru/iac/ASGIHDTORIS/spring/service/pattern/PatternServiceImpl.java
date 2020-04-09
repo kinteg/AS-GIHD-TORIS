@@ -129,7 +129,7 @@ public class PatternServiceImpl implements PatternService {
         if (sourceId == null) {
             patternsAfter = Collections.singletonList(Pattern.builder().id((long) -4).build());
             patternsBefore = patternsAfter;
-        } else if (!patternRepo.existsBySourceId(sourceId)) {
+        } else if (patternRepo.existsBySourceId(sourceId)) {
             patternsAfter = Collections.singletonList(Pattern.builder().id((long) -3).build());
             patternsBefore = patternsAfter;
         } else {
@@ -174,7 +174,7 @@ public class PatternServiceImpl implements PatternService {
         if (sourceId == null) {
             patternsAfter = Collections.singletonList(Pattern.builder().id((long) -4).build());
             patternsBefore = patternsAfter;
-        } else if (!patternRepo.existsBySourceId(sourceId)) {
+        } else if (patternRepo.existsBySourceId(sourceId)) {
             patternsAfter = Collections.singletonList(Pattern.builder().id((long) -3).build());
             patternsBefore = patternsAfter;
         } else {

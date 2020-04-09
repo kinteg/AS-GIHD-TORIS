@@ -25,7 +25,9 @@ public class FileFirstParserService implements FirstParserService {
     }
 
     @Override
-    public List<FullTableModel> getFullTable(File file, long limit) {
+    public List<FullTableModel> getFullTable(MultipartFile multipartFile, long limit) {
+        File file = fileService.convertFile(multipartFile);
+
         if (file == null) {
             return Collections.emptyList();
         }
@@ -39,7 +41,7 @@ public class FileFirstParserService implements FirstParserService {
     private List<FullTableModel> getFullTableModels(List<File> files, long limit) {
         List<FullTableModel> fullTableModels = new ArrayList<>();
 
-        for (File file:
+        for (File file :
                 files) {
 
             FullTableModel fullTableModel;
@@ -79,7 +81,6 @@ public class FileFirstParserService implements FirstParserService {
 
         return fullTableModel;
     }
-
 
 
 }

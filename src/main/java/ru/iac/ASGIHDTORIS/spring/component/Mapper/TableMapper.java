@@ -1,6 +1,5 @@
 package ru.iac.ASGIHDTORIS.spring.component.Mapper;
 
-import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;

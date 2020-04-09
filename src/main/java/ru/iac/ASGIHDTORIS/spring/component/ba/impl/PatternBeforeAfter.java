@@ -1,11 +1,9 @@
-package ru.iac.ASGIHDTORIS.spring.component.ba;
+package ru.iac.ASGIHDTORIS.spring.component.ba.impl;
 
 import org.springframework.stereotype.Component;
-import ru.iac.ASGIHDTORIS.spring.domain.BeforeAfterPattern;
+import ru.iac.ASGIHDTORIS.spring.component.ba.BeforeAfter;
 import ru.iac.ASGIHDTORIS.spring.domain.BeforeAfterPattern;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
-import ru.iac.ASGIHDTORIS.spring.domain.Source;
-import ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo;
 
 import java.util.ArrayList;

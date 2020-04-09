@@ -17,8 +17,8 @@ public class PatternIdValidator implements Validator<Long> {
     public boolean isValid(Long name) {
         return
                 isNotNull(name)
-                && isValidId(name)
-                && exist(name);
+                        && isValidId(name)
+                        && exist(name);
     }
 
     private boolean isNotNull(Long name) {

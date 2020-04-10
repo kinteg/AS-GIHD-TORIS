@@ -4,6 +4,7 @@
         <div class="horizontal-scroll-wrapper  rectangles">
             <table style="overflow-x: auto; ">
                 <tr>
+                    <th></th>
                     <th>Номер</th>
                     <th>Действие</th>
                     <th>Статус</th>
@@ -12,6 +13,9 @@
                     <th>Дата</th>
                 </tr>
                 <tr v-for="log in patternLog">
+                    <td>
+                        <el-button @click="showCard(log.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                    </td>
                     <td>{{log.id}}</td>
                     <td>{{log.actions.action}}</td>
                     <td>{{log.statuses.status}}</td>
@@ -50,6 +54,10 @@
             }
         },
         methods:{
+            showCard(id){
+                router.push("patternLogs/" + id);
+            },
+
             onCurrentChange(value) {
                 this.pagination.currentPage = value;
                 let currentPage = this.pagination.currentPage - 1;

@@ -53,6 +53,7 @@
                 },
             }
         },
+
         methods:{
             showCard(id){
                 router.push("patternTableLogs/" + id);

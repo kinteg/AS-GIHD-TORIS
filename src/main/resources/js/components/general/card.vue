@@ -163,7 +163,7 @@
                                     <div>
                                         <!--                                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
                                         <!--                                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
-                                        <div class="horizontal-scroll-wrapper  rectangles">
+                                        <div style="padding-right: 2px;" class="horizontal-scroll-wrapper  rectangles">
                                             <table style="display: block; overflow-x: auto; ">
                                                 <tr>
                                                     <th></th>
@@ -320,14 +320,16 @@
                                             <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
                                             <div class="el-upload__tip" slot="tip">Загрузить данные в таблицу</div>
                                         </el-upload>
-                                        <table style=" padding: 0 5px 0 0; overflow-x: auto; ">
-                                            <tr>
-                                                <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
-                                            </tr>
-                                            <tr v-for="value in showOnlyOneTable.values.content">
-                                                <td v-for="oneValue in value">{{oneValue}}</td>
-                                            </tr>
-                                        </table>
+                                        <div style="padding-right: 2px;" class="horizontal-scroll-wrapper  rectangles">
+                                            <table style="display: block; overflow-x: auto; ">
+                                                <tr>
+                                                    <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
+                                                </tr>
+                                                <tr v-for="value in showOnlyOneTable.values.content">
+                                                    <td v-for="oneValue in value">{{oneValue}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                         <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
                                     </div>
                                 </div>

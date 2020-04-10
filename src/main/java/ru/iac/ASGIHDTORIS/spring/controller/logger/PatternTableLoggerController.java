@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,12 +35,12 @@ public class PatternTableLoggerController {
     }
 
     @GetMapping("/getAll")
-    public Page<PatternTableLogger> getAllLogger(@PageableDefault Pageable pageable) {
+    public Page<PatternTableLogger> getAllLogger(@PageableDefault(sort = "dateCreation", direction = Sort.Direction.DESC) Pageable pageable) {
         return patternLoggerRepo.findAll(pageable);
     }
 
     @GetMapping("/getAll/{patternTableId}")
-    public Page<PatternTableLogger> getAllLogger(@PageableDefault Pageable pageable, @PathVariable Long patternTableId) {
+    public Page<PatternTableLogger> getAllLogger(@PageableDefault(sort = "dateCreation", direction = Sort.Direction.DESC) Pageable pageable, @PathVariable Long patternTableId) {
         return patternLoggerRepo.findAllByPatternTableId(pageable, patternTableId);
     }
 
@@ -49,12 +50,12 @@ public class PatternTableLoggerController {
     }
 
     @GetMapping("/getAll/beforeAfter")
-    public Page<BeforeAfterPatternTable> getAllBeforeAfter(@PageableDefault Pageable pageable) {
+    public Page<BeforeAfterPatternTable> getAllBeforeAfter(@PageableDefault(sort = "id") Pageable pageable) {
         return beforeAfterPatternRepo.findAll(pageable);
     }
 
     @GetMapping("/getAll/beforeAfter/{patternTableLoggerId}")
-    public Page<BeforeAfterPatternTable> getAllBeforeAfter(@PageableDefault Pageable pageable, @PathVariable Long patternTableLoggerId) {
+    public Page<BeforeAfterPatternTable> getAllBeforeAfter(@PageableDefault(sort = "id") Pageable pageable, @PathVariable Long patternTableLoggerId) {
         return beforeAfterPatternRepo.findAllByPatternTableLoggerId(pageable, patternTableLoggerId);
     }
 

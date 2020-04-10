@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,12 +35,12 @@ public class PatternLoggerController {
     }
 
     @GetMapping("/getAll")
-    public Page<PatternLogger> getAllLogger(@PageableDefault Pageable pageable) {
+    public Page<PatternLogger> getAllLogger(@PageableDefault(sort = "dateCreation", direction = Sort.Direction.DESC) Pageable pageable) {
         return patternLoggerRepo.findAll(pageable);
     }
 
     @GetMapping("/getAll/{patternId}")
-    public Page<PatternLogger> getAllLogger(@PageableDefault Pageable pageable, @PathVariable Long patternId) {
+    public Page<PatternLogger> getAllLogger(@PageableDefault(sort = "dateCreation", direction = Sort.Direction.DESC) Pageable pageable, @PathVariable Long patternId) {
         return patternLoggerRepo.findAllByPatternId(pageable, patternId);
     }
 
@@ -49,12 +50,12 @@ public class PatternLoggerController {
     }
 
     @GetMapping("/getAll/beforeAfter")
-    public Page<BeforeAfterPattern> getAllBeforeAfter(@PageableDefault Pageable pageable) {
+    public Page<BeforeAfterPattern> getAllBeforeAfter(@PageableDefault(sort = "id") Pageable pageable) {
         return beforeAfterPatternRepo.findAll(pageable);
     }
 
     @GetMapping("/getAll/beforeAfter/{patternLoggerId}")
-    public Page<BeforeAfterPattern> getAllBeforeAfter(@PageableDefault Pageable pageable, @PathVariable Long patternLoggerId) {
+    public Page<BeforeAfterPattern> getAllBeforeAfter(@PageableDefault(sort = "id") Pageable pageable, @PathVariable Long patternLoggerId) {
         return beforeAfterPatternRepo.findAllByPatternLoggerId(pageable, patternLoggerId);
     }
 

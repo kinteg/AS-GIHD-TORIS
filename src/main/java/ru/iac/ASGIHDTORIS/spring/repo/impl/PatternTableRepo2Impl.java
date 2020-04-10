@@ -57,7 +57,7 @@ public class PatternTableRepo2Impl implements PatternTableRepo2 {
             params.addValue("id", "%" + pattern.getId() + "%");
         }
         if (pattern.getNameTable() != null && !pattern.getNameTable().equals("")) {
-            values.add(" name_table = :nameTable");
+            values.add(" name_table ILIKE :nameTable");
             params.addValue("nameTable", "%" + pattern.getNameTable() + "%");
         }
         if (pattern.getNameFile() != null && !pattern.getNameFile().equals("")) {

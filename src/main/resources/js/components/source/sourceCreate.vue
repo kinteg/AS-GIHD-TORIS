@@ -98,12 +98,14 @@
                     <el-button @click="createPattern" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить шаблон</el-button>
                 </el-tab-pane>
             </el-tabs>
+            <el-button @click="back" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
         </div>
     </div>
 </template>
 
 <script>
     import {AXIOS} from "../../AXIOS/http-common";
+    import router from "../../router/router";
     export default {
         name: "sourceCreate",
         data(){
@@ -184,6 +186,18 @@
             }
         },
         methods:{
+            back(){
+                this.$confirm('Уверены что хотите вернуться?', 'Назад', {
+                    confirmButtonText: 'Да',
+                    cancelButtonText: 'Нет',
+                    type: 'warning'
+                }).then(() => {
+                    router.push({name:'show'});
+                }).catch(() => {
+
+                });
+            },
+
             createSource() {
                 let formData = new FormData();
                 formData.append("name",this.source.name);

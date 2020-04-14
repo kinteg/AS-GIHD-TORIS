@@ -1,10 +1,9 @@
 <template>
-    <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+    <div>
         <div v-if="allTable">
             <p style="font-size: 20px">Все таблицы
-
-<!--                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
-<!--                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
+                <!--                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
+                <!--                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
                 <el-dropdown style="float: right" :hide-on-click="false">
                     <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                     </el-button>
@@ -20,16 +19,6 @@
                         <el-dropdown-item><el-checkbox checked="checked" id="check7" @change="hidden.lastUpdate = !hidden.lastUpdate">Последнее обновление</el-checkbox></el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
-                <el-upload
-                        style="float: right;"
-                        class="upload-demo"
-                        ref="upload"
-                        action=""
-                        :limit="1"
-                        :on-change="sendFiles"
-                        :auto-upload="false">
-                    <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
-                </el-upload>
             </p>
             <div class="horizontal-scroll-wrapper  rectangles">
                 <table style="display: block; overflow-x: auto;">
@@ -111,7 +100,7 @@
                             <el-button @click="deleteOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
                         </span>
                         </td>
-<!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
+                        <!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
                         <td v-if="hidden.id">{{table.id}}</td>
                         <td v-if="hidden.nameTable">{{table.nameTable}}</td>
                         <td v-if="hidden.nameFile">{{table.nameFile}}</td>
@@ -161,8 +150,9 @@
     import MyPagination from "../general/pagination.vue";
 
     export default {
-        name: "patternTableAll",
+        name: "patternTableAllViewOne",
         components: {MyPagination},
+        props:["sourceId"],
         data() {
             return {
                 allTable: true,
@@ -232,22 +222,6 @@
         },
 
         methods:{
-            sendFiles(file, fileList){
-                let formData = new FormData();
-                console.log(file.raw);
-                formData.append("file",file.raw);
-                formData.append("patternId",this.patternId);
-                AXIOS.post("fileLoader/sendDates/",
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    }).then(response => {
-                    this.updatePage();
-                });
-            },
-
             onSizeChangeOneTable(value){
                 this.paginationOneTable.pageSize = value;
                 this.paginationOneTable.currentPage = 1;
@@ -600,7 +574,7 @@
         },
 
         mounted() {
-            AXIOS.get("tableCreator/getAll").then(response => {
+            AXIOS.get("tableCreator/getAllBySource/" + this.sourceId).then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.patternTableData = response.data.content;

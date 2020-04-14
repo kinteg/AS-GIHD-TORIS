@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.service.patterTable;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class PatternTableServiceImpl implements PatternTableService {
 
     private final DataModelCreator dataModelCreator;
@@ -348,4 +350,44 @@ public class PatternTableServiceImpl implements PatternTableService {
         return patternTableRepo.saveAll(patternsAfter);
     }
 
+    @Override
+    public PatternTableModelStatus updatePatternTable(TableModel tableModel, DataModelList dataModelList, Long patternTableId) {
+        if (patternTableRepo.existsById(patternTableId)) {
+
+            PatternTable patternTable = patternTableRepo.findById((long) patternTableId);
+            PatternTableModelStatus patternAfter;
+            long loggerId;
+
+            if (!dataModelListValidator.isValid(dataModelList)) {
+                patternAfter = PatternTableModelStatus
+                        .builder()
+                        .tableModel(TableModelStatus.emptyTableModelStatus())
+                        .patternTable(PatternTable.builder().id(Long.parseLong("-1")).build())
+                        .build();
+
+            } else {
+
+                dataModelCreator.setDataModel(dataModelList);
+                List<DataModel> dataModels = dataModelCreator.getDataModel();
+                tableModel.setModels(dataModels);
+                tableModel.setTableName(patternTable.getNameTable());
+
+                patternAfter = tableCreatorService.updateTable(tableModel, patternTable);
+
+            }
+            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable());
+
+            if (patternAfter.getPatternTable().getId() > 0) {
+                patternTableBeforeAfter.afterCreate(patternAfter.getPatternTable(), loggerId);
+            }
+
+            return patternAfter;
+        }
+
+        return PatternTableModelStatus
+                .builder()
+                .tableModel(TableModelStatus.emptyTableModelStatus())
+                .patternTable(PatternTable.builder().id(Long.parseLong("-1")).build())
+                .build();
+    }
 }

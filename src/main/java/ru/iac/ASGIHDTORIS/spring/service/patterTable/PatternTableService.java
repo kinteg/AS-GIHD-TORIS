@@ -30,4 +30,5 @@ public interface PatternTableService {
 
     List<PatternTable> deArchivePatternTablesBySourceId(Long id);
 
+    PatternTableModelStatus updatePatternTable(TableModel tableModel, DataModelList dataModelList, Long patternTableId);
 }

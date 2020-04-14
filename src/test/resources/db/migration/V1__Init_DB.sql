@@ -56,6 +56,9 @@ create table pattern_table
     date_deactivation timestamp,
     date_activation   timestamp,
     last_update       timestamp,
+    version           int8,
+    active            boolean,
+    date_kill         timestamp,
     archive           boolean,
     primary key (id),
     foreign key (pattern_id) references pattern (id)

@@ -177,7 +177,7 @@ public class PatternTableServiceImpl implements PatternTableService {
         if (patternId == null) {
             patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -4).build());
             patternsBefore = patternsAfter;
-        } else if (patternTableRepo.existsByPatternId(patternId)) {
+        } else if (!patternTableRepo.existsByPatternId(patternId)) {
             patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -3).build());
             patternsBefore = patternsAfter;
         } else {
@@ -223,7 +223,7 @@ public class PatternTableServiceImpl implements PatternTableService {
         if (patternId == null) {
             patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -4).build());
             patternsBefore = patternsAfter;
-        } else if (patternTableRepo.existsByPatternId(patternId)) {
+        } else if (!patternTableRepo.existsByPatternId(patternId)) {
             patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -3).build());
             patternsBefore = patternsAfter;
         } else {
@@ -269,7 +269,7 @@ public class PatternTableServiceImpl implements PatternTableService {
         if (id == null) {
             patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -4).build());
             patternsBefore = patternsAfter;
-        } else if (patternTableRepo.existsBySourceId(id)) {
+        } else if (!patternTableRepo.existsBySourceId(id)) {
             patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -3).build());
             patternsBefore = patternsAfter;
         } else {
@@ -315,7 +315,7 @@ public class PatternTableServiceImpl implements PatternTableService {
         if (id == null) {
             patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -4).build());
             patternsBefore = patternsAfter;
-        } else if (patternTableRepo.existsBySourceId(id)) {
+        } else if (!patternTableRepo.existsBySourceId(id)) {
             patternsAfter = Collections.singletonList(PatternTable.builder().id((long) -3).build());
             patternsBefore = patternsAfter;
         } else {

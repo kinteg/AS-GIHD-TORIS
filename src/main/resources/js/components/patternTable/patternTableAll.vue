@@ -20,16 +20,6 @@
                         <el-dropdown-item><el-checkbox checked="checked" id="check7" @change="hidden.lastUpdate = !hidden.lastUpdate">Последнее обновление</el-checkbox></el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
-                <el-upload
-                        style="float: right;"
-                        class="upload-demo"
-                        ref="upload"
-                        action=""
-                        :limit="1"
-                        :on-change="sendFiles"
-                        :auto-upload="false">
-                    <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
-                </el-upload>
             </p>
             <div class="horizontal-scroll-wrapper  rectangles">
                 <table style="display: block; overflow-x: auto;">
@@ -232,22 +222,6 @@
         },
 
         methods:{
-            sendFiles(file, fileList){
-                let formData = new FormData();
-                console.log(file.raw);
-                formData.append("file",file.raw);
-                formData.append("patternId",this.patternId);
-                AXIOS.post("fileLoader/sendDates/",
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    }).then(response => {
-                    this.updatePage();
-                });
-            },
-
             onSizeChangeOneTable(value){
                 this.paginationOneTable.pageSize = value;
                 this.paginationOneTable.currentPage = 1;

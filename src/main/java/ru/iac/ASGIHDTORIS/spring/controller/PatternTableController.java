@@ -61,6 +61,29 @@ public class PatternTableController {
         return patternTableService.createPatternTable(tableModel, dataModelList, patternId);
     }
 
+    @PostMapping("/update")
+    @CacheEvict(value = {
+            "getTable", "getByPatternTableId",
+            "getAllPatternTable",
+            "getAllPatternTableByPatternId",
+            "getAllPatternTableBySourceId",
+            "getAllPatternTableArchive",
+            "getAllPatternTableArchiveByPatternId",
+            "getAllPatternTableArchiveBySourceId",
+            "getAllPatternTableNotArchive",
+            "getAllPatternTableNotArchiveByPatternId",
+            "getAllPatternTableNotArchiveBySourceId",
+            "existByPatternTableName"},
+            allEntries = true)
+    @ResponseBody
+    public PatternTableModelStatus updatePatternTable(
+            @ModelAttribute TableModel tableModel,
+            @ModelAttribute DataModelList dataModelList,
+            @RequestParam Long patternTableId
+    ) {
+        return patternTableService.createPatternTable(tableModel, dataModelList, patternTableId);
+    }
+
     @PostMapping("/getTable")
     @Cacheable(cacheNames = "getTable")
     public FullTableModelPage getTable(

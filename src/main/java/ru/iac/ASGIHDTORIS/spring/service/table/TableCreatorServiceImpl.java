@@ -35,7 +35,7 @@ public class TableCreatorServiceImpl implements TableCreatorService {
 
         if (checkPattern(id)) {
             tableModelStatus = createTable(tableModel);
-            log.info("qwe1 " + tableModelStatus.toString());
+
             if (tableModelStatus.getStatus().equals(Status.OK)) {
                 patternTable = createPatternTable(tableModel, id);
             } else {
@@ -74,6 +74,8 @@ public class TableCreatorServiceImpl implements TableCreatorService {
                 .dateActivation(LocalDateTime.now())
                 .dateCreation(LocalDateTime.now())
                 .lastUpdate(LocalDateTime.now())
+                .version(Long.valueOf(1))
+                .isActive(true)
                 .sourceId(pattern.getSourceId())
                 .build();
 

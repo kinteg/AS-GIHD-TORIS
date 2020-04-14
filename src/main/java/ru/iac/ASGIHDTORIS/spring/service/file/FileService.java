@@ -11,6 +11,8 @@ public interface FileService {
 
     List<File> getFiles(File file);
 
+    File getFile(File file, String fileName);
+
     File convertFile(MultipartFile multipartFile);
 
 }

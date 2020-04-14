@@ -153,6 +153,7 @@ public class PatternServiceImpl implements PatternService {
                     })
                     .collect(Collectors.toList());
 
+            patternsAfter = patternRepo.saveAll(patternsAfter);
         }
 
         List<Long> loggerId = patternLoggerSender.afterArchive(patternsAfter);
@@ -165,7 +166,7 @@ public class PatternServiceImpl implements PatternService {
             }
         }
 
-        return patternRepo.saveAll(patternsAfter);
+        return patternsAfter;
     }
 
     @Override
@@ -198,6 +199,7 @@ public class PatternServiceImpl implements PatternService {
                     })
                     .collect(Collectors.toList());
 
+            patternsAfter = patternRepo.saveAll(patternsAfter);
         }
 
         List<Long> loggerId = patternLoggerSender.afterDeArchive(patternsAfter);
@@ -210,7 +212,7 @@ public class PatternServiceImpl implements PatternService {
             }
         }
 
-        return patternRepo.saveAll(patternsAfter);
+        return patternsAfter;
     }
 
     @Override

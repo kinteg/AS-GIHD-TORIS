@@ -37,6 +37,11 @@ public class FileFirstParserService implements FirstParserService {
         return getFullTableModels(files, limit);
     }
 
+    @Override
+    public FullTableModel getFullTable(MultipartFile file, long limit, Long patternTableId) {
+        return null;
+    }
+
 
     private List<FullTableModel> getFullTableModels(List<File> files, long limit) {
         List<FullTableModel> fullTableModels = new ArrayList<>();

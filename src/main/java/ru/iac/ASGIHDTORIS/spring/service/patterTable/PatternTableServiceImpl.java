@@ -200,6 +200,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                     })
                     .collect(Collectors.toList());
 
+            patternsAfter = patternTableRepo.saveAll(patternsAfter);
         }
 
         List<Long> loggerId = patternTableLoggerSender.afterArchive(patternsAfter);
@@ -212,7 +213,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             }
         }
 
-        return patternTableRepo.saveAll(patternsAfter);
+        return patternsAfter;
     }
 
     @Override
@@ -245,6 +246,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                     })
                     .collect(Collectors.toList());
 
+            patternsAfter = patternTableRepo.saveAll(patternsAfter);
         }
 
         List<Long> loggerId = patternTableLoggerSender.afterDeArchive(patternsAfter);
@@ -257,7 +259,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             }
         }
 
-        return patternTableRepo.saveAll(patternsAfter);
+        return patternsAfter;
     }
 
     @Override
@@ -290,6 +292,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                     })
                     .collect(Collectors.toList());
 
+            patternsAfter = patternTableRepo.saveAll(patternsAfter);
         }
 
         List<Long> loggerId = patternTableLoggerSender.afterArchive(patternsAfter);
@@ -302,7 +305,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             }
         }
 
-        return patternTableRepo.saveAll(patternsAfter);
+        return patternsAfter;
     }
 
     @Override
@@ -335,6 +338,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                     })
                     .collect(Collectors.toList());
 
+            patternsAfter = patternTableRepo.saveAll(patternsAfter);
         }
 
         List<Long> loggerId = patternTableLoggerSender.afterDeArchive(patternsAfter);
@@ -347,7 +351,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             }
         }
 
-        return patternTableRepo.saveAll(patternsAfter);
+        return patternsAfter;
     }
 
     @Override

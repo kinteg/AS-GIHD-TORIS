@@ -49,6 +49,36 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public File getFile(File file, String fileName) {
+        File findFile;
+
+        if (TargetFiles.isArchive(file.getName())) {
+            ArchiveParser parser = ArchiveFactory.getParser(FilenameUtils.getExtension(file.getName()));
+
+            try {
+
+                if (parser == null) {
+                    findFile = null;
+                } else {
+                    findFile = parser.getFile(file, fileName);
+                    parser.close();
+                }
+
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                findFile = null;
+            } finally {
+                file.delete();
+            }
+
+        } else {
+            findFile = file;
+        }
+
+        return findFile;
+    }
+
+    @Override
     public File convertFile(MultipartFile multipartFile) {
         try {
             return FileConverter.multipartIntoFile(multipartFile);

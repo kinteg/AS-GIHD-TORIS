@@ -68,6 +68,25 @@ public class FileLoaderController {
 
     }
 
+    @PostMapping("/update")
+    public FullTableModel uploadUpdateFile(
+            @RequestParam(value = "file", required = false)
+                    MultipartFile multipartFile,
+            @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT)
+                    Long limit,
+            @RequestParam(value = "patternTableId", required = false, defaultValue = "")
+                    Long patternTableId) {
+
+        if (multipartFile == null || patternTableId == null) {
+            return new FullTableModel();
+        } else {
+            return firstParserService.getFullTable(multipartFile, limit, patternTableId);
+        }
+
+    }
+
+
+
     @PostMapping("/sendData")
     @CacheEvict(value = {
             "findPatternFileById", "getAllPatternFileByPatternId",

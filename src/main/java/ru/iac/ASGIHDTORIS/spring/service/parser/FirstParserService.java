@@ -11,4 +11,6 @@ public interface FirstParserService {
 
     List<FullTableModel> getFullTable(MultipartFile file, long limit);
 
+    FullTableModel getFullTable(MultipartFile file, long limit, Long patternTableId);
+
 }

@@ -200,6 +200,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                     })
                     .collect(Collectors.toList());
 
+            patternsAfter = patternTableRepo.saveAll(patternsAfter);
         }
 
         List<Long> loggerId = patternTableLoggerSender.afterArchive(patternsAfter);
@@ -212,7 +213,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             }
         }
 
-        return patternTableRepo.saveAll(patternsAfter);
+        return patternsAfter;
     }
 
     @Override
@@ -245,6 +246,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                     })
                     .collect(Collectors.toList());
 
+            patternsAfter = patternTableRepo.saveAll(patternsAfter);
         }
 
         List<Long> loggerId = patternTableLoggerSender.afterDeArchive(patternsAfter);
@@ -257,7 +259,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             }
         }
 
-        return patternTableRepo.saveAll(patternsAfter);
+        return patternsAfter;
     }
 
     @Override
@@ -290,19 +292,20 @@ public class PatternTableServiceImpl implements PatternTableService {
                     })
                     .collect(Collectors.toList());
 
+            patternsAfter = patternTableRepo.saveAll(patternsAfter);
         }
 
         List<Long> loggerId = patternTableLoggerSender.afterArchive(patternsAfter);
 
-            if (patternsAfter.get(0).getId() > 0) {
-                for (int i = 0; i < patternsAfter.size() && i < patternsBefore.size() && i < loggerId.size(); i++) {
-                    patternTableBeforeAfter.afterArchive(patternsBefore.get(i),
-                            patternsAfter.get(i),
-                            loggerId.get(i));
-                }
+        if (patternsAfter.get(0).getId() > 0) {
+            for (int i = 0; i < patternsAfter.size() && i < patternsBefore.size() && i < loggerId.size(); i++) {
+                patternTableBeforeAfter.afterArchive(patternsBefore.get(i),
+                        patternsAfter.get(i),
+                        loggerId.get(i));
             }
-        log.info(patternsAfter.toString());
-        return patternTableRepo.saveAll(patternsAfter);
+        }
+
+        return patternsAfter;
     }
 
     @Override
@@ -335,6 +338,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                     })
                     .collect(Collectors.toList());
 
+            patternsAfter = patternTableRepo.saveAll(patternsAfter);
         }
 
         List<Long> loggerId = patternTableLoggerSender.afterDeArchive(patternsAfter);
@@ -347,7 +351,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             }
         }
 
-        return patternTableRepo.saveAll(patternsAfter);
+        return patternsAfter;
     }
 
     @Override

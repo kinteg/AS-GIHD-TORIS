@@ -81,7 +81,7 @@ public class PatternTableController {
             @ModelAttribute DataModelList dataModelList,
             @RequestParam Long patternTableId
     ) {
-        return patternTableService.createPatternTable(tableModel, dataModelList, patternTableId);
+        return patternTableService.updatePatternTable(tableModel, dataModelList, patternTableId);
     }
 
     @PostMapping("/getTable")

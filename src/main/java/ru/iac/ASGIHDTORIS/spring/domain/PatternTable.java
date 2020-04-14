@@ -49,4 +49,19 @@ public class PatternTable {
     @Column(name = "active")
     private Boolean isActive;
 
+    public PatternTable(PatternTable patternTable) {
+        this.id = patternTable.getId();
+        this.nameTable = patternTable.getNameTable();
+        this.nameFile = patternTable.getNameFile();
+        this.patternId = patternTable.getPatternId();
+        this.sourceId = patternTable.getSourceId();
+        this.isArchive = patternTable.getIsArchive();
+        this.dateCreation = patternTable.getDateCreation();
+        this.dateDeactivation = patternTable.getDateDeactivation();
+        this.dateActivation = patternTable.getDateActivation();
+        this.lastUpdate = patternTable.getLastUpdate();
+        this.dateKill = patternTable.getDateKill();
+        this.version = patternTable.getVersion();
+        this.isActive = patternTable.getIsActive();
+    }
 }

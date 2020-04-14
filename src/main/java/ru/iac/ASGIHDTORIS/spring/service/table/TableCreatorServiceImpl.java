@@ -12,6 +12,9 @@ import ru.iac.ASGIHDTORIS.spring.repo.CreatorRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 
+import javax.sql.DataSource;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -21,11 +24,13 @@ public class TableCreatorServiceImpl implements TableCreatorService {
     private final PatternRepo patternRepo;
     private final PatternTableRepo patternTableRepo;
     private final CreatorRepo creatorRepo;
+    private final DataSource dataSource;
 
-    public TableCreatorServiceImpl(PatternRepo patternRepo, PatternTableRepo patternTableRepo, CreatorRepo creatorRepo) {
+    public TableCreatorServiceImpl(PatternRepo patternRepo, PatternTableRepo patternTableRepo, CreatorRepo creatorRepo, DataSource dataSource) {
         this.patternRepo = patternRepo;
         this.patternTableRepo = patternTableRepo;
         this.creatorRepo = creatorRepo;
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -52,6 +57,19 @@ public class TableCreatorServiceImpl implements TableCreatorService {
                 .tableModel(tableModelStatus)
                 .build();
 
+    }
+
+    @Override
+    public PatternTableModelStatus updateTable(TableModel tableModel, PatternTable patternTable) {
+        tableModel.setTableName(patternTable.getNameTable());
+        patternTable = updatePatternTable(tableModel, patternTable);
+        TableModelStatus tableModelStatus = createTable(tableModel);
+
+        return PatternTableModelStatus
+                .builder()
+                .patternTable(patternTable)
+                .tableModel(tableModelStatus)
+                .build();
     }
 
     private boolean checkPattern(long id) {
@@ -89,6 +107,39 @@ public class TableCreatorServiceImpl implements TableCreatorService {
         patternRepo.save(pattern);
 
         return patternTableRepo.save(patternTable);
+    }
+
+    private PatternTable updatePatternTable(TableModel tableModel, PatternTable patternTable) {
+
+        PatternTable newPatternTable = new PatternTable(patternTable);
+
+
+
+        return patternTableRepo.save(patternTable);
+    }
+
+    private void killOldPatternTable(PatternTable patternTable) {
+        patternTable.setIsActive(false);
+        patternTable.setIsArchive(true);
+
+        patternTable.setDateDeactivation(LocalDateTime.now());
+        patternTable.setDateKill(LocalDateTime.now());
+
+        String oldName = patternTable.getNameTable();
+        patternTable.setNameTable(patternTable.getNameTable() + "_v" + patternTable.getVersion());
+        String newName = patternTable.getNameTable();
+
+        killOldTable(oldName, newName);
+
+        patternTableRepo.save(patternTable);
+    }
+
+    private void killOldTable(String oldName, String newName) {
+        try (Statement stmt = dataSource.getConnection().createStatement()){
+            stmt.execute("ALTER TABLE " + oldName + " RENAME TO " + newName + ";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

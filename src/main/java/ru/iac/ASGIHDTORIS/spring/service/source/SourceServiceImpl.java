@@ -1,32 +1,30 @@
 package ru.iac.ASGIHDTORIS.spring.service.source;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
-import ru.iac.ASGIHDTORIS.spring.component.ba.BeforeAfter;
-import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
+import ru.iac.ASGIHDTORIS.spring.service.source.logger.SourceLoggerService;
 
 import java.time.LocalDateTime;
 
 @Service
+@Slf4j
 public class SourceServiceImpl implements SourceService {
 
     private final SourceRepo sourceRepo;
-    private final LoggerSender<Source> sourceLoggerSender;
-    private final BeforeAfter<Source> sourceBeforeAfter;
     private final Validator<Source> validator;
+    private final SourceLoggerService sourceLoggerService;
 
     public SourceServiceImpl(
             SourceRepo sourceRepo,
             @Qualifier("getSourceValidator") Validator<Source> validator,
-            @Qualifier("sourceLoggerSender") LoggerSender<Source> sourceLoggerSender,
-            @Qualifier("sourceBeforeAfter") BeforeAfter<Source> sourceBeforeAfter) {
+            SourceLoggerService sourceLoggerService) {
         this.sourceRepo = sourceRepo;
-        this.sourceLoggerSender = sourceLoggerSender;
-        this.sourceBeforeAfter = sourceBeforeAfter;
         this.validator = validator;
+        this.sourceLoggerService = sourceLoggerService;
     }
 
     public Source createSource(Source source) {
@@ -34,17 +32,13 @@ public class SourceServiceImpl implements SourceService {
         source.setDateActivation(LocalDateTime.now());
         source.setLastUpdate(LocalDateTime.now());
 
-        ru.iac.ASGIHDTORIS.spring.domain.Source sourceAfter = validator.isValid(source)
+        Source sourceAfter = validator.isValid(source)
                 ? !sourceRepo.existsByShortName(source.getShortName())
                 ? sourceRepo.save(source)
-                : ru.iac.ASGIHDTORIS.spring.domain.Source.builder().id(Long.parseLong("-2")).build()
-                : ru.iac.ASGIHDTORIS.spring.domain.Source.builder().id(Long.parseLong("-1")).build();
+                : Source.builder().id(Long.parseLong("-2")).build()
+                : Source.builder().id(Long.parseLong("-1")).build();
 
-        long loggerId = sourceLoggerSender.afterCreate(sourceAfter);
-
-        if (sourceAfter.getId() > 0) {
-            sourceBeforeAfter.afterCreate(sourceAfter, loggerId);
-        }
+        sourceLoggerService.createLogSourceCreate(sourceAfter);
 
         return sourceAfter;
     }
@@ -61,6 +55,7 @@ public class SourceServiceImpl implements SourceService {
             sourceBefore = sourceAfter;
         } else {
             sourceAfter = sourceRepo.findById((long) id);
+
             sourceBefore = Source
                     .builder()
                     .isArchive(sourceAfter.getIsArchive())
@@ -73,11 +68,7 @@ public class SourceServiceImpl implements SourceService {
 
         }
 
-        long loggerId = sourceLoggerSender.afterArchive(sourceAfter);
-
-        if (sourceAfter.getId() > 0) {
-            sourceBeforeAfter.afterArchive(sourceBefore, sourceAfter, loggerId);
-        }
+        sourceLoggerService.createLogSourceArchive(sourceBefore, sourceAfter);
 
         return sourceAfter;
     }
@@ -107,11 +98,7 @@ public class SourceServiceImpl implements SourceService {
 
         }
 
-        long loggerId = sourceLoggerSender.afterDeArchive(sourceAfter);
-
-        if (sourceAfter.getId() > 0) {
-            sourceBeforeAfter.afterDeArchive(sourceBefore, sourceAfter, loggerId);
-        }
+        sourceLoggerService.createLogSourceDeArchive(sourceBefore, sourceAfter);
 
         return sourceAfter;
     }
@@ -124,12 +111,15 @@ public class SourceServiceImpl implements SourceService {
         if (source.getId() == null) {
             afterUpdate = Source.builder().id((long) -4).build();
             beforeUpdate = afterUpdate;
+
         } else if (!sourceRepo.existsById(source.getId())) {
             afterUpdate = Source.builder().id((long) -3).build();
             beforeUpdate = afterUpdate;
+
         } else if (!validator.isValid(source)) {
             afterUpdate = Source.builder().id((long) -1).build();
             beforeUpdate = afterUpdate;
+
         } else if (sourceRepo.existsByShortName(source.getShortName())
                 && !sourceRepo.existsByShortNameAndId(
                 source.getShortName(),
@@ -149,11 +139,7 @@ public class SourceServiceImpl implements SourceService {
             afterUpdate = sourceRepo.save(source);
         }
 
-        long loggerId = sourceLoggerSender.afterUpdate(afterUpdate);
-
-        if (afterUpdate.getId() > 0) {
-            sourceBeforeAfter.afterUpdate(beforeUpdate, afterUpdate, loggerId);
-        }
+        sourceLoggerService.createLogSourceUpdate(beforeUpdate, afterUpdate);
 
         return afterUpdate;
     }

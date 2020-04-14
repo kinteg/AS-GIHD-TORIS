@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.service.pattern;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.common.validator.Validator;
@@ -129,7 +130,7 @@ public class PatternServiceImpl implements PatternService {
         if (sourceId == null) {
             patternsAfter = Collections.singletonList(Pattern.builder().id((long) -4).build());
             patternsBefore = patternsAfter;
-        } else if (patternRepo.existsBySourceId(sourceId)) {
+        } else if (!patternRepo.existsBySourceId(sourceId)) {
             patternsAfter = Collections.singletonList(Pattern.builder().id((long) -3).build());
             patternsBefore = patternsAfter;
         } else {
@@ -174,7 +175,7 @@ public class PatternServiceImpl implements PatternService {
         if (sourceId == null) {
             patternsAfter = Collections.singletonList(Pattern.builder().id((long) -4).build());
             patternsBefore = patternsAfter;
-        } else if (patternRepo.existsBySourceId(sourceId)) {
+        } else if (!patternRepo.existsBySourceId(sourceId)) {
             patternsAfter = Collections.singletonList(Pattern.builder().id((long) -3).build());
             patternsBefore = patternsAfter;
         } else {

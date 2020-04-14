@@ -17,4 +17,6 @@ public interface SourceRepo extends JpaRepository<Source, Long> {
 
     boolean existsByShortNameAndId(String name, long id);
 
+    Source findByShortName(String shortName);
+
 }

@@ -57,9 +57,9 @@ public class DataSenderServiceImpl implements DataSenderService {
                         || id == null
                         || id < 0
                         || !patternTableRepo.existsById(id)
+                        || patternTableRepo.findById((long) id).getIsArchive()
         ) {
             return false;
-
         } else {
             PatternTable patternTable = patternTableRepo.findById((long) id);
             File file = fileService.convertFile(multipartFile);
@@ -85,7 +85,7 @@ public class DataSenderServiceImpl implements DataSenderService {
 
             return false;
         } else {
-            List<PatternTable> patternTables = patternTableRepo.findAllByPatternId(id);
+            List<PatternTable> patternTables = patternTableRepo.findAllByPatternIdAndIsArchive(id, false);
             File file = fileService.convertFile(multipartFile);
 
             uploadPatternFiles(multipartFile, id);

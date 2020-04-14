@@ -23,7 +23,7 @@
 
     <root level="info">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="InfoFile" />
+        <appender-ref ref="InfoFile"/>
     </root>
 
 </configuration>

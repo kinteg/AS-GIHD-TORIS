@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Builder(toBuilder = true)
 @NoArgsConstructor
@@ -71,5 +72,31 @@ public class Source {
         dateActivation = source.getDateActivation();
         lastUpdate = source.getLastUpdate();
         isArchive = source.getIsArchive();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Source source = (Source) o;
+        return Objects.equals(id, source.id) &&
+                Objects.equals(name, source.name) &&
+                Objects.equals(longName, source.longName) &&
+                Objects.equals(shortName, source.shortName) &&
+                Objects.equals(description, source.description) &&
+                Objects.equals(addDescription, source.addDescription) &&
+                Objects.equals(scope, source.scope) &&
+                Objects.equals(periodicity, source.periodicity) &&
+                Objects.equals(renewalPeriod, source.renewalPeriod) &&
+                Objects.equals(type, source.type) &&
+                Objects.equals(tags, source.tags) &&
+                Objects.equals(providerLink, source.providerLink) &&
+                Objects.equals(dataSource, source.dataSource) &&
+                Objects.equals(isArchive, source.isArchive);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, longName, shortName, description, addDescription, scope, periodicity, renewalPeriod, type, tags, providerLink, dataSource, isArchive);
     }
 }

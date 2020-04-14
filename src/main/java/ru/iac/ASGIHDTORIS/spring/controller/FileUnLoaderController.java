@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("api/fileUnLoader")
 @RestController
@@ -57,7 +58,11 @@ public class FileUnLoaderController {
             return Collections.emptyList();
         }
 
-        return patternFileRepo.findAllByPatternId(patternId);
+        return patternFileRepo
+                .findAllByPatternId(patternId)
+                .stream()
+                .sorted((a, b) ->  Long.compare(b.getId(), a.getId()))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/findPatternTableFileById/{id}")
@@ -79,26 +84,24 @@ public class FileUnLoaderController {
             return Collections.emptyList();
         }
 
-        return patternTableFileRepo.findAllByPatternTableId(patternTableId);
+        return patternTableFileRepo
+                .findAllByPatternTableId(patternTableId)
+                .stream()
+                .sorted((a, b) ->  Long.compare(b.getId(), a.getId()))
+                .collect(Collectors.toList());
     }
 
     @GetMapping(value = "/getPatternFile/{file_name}")
     public void getPatternFile(@PathVariable("file_name") String fileName, HttpServletResponse response) {
-        Path file = Paths.get(uploadPathPattern, fileName);
-        if (Files.exists(file)){
-            response.setHeader("Content-disposition", "attachment;filename=" + fileName);
-
-            try {
-                Files.copy(file, response.getOutputStream());
-                response.getOutputStream().flush();
-            } catch (IOException e) {
-                throw new RuntimeException("IOError writing file to output stream");
-            }
-        }
+        getFile(fileName, response, uploadPathPattern);
     }
 
     @GetMapping(value = "/getPatternTableFile/{file_name}")
     public void getPatternTableFile(@PathVariable("file_name") String fileName, HttpServletResponse response) {
+        getFile(fileName, response, uploadPathPatternTable);
+    }
+
+    private void getFile(@PathVariable("file_name") String fileName, HttpServletResponse response, String uploadPathPatternTable) {
         Path file = Paths.get(uploadPathPatternTable, fileName);
         if (Files.exists(file)){
             response.setHeader("Content-disposition", "attachment;filename=" + fileName);

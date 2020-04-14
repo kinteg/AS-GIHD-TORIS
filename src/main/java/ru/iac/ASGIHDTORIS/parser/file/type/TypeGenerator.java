@@ -14,11 +14,10 @@ public final class TypeGenerator {
         return
                 typeValidator.isInt(values) ? "integer" :
                         typeValidator.isLong(values) ? "bigint" :
-                                typeValidator.isFloat(values) ? "real" :
-                                        typeValidator.isDouble(values) ? "double precision" :
-                                                typeValidator.isTime(values) ? "time" :
-                                                        typeValidator.isDate(values) ? "date" :
-                                                                typeValidator.isDateTime(values) ? "timestamp" : "text";
+                                typeValidator.isDouble(values) ? "double precision" :
+                                        typeValidator.isTime(values) ? "time" :
+                                                typeValidator.isDate(values) ? "date" :
+                                                        typeValidator.isDateTime(values) ? "timestamp" : "text";
 
     }
 

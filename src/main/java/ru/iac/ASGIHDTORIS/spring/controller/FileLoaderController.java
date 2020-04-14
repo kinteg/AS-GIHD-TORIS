@@ -1,8 +1,10 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
 import ru.iac.ASGIHDTORIS.spring.service.dataSender.DataSenderService;
@@ -52,7 +54,7 @@ public class FileLoaderController {
     }
 
     @PostMapping("/firstUpload")
-    public List<FullTableModel> uploadFile(
+    public List<FullTableModel> uploadFirstFile(
             @RequestParam(value = "file", required = false)
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT)

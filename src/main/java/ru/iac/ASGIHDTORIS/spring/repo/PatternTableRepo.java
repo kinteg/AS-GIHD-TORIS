@@ -14,7 +14,7 @@ public interface PatternTableRepo extends JpaRepository<PatternTable, Long> {
 
     Page<PatternTable> findAllBySourceIdAndIsArchive(long id, boolean isArchive, Pageable pageable);
 
-    List<PatternTable> findAllByPatternId(long id);
+    List<PatternTable> findAllByPatternIdAndIsArchive(long id, boolean isArchive);
 
     Page<PatternTable> findAllByIsArchive(boolean isArchive, Pageable pageable);
 

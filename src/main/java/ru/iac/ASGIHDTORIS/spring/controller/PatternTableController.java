@@ -53,7 +53,7 @@ public class PatternTableController {
             "existByPatternTableName"},
             allEntries = true)
     @ResponseBody
-    public PatternTableModelStatus createPattern(
+    public PatternTableModelStatus createPatternTable(
             @ModelAttribute TableModel tableModel,
             @ModelAttribute DataModelList dataModelList,
             @RequestParam Long patternId
@@ -188,7 +188,7 @@ public class PatternTableController {
         return patternTableRepo.findAllBySourceIdAndIsArchive(sourceId, false, pageable);
     }
 
-    @PostMapping("/getAllNotArchiveSortBySourceId/{sourceId}")
+    @PostMapping("/getAllNotArchiveSortBySourceIdSort/{sourceId}")
     public Page<PatternTable> getAllNotArchiveBySourceIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);

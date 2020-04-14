@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.spring.controller.aspect.helper;
+package ru.iac.ASGIHDTORIS.aspect.controller.helper;
 
 import org.aspectj.lang.JoinPoint;
 import org.springframework.data.domain.Page;

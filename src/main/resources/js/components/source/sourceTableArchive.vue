@@ -290,60 +290,18 @@
             },
 
             deArchiveOneSource(id){
-                this.$confirm('Разархивировать все связанные с этим источником шаблоны', 'Разархивировать', {
-                    confirmButtonText: 'OK',
-                    cancelButtonText: 'Cancel',
-                    type: 'warning'
-                }).then(() => {
-                    this.deArchiveSource(id);
-                    AXIOS.get("pattern/deArchivePatterns/" + id);
-                    this.$message({
-                        type: 'success',
-                        message: 'Источник разархивирован вместе с шаблонами'
-                    });
-                }).catch(() => {
-                    this.deArchiveSource(id);
-                    this.$message({
-                        type: 'success',
-                        message: 'Источник разархивирован без шаблонов'
-                    });
-                });
+                this.deArchiveSource(id);
             },
 
             deArchiveSomeSource(){
-                this.$confirm('Архивировать все связанные с этим источником шаблоны', 'Архвировать', {
-                    confirmButtonText: 'OK',
-                    cancelButtonText: 'Cancel',
-                    type: 'warning'
-                }).then(() => {
-                    if(this.source.check.length !== 0){
-                        for(let i = 0; i < this.source.check.length; i++){
-                            this.deArchiveSource(this.source.check[i]);
-                        }
-                        this.updatePage();
-                    } else {
-                        this.notify('Ошибка','Выберите источники которые хотите сделать активным','error');
+                if(this.source.check.length !== 0){
+                    for(let i = 0; i < this.source.check.length; i++){
+                        this.deArchiveSource(this.source.check[i]);
                     }
-                    // AXIOS.get("pattern/archivePatterns/" + i);
-                    this.$message({
-                        type: 'warning',
-                        message: 'Источник архивирован вместе с шаблонами'
-                    });
-
-                }).catch(() => {
-                    if(this.source.check.length !== 0){
-                        for(let i = 0; i < this.source.check.length; i++){
-                            this.deArchiveSource(this.source.check[i]);
-                        }
-                        this.updatePage();
-                    } else {
-                        this.notify('Ошибка','Выберите источники которые хотите сделать активным','error');
-                    }
-                    this.$message({
-                        type: 'success',
-                        message: 'Источник архивирован без шаблонов'
-                    });
-                });
+                    this.updatePage();
+                } else {
+                    this.notify('Ошибка','Выберите источники которые хотите сделать активным','error');
+                }
             },
 
             onCurrentChange(value) {

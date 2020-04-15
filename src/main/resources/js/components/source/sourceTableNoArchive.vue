@@ -291,61 +291,22 @@
             },
 
             deleteOneSource(id){
-                this.$confirm('Архивировать все связанные с этим источником шаблоны', 'Архивировать', {
-                    confirmButtonText: 'OK',
-                    cancelButtonText: 'Cancel',
-                    type: 'warning'
-                }).then(() => {
-                    this.deleteSource(id);
-                    AXIOS.get("pattern/archivePatterns/" + id);
-                    this.$message({
-                        type: 'success',
-                        message: 'Источник архивирован вместе с шаблонами'
-                    });
-                }).catch(() => {
-                    this.deleteSource(id);
-                    this.$message({
-                        type: 'success',
-                        message: 'Источник архивирован без шаблонов'
-                    });
-                });
+                this.deleteSource(id);
+                AXIOS.get("pattern/archivePatterns/" + id);
+                AXIOS.get("tableCreator/archivePatternsBySource/" + id);
             },
 
             deleteSomeSource(){
-                this.$confirm('Архивировать все связанные с этим источником шаблоны', 'Архвировать', {
-                    confirmButtonText: 'OK',
-                    cancelButtonText: 'Cancel',
-                    type: 'warning'
-                }).then(() => {
-                    if(this.source.check.length !== 0){
-                        for(let i = 0; i < this.source.check.length; i++){
-                            this.deleteSource(this.source.check[i]);
-                        }
-                        this.updatePage();
-                    } else {
-                        this.notify('Ошибка','Выберите источники которые хотите архивировать','error');
+                if(this.source.check.length !== 0){
+                    for(let i = 0; i < this.source.check.length; i++){
+                        this.deleteSource(this.source.check[i]);
+                        AXIOS.get("pattern/archivePatterns/" + i);
+                        AXIOS.get("tableCreator/archivePatternsBySource/" + i);
                     }
-                    // AXIOS.get("pattern/archivePatterns/" + i);
-                    this.$message({
-                        type: 'warning',
-                        message: 'Источник архивирован вместе с шаблонами'
-                    });
-
-                }).catch(() => {
-                    if(this.source.check.length !== 0){
-                        for(let i = 0; i < this.source.check.length; i++){
-                            this.deleteSource(this.source.check[i]);
-                        }
-                        this.updatePage();
-                    } else {
-                        this.notify('Ошибка','Выберите источники которые хотите архивировать','error');
-                    }
-                    this.$message({
-                        type: 'success',
-                        message: 'Источник архивирован без шаблонов'
-                    });
-                });
-
+                    this.updatePage();
+                } else {
+                    this.notify('Ошибка','Выберите источники которые хотите архивировать','error');
+                }
             },
 
             onCurrentChange(value) {

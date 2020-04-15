@@ -272,6 +272,7 @@
                 if(this.pattern.check.length !== 0){
                     for(let i = 0; i < this.pattern.check.length; i++){
                         this.deletePattern(this.pattern.check[i]);
+                        AXIOS.get("tableCreator/archivePatterns/" + i)
                     }
                     this.updatePage();
                 } else {
@@ -300,6 +301,7 @@
 
             deleteOnePattern(id) {
                 this.deletePattern(id);
+                AXIOS.get("tableCreator/archivePatterns/" + id)
             },
 
             deArchivePattern(id){

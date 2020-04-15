@@ -111,9 +111,8 @@ public class TableCreatorServiceImpl implements TableCreatorService {
 
     private PatternTable updatePatternTable(TableModel tableModel, PatternTable patternTable) {
 
-        PatternTable newPatternTable = new PatternTable(patternTable);
-
-
+        killOldPatternTable(patternTable);
+        createPatternTable(tableModel, patternTable);
 
         return patternTableRepo.save(patternTable);
     }
@@ -140,6 +139,25 @@ public class TableCreatorServiceImpl implements TableCreatorService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private PatternTable createPatternTable(TableModel tableModel, PatternTable oldTable) {
+
+        PatternTable patternTable = new PatternTable()
+                .toBuilder()
+                .nameFile(tableModel.getFilename())
+                .nameTable(tableModel.getTableName())
+                .patternId(oldTable.getPatternId())
+                .isArchive(false)
+                .dateActivation(LocalDateTime.now())
+                .dateCreation(LocalDateTime.now())
+                .lastUpdate(LocalDateTime.now())
+                .version(oldTable.getVersion() + 1)
+                .isActive(true)
+                .sourceId(oldTable.getSourceId())
+                .build();
+
+        return patternTableRepo.save(patternTable);
     }
 
 }

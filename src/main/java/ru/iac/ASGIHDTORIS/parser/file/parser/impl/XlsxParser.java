@@ -37,7 +37,8 @@ public class XlsxParser implements FileParser {
         return creator.createTableModel(tableModel, limit);
     }
 
-    private Reader createReader(File file) throws IOException {
+    @Override
+    public Reader createReader(File file) throws IOException {
         return new XlsxReader(WorkbookFactory.create(file));
     }
 

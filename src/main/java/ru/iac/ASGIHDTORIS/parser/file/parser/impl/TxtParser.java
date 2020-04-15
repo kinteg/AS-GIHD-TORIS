@@ -40,7 +40,8 @@ public class TxtParser implements FileParser {
         return creator.createTableModel(tableModel, limit);
     }
 
-    private Reader createReader(File file) throws Exception {
+    @Override
+    public Reader createReader(File file) throws Exception {
         return new BufferReaderImpl(Files.newBufferedReader(Paths.get(file.getAbsolutePath()), Charset.forName("windows-1251")));
     }
 

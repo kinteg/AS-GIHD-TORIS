@@ -66,11 +66,15 @@ public class PatternTableRepo2Impl implements PatternTableRepo2 {
         }
         if (pattern.getPatternId() != null) {
             values.add(" pattern_id = :patternId");
-            params.addValue("patternId", +pattern.getPatternId());
+            params.addValue("patternId", pattern.getPatternId());
         }
         if (pattern.getSourceId() != null) {
             values.add(" source_id = :sourceId");
-            params.addValue("sourceId", +pattern.getSourceId());
+            params.addValue("sourceId", pattern.getSourceId());
+        }
+        if (pattern.getSourceId() != null) {
+            values.add(" active = :isActive");
+            params.addValue("isActive", pattern.getIsActive());
         }
         dataQueryHelper.createDataQuery(pattern.getHelpModel());
 

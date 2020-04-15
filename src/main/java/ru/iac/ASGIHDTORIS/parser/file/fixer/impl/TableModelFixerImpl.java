@@ -52,7 +52,6 @@ public class TableModelFixerImpl implements TableModelFixer {
 
     private List<DataModel> getNamesColumn(Reader reader) throws Exception {
         List<String> nameColumns = reader.readNext();
-
         return ColumnCreator.createColumns(nameColumns);
     }
 

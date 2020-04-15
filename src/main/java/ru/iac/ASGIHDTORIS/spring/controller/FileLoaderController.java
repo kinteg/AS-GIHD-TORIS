@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import ru.iac.ASGIHDTORIS.common.model.file.FileStatusModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
 import ru.iac.ASGIHDTORIS.spring.service.dataSender.DataSenderService;
 import ru.iac.ASGIHDTORIS.spring.service.file.FileService;
@@ -110,6 +111,24 @@ public class FileLoaderController {
                     Long id
     ) throws IOException {
         return dataSenderService.sendDates(multipartFile, id);
+    }
+
+    @PostMapping("/checkData")
+    public FileStatusModel checkData(
+            @RequestParam(value = "file", required = false) MultipartFile multipartFile,
+            @RequestParam(value = "patternTableId", required = false, defaultValue = "") Long id
+    ) throws Exception {
+        return dataSenderService.checkData(multipartFile, id);
+    }
+
+    @PostMapping("/checkDates")
+    public List<FileStatusModel> checkDates(
+            @RequestParam(value = "file", required = false)
+                    MultipartFile multipartFile,
+            @RequestParam(value = "patternId", required = false, defaultValue = "")
+                    Long id
+    ) throws Exception {
+        return dataSenderService.checkDates(multipartFile, id);
     }
 
 }

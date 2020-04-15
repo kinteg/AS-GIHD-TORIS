@@ -39,7 +39,8 @@ public class CsvParser implements FileParser {
         return creator.createTableModel(tableModel, limit);
     }
 
-    private Reader createReader(File file) throws FileNotFoundException {
+    @Override
+    public Reader createReader(File file) throws FileNotFoundException {
         return new CsvReaderImpl(new CSVReader(new java.io.FileReader(file)));
     }
 

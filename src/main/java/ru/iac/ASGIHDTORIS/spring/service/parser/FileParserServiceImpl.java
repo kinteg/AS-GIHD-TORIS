@@ -73,8 +73,9 @@ public class FileParserServiceImpl implements FileParserService {
         }
 
         file = fileService.getFile(file, patternNameFile);
-
-        return getFullTableModel(file, limit, patternTableName);
+        FullTableModel fullTableModel = getFullTableModel(file, limit, patternTableName);
+        file.delete();
+        return fullTableModel;
     }
 
 

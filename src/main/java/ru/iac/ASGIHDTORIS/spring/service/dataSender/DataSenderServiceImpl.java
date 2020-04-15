@@ -85,7 +85,7 @@ public class DataSenderServiceImpl implements DataSenderService {
 
             return false;
         } else {
-            List<PatternTable> patternTables = patternTableRepo.findAllByPatternIdAndIsArchive(id, false);
+            List<PatternTable> patternTables = patternTableRepo.findAllByPatternIdAndIsArchiveAndIsActive(id, false, true);
             File file = fileService.convertFile(multipartFile);
 
             uploadPatternFiles(multipartFile, id);

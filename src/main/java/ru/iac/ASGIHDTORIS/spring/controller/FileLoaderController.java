@@ -9,8 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
 import ru.iac.ASGIHDTORIS.spring.service.dataSender.DataSenderService;
 import ru.iac.ASGIHDTORIS.spring.service.file.FileService;
-import ru.iac.ASGIHDTORIS.spring.service.parser.FirstParserService;
-import ru.iac.ASGIHDTORIS.spring.service.parser.ParserService;
+import ru.iac.ASGIHDTORIS.spring.service.parser.FileParserService;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,14 +22,12 @@ public class FileLoaderController {
 
     private final String DEFAULT_LIMIT = "5";
 
-    private final FirstParserService firstParserService;
-    private final ParserService parserService;
+    private final FileParserService fileParserService;
     private final FileService fileService;
     private final DataSenderService dataSenderService;
 
-    public FileLoaderController(FirstParserService firstParserService, ParserService parserService, FileService fileService, DataSenderService dataSenderService) {
-        this.firstParserService = firstParserService;
-        this.parserService = parserService;
+    public FileLoaderController(FileParserService fileParserService, FileService fileService, DataSenderService dataSenderService) {
+        this.fileParserService = fileParserService;
         this.fileService = fileService;
         this.dataSenderService = dataSenderService;
     }
@@ -48,7 +45,7 @@ public class FileLoaderController {
             return Collections.emptyList();
         } else {
             File file = fileService.convertFile(multipartFile);
-            return file != null ? parserService.getFullTable(file, limit, patternId) : Collections.emptyList();
+            return file != null ? fileParserService.getFullTable(file, limit, patternId) : Collections.emptyList();
         }
 
     }
@@ -63,7 +60,7 @@ public class FileLoaderController {
         if (multipartFile == null) {
             return Collections.emptyList();
         } else {
-            return firstParserService.getFullTable(multipartFile, limit);
+            return fileParserService.getFullTable(multipartFile, limit);
         }
 
     }
@@ -74,18 +71,18 @@ public class FileLoaderController {
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT)
                     Long limit,
-            @RequestParam(value = "patternTableId", required = false, defaultValue = "")
-                    Long patternTableId) {
+            @RequestParam(value = "patternTableName", required = false, defaultValue = "")
+                    String patternTableName,
+            @RequestParam(value = "patternNameFile", required = false, defaultValue = "")
+                    String patternNameFile) {
 
-        if (multipartFile == null || patternTableId == null) {
+        if (multipartFile == null || patternTableName == null) {
             return new FullTableModel();
         } else {
-            return firstParserService.getFullTable(multipartFile, limit, patternTableId);
+            return fileParserService.getFullTable(multipartFile, limit, patternTableName, patternNameFile);
         }
 
     }
-
-
 
     @PostMapping("/sendData")
     @CacheEvict(value = {
@@ -114,5 +111,7 @@ public class FileLoaderController {
     ) throws IOException {
         return dataSenderService.sendDates(multipartFile, id);
     }
+
+
 
 }

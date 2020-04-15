@@ -20,4 +20,12 @@ public interface PatternService {
 
     Pattern updatePattern(Pattern pattern);
 
+    void incrementFiles(List<Long> id);
+
+    void incrementFiles(Long id, int count);
+
+    void decrementFiles(List<Long> id);
+
+    void decrementFiles(Long id, int count);
+
 }

@@ -8,23 +8,27 @@ import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import java.util.List;
 
 public interface PatternTableRepo extends JpaRepository<PatternTable, Long> {
-    Page<PatternTable> findAllByPatternId(long id, Pageable pageable);
+    Page<PatternTable> findAllByPatternIdAndIsActive(long id, Pageable pageable, boolean isActive);
 
-    List<PatternTable> findAllByPatternId(long id);
+    List<PatternTable> findAllByPatternIdAndIsActive(long id, boolean isActive);
 
-    Page<PatternTable> findAllByPatternIdAndIsArchive(long id, boolean isArchive, Pageable pageable);
+    Page<PatternTable> findAllByPatternIdAndIsArchiveAndIsActive(long id, boolean isArchive, Pageable pageable, boolean isActive);
 
-    Page<PatternTable> findAllBySourceIdAndIsArchive(long id, boolean isArchive, Pageable pageable);
+    Page<PatternTable> findAllBySourceIdAndIsArchiveAndIsActive(long id, boolean isArchive, Pageable pageable, boolean isActive);
 
-    List<PatternTable> findAllByPatternIdAndIsArchive(long id, boolean isArchive);
+    List<PatternTable> findAllByPatternIdAndIsArchiveAndIsActive(long id, boolean isArchive, boolean isActive);
 
-    Page<PatternTable> findAllByIsArchive(boolean isArchive, Pageable pageable);
+    Page<PatternTable> findAllByIsArchiveAndIsActive(boolean isArchive, Pageable pageable, boolean isActive);
 
-    Page<PatternTable> findAllBySourceId(long id, Pageable pageable);
+    Page<PatternTable> findAllBySourceIdAndIsActive(long id, Pageable pageable, boolean isActive);
 
-    List<PatternTable> findAllBySourceId(long id);
+    List<PatternTable> findAllBySourceIdAndIsActive(long id, boolean isActive);
+
+    Page<PatternTable> findAllByIsActive(Pageable pageable, boolean isActive);
 
     PatternTable findById(long id);
+
+    PatternTable findByNameTable(String nameTable);
 
     boolean existsBySourceId(long id);
 

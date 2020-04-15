@@ -17,6 +17,7 @@ import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.TableRepo;
+import ru.iac.ASGIHDTORIS.spring.service.pattern.PatternService;
 import ru.iac.ASGIHDTORIS.spring.service.table.TableCreatorService;
 
 import java.time.LocalDateTime;
@@ -36,8 +37,9 @@ public class PatternTableServiceImpl implements PatternTableService {
     private final LoggerSender<PatternTable> patternTableLoggerSender;
     private final BeforeAfter<PatternTable> patternTableBeforeAfter;
     private final TableRepo tableRepo;
+    private final PatternService patternService;
 
-    public PatternTableServiceImpl(DataModelCreator dataModelCreator, PatternTableRepo patternTableRepo, Validator<DataModelList> dataModelListValidator, TableCreatorService tableCreatorService, Validator<Long> patternIdValidator, LoggerSender<PatternTable> patternTableLoggerSender, BeforeAfter<PatternTable> patternTableBeforeAfter, TableRepo tableRepo) {
+    public PatternTableServiceImpl(DataModelCreator dataModelCreator, PatternTableRepo patternTableRepo, Validator<DataModelList> dataModelListValidator, TableCreatorService tableCreatorService, Validator<Long> patternIdValidator, LoggerSender<PatternTable> patternTableLoggerSender, BeforeAfter<PatternTable> patternTableBeforeAfter, TableRepo tableRepo, PatternService patternService) {
         this.dataModelCreator = dataModelCreator;
         this.patternTableRepo = patternTableRepo;
         this.dataModelListValidator = dataModelListValidator;
@@ -46,6 +48,7 @@ public class PatternTableServiceImpl implements PatternTableService {
         this.patternTableLoggerSender = patternTableLoggerSender;
         this.patternTableBeforeAfter = patternTableBeforeAfter;
         this.tableRepo = tableRepo;
+        this.patternService = patternService;
     }
 
     @Override
@@ -125,7 +128,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             patternAfter.setDateDeactivation(LocalDateTime.now());
 
             patternTableRepo.save(patternAfter);
-
+            patternService.decrementFiles(patternAfter.getPatternId(), 1);
         }
 
         long loggerId = patternTableLoggerSender.afterArchive(patternAfter);
@@ -159,6 +162,7 @@ public class PatternTableServiceImpl implements PatternTableService {
 
             patternTableRepo.save(patternAfter);
 
+            patternService.incrementFiles(patternAfter.getPatternId(), 1);
         }
 
         long loggerId = patternTableLoggerSender.afterDeArchive(patternAfter);
@@ -182,7 +186,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             patternsBefore = patternsAfter;
         } else {
             patternsBefore = patternTableRepo
-                    .findAllByPatternId(patternId)
+                    .findAllByPatternIdAndIsActive(patternId, true)
                     .stream()
                     .map(v -> PatternTable
                             .builder()
@@ -192,7 +196,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                     .collect(Collectors.toList());
 
             patternsAfter = patternTableRepo
-                    .findAllByPatternId(patternId)
+                    .findAllByPatternIdAndIsActive(patternId, true)
                     .stream()
                     .peek(v -> {
                         v.setIsArchive(true);
@@ -201,6 +205,8 @@ public class PatternTableServiceImpl implements PatternTableService {
                     .collect(Collectors.toList());
 
             patternsAfter = patternTableRepo.saveAll(patternsAfter);
+
+            patternService.decrementFiles(patternsAfter.get(0).getPatternId(), patternsAfter.size());
         }
 
         List<Long> loggerId = patternTableLoggerSender.afterArchive(patternsAfter);
@@ -228,7 +234,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             patternsBefore = patternsAfter;
         } else {
             patternsBefore = patternTableRepo
-                    .findAllByPatternId(patternId)
+                    .findAllByPatternIdAndIsActive(patternId, true)
                     .stream()
                     .map(v -> PatternTable
                             .builder()
@@ -238,7 +244,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                     .collect(Collectors.toList());
 
             patternsAfter = patternTableRepo
-                    .findAllByPatternId(patternId)
+                    .findAllByPatternIdAndIsActive(patternId, true)
                     .stream()
                     .peek(v -> {
                         v.setIsArchive(false);
@@ -247,6 +253,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                     .collect(Collectors.toList());
 
             patternsAfter = patternTableRepo.saveAll(patternsAfter);
+            patternService.incrementFiles(patternsAfter.get(0).getPatternId(), patternsAfter.size());
         }
 
         List<Long> loggerId = patternTableLoggerSender.afterDeArchive(patternsAfter);
@@ -274,7 +281,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             patternsBefore = patternsAfter;
         } else {
             patternsBefore = patternTableRepo
-                    .findAllBySourceId(id)
+                    .findAllBySourceIdAndIsActive(id, true)
                     .stream()
                     .map(v -> PatternTable
                             .builder()
@@ -284,7 +291,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                     .collect(Collectors.toList());
 
             patternsAfter = patternTableRepo
-                    .findAllBySourceId(id)
+                    .findAllBySourceIdAndIsActive(id, true)
                     .stream()
                     .peek(v -> {
                         v.setIsArchive(true);
@@ -293,6 +300,15 @@ public class PatternTableServiceImpl implements PatternTableService {
                     .collect(Collectors.toList());
 
             patternsAfter = patternTableRepo.saveAll(patternsAfter);
+
+            List<Long> ids = patternTableRepo
+                    .findAllBySourceIdAndIsActive(id, true)
+                    .stream()
+                    .map(PatternTable::getPatternId)
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            patternService.decrementFiles(ids);
         }
 
         List<Long> loggerId = patternTableLoggerSender.afterArchive(patternsAfter);
@@ -320,7 +336,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             patternsBefore = patternsAfter;
         } else {
             patternsBefore = patternTableRepo
-                    .findAllBySourceId(id)
+                    .findAllBySourceIdAndIsActive(id, true)
                     .stream()
                     .map(v -> PatternTable
                             .builder()
@@ -330,7 +346,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                     .collect(Collectors.toList());
 
             patternsAfter = patternTableRepo
-                    .findAllBySourceId(id)
+                    .findAllBySourceIdAndIsActive(id, true)
                     .stream()
                     .peek(v -> {
                         v.setIsArchive(false);
@@ -339,6 +355,15 @@ public class PatternTableServiceImpl implements PatternTableService {
                     .collect(Collectors.toList());
 
             patternsAfter = patternTableRepo.saveAll(patternsAfter);
+
+            List<Long> ids = patternTableRepo
+                    .findAllBySourceIdAndIsActive(id, true)
+                    .stream()
+                    .map(PatternTable::getPatternId)
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            patternService.incrementFiles(ids);
         }
 
         List<Long> loggerId = patternTableLoggerSender.afterDeArchive(patternsAfter);

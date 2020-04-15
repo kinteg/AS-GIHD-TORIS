@@ -22,6 +22,7 @@ public class PatternTableModel {
     private String nameFile;
     private Long patternId;
     private Long sourceId;
+    private Boolean isActive;
 
     private HelpModel helpModel;
 

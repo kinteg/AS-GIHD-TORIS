@@ -7,6 +7,7 @@ import ru.iac.ASGIHDTORIS.common.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.component.ba.BeforeAfter;
 import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
+import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 
 import java.time.LocalDateTime;
@@ -248,6 +249,82 @@ public class PatternServiceImpl implements PatternService {
         }
 
         return afterUpdate;
+    }
+
+    @Override
+    public void incrementFiles(List<Long> id) {
+        List<Pattern> patternTables = id.stream().map(v -> patternRepo.findById((long)v)).collect(Collectors.toList());
+
+        for (Pattern pattern :
+                patternTables) {
+            incrementFiles(pattern.getId(), pattern.getArchiveFileCount());
+        }
+    }
+
+    @Override
+    public void incrementFiles(Long id, int count) {
+        Pattern afterUpdate;
+        Pattern beforeUpdate;
+
+        if (id == null) {
+            afterUpdate = Pattern.builder().id((long) -4).build();
+            beforeUpdate = afterUpdate;
+        } else if (!patternRepo.existsById(id)) {
+            afterUpdate = Pattern.builder().id((long) -3).build();
+            beforeUpdate = afterUpdate;
+        } else {
+            afterUpdate = patternRepo.findById((long) id);
+            beforeUpdate = new Pattern(afterUpdate);
+
+            afterUpdate.setFileCount(afterUpdate.getFileCount() + count);
+            afterUpdate.setArchiveFileCount(afterUpdate.getArchiveFileCount() - count);
+
+            patternRepo.save(afterUpdate);
+        }
+
+        long loggerId = patternLoggerSender.afterUpdate(afterUpdate);
+
+        if (afterUpdate.getId() > 0) {
+            patternBeforeAfter.afterUpdate(beforeUpdate, afterUpdate, loggerId);
+        }
+    }
+
+    @Override
+    public void decrementFiles(List<Long> id) {
+        List<Pattern> patternTables = id.stream().map(v -> patternRepo.findById((long)v)).collect(Collectors.toList());
+
+        for (Pattern pattern :
+                patternTables) {
+            decrementFiles(pattern.getId(), pattern.getFileCount());
+        }
+    }
+
+    @Override
+    public void decrementFiles(Long id, int count) {
+        Pattern afterUpdate;
+        Pattern beforeUpdate;
+
+        if (id == null) {
+            afterUpdate = Pattern.builder().id((long) -4).build();
+            beforeUpdate = afterUpdate;
+        } else if (!patternRepo.existsById(id)) {
+            afterUpdate = Pattern.builder().id((long) -3).build();
+            beforeUpdate = afterUpdate;
+        } else {
+            afterUpdate = patternRepo.findById((long) id);
+            beforeUpdate = new Pattern(afterUpdate);
+
+            afterUpdate.setFileCount(afterUpdate.getFileCount() - count);
+            afterUpdate.setArchiveFileCount(afterUpdate.getArchiveFileCount() + count);
+
+            patternRepo.save(afterUpdate);
+        }
+
+        long loggerId = patternLoggerSender.afterUpdate(afterUpdate);
+
+        if (afterUpdate.getId() > 0) {
+            patternBeforeAfter.afterUpdate(beforeUpdate, afterUpdate, loggerId);
+        }
     }
 
 }

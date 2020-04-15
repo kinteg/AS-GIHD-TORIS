@@ -155,7 +155,7 @@
                                 :limit="1"
                                 :on-change="sendFiles"
                                 :auto-upload="false">
-                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
+                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицы</el-button>
                         </el-upload>
                             </span>
                                 </p>
@@ -269,17 +269,19 @@
                                             ref="upload"
                                             action=""
                                             :limit="1"
+                                            :on-remove="clearForm"
                                             :on-change="onChange"
                                             :auto-upload="false">
                                         <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
-                                        <div class="el-upload__tip" slot="tip">Выберите файл для загрузки</div>
+                                        <div class="el-upload__tip" slot="tip">Выберите файл из которого будут созданы таблицы</div>
                                     </el-upload>
                                     <el-collapse v-for="oneTable in table">
                                         <el-collapse-item :title="oneTable.tableModel.tableName" >
                                             <el-input style="padding-bottom: 10px;" v-model="oneTable.tableModel.tableName" placeholder="Название таблицы"></el-input>
                                             <el-form v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
                                                 <el-form-item >
-                                                    <input :checked="pole.primary" type="radio" :name="oneTable.tableModel.tableName"/>
+                                                    <input :checked="pole.primary" :id="'primary'+pole.key+oneTable.tableModel.tableName" type="radio" name="tsesd"  />
+<!--                                                    <input :checked="pole.primary" type="radio" :name="oneTable.tableModel.tableName"/>-->
                                                 </el-form-item>
                                                 <el-form-item >
                                                     <el-input v-model="pole.key" placeholder="Approved by"></el-input>
@@ -305,7 +307,7 @@
                                             </table>
                                         </el-collapse-item>
                                     </el-collapse>
-                                    <el-button @click="showTableTab" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                                    <el-button @click="showTableTab('yes')" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
                                     <el-button @click="addTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
                                 </div>
                                 <div v-else-if="showTable">
@@ -317,10 +319,9 @@
                                                 :limit="1"
                                                 :on-change="sendData"
                                                 :auto-upload="false">
-                                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
-                                            <div class="el-upload__tip" slot="tip">Загрузить данные в таблицу</div>
+                                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицу</el-button>
                                         </el-upload>
-                                        <div style="padding-right: 2px;" class="horizontal-scroll-wrapper  rectangles">
+                                        <div style="margin-top: 10px; padding-right: 2px;" class="horizontal-scroll-wrapper  rectangles">
                                             <table style="display: block; overflow-x: auto; ">
                                                 <tr>
                                                     <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
@@ -330,7 +331,7 @@
                                                 </tr>
                                             </table>
                                         </div>
-                                        <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                                        <el-button @click="showTableTab('no')" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
                                     </div>
                                 </div>
                             </el-tab-pane>
@@ -403,6 +404,7 @@
         components: {MyPagination},
         data(){
             return{
+                radio:"",
                 patternFile:"",
                 options: [{
                     value: '',
@@ -616,6 +618,7 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
+                    this.notify('Успешно','Данные были загружены','success');
                     let tableData = new FormData();
                     tableData.append("id",this.patternTableId);
                     AXIOS.post("tableCreator/getTable/",tableData).then(response => {
@@ -638,6 +641,7 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
+                    this.notify('Успешно','Данные были загружены','success');
                     this.updatePage();
                 });
             },
@@ -689,12 +693,23 @@
                 });
             },
 
-            showTableTab(){
-                this.$confirm('Вы уверены что хотите вернуться назад?', 'Назад', {
-                    confirmButtonText: 'Да',
-                    cancelButtonText: 'Нет',
-                    type: 'warning'
-                }).then(() => {
+            showTableTab(change){
+                if(change === "yes"){
+                    this.$confirm('Вы уверены что хотите вернуться назад?', 'Назад', {
+                        confirmButtonText: 'Да',
+                        cancelButtonText: 'Нет',
+                        type: 'warning'
+                    }).then(() => {
+                        this.isMainPage = true;
+                        this.viewTable = true;
+                        this.updateTable = false;
+                        this.createTable = false;
+                        this.showTable = false;
+                        this.sendDataTable = false;
+                        this.updatePage();
+                    }).catch(() => {
+                    });
+                } else {
                     this.isMainPage = true;
                     this.viewTable = true;
                     this.updateTable = false;
@@ -702,9 +717,7 @@
                     this.showTable = false;
                     this.sendDataTable = false;
                     this.updatePage();
-                }).catch(() => {
-                });
-
+                }
             },
 
             addTableTab(){
@@ -793,6 +806,10 @@
                     { "value": "timestamp" },
                     { "value": "text" }
                 ];
+            },
+
+            clearForm(){
+                this.table = "";
             },
 
             onChange(file, fileList) {

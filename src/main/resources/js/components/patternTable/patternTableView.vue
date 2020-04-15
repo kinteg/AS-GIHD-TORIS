@@ -3,7 +3,17 @@
         <el-row :gutter="20">
             <el-col :span="16">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-                    <p style="font-size: 20px">Просмотр таблицы</p>
+                    <p style="font-size: 20px">Просмотр таблицы
+                        <el-upload
+                                style="float: right; margin-right: 10px;"
+                                class="upload-demo"
+                                ref="upload"
+                                action=""
+                                :limit="1"
+                                :on-change="sendFiles"
+                                :auto-upload="false">
+                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицу</el-button>
+                        </el-upload></p>
                     <div class="horizontal-scroll-wrapper  rectangles">
                         <table style="display: block; overflow-x: auto;">
                             <tr>
@@ -45,7 +55,6 @@
                             :page-size="pagination.pageSize"
                             :page-count="pagination.totalPages"
                             :current-page="pagination.currentPage"
-                            :pager-count="pagination.pagerCount"
                             @current-change="onCurrentChange"
                             :total="pagination.totalElements">
                     </el-pagination>
@@ -75,6 +84,7 @@
                 </div>
             </el-col>
             <el-col :span="8">
+
             </el-col>
         </el-row>
     </div>
@@ -110,8 +120,42 @@
         },
 
         methods:{
+            updatePage(){
+                let formData = new FormData();
+                formData.append("id", this.patternTableId);
+                AXIOS.post("tableCreator/getTable/",formData).then(response => {
+                    this.paginationOneTable.totalPages = response.data.values.totalPages;
+                    this.paginationOneTable.totalElements = response.data.values.totalElements;
+                    this.showOnlyOneTable = response.data;
+                });
+            },
+
+            notify(title,message,type) {
+                this.$notify({
+                    title: title,
+                    message: message,
+                    type: type
+                });
+            },
+
+            sendFiles(file, fileList){
+                let formData = new FormData();
+                console.log(this.patternTableId);
+                formData.append("file",file.raw);
+                formData.append("patternTableId", this.patternTableId);
+                AXIOS.post("fileLoader/sendData/",
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(response => {
+                    this.notify('Успешно','Данные были загружены','success');
+                    this.updatePage();
+                });
+            },
+
             downloadFile(fileName){
-                console.log(fileName);
                 AXIOS({
                     url: 'fileUnLoader/getPatternTableFile/'+fileName,
                     method: 'GET',
@@ -129,7 +173,7 @@
             onCurrentChange(value){
                 this.pagination.currentPage = value;
                 let currentPage = this.pagination.currentPage - 1;
-                AXIOS.get("sourceLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
+                AXIOS.get("patternTableLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize + "&page=" + currentPage).then(response => {
                     this.patternTableLog = response.data.content;
                 })
             },
@@ -176,7 +220,6 @@
 
             AXIOS.get("fileUnLoader/getAllPatternTableFileByPatternId/"+this.patternTableId).then(response => {
                 this.patternTableFile = response.data;
-                console.log(response);
             });
         }
     }

@@ -146,18 +146,18 @@
                             <el-tab-pane label="Таблицы" name="tableInfo">
                                 <p style="font-size: 20px">Таблицы
                                     <span v-if="isMainPage">
-                        <el-button @click="addTableTab"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-plus"></el-button>
-                        <el-upload
-                                style="float: right; margin-right: 10px;"
-                                class="upload-demo"
-                                ref="upload"
-                                action=""
-                                :limit="1"
-                                :on-change="sendFiles"
-                                :auto-upload="false">
-                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицы</el-button>
-                        </el-upload>
-                            </span>
+                                        <el-button @click="addTableTab"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-plus"></el-button>
+                                        <el-upload
+                                                style="float: right; margin-right: 10px;"
+                                                class="upload-demo"
+                                                ref="upload"
+                                                action=""
+                                                :limit="1"
+                                                :on-change="sendFiles"
+                                                :auto-upload="false">
+                                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицы</el-button>
+                                        </el-upload>
+                                    </span>
                                 </p>
                                 <div v-if="viewTable">
                                     <div>
@@ -280,8 +280,7 @@
                                             <el-input style="padding-bottom: 10px;" v-model="oneTable.tableModel.tableName" placeholder="Название таблицы"></el-input>
                                             <el-form v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
                                                 <el-form-item >
-                                                    <input :checked="pole.primary" :id="'primary'+pole.key+oneTable.tableModel.tableName" type="radio" name="tsesd"  />
-<!--                                                    <input :checked="pole.primary" type="radio" :name="oneTable.tableModel.tableName"/>-->
+                                                    <el-button :id="oneTable.tableModel.tableName + pole.key" @click="primaryChange(pole.key)" class="common" type="primary" size="mini" icon="el-icon-key"></el-button>
                                                 </el-form-item>
                                                 <el-form-item >
                                                     <el-input v-model="pole.key" placeholder="Approved by"></el-input>
@@ -321,6 +320,11 @@
                                                 :auto-upload="false">
                                             <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицу</el-button>
                                         </el-upload>
+                                        <router-link :to="'/patternTable/update/'+ patternTableId">
+                                            <el-button style=" margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
+                                            Обновить поля
+                                            </el-button>
+                                        </router-link>
                                         <div style="margin-top: 10px; padding-right: 2px;" class="horizontal-scroll-wrapper  rectangles">
                                             <table style="display: block; overflow-x: auto; ">
                                                 <tr>
@@ -569,6 +573,18 @@
             }
         },
         methods:{
+            primaryChange(pole, tableName){
+                if(tableName + pole !== this.primaryKey){
+                    document.getElementById(tableName + pole).classList.remove("common");
+                    document.getElementById(tableName + pole).classList.add("primary");
+                    if(this.primaryKey !== "") {
+                        document.getElementById(this.primaryKey).classList.remove("primary");
+                        document.getElementById(this.primaryKey).classList.add("common");
+                    }
+                    this.primaryKey = tableName + pole;
+                }
+            },
+
             downloadFile(fileName){
                 console.log(fileName);
                 AXIOS({
@@ -758,7 +774,6 @@
 
                     AXIOS.get("/tableCreator/exist/"+tableName).then(response => {
                         existingTable = response.data;
-                        console.log(existingTable);
 
                         if(existingTable === true) {
                             this.notify("Ошибка","Таблица (" + tableName + ") c таким именем уже существует", "error");
@@ -1065,5 +1080,17 @@
     th {
         padding: 10px;
         height: 50px;
+    }
+
+    .common {
+        margin-bottom: 10px;
+        background-color: #1ab394;
+        border-color: #1ab394
+    }
+
+    .primary {
+        margin-bottom: 10px;
+        background-color: #ffcf06;
+        border-color: #ffcf06;
     }
 </style>

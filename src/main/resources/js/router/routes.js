@@ -23,6 +23,7 @@ import PatternTableLogsById from "../pages/logs/PatternTableLogsById.vue";
 import TableLogsById from "../pages/logs/TableLogsById.vue";
 import ShowPatternTableArchive from "../pages/patternTable/ShowPatternTableArchive.vue";
 import ShowPatternTableNotArchive from "../pages/patternTable/ShowPatternTableNotArchive.vue";
+import PatternTableUpdate from "../pages/patternTable/PatternTableUpdate.vue";
 
 const routes = [
     {
@@ -206,6 +207,12 @@ const routes = [
         path:'/patternTable/show/:id',
         component: OnePatternTableView,
         name: 'OnePatternTableView',
+    },
+
+    {
+        path:'/patternTable/update/:id',
+        component: PatternTableUpdate,
+        name: 'PatternTableUpdate',
     },
 
     {

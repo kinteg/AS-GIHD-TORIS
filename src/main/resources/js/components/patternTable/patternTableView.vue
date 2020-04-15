@@ -5,7 +5,7 @@
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
                     <p style="font-size: 20px">Просмотр таблицы
                         <el-upload
-                                style="float: right; margin-right: 10px;"
+                                style="float: right;"
                                 class="upload-demo"
                                 ref="upload"
                                 action=""
@@ -13,7 +13,13 @@
                                 :on-change="sendFiles"
                                 :auto-upload="false">
                             <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицу</el-button>
-                        </el-upload></p>
+                        </el-upload>
+                        <router-link :to="'/patternTable/update/' + this.patternTableId">
+                            <el-button style="float: right; margin-right: 10px; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
+                                Обновить поля
+                            </el-button>
+                        </router-link>
+                    </p>
                     <div class="horizontal-scroll-wrapper  rectangles">
                         <table style="display: block; overflow-x: auto;">
                             <tr>
@@ -84,7 +90,36 @@
                 </div>
             </el-col>
             <el-col :span="8">
+                <div style="margin-top: 20px; background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                    <p style="font-size: 20px">Версии</p>
+                    <table style="overflow-x: auto; ">
+                        <tr>
+                            <th>
 
+                            </th>
+                            <th>Версия</th>
+                        </tr>
+                        <tr v-for="tableVersion in patternTableVersion">
+                            <td>
+                                <router-link :to="'patternTable/show/' + tableVersion.tableId">
+                                    <el-button  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
+                                </router-link>
+                            </td>
+                            <td>tableVersion.version</td>
+                        </tr>
+                    </table>
+<!--                    <el-pagination-->
+<!--                            style="margin: 10px auto; text-align: center "-->
+<!--                            class="pager"-->
+<!--                            background-->
+<!--                            layout="prev, pager, next"-->
+<!--                            :page-size="pagination.pageSize"-->
+<!--                            :page-count="pagination.totalPages"-->
+<!--                            :current-page="pagination.currentPage"-->
+<!--                            @current-change="onCurrentChange"-->
+<!--                            :total="pagination.totalElements">-->
+<!--                    </el-pagination>-->
+                </div>
             </el-col>
         </el-row>
     </div>
@@ -99,6 +134,7 @@
         props:['tableId'],
         data() {
             return {
+                patternTableVersion:"",
                 patternTableFile:"",
                 patternTableLog:"",
                 patternTableId:"",
@@ -141,17 +177,28 @@
             sendFiles(file, fileList){
                 let formData = new FormData();
                 console.log(this.patternTableId);
+
                 formData.append("file",file.raw);
                 formData.append("patternTableId", this.patternTableId);
-                AXIOS.post("fileLoader/sendData/",
+                AXIOS.post("fileLoader/checkData/",
                     formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-                    this.notify('Успешно','Данные были загружены','success');
-                    this.updatePage();
+                    if(response === "OK"){
+                        AXIOS.post("fileLoader/sendData/",
+                            formData,
+                            {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            }).then(response => {
+                            this.notify('Успешно','Данные были загружены','success');
+                            this.updatePage();
+                        });
+                    }
                 });
             },
 
@@ -210,6 +257,7 @@
                 this.paginationOneTable.totalPages = response.data.values.totalPages;
                 this.paginationOneTable.totalElements = response.data.values.totalElements;
                 this.showOnlyOneTable = response.data;
+
             });
 
             AXIOS.get("patternTableLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize).then(response => {
@@ -220,6 +268,10 @@
 
             AXIOS.get("fileUnLoader/getAllPatternTableFileByPatternId/"+this.patternTableId).then(response => {
                 this.patternTableFile = response.data;
+            });
+
+            AXIOS.get("").then(response => {
+                this.patternTableVersion = response.data;
             });
         }
     }

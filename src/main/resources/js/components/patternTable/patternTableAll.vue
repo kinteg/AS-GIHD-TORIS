@@ -94,6 +94,10 @@
                     <tr>
                         <td>
                             <el-button @click="showOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                            <br>
+                            <router-link :to="'/patternTable/update/' + table.id">
+                                <el-button  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
+                            </router-link>
                             <span v-if="table.isArchive">
                             <el-button @click="deArchiveOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
                         </span>

@@ -71,8 +71,12 @@ public class FileServiceImpl implements FileService {
                 file.delete();
             }
 
-        } else {
+        } else if (file.getName().equals(fileName)){
             findFile = file;
+            file.delete();
+        } else {
+            file.delete();
+            return null;
         }
 
         return findFile;

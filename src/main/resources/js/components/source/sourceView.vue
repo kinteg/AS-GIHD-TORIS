@@ -59,19 +59,21 @@
                                 </el-row>
                             </el-tab-pane>
                             <el-tab-pane label="Шаблоны" name="patternInfo">
-                    <span v-if="hiddenTable"  style="background-color: white;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-                       <pattern-table style="padding: 0 5px 0 0; box-shadow: none "/>
-                    </span>
+                                <span v-if="hiddenTable"  style="background-color: white;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                                    <pattern-table style="padding: 0 5px 0 0; box-shadow: none "/>
+                                </span>
                                 <div v-else>
                                     <pattern-view :pattern-id="this.patternId" />
                                     <el-button @click="backView" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
                                 </div>
                             </el-tab-pane>
-                            <el-tab-pane label="таблицы" name="tableInfo">
-
+                            <el-tab-pane label="Таблицы" name="tableInfo">
+                                <pattern-table-all-view-one :source-id="this.$route.params.id"/>
                             </el-tab-pane>
                         </el-tabs>
                     </div>
+                    <el-button @click="back" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+
                 </div>
             </el-col>
             <el-col :span="8">
@@ -95,7 +97,6 @@
                             :page-size="pagination.pageSize"
                             :page-count="pagination.totalPages"
                             :current-page="pagination.currentPage"
-                            :pager-count="pagination.pagerCount"
                             @current-change="onCurrentChange"
                             :total="pagination.totalElements">
                     </el-pagination>
@@ -111,10 +112,11 @@
     import PatternView from "../pattern/patternView.vue";
     import PatternTable from "../pattern/patternTable.vue";
     import MyPagination from "../general/pagination.vue";
+    import PatternTableAllViewOne from "../patternTable/patternTableViewOne.vue";
 
     export default {
         name: "sourceView",
-        components: {MyPagination, PatternTable, PatternView},
+        components: {PatternTableAllViewOne, MyPagination, PatternTable, PatternView},
         data() {
             return {
                 sourceLog:"",
@@ -170,6 +172,10 @@
         },
 
         methods:{
+            back(){
+                router.push({name:'show'});
+            },
+
             onCurrentChange(value){
                 this.pagination.currentPage = value;
                 let currentPage = this.pagination.currentPage - 1;

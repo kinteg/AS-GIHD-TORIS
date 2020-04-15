@@ -1,10 +1,9 @@
 <template>
-    <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+    <div>
         <div v-if="allTable">
             <p style="font-size: 20px">Все таблицы
-
-<!--                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
-<!--                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
+                <!--                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
+                <!--                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
                 <el-dropdown style="float: right" :hide-on-click="false">
                     <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                     </el-button>
@@ -101,7 +100,7 @@
                             <el-button @click="deleteOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
                         </span>
                         </td>
-<!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
+                        <!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
                         <td v-if="hidden.id">{{table.id}}</td>
                         <td v-if="hidden.nameTable">{{table.nameTable}}</td>
                         <td v-if="hidden.nameFile">{{table.nameFile}}</td>
@@ -151,8 +150,9 @@
     import MyPagination from "../general/pagination.vue";
 
     export default {
-        name: "patternTableAll",
+        name: "patternTableAllViewOne",
         components: {MyPagination},
+        props:["sourceId"],
         data() {
             return {
                 allTable: true,
@@ -574,7 +574,7 @@
         },
 
         mounted() {
-            AXIOS.get("tableCreator/getAll").then(response => {
+            AXIOS.get("tableCreator/getAllBySource/" + this.sourceId).then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.patternTableData = response.data.content;

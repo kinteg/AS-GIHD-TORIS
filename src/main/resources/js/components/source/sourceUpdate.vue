@@ -1,227 +1,71 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-        <p style="font-size: 20px">Просмотр</p>
+        <p style="font-size: 20px">Изменение источника</p>
         <div>
-            <el-tabs v-model="activeName">
-                <el-tab-pane label="Источник" name="sourceInfo">
-                    <el-row :gutter="20">
-                        <el-col :span="6">
-                            <div class="grid-content bg-purple">
-                                <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
-                                    <el-form-item prop="name" label="Поставщик данных">
-                                        <el-input  v-model="source.name"></el-input>
-                                    </el-form-item>
-                                    <el-form-item prop="longName" label="Полное наименование набора">
-                                        <el-input v-model="source.longName"></el-input>
-                                    </el-form-item>
-                                    <el-form-item prop="shortName" label="Краткое наименование набора">
-                                        <el-input v-model="source.shortName"></el-input>
-                                    </el-form-item>
-                                </el-form>
-                            </div>
-                        </el-col>
-                        <el-col :span="6">
-                            <div class="grid-content bg-purple">
-                                <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
-                                    <el-form-item prop="description" label="Описание">
-                                        <el-input v-model="source.description"></el-input>
-                                    </el-form-item>
-                                    <el-form-item prop="addDescription" label="Дополнительное описание">
-                                        <el-input v-model="source.addDescription"></el-input>
-                                    </el-form-item>
-                                    <el-form-item prop="scope" label="Сфера (направление)">
-                                        <el-input v-model="source.scope"></el-input>
-                                    </el-form-item>
-                                </el-form>
-                            </div>
-                        </el-col>
-                        <el-col :span="6">
-                            <div class="grid-content bg-purple">
-                                <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
-                                    <el-form-item prop="periodicity" label="Периодичность актуализации">
-                                        <el-input v-model="source.periodicity"></el-input>
-                                    </el-form-item>
-                                    <el-form-item prop="renewalPeriod" label="Срок обновления набора данных">
-                                        <el-input v-model="source.renewalPeriod"></el-input>
-                                    </el-form-item>
-                                    <el-form-item prop="type" label="Вид набора">
-                                        <el-input v-model="source.type"></el-input>
-                                    </el-form-item>
-                                </el-form>
-                            </div>
-                        </el-col>
-                        <el-col :span="6">
-                            <div class="grid-content bg-purple">
-                                <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
-                                    <el-form-item prop="tags" label="Ключевые слова (теги)">
-                                        <el-input v-model="source.tags"></el-input>
-                                    </el-form-item>
-                                    <el-form-item prop="providerLink" label="Источник данных">
-                                        <el-input v-model="source.providerLink"></el-input>
-                                    </el-form-item>
-                                    <el-form-item prop="dataSource" label="Ссылка на данные на сайте поставщика">
-                                        <el-input v-model="source.dataSource"></el-input>
-                                    </el-form-item>
-                                </el-form>
-                            </div>
-                        </el-col>
-                    </el-row>
-                    <el-button @click="updateSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Изменить</el-button>
-                    <el-button @click="backTable" style="margin-right: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-                </el-tab-pane>
-                <el-tab-pane label="Шаблоны" name="patternInfo">
-                    <div v-if="hiddenTable"  style="background-color: white; padding: 0 5px 0 0;  border-radius: 5px; " >
-                        <p style="font-size: 20px">Все шаблоны
-                            <el-button class="plus" @click="addPattern" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
-                        </p>
-                        <table style="display: block; overflow-x: auto; ">
-                            <tr>
-                                <th></th>
-                                <th @click="sort('id')">Номер</th>
-                                <th @click="sort('name')">Навание</th>
-                                <th @click="sort('description')">Описание</th>
-                                <th @click="sort('direction')">Направление </th>
-                                <th @click="sort('management')">Ответсвенный за ведение </th>
-                                <th @click="sort('archive')">Архивность</th>
-                                <th @click="sort('date_creation')">Дата создания</th>
-                                <th @click="sort('date_deactivation')">Дата деактивации</th>
-                                <th @click="sort('date_activation')">Дата активации</th>
-                                <th @click="sort('last_update')">Последнее обновление</th>
-                            </tr>
-                            <tr>
-                                <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
-                                <td><el-input placeholder="Please input" v-model="pattern.id"></el-input></td>
-                                <td><el-input placeholder="Please input" v-model="pattern.name"></el-input></td>
-                                <td><el-input placeholder="Please input" v-model="pattern.description"></el-input></td>
-                                <td><el-input placeholder="Please input" v-model="pattern.direction"></el-input></td>
-                                <td><el-input placeholder="Please input" v-model="pattern.management"></el-input></td>
-                                <td>
-                                    <el-select v-model="value" placeholder="Select">
-                                        <el-option
-                                                v-for="item in options"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
-                                    </el-select>
-                                </td>
-                                <td> <div class="block">
-                                    <el-date-picker
-                                            value-format="yyyy-MM-dd"
-                                            v-model="pattern.dateCreation"
-                                            type="daterange"
-                                            range-separator="To"
-                                            start-placeholder="Start date"
-                                            end-placeholder="End date">
-                                    </el-date-picker>
-                                </div></td>
-                                <td> <div class="block">
-                                    <el-date-picker
-                                            value-format="yyyy-MM-dd"
-                                            v-model="pattern.dateDeactivation"
-                                            type="daterange"
-                                            range-separator="To"
-                                            start-placeholder="Start date"
-                                            end-placeholder="End date">
-                                    </el-date-picker>
-                                </div></td>
-                                <td> <div class="block">
-                                    <el-date-picker
-                                            value-format="yyyy-MM-dd"
-                                            v-model="pattern.dateActivation"
-                                            type="daterange"
-                                            range-separator="To"
-                                            start-placeholder="Start date"
-                                            end-placeholder="End date">
-                                    </el-date-picker>
-                                </div></td>
-                                <td> <div class="block">
-                                    <el-date-picker
-                                            value-format="yyyy-MM-dd"
-                                            v-model="pattern.lastUpdate"
-                                            type="daterange"
-                                            range-separator="To"
-                                            start-placeholder="Start date"
-                                            end-placeholder="End date">
-                                    </el-date-picker>
-                                </div></td>
-                            </tr>
-                            <tbody v-for="pattern in patternData">
-                            <tr>
-                                <td>
-                                    <span v-if="pattern.isArchive">
-                                        <el-button @click="deArchiveOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
-                                    </span>
-                                    <span v-else>
-                                        <el-button @click="deleteOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
-                                    </span>
-                                    <br>
-                                    <el-button @click="openPatternUpdate(pattern.id)" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
-                                    <br>
-                                    <el-button @click="patternView(pattern.id)" style="background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
-                                </td>
-                                <td>{{pattern.id}}</td>
-                                <td>{{pattern.name}}</td>
-                                <td>{{pattern.description}}</td>
-                                <td>{{pattern.direction}}</td>
-                                <td>{{pattern.management}}</td>
-                                <td>{{pattern.isArchive ? "Да" : "Нет"}}</td>
-                                <td>{{pattern.dateCreation}}</td>
-                                <td>{{pattern.dateDeactivation}}</td>
-                                <td>{{pattern.dateActivation}}</td>
-                                <td>{{pattern.lastUpdate}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <my-pagination
-                                :page-size="pagination.pageSize"
-                                :current-page="pagination.currentPage"
-                                :totalPages="pagination.totalPages"
-                                :totalElements="pagination.totalElements"
-                                @onCurrentChange="onCurrentChange"
-                                @onSizeChange="onSizeChange"/>
+            <el-row :gutter="20">
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                            <el-form-item prop="name" label="Поставщик данных">
+                                <el-input  v-model="source.name"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="longName" label="Полное наименование набора">
+                                <el-input v-model="source.longName"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="shortName" label="Краткое наименование набора">
+                                <el-input v-model="source.shortName"></el-input>
+                            </el-form-item>
+                        </el-form>
                     </div>
-                    <div v-else-if="hiddenUpdate">
-                        <el-row :gutter="20">
-                            <el-col :span="12">
-                                <div>
-                                    <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
-                                        <el-form-item prop="name" label="Название">
-                                            <el-input v-model="pattern.name"></el-input>
-                                        </el-form-item>
-                                        <el-form-item prop="description" label="Описание">
-                                            <el-input v-model="pattern.description"></el-input>
-                                        </el-form-item>
-                                    </el-form>
-                                </div>
-                            </el-col>
-                            <el-col :span="12">
-                                <div>
-                                    <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
-                                        <el-form-item prop="direction" label="Направление:">
-                                            <el-input v-model="pattern.direction"></el-input>
-                                        </el-form-item>
-                                        <el-form-item prop="management" label="Отвтественный за ведение:">
-                                            <el-input v-model="pattern.management"></el-input>
-                                        </el-form-item>
-                                    </el-form>
-                                </div>
-                            </el-col>
-                        </el-row>
-                        <el-button @click="backUpdate" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-                        <el-button @click="updatePattern" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                            <el-form-item prop="description" label="Описание">
+                                <el-input v-model="source.description"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="addDescription" label="Дополнительное описание">
+                                <el-input v-model="source.addDescription"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="scope" label="Сфера (направление)">
+                                <el-input v-model="source.scope"></el-input>
+                            </el-form-item>
+                        </el-form>
                     </div>
-                    <div v-if="hiddenView">
-                        <pattern-view :pattern-id="this.patternId" />
-                        <el-button @click="backView" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                            <el-form-item prop="periodicity" label="Периодичность актуализации">
+                                <el-input v-model="source.periodicity"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="renewalPeriod" label="Срок обновления набора данных">
+                                <el-input v-model="source.renewalPeriod"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="type" label="Вид набора">
+                                <el-input v-model="source.type"></el-input>
+                            </el-form-item>
+                        </el-form>
                     </div>
-                    <div v-else-if="hiddenAdd">
-                        <pattern-create :source-id="this.sourceId"/>
-                        <br>
-                        <el-button @click="backAdd" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                            <el-form-item prop="tags" label="Ключевые слова (теги)">
+                                <el-input v-model="source.tags"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="providerLink" label="Источник данных">
+                                <el-input v-model="source.providerLink"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="dataSource" label="Ссылка на данные на сайте поставщика">
+                                <el-input v-model="source.dataSource"></el-input>
+                            </el-form-item>
+                        </el-form>
                     </div>
-                </el-tab-pane>
-            </el-tabs>
+                </el-col>
+            </el-row>
+            <el-button @click="updateSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Изменить</el-button>
+            <el-button @click="backTable" style="margin-right: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
         </div>
     </div>
 </template>
@@ -679,7 +523,7 @@
             },
 
             backTable(){
-                this.updatePage()
+                this.updatePage();
                 router.push({name:'show'});
             },
 

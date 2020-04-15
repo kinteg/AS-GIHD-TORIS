@@ -58,6 +58,7 @@ public class DataSenderServiceImpl implements DataSenderService {
                         || id < 0
                         || !patternTableRepo.existsById(id)
                         || patternTableRepo.findById((long) id).getIsArchive()
+                        || !patternTableRepo.findById((long) id).getIsActive()
         ) {
             return false;
         } else {

@@ -112,6 +112,4 @@ public class FileLoaderController {
         return dataSenderService.sendDates(multipartFile, id);
     }
 
-
-
 }

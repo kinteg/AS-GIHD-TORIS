@@ -101,24 +101,24 @@
                         </tr>
                         <tr v-for="tableVersion in patternTableVersion.content">
                             <td>
-                                <router-link :to="'patternTable/show/' + tableVersion.id">
-                                    <el-button  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
+                                <router-link :to="'/patternTable/show/' + tableVersion.id">
+                                    <el-button @click="viewVersion(tableVersion.id)" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
                                 </router-link>
                             </td>
                             <td>{{tableVersion.version}}</td>
                         </tr>
                     </table>
-<!--                    <el-pagination-->
-<!--                            style="margin: 10px auto; text-align: center "-->
-<!--                            class="pager"-->
-<!--                            background-->
-<!--                            layout="prev, pager, next"-->
-<!--                            :page-size="pagination.pageSize"-->
-<!--                            :page-count="pagination.totalPages"-->
-<!--                            :current-page="pagination.currentPage"-->
-<!--                            @current-change="onCurrentChange"-->
-<!--                            :total="pagination.totalElements">-->
-<!--                    </el-pagination>-->
+                    <el-pagination
+                            style="margin: 10px auto; text-align: center "
+                            class="pager"
+                            background
+                            layout="prev, pager, next"
+                            :page-size="paginationVersion.pageSize"
+                            :page-count="paginationVersion.totalPages"
+                            :current-page="paginationVersion.currentPage"
+                            @current-change="onCurrentChangeVersion"
+                            :total="paginationVersion.totalElements">
+                    </el-pagination>
                 </div>
             </el-col>
         </el-row>
@@ -126,6 +126,7 @@
 </template>
 
 <script>
+    import router from "../../router/router";
     import MyPagination from "../general/pagination.vue";
     import {AXIOS} from "../../AXIOS/http-common";
     export default {
@@ -134,6 +135,7 @@
         props:['tableId'],
         data() {
             return {
+                tableName:"",
                 patternTableVersion:"",
                 patternTableFile:"",
                 patternTableLog:"",
@@ -145,6 +147,15 @@
                     totalPages: 0,
                     totalElements: 0,
                 },
+
+                paginationVersion: {
+                    pageSize: 5,
+                    currentPage: 1,
+                    totalPages: 0,
+                    totalElements: 0,
+                    pagerCount: 2,
+                },
+
                 pagination:{
                     pageSize: 5,
                     currentPage: 1,
@@ -156,6 +167,10 @@
         },
 
         methods:{
+            viewVersion(id){
+                router.push({name: "patternTable/show/" + id});
+            },
+
             updatePage(){
                 let formData = new FormData();
                 formData.append("id", this.patternTableId);
@@ -225,6 +240,14 @@
                 })
             },
 
+            onCurrentChangeVersion(value){
+                this.paginationVersion.currentPage = value;
+                let currentPage = this.paginationVersion.currentPage - 1;
+                AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName +"&size=" + this.paginationVersion.pageSize + "&page=" + currentPage).then(response => {
+                    this.patternTableVersion = response.data.content;
+                })
+            },
+
             onSizeChangeOneTable(value){
                 this.paginationOneTable.pageSize = value;
                 this.paginationOneTable.currentPage = 1;
@@ -257,7 +280,13 @@
                 this.paginationOneTable.totalPages = response.data.values.totalPages;
                 this.paginationOneTable.totalElements = response.data.values.totalElements;
                 this.showOnlyOneTable = response.data;
-
+                this.tableName = response.data.tableModel.tableName;
+                AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName + "&size=" + this.paginationVersion.pageSize).then(response => {
+                    this.patternTableVersion = response.data;
+                    console.log(response);
+                    this.paginationVersion.totalPages = response.data.totalPages;
+                    this.paginationVersion.totalElements = response.data.totalElements;
+                });
             });
 
             AXIOS.get("patternTableLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize).then(response => {
@@ -270,10 +299,7 @@
                 this.patternTableFile = response.data;
             });
 
-            AXIOS.get("tableCreator/getAllOldVersions?oldName=wknydmaotlhcciy").then(response => {
-                this.patternTableVersion = response.data;
-                console.log(this.patternTableVersion)
-            });
+
         }
     }
 </script>

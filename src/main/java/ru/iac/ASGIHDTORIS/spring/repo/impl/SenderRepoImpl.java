@@ -80,6 +80,7 @@ public class SenderRepoImpl implements SenderRepo {
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(query);
         } catch (SQLException e) {
+            log.error(query);
             log.error(e.getMessage());
             return false;
         }
@@ -110,6 +111,10 @@ public class SenderRepoImpl implements SenderRepo {
     private String createUpdate(List<DataModel> keys, List<String> values) {
         String update = SQL_UPDATE;
 
+        String id = createId(keys);
+        if (id == null || id == "") {
+            return "";
+        }
         update = update.replaceFirst(ID_REGEX, createId(keys));
         update = update.replaceFirst(KEYS_VALUES_REGEX, createKeyAndValue(keys, values));
 

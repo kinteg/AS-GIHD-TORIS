@@ -201,6 +201,7 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
+                        console.log(response);
                     if(response.data.status === "OK"){
                         AXIOS.post("fileLoader/sendData/",
                             formData,
@@ -212,7 +213,7 @@
                             this.notify('Успешно','Данные были загружены','success');
                             this.updatePage();
                         });
-                    } else if (response.data.status === "WARNING"){
+                    } else if (response.data.status === "WARN"){
                         this.$confirm('В табличке больше полей, чем в файле. Хотите ли вы загрузить данные?', 'Предупреждение', {
                             confirmButtonText: 'Обновить поля таблицы',
                             cancelButtonText: 'Загрузить',
@@ -231,7 +232,7 @@
                                 this.updatePage();
                             });
                         });
-                    } else if (response.data.status === "WARNING") {
+                    } else if (response.data.status === "ERROR") {
                         this.$confirm('В табличке меньше полей, чем в файле. Возможна утечка данных. Хотите ли вы обновить табличку?', 'Предупреждение', {
                             confirmButtonText: 'Обновить поля таблицы',
                             cancelButtonText: 'Отмена',

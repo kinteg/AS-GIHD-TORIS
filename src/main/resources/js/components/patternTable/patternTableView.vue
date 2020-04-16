@@ -191,7 +191,6 @@
 
             sendFiles(file, fileList){
                 let formData = new FormData();
-                console.log(this.patternTableId);
 
                 formData.append("file",file.raw);
                 formData.append("patternTableId", this.patternTableId);
@@ -202,7 +201,7 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-                    if(response === "OK"){
+                    if(response.data.status === "OK"){
                         AXIOS.post("fileLoader/sendData/",
                             formData,
                             {
@@ -213,6 +212,8 @@
                             this.notify('Успешно','Данные были загружены','success');
                             this.updatePage();
                         });
+                    } else if (response.data.status === "WARNING"){
+
                     }
                 });
             },

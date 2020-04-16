@@ -213,16 +213,31 @@
                             this.updatePage();
                         });
                     } else if (response.data.status === "WARNING"){
-                        this.$confirm('', 'Назад', {
-                            confirmButtonText: 'Да',
-                            cancelButtonText: 'Нет',
+                        this.$confirm('В табличке больше полей, чем в файле. Хотите ли вы загрузить данные?', 'Предупреждение', {
+                            confirmButtonText: 'Обновить поля таблицы',
+                            cancelButtonText: 'Загрузить',
                             type: 'warning'
                         }).then(() => {
-                            this.pattern = "";
-                            this.viewPattern = true;
-                            this.updatePage();
+                            router.push({name: "PatternTableUpdate"})
                         }).catch(() => {
-
+                            AXIOS.post("fileLoader/sendData/",
+                                formData,
+                                {
+                                    headers: {
+                                        'Content-Type': 'multipart/form-data'
+                                    }
+                                }).then(response => {
+                                this.notify('Успешно','Данные были загружены','success');
+                                this.updatePage();
+                            });
+                        });
+                    } else if (response.data.status === "WARNING") {
+                        this.$confirm('В табличке меньше полей, чем в файле. Возможна утечка данных. Хотите ли вы обновить табличку?', 'Предупреждение', {
+                            confirmButtonText: 'Обновить поля таблицы',
+                            cancelButtonText: 'Отмена',
+                            type: 'error'
+                        }).then(() => {
+                            router.push({name: "PatternTableUpdate"})
                         });
                     }
                 });

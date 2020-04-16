@@ -201,7 +201,6 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-                        console.log(response);
                     if(response.data.status === "OK"){
                         AXIOS.post("fileLoader/sendData/",
                             formData,

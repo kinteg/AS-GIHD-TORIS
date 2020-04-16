@@ -213,7 +213,17 @@
                             this.updatePage();
                         });
                     } else if (response.data.status === "WARNING"){
+                        this.$confirm('', 'Назад', {
+                            confirmButtonText: 'Да',
+                            cancelButtonText: 'Нет',
+                            type: 'warning'
+                        }).then(() => {
+                            this.pattern = "";
+                            this.viewPattern = true;
+                            this.updatePage();
+                        }).catch(() => {
 
+                        });
                     }
                 });
             },
@@ -245,7 +255,8 @@
                 this.paginationVersion.currentPage = value;
                 let currentPage = this.paginationVersion.currentPage - 1;
                 AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName +"&size=" + this.paginationVersion.pageSize + "&page=" + currentPage).then(response => {
-                    this.patternTableVersion = response.data.content;
+                    console.log(response);
+                    this.patternTableVersion = response.data;
                 })
             },
 

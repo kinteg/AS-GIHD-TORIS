@@ -92,7 +92,9 @@
                     <tbody v-for="table in patternTableData">
                     <tr>
                         <td>
-                            <el-button @click="showOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                            <router-link :to="'/patternTable/show/' + table.id">
+                                <el-button @click="showOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                            </router-link>
                             <span v-if="table.isArchive">
                             <el-button @click="deArchiveOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
                         </span>

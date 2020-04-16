@@ -126,6 +126,7 @@ public class TableCreatorServiceImpl implements TableCreatorService {
 
         String oldName = patternTable.getNameTable();
         patternTable.setNameTable(patternTable.getNameTable() + "_v" + patternTable.getVersion());
+        patternTable.setOldName(oldName);
         String newName = patternTable.getNameTable();
 
         killOldTable(oldName, newName);

@@ -59,6 +59,7 @@ create table pattern_table
     version           int8,
     active            boolean,
     date_kill         timestamp,
+    old_name          text,
     archive           boolean,
     primary key (id),
     foreign key (pattern_id) references pattern (id)

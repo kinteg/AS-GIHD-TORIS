@@ -99,13 +99,13 @@
                             </th>
                             <th>Версия</th>
                         </tr>
-                        <tr v-for="tableVersion in patternTableVersion">
+                        <tr v-for="tableVersion in patternTableVersion.content">
                             <td>
-                                <router-link :to="'patternTable/show/' + tableVersion.tableId">
+                                <router-link :to="'patternTable/show/' + tableVersion.id">
                                     <el-button  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
                                 </router-link>
                             </td>
-                            <td>tableVersion.version</td>
+                            <td>{{tableVersion.version}}</td>
                         </tr>
                     </table>
 <!--                    <el-pagination-->
@@ -270,8 +270,9 @@
                 this.patternTableFile = response.data;
             });
 
-            AXIOS.get("").then(response => {
+            AXIOS.get("tableCreator/getAllOldVersions?oldName=wknydmaotlhcciy").then(response => {
                 this.patternTableVersion = response.data;
+                console.log(this.patternTableVersion)
             });
         }
     }

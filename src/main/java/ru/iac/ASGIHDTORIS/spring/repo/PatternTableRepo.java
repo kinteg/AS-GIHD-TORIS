@@ -30,6 +30,8 @@ public interface PatternTableRepo extends JpaRepository<PatternTable, Long> {
 
     PatternTable findByNameTable(String nameTable);
 
+    Page<PatternTable> findAllByOldNameAndIsActive(String oldName, boolean active, Pageable pageable);
+
     boolean existsBySourceId(long id);
 
     boolean existsByPatternId(long id);

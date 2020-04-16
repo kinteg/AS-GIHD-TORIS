@@ -63,19 +63,14 @@ public class FileServiceImpl implements FileService {
                     findFile = parser.getFile(file, fileName);
                     parser.close();
                 }
-
             } catch (Exception e) {
                 log.error(e.getMessage());
                 findFile = null;
-            } finally {
-                file.delete();
             }
 
         } else if (file.getName().equals(fileName)){
             findFile = file;
-            file.delete();
         } else {
-            file.delete();
             return null;
         }
 

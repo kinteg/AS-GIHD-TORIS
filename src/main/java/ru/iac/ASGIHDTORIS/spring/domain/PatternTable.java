@@ -49,6 +49,8 @@ public class PatternTable {
     @Column(name = "active")
     private Boolean isActive;
 
+    private String oldName;
+
     public PatternTable(PatternTable patternTable) {
         this.id = patternTable.getId();
         this.nameTable = patternTable.getNameTable();

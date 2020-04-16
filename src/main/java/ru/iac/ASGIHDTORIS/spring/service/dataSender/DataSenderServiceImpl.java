@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.service.dataSender;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class DataSenderServiceImpl implements DataSenderService {
 
     @Value("${upload.path.pattern}")
@@ -122,8 +124,8 @@ public class DataSenderServiceImpl implements DataSenderService {
 
             File targetFile = fileService.getFile(file, patternTable.getNameFile());
             int tableColumnSize = columnExporterRepo.exportDataModel(patternTable.getNameTable()).size();
-            FileParser fileParser = FileParserFactory.getParser(FilenameUtils.getExtension(file.getName()));
-            Reader reader = fileParser.createReader(file);
+            FileParser fileParser = FileParserFactory.getParser(FilenameUtils.getExtension(targetFile.getName()));
+            Reader reader = fileParser.createReader(targetFile);
             int fileColumnSize = getNamesColumn(reader).size();
             FileStatusModel fileStatusModel;
 
@@ -157,6 +159,7 @@ public class DataSenderServiceImpl implements DataSenderService {
             }
 
             file.delete();
+            log.info(fileStatusModel.getStatus());
             return fileStatusModel;
         }
     }

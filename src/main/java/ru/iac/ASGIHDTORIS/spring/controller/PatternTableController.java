@@ -4,6 +4,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModelList;
@@ -103,6 +104,11 @@ public class PatternTableController {
     @Cacheable(cacheNames = "getByPatternTableId")
     public PatternTable getById(@PathVariable Long id) {
         return patternTableRepo.findById((long) id);
+    }
+
+    @GetMapping("/getAllOldVersions")
+    public Page<PatternTable> getAllOldVersions(@RequestParam String oldName, @PageableDefault(sort = "dateKill", direction = Sort.Direction.DESC) Pageable pageable) {
+        return patternTableRepo.findAllByOldNameAndIsActive(oldName, false, pageable);
     }
 
     @GetMapping("/getAll")

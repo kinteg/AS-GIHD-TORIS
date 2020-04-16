@@ -54,7 +54,9 @@
                 Назад
             </el-button>
         </router-link>
+        <router-link :to="'/patternTable/show'">
         <el-button @click="updateTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
+        </router-link>
     </div>
 
 </template>
@@ -200,8 +202,8 @@
             formData.append("id", this.patternTableId);
             AXIOS.post("tableCreator/getTable/",formData).then(response => {
                 this.patternTable = response.data.tableModel;
-                this.patternTableName = this.patternTable.filename;
-                this.patternNameFile = this.patternTable.tableName;
+                this.patternTableName = this.patternTable.tableName;
+                this.patternNameFile = this.patternTable.filename;
             });
         }
     }

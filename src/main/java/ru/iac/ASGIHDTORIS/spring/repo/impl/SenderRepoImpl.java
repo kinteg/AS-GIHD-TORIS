@@ -67,6 +67,7 @@ public class SenderRepoImpl implements SenderRepo {
             }
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             log.error(ex.getMessage());
             return false;
         }
@@ -97,9 +98,11 @@ public class SenderRepoImpl implements SenderRepo {
     private String createInsert(String tableName, List<DataModel> keys, List<String> values) {
         String insert = SQL_INSERT;
 
+        int size = Integer.min(keys.size(), values.size());
+
         insert = insert.replaceFirst(TABLE_REGEX, tableName);
-        insert = insert.replaceFirst(KEYS_REGEX, createKey(keys));
-        insert = insert.replaceFirst(VALUES_REGEX, createValue(values));
+        insert = insert.replaceFirst(KEYS_REGEX, createKey(keys, size));
+        insert = insert.replaceFirst(VALUES_REGEX, createValue(values, size));
 
         return insert;
     }
@@ -113,47 +116,46 @@ public class SenderRepoImpl implements SenderRepo {
         return update;
     }
 
-    private String createValue(List<String> values) {
-        return values
-                .stream()
-                .map((v) -> "'" + v.trim() + "'")
-                .collect(Collectors.joining(", "));
+    private String createValue(List<String> values, int size) {
+        List<String> values1 = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+            values1.add("'" + values.get(i).trim() + "'");
+        }
+
+        return String.join(", ", values1);
     }
 
-    private String createKey(List<DataModel> models) {
+    private String createKey(List<DataModel> models, int size) {
         List<String> keys = new ArrayList<>();
 
-        for (DataModel key :
-                models) {
-            keys.add(key.getKey());
+        for (int i = 0; i < size; i++) {
+            keys.add(models.get(i).getKey());
         }
 
         return String.join(", ", keys);
     }
 
     private String createKeyAndValue(List<DataModel> keys, List<String> values) {
-        StringBuilder builder = new StringBuilder();
+        List<String> strings = new ArrayList<>();
 
-        for (int i = 0; i < keys.size(); i++) {
+        for (int i = 0; i < keys.size() && i < values.size(); i++) {
 
             if (keys.get(i).isPrimary()) {
                 continue;
             }
 
-            builder
-                    .append(keys.get(i).getKey())
-                    .append(" = ")
-                    .append("'")
-                    .append(values.get(i))
-                    .append("'");
-
-            if (i != keys.size() - 1) {
-                builder.append(", ");
-            }
+            strings.add(
+                    keys.get(i).getKey() +
+                    " = " +
+                    "'" +
+                    values.get(i) +
+                    "'"
+            );
 
         }
 
-        return builder.toString();
+        return String.join(",", strings);
     }
 
     private String createId(List<DataModel> keys) {

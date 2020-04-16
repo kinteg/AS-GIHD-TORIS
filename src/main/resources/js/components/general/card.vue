@@ -322,7 +322,7 @@
                                         </el-upload>
                                         <router-link :to="'/patternTable/update/'+ patternTableId">
                                             <el-button style=" margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
-                                            Обновить поля
+                                                Обновить поля
                                             </el-button>
                                         </router-link>
                                         <div style="margin-top: 10px; padding-right: 2px;" class="horizontal-scroll-wrapper  rectangles">
@@ -394,6 +394,36 @@
                 </div>
             </el-col>
             <el-col :span="8">
+                <div v-if="showTable" style="margin-top: 20px; background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                    <p style="font-size: 20px">Версии</p>
+                    <table style="overflow-x: auto; ">
+                        <tr>
+                            <th>
+
+                            </th>
+                            <th>Версия</th>
+                        </tr>
+                        <tr v-for="tableVersion in patternTableVersion.content">
+                            <td>
+                                <router-link :to="'/patternTable/show/' + tableVersion.id">
+                                    <el-button @click="viewVersion(tableVersion.id)" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
+                                </router-link>
+                            </td>
+                            <td>{{tableVersion.version}}</td>
+                        </tr>
+                    </table>
+                    <el-pagination
+                            style="margin: 10px auto; text-align: center "
+                            class="pager"
+                            background
+                            layout="prev, pager, next"
+                            :page-size="paginationVersion.pageSize"
+                            :page-count="paginationVersion.totalPages"
+                            :current-page="paginationVersion.currentPage"
+                            @current-change="onCurrentChangeVersion"
+                            :total="paginationVersion.totalElements">
+                    </el-pagination>
+                </div>
             </el-col>
         </el-row>
     </div>
@@ -402,12 +432,23 @@
 <script>
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "./pagination.vue";
+    import router from "../../router/router";
 
     export default {
         name: "card",
         components: {MyPagination},
         data(){
             return{
+                tableName:"",
+                patternTableVersion:"",
+                paginationVersion: {
+                    pageSize: 5,
+                    currentPage: 1,
+                    totalPages: 0,
+                    totalElements: 0,
+                    pagerCount: 2,
+                },
+
                 radio:"",
                 patternFile:"",
                 options: [{
@@ -573,6 +614,15 @@
             }
         },
         methods:{
+            onCurrentChangeVersion(value){
+                this.paginationVersion.currentPage = value;
+                let currentPage = this.paginationVersion.currentPage - 1;
+                AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName +"&size=" + this.paginationVersion.pageSize + "&page=" + currentPage).then(response => {
+                    console.log(response);
+                    this.patternTableVersion = response.data;
+                })
+            },
+
             primaryChange(pole, tableName){
                 if(tableName + pole !== this.primaryKey){
                     document.getElementById(tableName + pole).classList.remove("common");
@@ -650,16 +700,44 @@
                 console.log(file.raw);
                 formData.append("file",file.raw);
                 formData.append("patternId",this.patternId);
-                AXIOS.post("fileLoader/sendDates/",
+                AXIOS.post("fileLoader/checkDates/",
                     formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-                    this.notify('Успешно','Данные были загружены','success');
-                    this.updatePage();
+                    let error = false;
+                    for(let i = 0; i<response.data.length; i++) {
+                        if(response.data[i].status === "ERROR"){
+                            error = true;
+                            this.$alert('В табличке меньше полей, чем в файле. Возможна утечка данных. Обновите поля таблички или измените файл (' + response.data[i].filename + ')', 'Ошибка', {
+                                confirmButtonText: 'OK',
+                            });
+                        } else if (response.data[i].status === "WARN") {
+                            this.$confirm('В табличке больше полей, чем в файле. Хотите продолжить загрузку? Либо вы можете обновить поля таблички или измените файл (' + response.data[i].filename + ')', 'Ошибка', {
+                                confirmButtonText: 'Отменить загрузку',
+                                cancelButtonText: 'Продолжить загрузку',
+                                type: 'warning'
+                            }).then(() => {
+                                error = true;
+                            });
+                        }
+                    }
+                    if(error === false){
+                        AXIOS.post("fileLoader/sendDates/",
+                            formData,
+                            {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            }).then(response => {
+                            this.notify('Успешно','Данные были загружены','success');
+                            this.updatePage();
+                        });
+                    }
                 });
+
             },
 
             deleteTable(id) {
@@ -1045,6 +1123,13 @@
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.patternTableData = response.data.content;
+                this.tableName = response.data.tableModel.tableName;
+                AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName + "&size=" + this.paginationVersion.pageSize).then(response => {
+                    this.patternTableVersion = response.data;
+                    console.log(response);
+                    this.paginationVersion.totalPages = response.data.totalPages;
+                    this.paginationVersion.totalElements = response.data.totalElements;
+                });
             });
 
             AXIOS.get("patternLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize).then(response => {

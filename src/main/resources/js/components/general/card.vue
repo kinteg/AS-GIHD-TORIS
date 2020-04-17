@@ -344,31 +344,16 @@
                 </div>
             </el-col>
             <el-col :span="8">
-                <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-                    <p style="font-size: 20px">История изменений</p>
-                    <table style="overflow-x: auto; ">
-                        <tr>
-                            <th>Дата изменения</th>
-                            <th>Ссылка</th>
-                        </tr>
-                        <tr v-for="log in patternLog">
-                            <td>{{log.dateCreation}}</td>
-                            <td><router-link :to="'/logs/patternLogs/' + log.id">Просмотр</router-link></td>
-                        </tr>
-                    </table>
-                    <el-pagination
-                            style="margin: 10px auto; text-align: center "
-                            class="pager"
-                            background
-                            layout="prev, pager, next"
-                            :page-size="pagination.pageSize"
-                            :page-count="pagination.totalPages"
-                            :current-page="pagination.currentPage"
-                            :pager-count="pagination.pagerCount"
-                            @current-change="onCurrentChange"
-                            :total="pagination.totalElements">
-                    </el-pagination>
+                <div v-if="activeName === 'patternInfo'">
+                    <pattern-log-card :pattern-id="patternId"/>
                 </div>
+                <div v-else-if="activeName === 'sourceInfo'">
+                    <source-log-card :source-id="sourceId"/>
+                </div>
+                <div v-else-if="patternTableId !== '' && activeName === 'tableInfo' ">
+                    <pattern-table-log-card :pattern-table-id="patternTableId"/>
+                </div>
+
             </el-col>
         </el-row>
         <el-row :gutter="20">
@@ -433,10 +418,13 @@
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "./pagination.vue";
     import router from "../../router/router";
+    import PatternLogCard from "../logs/patternLogCard.vue";
+    import SourceLogCard from "../logs/sourceLogCard.vue";
+    import PatternTableLogCard from "../logs/patternTableLogCard.vue";
 
     export default {
         name: "card",
-        components: {MyPagination},
+        components: {PatternTableLogCard, SourceLogCard, PatternLogCard, MyPagination},
         data(){
             return{
                 tableName:"",
@@ -737,7 +725,6 @@
                         });
                     }
                 });
-
             },
 
             deleteTable(id) {
@@ -804,6 +791,7 @@
                     }).catch(() => {
                     });
                 } else {
+                    this.patternTableId = "";
                     this.isMainPage = true;
                     this.viewTable = true;
                     this.updateTable = false;

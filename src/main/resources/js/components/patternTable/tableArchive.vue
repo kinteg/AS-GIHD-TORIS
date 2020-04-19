@@ -2,8 +2,6 @@
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <div v-if="allTable">
             <p style="font-size: 20px">Архивные таблицы
-                <!--                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
-                <!--                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
                 <el-dropdown style="float: right" :hide-on-click="false">
                     <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                     </el-button>

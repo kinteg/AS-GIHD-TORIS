@@ -280,7 +280,7 @@
                                             <el-input style="padding-bottom: 10px;" v-model="oneTable.tableModel.tableName" placeholder="Название таблицы"></el-input>
                                             <el-form v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
                                                 <el-form-item >
-                                                    <el-button :id="oneTable.tableModel.tableName + pole.key" @click="primaryChange(pole.key)" class="common" type="primary" size="mini" icon="el-icon-key"></el-button>
+                                                    <el-button :id="oneTable.tableModel.tableName + pole.key" @click="primaryChange(oneTable.tableModel.tableName, pole.key)" class="common" type="primary" size="mini" icon="el-icon-key"></el-button>
                                                 </el-form-item>
                                                 <el-form-item >
                                                     <el-input v-model="pole.key" placeholder="Approved by"></el-input>
@@ -427,6 +427,7 @@
         components: {PatternTableLogCard, SourceLogCard, PatternLogCard, MyPagination},
         data(){
             return{
+                primaryKey:"",
                 tableName:"",
                 patternTableVersion:"",
                 paginationVersion: {
@@ -611,7 +612,7 @@
                 })
             },
 
-            primaryChange(pole, tableName){
+            primaryChange(tableName, pole){
                 if(tableName + pole !== this.primaryKey){
                     document.getElementById(tableName + pole).classList.remove("common");
                     document.getElementById(tableName + pole).classList.add("primary");

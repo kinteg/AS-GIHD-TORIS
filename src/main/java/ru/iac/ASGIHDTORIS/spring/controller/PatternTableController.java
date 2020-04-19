@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo2;
 import ru.iac.ASGIHDTORIS.spring.service.patterTable.PatternTableService;
 
 import java.util.List;
-
+@Slf4j
 @RequestMapping("api/tableCreator/")
 @RestController
 public class PatternTableController {
@@ -92,6 +93,7 @@ public class PatternTableController {
             @ModelAttribute SearchModel searchModel,
             @PageableDefault Pageable pageable
     ) {
+        log.info(searchModel.toString());
         return patternTableService.getTable(id, searchModel, pageable);
     }
 

@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -13,7 +14,7 @@ import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo2;
 import ru.iac.ASGIHDTORIS.spring.service.source.SourceService;
-
+@Slf4j
 @RequestMapping("api/source/")
 @RestController
 @EnableAspectJAutoProxy
@@ -63,6 +64,7 @@ public class SourceController {
     @PostMapping("/getAllSort")
     public Page<Source> getAllSort(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         source.setHelpModel(helpModel);
+        log.info(source.toString());
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
 

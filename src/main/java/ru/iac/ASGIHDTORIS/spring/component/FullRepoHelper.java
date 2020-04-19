@@ -39,6 +39,7 @@ public class FullRepoHelper<T> {
     }
 
     public List<T> getAll(String selectQuery, MapSqlParameterSource params, Mapper<List<T>> mapper) {
+        log.info(selectQuery);
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(

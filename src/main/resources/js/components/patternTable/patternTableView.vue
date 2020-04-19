@@ -3,7 +3,7 @@
         <el-row :gutter="20">
             <el-col :span="16">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-                    <p style="font-size: 20px">Просмотр таблицы
+                    <p style="font-size: 20px">Просмотр таблицы {{showOnlyOneTable.tableModel.tableName}}
                         <el-upload
                                 style="float: right;"
                                 class="upload-demo"
@@ -23,9 +23,17 @@
                     <div class="horizontal-scroll-wrapper  rectangles">
                         <table style="display: block; overflow-x: auto;">
                             <tr>
-                                <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
+                                <th></th>
+                                <th @click="sort(pole.key)" v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
+                            </tr>
+                            <tr>
+                                <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
+                                <td v-for="serchPole in oneTable">
+                                    <input type="text" class="input" :id="serchPole.key"/>
+                                </td>
                             </tr>
                             <tr v-for="value in showOnlyOneTable.values.content">
+                                <td></td>
                                 <td v-for="oneValue in value">{{oneValue}}</td>
                             </tr>
                         </table>
@@ -36,7 +44,6 @@
                                 :totalElements="paginationOneTable.totalElements"
                                 @onCurrentChange="onCurrentChangeOneTable"
                                 @onSizeChange="onSizeChangeOneTable"/>
-                        <!--            <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>-->
                     </div>
                 </div>
             </el-col>
@@ -135,6 +142,9 @@
         props:['tableId'],
         data() {
             return {
+                sorted:"",
+                key:"",
+                oneTable:"",
                 tableName:"",
                 patternTableVersion:"",
                 patternTableFile:"",
@@ -167,8 +177,52 @@
         },
 
         methods:{
+            sort(key){
+                let formData = new FormData();
+                let keys = [];
+                let values = [];
+                formData.append("id", this.patternTableId);
+
+                for(let i = 0; i< this.oneTable.length; i++){
+                    if(document.getElementById(this.oneTable[i].key).value !== ""){
+                        keys.push(this.oneTable[i].key);
+                        values.push(document.getElementById(this.oneTable[i].key).value)
+                    }
+                }
+                if(this.key === key ) {
+                    switch(this.sorted) {
+                        case "":
+                            this.sorted = "asc";
+                            break;
+                        case "asc":
+                            this.sorted = "desc";
+                            break;
+                        case "desc":
+                            this.sorted = "";
+                            break;
+                    }
+                }
+                else {
+                    this.key = key;
+                    this.sorted = "asc";
+                }
+                formData.append("keys", keys);
+                formData.append("values", values);
+                formData.append("sort",this.sorted);
+                formData.append("nameColumn",this.key);
+                formData.append("size",this.paginationOneTable.pageSize);
+                formData.append("page",this.paginationOneTable.currentPage - 1);
+                AXIOS.post("tableCreator/getTable/",formData).then(response => {
+                    this.paginationOneTable.totalPages = response.data.values.totalPages;
+                    this.paginationOneTable.totalElements = response.data.values.totalElements;
+                    this.showOnlyOneTable = response.data;
+                    this.tableName = response.data.tableModel.tableName;
+                    this.oneTable = response.data.tableModel.models;
+                });
+            },
+
             viewVersion(id){
-                router.push({name: "patternTable/show/" + id});
+                router.push({name: "show/" + id});
             },
 
             updatePage(){
@@ -219,7 +273,7 @@
                             type: 'warning'
                         }).then(() => {
                             router.push({name: "PatternTableUpdate"})
-         и               }).catch(() => {
+                            и               }).catch(() => {
                             AXIOS.post("fileLoader/sendData/",
                                 formData,
                                 {
@@ -276,9 +330,24 @@
             },
 
             onSizeChangeOneTable(value){
+                let formData = new FormData();
+                let keys = [];
+                let values = [];
+                formData.append("id", this.patternTableId);
+
+                for(let i = 0; i< this.oneTable.length; i++){
+                    if(document.getElementById(this.oneTable[i].key).value !== ""){
+                        keys.push(this.oneTable[i].key);
+                        values.push(document.getElementById(this.oneTable[i].key).value)
+                    }
+                }
+
+                formData.append("keys", keys);
+                formData.append("values", values);
+                formData.append("sort",this.sorted);
+                formData.append("nameColumn",this.key);
                 this.paginationOneTable.pageSize = value;
                 this.paginationOneTable.currentPage = 1;
-                let formData = new FormData();
                 formData.append("id",this.patternTableId);
                 formData.append("size",this.paginationOneTable.pageSize);
                 formData.append("page",this.paginationOneTable.currentPage - 1);
@@ -288,8 +357,23 @@
             },
 
             onCurrentChangeOneTable(value){
-                this.paginationOneTable.currentPage = value;
                 let formData = new FormData();
+                let keys = [];
+                let values = [];
+                formData.append("id", this.patternTableId);
+
+                for(let i = 0; i< this.oneTable.length; i++){
+                    if(document.getElementById(this.oneTable[i].key).value !== ""){
+                        keys.push(this.oneTable[i].key);
+                        values.push(document.getElementById(this.oneTable[i].key).value)
+                    }
+                }
+
+                formData.append("keys", keys);
+                formData.append("values", values);
+                formData.append("sort",this.sorted);
+                formData.append("nameColumn",this.key);
+                this.paginationOneTable.currentPage = value;
                 formData.append("id",this.patternTableId);
                 formData.append("size",this.paginationOneTable.pageSize);
                 formData.append("page",this.paginationOneTable.currentPage - 1);
@@ -308,9 +392,10 @@
                 this.paginationOneTable.totalElements = response.data.values.totalElements;
                 this.showOnlyOneTable = response.data;
                 this.tableName = response.data.tableModel.tableName;
+                this.oneTable = response.data.tableModel.models;
+                console.log(response);
                 AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName + "&size=" + this.paginationVersion.pageSize).then(response => {
                     this.patternTableVersion = response.data;
-                    console.log(response);
                     this.paginationVersion.totalPages = response.data.totalPages;
                     this.paginationVersion.totalElements = response.data.totalElements;
                 });
@@ -351,4 +436,25 @@
         height: 50px;
     }
 
+    .input{
+        background-color: #FFF;
+        background-image: none;
+        border-radius: 4px;
+        border: 1px solid #DCDFE6;
+        color: #606266;
+        display: inline-block;
+        width: auto;
+        height: 32px;
+        line-height: 32px;
+        outline: 0;
+        padding: 0 15px;
+        letter-spacing: normal;
+        word-spacing: normal;
+        text-transform: none;
+        text-shadow: none;
+        text-align: start;
+        -webkit-appearance: textfield;
+        -webkit-rtl-ordering: logical;
+        cursor: text;
+    }
 </style>

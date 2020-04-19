@@ -80,8 +80,9 @@ public class TableRepoImpl implements TableRepo {
 
                 valuesQuery.add(" cast(" +
                         keys.get(i).trim() +
-                        " as text) ILIKE :" +
-                        values.get(i).trim()
+                        " as text) ILIKE '%" +
+                        values.get(i).trim() +
+                        "%'"
                 );
 
                 params.addValue(

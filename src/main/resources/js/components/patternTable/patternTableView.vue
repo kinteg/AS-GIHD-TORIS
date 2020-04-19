@@ -273,7 +273,7 @@
                             type: 'warning'
                         }).then(() => {
                             router.push({name: "PatternTableUpdate"})
-                            и               }).catch(() => {
+                                     }).catch(() => {
                             AXIOS.post("fileLoader/sendData/",
                                 formData,
                                 {

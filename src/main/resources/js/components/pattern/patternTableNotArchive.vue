@@ -35,7 +35,7 @@
                     <th v-if="hidden.lastUpdate" @click="sort('last_update')">Последнее обновление</th>
                 </tr>
                 <tr>
-                    <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
+                    <td><el-button @click="sort('')"  style="background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
                     <td></td>
                     <td v-if="hidden.id"><el-input placeholder="Please input" v-model="pattern.id"></el-input></td>
                     <td v-if="hidden.name"><el-input placeholder="Please input" v-model="pattern.name"></el-input></td>

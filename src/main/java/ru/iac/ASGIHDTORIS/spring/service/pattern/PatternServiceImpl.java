@@ -1,13 +1,11 @@
 package ru.iac.ASGIHDTORIS.spring.service.pattern;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.component.ba.BeforeAfter;
 import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
-import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 
 import java.time.LocalDateTime;

@@ -1,6 +1,6 @@
-package ru.iac.ASGIHDTORIS.common.validator.string;
+package ru.iac.ASGIHDTORIS.common.validator.validator.string;
 
-import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
 
 public class ColumnValidator implements Validator<String> {
     private static final int MIN_TEXT_SIZE = 2;

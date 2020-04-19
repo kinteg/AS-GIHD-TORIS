@@ -14,8 +14,4 @@ public interface DataSenderService {
 
     boolean sendDates(MultipartFile multipartFile, Long id) throws IOException;
 
-    FileStatusModel checkData(MultipartFile multipartFile, Long id) throws Exception;
-
-    List<FileStatusModel> checkDates(MultipartFile multipartFile, Long id) throws Exception;
-
 }

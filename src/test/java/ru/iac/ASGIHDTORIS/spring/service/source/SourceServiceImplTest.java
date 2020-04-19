@@ -6,7 +6,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.iac.ASGIHDTORIS.InterfaceTest;
-import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 import ru.iac.ASGIHDTORIS.spring.service.source.logger.SourceLoggerService;

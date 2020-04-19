@@ -103,7 +103,7 @@ public class SourceControllerAspect {
 
     @AfterReturning(value = "callGetById()", returning = "source")
     public void afterReturningCallAtGetById(JoinPoint jp, Source source) {
-        log.info("afterReturning " + jp.toString() + ", return= " + source.toString());
+        log.info("afterReturning " + jp.toString() + ", return= " + source);
     }
 
     @Before("callGetAll()")

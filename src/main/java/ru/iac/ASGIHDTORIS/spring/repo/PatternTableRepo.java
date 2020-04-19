@@ -37,4 +37,6 @@ public interface PatternTableRepo extends JpaRepository<PatternTable, Long> {
     boolean existsByPatternId(long id);
 
     boolean existsByNameTable(String name);
+
+    boolean existsByNameFile(String name);
 }

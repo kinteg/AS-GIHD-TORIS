@@ -117,7 +117,7 @@ public class PatternControllerAspect {
 
     @AfterReturning(value = "callGetById()", returning = "pattern")
     public void afterReturningCallAtGetById(JoinPoint jp, Pattern pattern) {
-        log.info("afterReturning " + jp.toString() + ", return= " + pattern.toString());
+        log.info("afterReturning " + jp.toString() + ", return= " + pattern);
     }
 
     @Before("callGetAll()")

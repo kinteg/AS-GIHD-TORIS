@@ -1,6 +1,6 @@
-package ru.iac.ASGIHDTORIS.common.validator.domain;
+package ru.iac.ASGIHDTORIS.common.validator.validator.domain;
 
-import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 
 public class SourceValidator implements Validator<Source> {

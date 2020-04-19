@@ -3,7 +3,7 @@ package ru.iac.ASGIHDTORIS.spring.service.source;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 import ru.iac.ASGIHDTORIS.spring.service.source.logger.SourceLoggerService;

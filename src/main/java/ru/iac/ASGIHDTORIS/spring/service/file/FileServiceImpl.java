@@ -20,61 +20,16 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public List<File> getFiles(File file) {
-        List<File> files;
+        String extension = FilenameUtils.getExtension(file.getName());
 
-        if (TargetFiles.isArchive(file.getName())) {
-            ArchiveParser parser = ArchiveFactory.getParser(FilenameUtils.getExtension(file.getName()));
-
-            try {
-
-                if (parser == null) {
-                    files = Collections.emptyList();
-                } else {
-                    files = parser.getFiles(file);
-                    parser.close();
-                }
-
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                files = Collections.emptyList();
-            } finally {
-                file.delete();
-            }
-
-        } else {
-            files = Collections.singletonList(file);
-        }
-
-        return files;
+        return getFiles(file, extension);
     }
 
     @Override
     public File getFile(File file, String fileName) {
-        File findFile;
+        String extension = FilenameUtils.getExtension(file.getName());
 
-        if (TargetFiles.isArchive(file.getName())) {
-            ArchiveParser parser = ArchiveFactory.getParser(FilenameUtils.getExtension(file.getName()));
-
-            try {
-
-                if (parser == null) {
-                    findFile = null;
-                } else {
-                    findFile = parser.getFile(file, fileName);
-                    parser.close();
-                }
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                findFile = null;
-            }
-
-        } else if (file.getName().equals(fileName)){
-            findFile = file;
-        } else {
-            return null;
-        }
-
-        return findFile;
+        return getFile(file, fileName, extension);
     }
 
     @Override
@@ -86,5 +41,62 @@ public class FileServiceImpl implements FileService {
             return null;
         }
     }
+
+    private List<File> getFiles(File file, String extension) {
+
+        if (TargetFiles.isArchive(file.getName())) {
+
+            return getFilesFromArchive(file, extension);
+
+        }
+
+        return Collections.singletonList(file);
+    }
+
+    private File getFile(File file, String fileName, String extension) {
+        if (TargetFiles.isArchive(file.getName())) {
+
+            return getFileFromArchive(file, fileName, extension);
+
+        } else if (file.getName().equals(fileName)) {
+
+            return file;
+        }
+
+        return null;
+
+    }
+
+    private List<File> getFilesFromArchive(File file, String extension) {
+        List<File> findFiles;
+
+        try (ArchiveParser parser = ArchiveFactory.getParser(extension)) {
+
+            findFiles = parser.getFiles(file);
+        } catch (Exception e) {
+
+            log.error(e.getMessage());
+            findFiles = Collections.emptyList();
+            ;
+        }
+
+        return findFiles;
+    }
+
+    private File getFileFromArchive(File file, String fileName, String extension) {
+        File findFile;
+
+        try (ArchiveParser parser = ArchiveFactory.getParser(extension)) {
+
+            findFile = parser.getFile(file, fileName);
+        } catch (Exception e) {
+
+            log.error(e.getMessage());
+            findFile = null;
+        }
+
+        return findFile;
+    }
+
 
 }

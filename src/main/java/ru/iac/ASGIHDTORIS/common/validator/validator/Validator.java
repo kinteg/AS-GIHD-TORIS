@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.common.validator;
+package ru.iac.ASGIHDTORIS.common.validator.validator;
 
 import org.springframework.stereotype.Component;
 

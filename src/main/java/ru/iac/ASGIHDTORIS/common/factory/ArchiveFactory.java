@@ -1,6 +1,7 @@
 package ru.iac.ASGIHDTORIS.common.factory;
 
 import ru.iac.ASGIHDTORIS.parser.archive.ArchiveParser;
+import ru.iac.ASGIHDTORIS.parser.archive.impl.ArchiveParserImpl;
 import ru.iac.ASGIHDTORIS.parser.archive.impl.SevenZParser;
 import ru.iac.ASGIHDTORIS.parser.archive.impl.TarParser;
 import ru.iac.ASGIHDTORIS.parser.archive.impl.ZipParser;
@@ -21,7 +22,7 @@ public final class ArchiveFactory {
             case TAR_PARSER:
                 return new TarParser();
             default:
-                return null;
+                return new ArchiveParserImpl();
         }
 
     }

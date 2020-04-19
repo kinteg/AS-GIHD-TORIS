@@ -1,9 +1,9 @@
-package ru.iac.ASGIHDTORIS.common.validator.Model;
+package ru.iac.ASGIHDTORIS.common.validator.validator.model;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModelList;
-import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
 
 import java.util.List;
 

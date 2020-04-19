@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.common.model.file.FileStatusModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
+import ru.iac.ASGIHDTORIS.spring.service.dataChecker.DataCheckerService;
 import ru.iac.ASGIHDTORIS.spring.service.dataSender.DataSenderService;
 import ru.iac.ASGIHDTORIS.spring.service.file.FileService;
 import ru.iac.ASGIHDTORIS.spring.service.parser.FileParserService;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 @RequestMapping("api/fileLoader")
@@ -26,63 +26,53 @@ public class FileLoaderController {
     private final FileParserService fileParserService;
     private final FileService fileService;
     private final DataSenderService dataSenderService;
+    private final DataCheckerService dataCheckerService;
 
-    public FileLoaderController(FileParserService fileParserService, FileService fileService, DataSenderService dataSenderService) {
+    public FileLoaderController(FileParserService fileParserService, FileService fileService, DataSenderService dataSenderService, DataCheckerService dataCheckerService) {
         this.fileParserService = fileParserService;
         this.fileService = fileService;
         this.dataSenderService = dataSenderService;
+        this.dataCheckerService = dataCheckerService;
     }
 
     @PostMapping("/check")
     public List<FullTableModel> uploadFile(
-            @RequestParam(value = "file", required = false)
+            @RequestParam(value = "file", required = true)
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT)
                     Long limit,
-            @RequestParam(value = "sourceId", required = false, defaultValue = "")
+            @RequestParam(value = "sourceId", required = true, defaultValue = "")
                     Long patternId) {
 
-        if (multipartFile == null || patternId == null) {
-            return Collections.emptyList();
-        } else {
-            File file = fileService.convertFile(multipartFile);
-            return file != null ? fileParserService.getFullTable(file, limit, patternId) : Collections.emptyList();
-        }
-
+        File file = fileService.convertFile(multipartFile);
+        return fileParserService.getFullTable(file, limit, patternId);
     }
 
     @PostMapping("/firstUpload")
     public List<FullTableModel> uploadFirstFile(
-            @RequestParam(value = "file", required = false)
+            @RequestParam(value = "file", required = true)
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT)
                     Long limit) {
 
-        if (multipartFile == null) {
-            return Collections.emptyList();
-        } else {
-            return fileParserService.getFullTable(multipartFile, limit);
-        }
 
+        File file = fileService.convertFile(multipartFile);
+        return fileParserService.getFullTable(file, limit);
     }
 
     @PostMapping("/update")
     public FullTableModel uploadUpdateFile(
-            @RequestParam(value = "file", required = false)
+            @RequestParam(value = "file", required = true)
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT)
                     Long limit,
-            @RequestParam(value = "patternTableName", required = false, defaultValue = "")
+            @RequestParam(value = "patternTableName", required = true)
                     String patternTableName,
-            @RequestParam(value = "patternNameFile", required = false, defaultValue = "")
+            @RequestParam(value = "patternNameFile", required = true)
                     String patternNameFile) {
 
-        if (multipartFile == null || patternTableName == null) {
-            return new FullTableModel();
-        } else {
-            return fileParserService.getFullTable(multipartFile, limit, patternTableName, patternNameFile);
-        }
-
+        File file = fileService.convertFile(multipartFile);
+        return fileParserService.getFullTable(file, limit, patternTableName, patternNameFile);
     }
 
     @PostMapping("/sendData")
@@ -115,20 +105,22 @@ public class FileLoaderController {
 
     @PostMapping("/checkData")
     public FileStatusModel checkData(
-            @RequestParam(value = "file", required = false) MultipartFile multipartFile,
-            @RequestParam(value = "patternTableId", required = false, defaultValue = "") Long id
+            @RequestParam(value = "file", required = true) MultipartFile multipartFile,
+            @RequestParam(value = "patternTableId", required = true) Long id
     ) throws Exception {
-        return dataSenderService.checkData(multipartFile, id);
+        File file = fileService.convertFile(multipartFile);
+        return dataCheckerService.checkData(file, id);
     }
 
     @PostMapping("/checkDates")
     public List<FileStatusModel> checkDates(
-            @RequestParam(value = "file", required = false)
+            @RequestParam(value = "file", required = true)
                     MultipartFile multipartFile,
-            @RequestParam(value = "patternId", required = false, defaultValue = "")
+            @RequestParam(value = "patternId", required = true)
                     Long id
     ) throws Exception {
-        return dataSenderService.checkDates(multipartFile, id);
+        File file = fileService.convertFile(multipartFile);
+        return dataCheckerService.checkDates(file, id);
     }
 
 }

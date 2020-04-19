@@ -2,6 +2,7 @@ package ru.iac.ASGIHDTORIS.common.factory;
 
 import ru.iac.ASGIHDTORIS.parser.file.parser.FileParser;
 import ru.iac.ASGIHDTORIS.parser.file.parser.impl.CsvParser;
+import ru.iac.ASGIHDTORIS.parser.file.parser.impl.FileParserImpl;
 import ru.iac.ASGIHDTORIS.parser.file.parser.impl.TxtParser;
 import ru.iac.ASGIHDTORIS.parser.file.parser.impl.XlsxParser;
 
@@ -21,7 +22,7 @@ public final class FileParserFactory {
                 return new XlsxParser();
 
             default:
-                return null;
+                return new FileParserImpl();
         }
 
     }

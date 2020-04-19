@@ -41,7 +41,6 @@ public class DataSenderServiceImpl implements DataSenderService {
     private final PatternRepo patternRepo;
     private final PatternFileRepo patternFileRepo;
     private final PatternTableFileRepo patternTableFileRepo;
-    private final ColumnExporterRepo columnExporterRepo;
 
     public DataSenderServiceImpl(
             FileService fileService,
@@ -49,15 +48,14 @@ public class DataSenderServiceImpl implements DataSenderService {
             PatternTableRepo patternTableRepo,
             PatternRepo patternRepo,
             PatternFileRepo patternFileRepo,
-            PatternTableFileRepo patternTableFileRepo,
-            ColumnExporterRepo columnExporterRepo) {
+            PatternTableFileRepo patternTableFileRepo) {
+
         this.fileService = fileService;
         this.fileSenderService = fileSenderService;
         this.patternTableRepo = patternTableRepo;
         this.patternRepo = patternRepo;
         this.patternFileRepo = patternFileRepo;
         this.patternTableFileRepo = patternTableFileRepo;
-        this.columnExporterRepo = columnExporterRepo;
     }
 
     @Override
@@ -107,85 +105,7 @@ public class DataSenderServiceImpl implements DataSenderService {
 
     }
 
-    @Override
-    public FileStatusModel checkData(MultipartFile multipartFile, Long id) throws Exception {
-        if (
-                multipartFile == null
-                        || id == null
-                        || id < 0
-                        || !patternTableRepo.existsById(id)
-                        || patternTableRepo.findById((long) id).getIsArchive()
-                        || !patternTableRepo.findById((long) id).getIsActive()
-        ) {
-            return null;
-        } else {
-            File file = fileService.convertFile(multipartFile);
-            PatternTable patternTable = patternTableRepo.findById((long) id);
 
-            File targetFile = fileService.getFile(file, patternTable.getNameFile());
-            int tableColumnSize = columnExporterRepo.exportDataModel(patternTable.getNameTable()).size();
-            FileParser fileParser = FileParserFactory.getParser(FilenameUtils.getExtension(targetFile.getName()));
-            Reader reader = fileParser.createReader(targetFile);
-            int fileColumnSize = getNamesColumn(reader).size();
-            FileStatusModel fileStatusModel;
-
-            if (tableColumnSize == fileColumnSize) {
-                fileStatusModel = FileStatusModel
-                        .builder()
-                        .filename(patternTable.getNameFile())
-                        .tableName(patternTable.getNameTable())
-                        .status(Status.OK)
-                        .error("-")
-                        .warn("-")
-                        .build();
-            } else if (tableColumnSize < fileColumnSize) {
-                fileStatusModel = FileStatusModel
-                        .builder()
-                        .filename(patternTable.getNameFile())
-                        .tableName(patternTable.getNameTable())
-                        .status(Status.ERROR)
-                        .error("В табличке меньше полей, чем в файле. Возможна утечка данных.")
-                        .warn("-")
-                        .build();
-            } else {
-                fileStatusModel = FileStatusModel
-                        .builder()
-                        .filename(patternTable.getNameFile())
-                        .tableName(patternTable.getNameTable())
-                        .status(Status.WARN)
-                        .error("-")
-                        .warn("В табличке больше полей, чем в файле.")
-                        .build();
-            }
-
-            file.delete();
-            log.info(fileStatusModel.getStatus());
-            return fileStatusModel;
-        }
-    }
-
-    @Override
-    public List<FileStatusModel> checkDates(MultipartFile multipartFile, Long id) throws Exception {
-        if (
-                multipartFile == null
-                        || id == null
-                        || id < 0
-                        || !patternRepo.existsById(id)
-        ) {
-
-            return null;
-        } else {
-            List<PatternTable> patternTables = patternTableRepo.findAllByPatternIdAndIsArchiveAndIsActive(id, false, true);
-            List<FileStatusModel> fileStatusModels = new ArrayList<>();
-
-            for (PatternTable patternTable :
-                    patternTables) {
-                fileStatusModels.add(checkData(multipartFile, patternTable.getId()));
-            }
-
-            return fileStatusModels;
-        }
-    }
 
     private void uploadPatternTableFiles(MultipartFile file, Long id) throws IOException {
         String fileName = uploadFile(file, uploadPathPatternTable);
@@ -264,11 +184,6 @@ public class DataSenderServiceImpl implements DataSenderService {
         }
 
         return patternFileRepo.countAllByPatternId(id) <= 3 || cleanPatternFiles(id);
-    }
-
-    private List<DataModel> getNamesColumn(Reader reader) throws Exception {
-        List<String> nameColumns = reader.readNext();
-        return ColumnCreator.createColumns(nameColumns);
     }
 
 }

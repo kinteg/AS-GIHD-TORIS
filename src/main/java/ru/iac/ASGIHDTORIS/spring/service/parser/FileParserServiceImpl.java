@@ -4,18 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.FileNameUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.common.factory.FileParserFactory;
-import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
-import ru.iac.ASGIHDTORIS.common.model.table.TableModelCreator;
+import ru.iac.ASGIHDTORIS.common.model.table.TableModelCreatorFromDb;
+import ru.iac.ASGIHDTORIS.common.validator.fileParserValidator.FileParserServiceValidator;
 import ru.iac.ASGIHDTORIS.parser.file.parser.FileParser;
-import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
-import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
-import ru.iac.ASGIHDTORIS.spring.repo.ColumnExporterRepo;
-import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
-import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.spring.service.file.FileService;
 
 import java.io.File;
@@ -27,57 +21,91 @@ import java.util.List;
 @Service
 public class FileParserServiceImpl implements FileParserService {
 
-    private final TableModelCreator tableModelCreator;
-    private final PatternRepo patternRepo;
-    private final PatternTableRepo patternTableRepo;
-    private final ColumnExporterRepo columnExporterRepo;
     private final FileService fileService;
+    private final TableModelCreatorFromDb tableModelCreatorFromDb;
+    private final FileParserServiceValidator fileParserServiceValidator;
 
-    public FileParserServiceImpl(TableModelCreator tableModelCreator, PatternRepo patternRepo, PatternTableRepo patternTableRepo, ColumnExporterRepo columnExporterRepo, FileService fileService) {
-        this.tableModelCreator = tableModelCreator;
-        this.patternRepo = patternRepo;
-        this.patternTableRepo = patternTableRepo;
-        this.columnExporterRepo = columnExporterRepo;
+    public FileParserServiceImpl(
+            FileService fileService,
+            TableModelCreatorFromDb tableModelCreatorFromDb,
+            FileParserServiceValidator fileParserServiceValidator) {
+
         this.fileService = fileService;
+        this.tableModelCreatorFromDb = tableModelCreatorFromDb;
+        this.fileParserServiceValidator = fileParserServiceValidator;
     }
 
     @Override
     public List<FullTableModel> getFullTable(File file, long limit, long patternId) {
-        List<TableModel> tableModels = createTableModels(patternId);
-        List<File> files = fileService.getFiles(file);
-
-        return getFullTableModels(files, tableModels, limit);
-    }
-
-    @Override
-    public List<FullTableModel> getFullTable(MultipartFile multipartFile, long limit) {
-        File file = fileService.convertFile(multipartFile);
-
-        if (file == null) {
+        if (!fileParserServiceValidator.valid(file, limit, patternId)) {
             return Collections.emptyList();
         }
 
-        List<File> files = fileService.getFiles(file);
-
-        return getFullTableModels(files, limit);
+        return createFullTableModel(file, limit, patternId);
     }
 
     @Override
-    public FullTableModel getFullTable(MultipartFile multipartFile, long limit,
-                                       String patternTableName, String patternNameFile) {
+    public List<FullTableModel> getFullTable(File file, long limit) {
+        if (!fileParserServiceValidator.valid(file, limit)) {
+            return Collections.emptyList();
+        }
 
-        File file = fileService.convertFile(multipartFile);
+        return createFullTableModel(file, limit);
+    }
 
-        if (file == null) {
+    @Override
+    public FullTableModel getFullTable(
+            File file, long limit,
+            String patternTableName,
+            String patternNameFile
+    ) {
+        if (!fileParserServiceValidator.valid(file, limit, patternTableName, patternNameFile)) {
             return new FullTableModel();
         }
 
+        return createFullTableModel(file, limit, patternTableName, patternNameFile);
+    }
+
+    private List<FullTableModel> createFullTableModel(File file, long limit, long patternId) {
+        List<TableModel> tableModels = tableModelCreatorFromDb.createTableModels(patternId);
+        List<File> files = fileService.getFiles(file);
+        List<FullTableModel> fullTableModels = getFullTableModels(files, tableModels, limit);
+
+        file.delete();
+
+        return fullTableModels;
+    }
+
+    private List<FullTableModel> createFullTableModel(File file, long limit) {
+        List<File> files = fileService.getFiles(file);
+        List<FullTableModel> fullTableModels = getFullTableModels(files, limit);
+
+        file.delete();
+
+        return fullTableModels;
+    }
+
+    private FullTableModel createFullTableModel(
+            File file, long limit,
+            String patternTableName, String patternNameFile
+    ) {
         file = fileService.getFile(file, patternNameFile);
         FullTableModel fullTableModel = getFullTableModel(file, limit, patternTableName);
+
         file.delete();
+
         return fullTableModel;
     }
 
+    private List<FullTableModel> getFullTableModels(List<File> files, List<TableModel> tableModels, long limit) {
+        List<FullTableModel> fullTableModels = new ArrayList<>();
+
+        for (int i = 0; i < files.size() && i < tableModels.size(); i++) {
+            fullTableModels.add(getFullTableModel(files.get(i), tableModels.get(i), limit));
+        }
+
+        return fullTableModels;
+    }
 
     private List<FullTableModel> getFullTableModels(List<File> files, long limit) {
         List<FullTableModel> fullTableModels = new ArrayList<>();
@@ -85,18 +113,7 @@ public class FileParserServiceImpl implements FileParserService {
         for (File file :
                 files) {
 
-            FullTableModel fullTableModel;
-
-            try {
-                fullTableModel = getFullTableModel(file, limit);
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                fullTableModel = new FullTableModel();
-            } finally {
-                file.delete();
-            }
-
-            fullTableModels.add(fullTableModel);
+            fullTableModels.add(getFullTableModel(file, limit));
         }
 
         return fullTableModels;
@@ -112,17 +129,11 @@ public class FileParserServiceImpl implements FileParserService {
         return fullTableModel;
     }
 
-    private FullTableModel getFullTableModel(File file, long limit) {
-        FileParser fileParser = FileParserFactory.getParser(FilenameUtils.getExtension(file.getName()));
-
-        if (fileParser == null) {
-            return new FullTableModel();
-        }
-
+    private FullTableModel getFullTableModel(File file, TableModel tableModel, long limit) {
         FullTableModel fullTableModel;
 
         try {
-            fullTableModel = fileParser.getFullTable(file, limit);
+            fullTableModel = parseFile(file, tableModel, limit);
         } catch (Exception e) {
             log.error(e.getMessage());
             fullTableModel = new FullTableModel();
@@ -133,69 +144,23 @@ public class FileParserServiceImpl implements FileParserService {
         return fullTableModel;
     }
 
-
-    private List<TableModel> createTableModels(long patternId) {
-        Pattern pattern = patternRepo.findById(patternId);
-        List<PatternTable> patternTables;
-
-        if (pattern != null) {
-            patternTables = patternTableRepo.findAllByPatternIdAndIsActive(pattern.getId(), true);
-        } else {
-            patternTables = Collections.emptyList();
-        }
-
-        List<List<DataModel>> modelList = new ArrayList<>();
-        List<String> tableNames = new ArrayList<>();
-        List<String> fileNames = new ArrayList<>();
-
-        for (PatternTable patternTable :
-                patternTables) {
-
-            modelList.add(columnExporterRepo.exportDataModel(patternTable.getNameTable()));
-            tableNames.add(patternTable.getNameTable());
-            fileNames.add(patternTable.getNameFile());
-        }
+    private FullTableModel getFullTableModel(File file, long limit) {
+        FullTableModel fullTableModel;
 
         try {
-            columnExporterRepo.close();
+            fullTableModel = parseFile(file, limit);
         } catch (Exception e) {
             log.error(e.getMessage());
+            fullTableModel = new FullTableModel();
+        } finally {
+            file.delete();
         }
 
-        tableModelCreator.setTableModel(fileNames, tableNames, modelList);
-
-        return tableModelCreator.getTableModel();
+        return fullTableModel;
     }
 
-    private List<FullTableModel> getFullTableModels(List<File> files, List<TableModel> tableModels, long limit) {
-        List<FullTableModel> fullTableModels = new ArrayList<>();
-
-        for (int i = 0; i < files.size() && i < tableModels.size(); i++) {
-
-            FullTableModel fullTableModel;
-
-            try {
-                fullTableModel = getFullTableModel(files.get(i), tableModels.get(i), limit);
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                fullTableModel = new FullTableModel();
-            } finally {
-                files.get(i).delete();
-            }
-
-            fullTableModels.add(fullTableModel);
-        }
-
-
-        return fullTableModels;
-    }
-
-    private FullTableModel getFullTableModel(File file, TableModel tableModel, long limit) {
+    private FullTableModel parseFile(File file, TableModel tableModel, long limit) {
         FileParser fileParser = FileParserFactory.getParser(FileNameUtils.getExtension(file.getName()));
-
-        if (fileParser == null) {
-            return new FullTableModel();
-        }
 
         FullTableModel fullTableModel;
 
@@ -204,8 +169,21 @@ public class FileParserServiceImpl implements FileParserService {
         } catch (Exception e) {
             log.error(e.getMessage());
             fullTableModel = new FullTableModel();
-        } finally {
-            file.delete();
+        }
+
+        return fullTableModel;
+    }
+
+    private FullTableModel parseFile(File file, long limit) {
+        FileParser fileParser = FileParserFactory.getParser(FilenameUtils.getExtension(file.getName()));
+
+        FullTableModel fullTableModel;
+
+        try {
+            fullTableModel = fileParser.getFullTable(file, limit);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            fullTableModel = new FullTableModel();
         }
 
         return fullTableModel;

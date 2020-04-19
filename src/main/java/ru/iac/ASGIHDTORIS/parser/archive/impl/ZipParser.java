@@ -1,12 +1,12 @@
 package ru.iac.ASGIHDTORIS.parser.archive.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.iac.ASGIHDTORIS.common.TargetFiles;
+import ru.iac.ASGIHDTORIS.common.validator.archiveValidator.ArchiveValidator;
+import ru.iac.ASGIHDTORIS.common.validator.archiveValidator.impl.ArchiveValidatorImpl;
 import ru.iac.ASGIHDTORIS.parser.archive.ArchiveParser;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -14,35 +14,46 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import static ru.iac.ASGIHDTORIS.parser.archive.impl.ArchiveHelper.createFile;
+
 @Slf4j
 public class ZipParser implements ArchiveParser {
 
-    private byte[] buffer;
     private ZipInputStream zis;
+    private final ArchiveValidator archiveValidator;
 
     public ZipParser() {
-        buffer = new byte[1024];
+        archiveValidator = new ArchiveValidatorImpl();
     }
 
     @Override
     public File getFile(File zip, String name) throws IOException {
+        return unzipFile(zip, name);
+    }
+
+    @Override
+    public List<File> getFiles(File zip) throws IOException {
+        return unzipFiles(zip);
+    }
+
+    @Override
+    public void close() throws Exception {
+        zis.closeEntry();
+        zis.close();
+    }
+
+    private File unzipFile(File zip, String name) throws IOException {
         zis = new ZipInputStream(new FileInputStream(zip), StandardCharsets.UTF_8);
         ZipEntry zipEntry;
 
         while ((zipEntry = zis.getNextEntry()) != null) {
-            if (TargetFiles.isTargetFile(zipEntry.getName().toLowerCase())
-                    && zipEntry.getName().toLowerCase().equals(name.toLowerCase())) {
+            if (archiveValidator.isValidEntry(zipEntry.getName(), name)) {
 
                 return createFile(zipEntry.getName(), zis);
             }
         }
 
         return null;
-    }
-
-    @Override
-    public List<File> getFiles(File zip) throws IOException {
-        return unzipFiles(zip);
     }
 
     private List<File> unzipFiles(File zip) throws IOException {
@@ -52,34 +63,11 @@ public class ZipParser implements ArchiveParser {
         ZipEntry zipEntry;
 
         while ((zipEntry = zis.getNextEntry()) != null) {
-            if (TargetFiles.isTargetFile(zipEntry.getName().toLowerCase())) {
+            if (archiveValidator.isTargetFile(zipEntry.getName())) {
                 files.add(createFile(zipEntry.getName(), zis));
             }
         }
 
         return files;
-    }
-
-    private File createFile(String name, ZipInputStream zis) throws IOException {
-        File newFile = new File(name);
-        newFile.deleteOnExit();
-
-        FileOutputStream fos = new FileOutputStream(newFile);
-
-        int len;
-
-        while ((len = zis.read(buffer)) > 0) {
-            fos.write(buffer, 0, len);
-        }
-
-        fos.close();
-
-        return newFile;
-    }
-
-    @Override
-    public void close() throws Exception {
-        zis.closeEntry();
-        zis.close();
     }
 }

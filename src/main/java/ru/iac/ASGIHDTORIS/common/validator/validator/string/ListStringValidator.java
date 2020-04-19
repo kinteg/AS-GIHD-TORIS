@@ -1,7 +1,7 @@
-package ru.iac.ASGIHDTORIS.common.validator.string;
+package ru.iac.ASGIHDTORIS.common.validator.validator.string;
 
 import org.springframework.stereotype.Component;
-import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
 
 import java.util.List;
 

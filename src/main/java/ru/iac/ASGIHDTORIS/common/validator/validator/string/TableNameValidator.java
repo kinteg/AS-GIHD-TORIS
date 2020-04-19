@@ -1,6 +1,6 @@
-package ru.iac.ASGIHDTORIS.common.validator.string;
+package ru.iac.ASGIHDTORIS.common.validator.validator.string;
 
-import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
 
 public class TableNameValidator implements Validator<String> {
 

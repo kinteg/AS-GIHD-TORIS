@@ -3,8 +3,8 @@ package ru.iac.ASGIHDTORIS.parser.file.fixer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.RandomStringGenerator;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
-import ru.iac.ASGIHDTORIS.common.validator.Validator;
-import ru.iac.ASGIHDTORIS.common.validator.string.ColumnValidator;
+import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
+import ru.iac.ASGIHDTORIS.common.validator.validator.string.ColumnValidator;
 
 import java.util.ArrayList;
 import java.util.List;

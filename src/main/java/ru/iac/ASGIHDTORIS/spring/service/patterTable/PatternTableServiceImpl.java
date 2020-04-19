@@ -11,7 +11,7 @@ import ru.iac.ASGIHDTORIS.common.model.serch.SearchModel;
 import ru.iac.ASGIHDTORIS.common.model.table.PatternTableModelStatus;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModelStatus;
-import ru.iac.ASGIHDTORIS.common.validator.Validator;
+import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.component.ba.BeforeAfter;
 import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;

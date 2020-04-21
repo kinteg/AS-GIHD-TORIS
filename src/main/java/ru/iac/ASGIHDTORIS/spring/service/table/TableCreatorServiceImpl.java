@@ -70,7 +70,6 @@ public class TableCreatorServiceImpl implements TableCreatorService {
 
         if (tableModelStatus.getStatus().equals(Status.OK)) {
             patternTable = updatePatternTable(tableModel, patternTable);
-            killOldTable(newName, patternTable.getNameTable());
         } else {
             killOldTable(newName, oldName);
         }
@@ -154,7 +153,6 @@ public class TableCreatorServiceImpl implements TableCreatorService {
 
         PatternTable patternTable = new PatternTable()
                 .toBuilder()
-                .id(oldTable.getId())
                 .nameFile(tableModel.getFilename())
                 .nameTable(tableModel.getTableName())
                 .patternId(oldTable.getPatternId())

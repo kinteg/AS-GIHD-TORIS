@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -62,8 +63,17 @@ public class TableCreatorServiceImpl implements TableCreatorService {
     @Override
     public PatternTableModelStatus updateTable(TableModel tableModel, PatternTable patternTable) {
         tableModel.setTableName(patternTable.getNameTable());
-        patternTable = updatePatternTable(tableModel, patternTable);
+        String oldName = patternTable.getNameTable();
+        String newName = patternTable.getNameTable() + "_v" + patternTable.getVersion();
+        killOldTable(oldName, newName);
         TableModelStatus tableModelStatus = createTable(tableModel);
+
+        if (tableModelStatus.getStatus().equals(Status.OK)) {
+            patternTable = updatePatternTable(tableModel, patternTable);
+            killOldTable(newName, patternTable.getNameTable());
+        } else {
+            killOldTable(newName, oldName);
+        }
 
         return PatternTableModelStatus
                 .builder()
@@ -127,9 +137,6 @@ public class TableCreatorServiceImpl implements TableCreatorService {
         String oldName = patternTable.getNameTable();
         patternTable.setNameTable(patternTable.getNameTable() + "_v" + patternTable.getVersion());
         patternTable.setOldName(oldName);
-        String newName = patternTable.getNameTable();
-
-        killOldTable(oldName, newName);
 
         patternTableRepo.save(patternTable);
     }
@@ -138,6 +145,7 @@ public class TableCreatorServiceImpl implements TableCreatorService {
         try (Statement stmt = dataSource.getConnection().createStatement()){
             stmt.execute("ALTER TABLE " + oldName + " RENAME TO " + newName + ";");
         } catch (SQLException e) {
+            log.info(oldName + " " + newName);
             e.printStackTrace();
         }
     }
@@ -146,6 +154,7 @@ public class TableCreatorServiceImpl implements TableCreatorService {
 
         PatternTable patternTable = new PatternTable()
                 .toBuilder()
+                .id(oldTable.getId())
                 .nameFile(tableModel.getFilename())
                 .nameTable(tableModel.getTableName())
                 .patternId(oldTable.getPatternId())

@@ -54,7 +54,7 @@ public class PatternTableRepo2Impl implements PatternTableRepo2 {
 
         if (pattern.getId() != null && !pattern.getId().equals("")) {
             values.add(" cast(id as text) ILIKE :id");
-            params.addValue("id", "%" + pattern.getId() + "%");
+            params.addValue("ID", "%" + pattern.getId() + "%");
         }
         if (pattern.getNameTable() != null && !pattern.getNameTable().equals("")) {
             values.add(" name_table ILIKE :nameTable");

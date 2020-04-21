@@ -52,7 +52,7 @@ public class PostgresqlCreatorRepo implements CreatorRepo {
                     .builder()
                     .status(Status.ERROR)
                     .exception(e.getMessage())
-                    .answer("Таблица создана")
+                    .answer("Таблица не создана")
                     .tableModel(TableModel.emptyTableModel())
                     .build();
         }

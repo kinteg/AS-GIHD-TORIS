@@ -57,7 +57,7 @@
             //     }
             //`
             //     return keys;
-            // },`
+            // },
             querySearch(queryString, cb) {
                 let links = this.links;
                 let results = queryString ? links.filter(this.createFilter(queryString)) : links;

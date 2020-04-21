@@ -60,7 +60,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="Шаблоны" name="patternInfo">
                                 <span v-if="hiddenTable"  style="background-color: white;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-                                    <pattern-table style="padding: 0 5px 0 0; box-shadow: none "/>
+                                    <pattern-by-source style="padding: 0 5px 0 0; box-shadow: none " :source-id="this.$route.params.id"/>
                                 </span>
                                 <div v-else>
                                     <pattern-view :pattern-id="this.patternId" />
@@ -113,10 +113,11 @@
     import PatternTable from "../pattern/patternTable.vue";
     import MyPagination from "../general/pagination.vue";
     import PatternTableAllViewOne from "../patternTable/patternTableViewOne.vue";
+    import PatternBySource from "../pattern/patternBySource.vue";
 
     export default {
         name: "sourceView",
-        components: {PatternTableAllViewOne, MyPagination, PatternTable, PatternView},
+        components: {PatternBySource, PatternTableAllViewOne, MyPagination, PatternTable, PatternView},
         data() {
             return {
                 sourceLog:"",

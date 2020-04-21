@@ -278,8 +278,11 @@
                                     <el-collapse v-for="oneTable in table">
                                         <el-collapse-item :title="oneTable.tableModel.tableName" >
                                             <el-input style="padding-bottom: 10px;" v-model="oneTable.tableModel.tableName" placeholder="Название таблицы"></el-input>
-                                            <el-form v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
+                                            <el-form  v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
                                                 <el-form-item >
+                                                    <el-radio-group v-model="oneTable.tableModel.tableName">
+                                                        <el-radio :label="pole.key">Option A</el-radio>
+                                                    </el-radio-group>
                                                     <el-button :id="oneTable.tableModel.tableName + pole.key" @click="primaryChange(oneTable.tableModel.tableName, pole.key)" class="common" type="primary" size="mini" icon="el-icon-key"></el-button>
                                                 </el-form-item>
                                                 <el-form-item >

@@ -2,7 +2,7 @@
     <div>
 <!--        <button @click="collapse"></button>-->
     <el-menu
-            :show-timeout="200"
+            :show-timeout="50"
             :default-active="$route.path"
             :collapse="isCollapse"
             mode="vertical"

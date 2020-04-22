@@ -230,12 +230,35 @@
             },
 
             updatePage(){
+                AXIOS.get("tableCreator/" + this.patternTableId).then(response => {
+                    this.patternTable = response.data;
+                    console.log(response);
+                });
+
                 let formData = new FormData();
                 formData.append("id", this.patternTableId);
                 AXIOS.post("tableCreator/getTable/",formData).then(response => {
                     this.paginationOneTable.totalPages = response.data.values.totalPages;
                     this.paginationOneTable.totalElements = response.data.values.totalElements;
                     this.showOnlyOneTable = response.data;
+                    this.tableName = response.data.tableModel.tableName;
+                    this.oneTable = response.data.tableModel.models;
+                    console.log(response);
+                    AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName + "&size=" + this.paginationVersion.pageSize).then(response => {
+                        this.patternTableVersion = response.data;
+                        this.paginationVersion.totalPages = response.data.totalPages;
+                        this.paginationVersion.totalElements = response.data.totalElements;
+                    });
+                });
+
+                AXIOS.get("patternTableLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize).then(response => {
+                    this.patternTableLog = response.data.content;
+                    this.pagination.totalPages = response.data.totalPages;
+                    this.pagination.totalElements = response.data.totalElements;
+                });
+
+                AXIOS.get("fileUnLoader/getAllPatternTableFileByPatternId/"+this.patternTableId).then(response => {
+                    this.patternTableFile = response.data;
                 });
             },
 

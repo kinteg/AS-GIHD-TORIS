@@ -314,20 +314,24 @@
                                 </div>
                                 <div v-else-if="showTable">
                                     <div class="horizontal-scroll-wrapper  rectangles">
-                                        <el-upload
-                                                class="upload-demo"
-                                                ref="upload"
-                                                action=""
-                                                :limit="1"
-                                                :on-change="sendData"
-                                                :auto-upload="false">
-                                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицу</el-button>
-                                        </el-upload>
-                                        <router-link :to="'/patternTable/update/'+ patternTableId">
-                                            <el-button style=" margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
-                                                Обновить поля
-                                            </el-button>
-                                        </router-link>
+                                        <p >
+                                            <span style="float: left; text-align: left; font-size: 20px">{{showOnlyOneTable.tableModel.tableName}}</span>
+                                            <el-upload
+                                                    style="float: right"
+                                                    class="upload-demo"
+                                                    ref="upload"
+                                                    action=""
+                                                    :limit="1"
+                                                    :on-change="sendData"
+                                                    :auto-upload="false">
+                                                <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицу</el-button>
+                                            </el-upload>
+                                            <router-link style="float: right" :to="'/patternTable/update/'+ patternTableId">
+                                                <el-button style=" margin-right: 10px;  margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
+                                                    Обновить поля
+                                                </el-button>
+                                            </router-link>
+                                        </p>
                                         <div style="margin-top: 10px; padding-right: 2px;" class="horizontal-scroll-wrapper  rectangles">
                                             <table style="display: block; overflow-x: auto; ">
                                                 <tr>

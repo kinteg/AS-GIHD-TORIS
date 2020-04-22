@@ -3,7 +3,9 @@
         <el-row :gutter="20">
             <el-col :span="16">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-                    <p style="font-size: 20px">Просмотр таблицы {{showOnlyOneTable.tableModel.tableName}}
+                    <p style="font-size: 20px">Просмотр таблицы</p>
+                    <p style="font-size: 20px">{{showOnlyOneTable.tableModel.tableName}}
+                        <span v-if="patternTable.isActive">
                         <el-upload
                                 style="float: right;"
                                 class="upload-demo"
@@ -19,6 +21,7 @@
                                 Обновить поля
                             </el-button>
                         </router-link>
+                            </span>
                     </p>
                     <div class="horizontal-scroll-wrapper  rectangles">
                         <table style="display: block; overflow-x: auto;">
@@ -142,6 +145,7 @@
         props:['tableId'],
         data() {
             return {
+                patternTable:"",
                 sorted:"",
                 key:"",
                 oneTable:"",
@@ -273,7 +277,7 @@
                             type: 'warning'
                         }).then(() => {
                             router.push({name: "PatternTableUpdate"})
-                                     }).catch(() => {
+                        }).catch(() => {
                             AXIOS.post("fileLoader/sendData/",
                                 formData,
                                 {
@@ -385,6 +389,11 @@
 
         mounted() {
             this.patternTableId = this.$route.params.id;
+            AXIOS.get("tableCreator/" + this.patternTableId).then(response => {
+                this.patternTable = response.data;
+                console.log(response);
+            });
+
             let formData = new FormData();
             formData.append("id", this.patternTableId);
             AXIOS.post("tableCreator/getTable/",formData).then(response => {

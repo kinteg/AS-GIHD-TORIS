@@ -73,7 +73,6 @@
                         </el-tabs>
                     </div>
                     <el-button @click="back" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-
                 </div>
             </el-col>
             <el-col :span="8">

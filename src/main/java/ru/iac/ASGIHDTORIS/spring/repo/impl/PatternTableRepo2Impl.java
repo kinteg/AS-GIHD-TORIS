@@ -54,7 +54,7 @@ public class PatternTableRepo2Impl implements PatternTableRepo2 {
 
         if (pattern.getId() != null && !pattern.getId().equals("")) {
             values.add(" cast(id as text) ILIKE :id");
-            params.addValue("ID", "%" + pattern.getId() + "%");
+            params.addValue("id", "%" + pattern.getId() + "%");
         }
         if (pattern.getNameTable() != null && !pattern.getNameTable().equals("")) {
             values.add(" name_table ILIKE :nameTable");
@@ -72,11 +72,10 @@ public class PatternTableRepo2Impl implements PatternTableRepo2 {
             values.add(" source_id = :sourceId");
             params.addValue("sourceId", pattern.getSourceId());
         }
-        if (pattern.getSourceId() != null) {
-            values.add(" active = :isActive");
-            params.addValue("isActive", pattern.getIsActive());
-        }
         dataQueryHelper.createDataQuery(pattern.getHelpModel());
+
+        values.add(" active = :isActive");
+        params.addValue("isActive", true);
 
         values.addAll(dataQueryHelper.getValues());
         params.addValues(dataQueryHelper.getParams().getValues());

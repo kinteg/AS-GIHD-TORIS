@@ -1,1 +1,4 @@
 rootProject.name = 'AS-GIHD-TORIS'
+include 'build:generated:sources:annotationProcessor:java:main:untitled'
+findProject(':build:generated:sources:annotationProcessor:java:main:untitled')?.name = 'untitled'
+

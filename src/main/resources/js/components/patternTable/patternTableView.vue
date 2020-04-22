@@ -5,7 +5,7 @@
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
                     <p style="font-size: 20px">Просмотр таблицы</p>
                     <p style="font-size: 20px">{{showOnlyOneTable.tableModel.tableName}}
-                        <span v-if="patternTable.isActive">
+                        <span v-if="patternTable.isActive === true && patternTable.isArchive === false">
                         <el-upload
                                 style="float: right;"
                                 class="upload-demo"

@@ -20,7 +20,7 @@
                     <td>{{log.actions.action}}</td>
                     <td>{{log.statuses.status}}</td>
                     <td>{{log.errors.error}}</td>
-                    <td>{{log.patternId}}</td>
+                    <td><router-link :to="'/pattern/card/' + log.patternId">{{log.patternId}}</router-link></td>
                     <td>{{log.dateCreation}}</td>
                 </tr>
             </table>

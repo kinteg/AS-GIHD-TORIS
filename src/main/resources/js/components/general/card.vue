@@ -316,6 +316,8 @@
                                     <div class="horizontal-scroll-wrapper  rectangles">
                                         <p >
                                             <span style="float: left; text-align: left; font-size: 20px">{{showOnlyOneTable.tableModel.tableName}}</span>
+                                            <span v-if="patternTableData.isActive === true && patternTableData.isArchive === false">
+
                                             <el-upload
                                                     style="float: right"
                                                     class="upload-demo"
@@ -331,6 +333,7 @@
                                                     Обновить поля
                                                 </el-button>
                                             </router-link>
+                                            </span>
                                         </p>
                                         <div style="margin-top: 10px; padding-right: 2px;" class="horizontal-scroll-wrapper  rectangles">
                                             <table style="display: block; overflow-x: auto; ">
@@ -434,6 +437,7 @@
         components: {PatternTableLogCard, SourceLogCard, PatternLogCard, MyPagination},
         data(){
             return{
+                patternTableData: "",
                 primaryKey:"",
                 tableName:"",
                 patternTableVersion:"",
@@ -614,7 +618,6 @@
                 this.paginationVersion.currentPage = value;
                 let currentPage = this.paginationVersion.currentPage - 1;
                 AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName +"&size=" + this.paginationVersion.pageSize + "&page=" + currentPage).then(response => {
-                    console.log(response);
                     this.patternTableVersion = response.data;
                 })
             },
@@ -632,7 +635,6 @@
             },
 
             downloadFile(fileName){
-                console.log(fileName);
                 AXIOS({
                     url: 'fileUnLoader/getPatternFile/'+fileName,
                     method: 'GET',
@@ -693,7 +695,6 @@
 
             sendFiles(file, fileList){
                 let formData = new FormData();
-                console.log(file.raw);
                 formData.append("file",file.raw);
                 formData.append("patternId",this.patternId);
                 AXIOS.post("fileLoader/checkDates/",
@@ -775,10 +776,13 @@
                 this.sendDataTable = false;
                 let formData = new FormData();
                 formData.append("id",id);
-                console.log(id);
                 AXIOS.post("tableCreator/getTable/",formData).then(response => {
                     console.log(response.data);
                     this.showOnlyOneTable = response.data;
+                    AXIOS.get("tableCreator/" + this.patternTableId).then(response => {
+                        this.patternTableData = response.data;
+                        console.log(response);
+                    });
                 });
             },
 
@@ -912,7 +916,6 @@
                         }
                     }).then(response => {
                     this.table = response.data;
-                    console.log(response.data);
                 });
             },
 
@@ -1107,6 +1110,8 @@
         mounted() {
             this.patternId = this.$route.params.id;
 
+
+
             AXIOS.get("pattern/" + this.patternId).then(response => {
                 this.pattern = response.data;
                 this.sourceId = response.data.sourceId;
@@ -1122,7 +1127,6 @@
                 this.tableName = response.data.tableModel.tableName;
                 AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName + "&size=" + this.paginationVersion.pageSize).then(response => {
                     this.patternTableVersion = response.data;
-                    console.log(response);
                     this.paginationVersion.totalPages = response.data.totalPages;
                     this.paginationVersion.totalElements = response.data.totalElements;
                 });
@@ -1136,7 +1140,6 @@
 
             AXIOS.get("fileUnLoader/getAllPatternFileByPatternId/"+this.patternId).then(response => {
                 this.patternFile = response.data;
-                console.log(response);
             });
             this.links = this.loadAll();
         }

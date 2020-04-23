@@ -358,10 +358,10 @@
             deArchiveTable(id){
                 AXIOS.get("tableCreator/deArchive/" + id).then(response => {
                     if(response.data.name !== ""){
-                        this.notify('Успешно','Таблица была архивирована','success');
+                        this.notify('Успешно','Таблица была активирована','success');
                         this.updatePage();
                     } else {
-                        this.notify('Ошибка','Шаблон не была архивирована','error');
+                        this.notify('Ошибка','Таблица не была активирована','error');
                     }
                 });
             },

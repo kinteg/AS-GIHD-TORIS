@@ -1,8 +1,9 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-        <p style="font-size: 20px">asdasdsa
+        <p v-if="!createPattern" style="font-size: 20px">Шаблоны
             <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
             <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
+            <el-button class="plus" @click="addPattern" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
             <el-dropdown style="float: right" :hide-on-click="false">
                 <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                 </el-button>
@@ -21,7 +22,7 @@
                 </el-dropdown-menu>
             </el-dropdown>
         </p>
-        <div class="horizontal-scroll-wrapper  rectangles">
+        <div v-if="!createPattern" class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto; ">
                 <tr>
                     <th></th>
@@ -122,7 +123,12 @@
                 </tbody>
             </table>
         </div>
-        <my-pagination
+        <span v-else-if="createPattern">
+            <pattern-create :source-id="this.sourceId"/>
+            <br>
+            <el-button @click="backAdd" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+        </span>
+        <my-pagination v-if="!createPattern"
                 :page-size="pagination.pageSize"
                 :current-page="pagination.currentPage"
                 :totalPages="pagination.totalPages"
@@ -136,12 +142,14 @@
     import router from "../../router/router";
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
+    import PatternCreate from "./patternCreate.vue";
     export default {
         name: "patternBySource",
         props:['sourceId'],
-        components: {MyPagination},
+        components: {PatternCreate, MyPagination},
         data() {
             return {
+                createPattern:false,
                 options: [{
                     value: '',
                     label: ''
@@ -232,6 +240,19 @@
         },
 
         methods: {
+            backAdd(){
+                this.createPattern = false;
+                AXIOS.get("pattern/getAll/" + this.sourceId).then(response => {
+                    this.pagination.totalPages = response.data.totalPages;
+                    this.pagination.totalElements = response.data.totalElements;
+                    this.patternData = response.data.content;
+                })
+            },
+
+            addPattern(){
+                this.createPattern = true;
+            },
+
             hiddenAll(){
                 document.getElementById("check").click();
                 document.getElementById("check1").click();
@@ -246,7 +267,7 @@
             },
 
             showCard(patternId){
-                router.push('card/'+ patternId);
+                router.push('/pattern/card/'+ patternId);
             },
 
             check(id) {

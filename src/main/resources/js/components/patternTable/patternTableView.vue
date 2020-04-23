@@ -104,9 +104,7 @@
                     <p style="font-size: 20px">Версии</p>
                     <table style="overflow-x: auto; ">
                         <tr>
-                            <th>
-
-                            </th>
+                            <th></th>
                             <th>Версия</th>
                         </tr>
                         <tr v-for="tableVersion in patternTableVersion.content">

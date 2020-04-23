@@ -59,6 +59,7 @@
                                         </el-col>
                                     </el-row>
                                 </div>
+                                <el-button @click="updateSource" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Редактировать</el-button>
                             </el-tab-pane>
                             <el-tab-pane label="Шаблон" name="patternInfo">
                                 <div v-if="viewPattern" >
@@ -614,6 +615,10 @@
             }
         },
         methods:{
+            updateSource(){
+                router.push("/source/update/" + this.sourceId)
+            },
+
             onCurrentChangeVersion(value){
                 this.paginationVersion.currentPage = value;
                 let currentPage = this.paginationVersion.currentPage - 1;

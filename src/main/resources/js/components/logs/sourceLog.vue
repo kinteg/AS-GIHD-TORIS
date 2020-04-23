@@ -20,7 +20,10 @@
                     <td>{{log.actions.action}}</td>
                     <td>{{log.statuses.status}}</td>
                     <td>{{log.errors.error}}</td>
-                    <td><router-link :to="'/source/view/' + log.sourceId">{{log.sourceId}}</router-link></td>
+                    <td>
+                        <router-link v-if="log.sourceId > 0" :to="'/source/view/' + log.sourceId">{{log.sourceId}}</router-link>
+                        <span v-else-if="log.sourceId < 0" >-</span>
+                    </td>
                     <td>{{log.dateCreation}}</td>
                 </tr>
             </table>

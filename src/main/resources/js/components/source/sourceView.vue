@@ -78,7 +78,7 @@
             </el-col>
             <el-col :span="8">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-                    <p style="font-size: 20px">История изменений</p>
+                    <p style="font-size: 20px">История изменений источника</p>
                     <table style="overflow-x: auto; ">
                         <tr>
                             <th>Дата изменения</th>
@@ -97,6 +97,7 @@
                             :page-size="pagination.pageSize"
                             :page-count="pagination.totalPages"
                             :current-page="pagination.currentPage"
+                            :pager-count="2"
                             @current-change="onCurrentChange"
                             :total="pagination.totalElements">
                     </el-pagination>

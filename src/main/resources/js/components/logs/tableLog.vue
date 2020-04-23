@@ -20,7 +20,10 @@
                     <td>{{log.actions.action}}</td>
                     <td>{{log.statuses.status}}</td>
                     <td>{{log.errors.error}}</td>
-                    <td><router-link :to="'/patternTable/show/' + log.patternTableId">{{log.patternTableId}}</router-link></td>
+                    <td>
+                        <router-link v-if="log.patternTableId > 0" :to="'/patternTable/show/' + log.patternTableId">{{log.patternTableId}}</router-link>
+                        <span v-else-if="log.patternTableId < 0" >-</span>
+                    </td>
                     <td>{{log.dateCreation}}</td>
                 </tr>
             </table>

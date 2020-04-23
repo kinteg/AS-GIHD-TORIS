@@ -19,6 +19,7 @@
                 :page-size="pagination.pageSize"
                 :page-count="pagination.totalPages"
                 :current-page="pagination.currentPage"
+                :pager-count="pagination.pagerCount"
                 @current-change="onCurrentChange"
                 :total="pagination.totalElements">
         </el-pagination>

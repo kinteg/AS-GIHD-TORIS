@@ -23,8 +23,8 @@
                         <el-form-item label="Ошибка:">
                             {{patternTableLogInfo.errors.error}}
                         </el-form-item>
-                        <el-form-item label="Источник:">
-                            {{patternTableLogInfo.sourceId}}
+                        <el-form-item label="Таблица:">
+                            {{patternTableLogInfo.patternTableId}}
                         </el-form-item>
                         <el-form-item label="Дата изменения:">
                             {{patternTableLogInfo.dateCreation}}

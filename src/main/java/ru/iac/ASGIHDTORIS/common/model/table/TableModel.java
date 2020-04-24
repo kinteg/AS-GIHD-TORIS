@@ -17,8 +17,14 @@ public class TableModel {
 
     private String filename;
     private String tableName;
-
+    private String primaryKey;
     private List<DataModel> models;
+
+    public TableModel(String filename, String tableName, List<DataModel> models) {
+        this.filename = filename;
+        this.tableName = tableName;
+        this.models = models;
+    }
 
     public boolean isEmpty() {
         return (filename == null || filename.equals(""))

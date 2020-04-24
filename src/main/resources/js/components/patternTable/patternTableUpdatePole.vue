@@ -1,6 +1,7 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <p style="font-size: 20px">Обновление полей</p>
+        <p style="font-size: 20px">{{patternTable.tableName}}</p>
 
         <div>
             <el-upload
@@ -54,9 +55,9 @@
                 Назад
             </el-button>
         </router-link>
-        <router-link :to="'/patternTable/show'">
+<!--        <router-link :to="'/patternTable/show' + newPatternTableId">-->
         <el-button @click="updateTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
-        </router-link>
+<!--        </router-link>-->
     </div>
 
 </template>
@@ -70,6 +71,7 @@
         name: "patternTableUpdatePole",
         data(){
             return{
+                newPatternTableId:"",
                 primaryKey:"",
                 table:[],
                 patternTable:"",
@@ -137,16 +139,25 @@
                                 }
                             ).then(response => {
                                 console.log(response);
-                                // if(response === false) {
-                                //     this.notify("Ошибка","Таблица " + tableName + "не была обновлена", "error");
-                                // } else {
-                                //     this.notify("Успешно","Таблица " + tableName + " была обновлена", "success");
-                                // }
+                                this.newPatternTableId = response.data.patternTable.id;
+                                if(response.data.tableModel.status === "OK") {
+                                    this.notify("Успешно","Таблица " + tableName + " была обновлена", "success");
+                                } else {
+                                    this.notify("Ошибка","Таблица " + tableName + "не была обновлена", "error");
+                                }
+                                router.push("/patternTable/show/" + this.newPatternTableId);
                             });
                         }
                     });
-
                 }
+            },
+
+            notify(title,message,type) {
+                this.$notify({
+                    title: title,
+                    message: message,
+                    type: type
+                });
             },
 
             clearForm(){
@@ -190,7 +201,6 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-                        console.log(response);
                     this.table = response.data;
                 });
             },
@@ -201,6 +211,7 @@
             let formData = new FormData();
             formData.append("id", this.patternTableId);
             AXIOS.post("tableCreator/getTable/",formData).then(response => {
+                console.log(response);
                 this.patternTable = response.data.tableModel;
                 this.patternTableName = this.patternTable.tableName;
                 this.patternNameFile = this.patternTable.filename;

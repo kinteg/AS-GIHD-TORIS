@@ -5,10 +5,10 @@
                 <div>
                     <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
                         <el-form-item prop="name" label="Название">
-                            <el-input v-model="pattern.name"></el-input>
+                            <el-input @input="hiddenAddPatternBtn" v-model="pattern.name"></el-input>
                         </el-form-item>
                         <el-form-item prop="description" label="Описание">
-                            <el-input v-model="pattern.description"></el-input>
+                            <el-input @input="hiddenAddPatternBtn" v-model="pattern.description"></el-input>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -17,16 +17,16 @@
                 <div>
                     <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
                         <el-form-item prop="direction" label="Направление:">
-                            <el-input v-model="pattern.direction"></el-input>
+                            <el-input @input="hiddenAddPatternBtn" v-model="pattern.direction"></el-input>
                         </el-form-item>
                         <el-form-item prop="management" label="Отвтественный за ведение:">
-                            <el-input v-model="pattern.management"></el-input>
+                            <el-input @input="hiddenAddPatternBtn" v-model="pattern.management"></el-input>
                         </el-form-item>
                     </el-form>
                 </div>
             </el-col>
         </el-row>
-        <el-button @click="createPattern" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить шаблон</el-button>
+        <el-button v-if="patternAddBtn" @click="createPattern" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить шаблон</el-button>
 
     </div>
 </template>
@@ -39,6 +39,7 @@
         props: ['sourceId'],
         data(){
             return{
+                patternAddBtn:false,
                 activeName: "sourceInfo",
                 labelPosition:"top",
                 pattern: {
@@ -101,6 +102,13 @@
             }
         },
         methods:{
+            hiddenAddPatternBtn(){
+                this.patternAddBtn = this.pattern.name !== "" &&
+                    this.pattern.description !== "" &&
+                    this.pattern.direction !== "" &&
+                    this.pattern.management !== "";
+            },
+
             createPattern() {
                 let formData = new FormData();
                 formData.append("name",this.pattern.name);

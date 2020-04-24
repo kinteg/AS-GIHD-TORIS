@@ -57,6 +57,8 @@
                                         </div>
                                     </el-col>
                                 </el-row>
+                                <el-button @click="back" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                                <el-button @click="update" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Редактировать</el-button>
                             </el-tab-pane>
                             <el-tab-pane label="Шаблоны" name="patternInfo">
                                 <span v-if="hiddenTable"  style="background-color: white;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
@@ -72,12 +74,11 @@
                             </el-tab-pane>
                         </el-tabs>
                     </div>
-                    <el-button @click="back" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
                 </div>
             </el-col>
             <el-col :span="8">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-                    <p style="font-size: 20px">История изменений</p>
+                    <p style="font-size: 20px">История изменений источника</p>
                     <table style="overflow-x: auto; ">
                         <tr>
                             <th>Дата изменения</th>
@@ -96,6 +97,7 @@
                             :page-size="pagination.pageSize"
                             :page-count="pagination.totalPages"
                             :current-page="pagination.currentPage"
+                            :pager-count="2"
                             @current-change="onCurrentChange"
                             :total="pagination.totalElements">
                     </el-pagination>
@@ -172,6 +174,10 @@
         },
 
         methods:{
+            update(){
+                router.push({name:'sourceUpdate'});
+            },
+
             back(){
                 router.push({name:'show'});
             },

@@ -1,7 +1,9 @@
 <template>
     <div style="background-color: #f1f1f1" >
         <section class="el-container" >
-            <aside id="sidebar" class="el-aside" style="background-color: #304156; min-height: 100vh; width: 220px;"><sidebar-menu/></aside>
+            <aside id="sidebar" class="el-aside" style="background-color: #304156; min-height: 100vh; width: 220px;">
+                <sidebar-menu/>
+            </aside>
             <section  class="el-container is-vertical">
                 <div>
                     <el-header style="padding: 0px;">
@@ -39,7 +41,7 @@
                 if(this.sidebar.opened ){
                     document.getElementById("sidebar").style.width="220px";
                 }else{
-                    document.getElementById("sidebar").style.width="64px";
+                    document.getElementById("sidebar").style.width="50px";
                 }
             }
         },

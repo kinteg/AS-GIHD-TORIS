@@ -32,6 +32,7 @@ const routes = [
         component: Source,
         meta: {
             title: 'Источники',
+            icon: 'el-icon-collection'
         },
         children:[
             {
@@ -39,7 +40,7 @@ const routes = [
                 component: ShowSource,
                 name: 'show',
                 meta: {
-                    title: 'Все записи'
+                    title: 'Все записи',
                 },
             },
             {
@@ -67,6 +68,7 @@ const routes = [
         component: Source,
         meta: {
             title: 'Шаблоны',
+            icon:'el-icon-postcard'
         },
         children:[
             {
@@ -102,6 +104,7 @@ const routes = [
         component: PatternTable,
         meta: {
             title: 'Таблицы',
+            icon:'el-icon-notebook-2'
         },
         children:[
             {
@@ -139,6 +142,7 @@ const routes = [
         component: Logs,
         meta: {
             title: 'Логи',
+            icon: 'el-icon-paperclip'
         },
         children:[
             {
@@ -185,7 +189,6 @@ const routes = [
         component: TableLogsById,
         name: 'patternLogsById',
     },
-
 
     {
         path:'/source/update/:id',

@@ -59,12 +59,13 @@
                                         </el-col>
                                     </el-row>
                                 </div>
+                                <el-button @click="updateSource" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Редактировать</el-button>
                             </el-tab-pane>
                             <el-tab-pane label="Шаблон" name="patternInfo">
-                                <div v-if="viewPattern" >
+                                <div v-if="viewPattern">
                                     <p style="font-size: 20px">Просмотр шаблона</p>
                                     <el-row :gutter="20">
-                                        <el-col :span="8">
+                                        <el-col :span="12">
                                             <div>
                                                 <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
                                                     <el-form-item label="Название:">
@@ -76,12 +77,6 @@
                                                     <el-form-item label="Сфера (направление):">
                                                         {{pattern.direction}}
                                                     </el-form-item>
-                                                </el-form>
-                                            </div>
-                                        </el-col>
-                                        <el-col :span="8">
-                                            <div>
-                                                <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
                                                     <el-form-item label="Ответственный за ведение:">
                                                         {{pattern.management}}
                                                     </el-form-item>
@@ -94,7 +89,7 @@
                                                 </el-form>
                                             </div>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :span="12">
                                             <div>
                                                 <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
                                                     <el-form-item label="Дата архивации:">
@@ -105,6 +100,12 @@
                                                     </el-form-item>
                                                     <el-form-item label="Последнее обновление:">
                                                         {{pattern.lastUpdate}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Всего таблиц:">
+                                                        {{pattern.fileCount}}
+                                                    </el-form-item>
+                                                    <el-form-item label="Архивировано таблиц:">
+                                                        {{pattern.archiveFileCount}}
                                                     </el-form-item>
                                                 </el-form>
                                             </div>
@@ -279,16 +280,15 @@
                                         <el-collapse-item :title="oneTable.tableModel.tableName" >
                                             <el-input style="padding-bottom: 10px;" v-model="oneTable.tableModel.tableName" placeholder="Название таблицы"></el-input>
                                             <el-form  v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
-                                                <el-form-item >
-                                                    <el-radio-group v-model="oneTable.tableModel.tableName">
-                                                        <el-radio :label="pole.key">Option A</el-radio>
+                                                <el-form-item>
+                                                    <el-radio-group v-model="oneTable.tableModel.primaryKey">
+                                                        <el-radio :label="pole.key">-</el-radio>
                                                     </el-radio-group>
-                                                    <el-button :id="oneTable.tableModel.tableName + pole.key" @click="primaryChange(oneTable.tableModel.tableName, pole.key)" class="common" type="primary" size="mini" icon="el-icon-key"></el-button>
                                                 </el-form-item>
-                                                <el-form-item >
+                                                <el-form-item>
                                                     <el-input v-model="pole.key" placeholder="Approved by"></el-input>
                                                 </el-form-item>
-                                                <el-form-item >
+                                                <el-form-item>
                                                     <el-autocomplete
                                                             style="float: right"
                                                             class="inline-input"
@@ -314,10 +314,9 @@
                                 </div>
                                 <div v-else-if="showTable">
                                     <div class="horizontal-scroll-wrapper  rectangles">
-                                        <p >
+                                        <p>
                                             <span style="float: left; text-align: left; font-size: 20px">{{showOnlyOneTable.tableModel.tableName}}</span>
                                             <span v-if="patternTableData.isActive === true && patternTableData.isArchive === false">
-
                                             <el-upload
                                                     style="float: right"
                                                     class="upload-demo"
@@ -437,7 +436,6 @@
         components: {PatternTableLogCard, SourceLogCard, PatternLogCard, MyPagination},
         data(){
             return{
-                patternTableData: "",
                 primaryKey:"",
                 tableName:"",
                 patternTableVersion:"",
@@ -614,6 +612,10 @@
             }
         },
         methods:{
+            updateSource(){
+                router.push("/source/update/" + this.sourceId)
+            },
+
             onCurrentChangeVersion(value){
                 this.paginationVersion.currentPage = value;
                 let currentPage = this.paginationVersion.currentPage - 1;
@@ -834,13 +836,17 @@
                     let model = oneTable.tableModel.models;
                     let tableName = oneTable.tableModel.tableName;
                     let fileName = oneTable.tableModel.filename;
-
+                    let primaryKey = oneTable.tableModel.primaryKey;
                     for(let j = 0; j<model.length; j++){
+                        console.log(primaryKey);
+                        console.log(model[j].key);
+                        console.log("--------------");
+                        primary.push(primaryKey === model[j].key);
                         key.push(model[j].key);
                         type.push(model[j].type);
-                        primary.push(model[j].primary);
+                        // primary.push(model[j].primary);
                     }
-
+                    console.log(primary);
                     let formData = new FormData();
 
                     formData.append("filename", fileName );
@@ -915,6 +921,7 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
+                    console.log(response);
                     this.table = response.data;
                 });
             },
@@ -1109,10 +1116,8 @@
 
         mounted() {
             this.patternId = this.$route.params.id;
-
-
-
             AXIOS.get("pattern/" + this.patternId).then(response => {
+                console.log(response);
                 this.pattern = response.data;
                 this.sourceId = response.data.sourceId;
                 AXIOS.get("source/" + this.sourceId).then(response => {

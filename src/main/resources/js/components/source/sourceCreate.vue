@@ -9,13 +9,13 @@
                             <div class="grid-content bg-purple">
                                 <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
                                     <el-form-item prop="name" label="Поставщик данных">
-                                        <el-input  v-model="source.name"></el-input>
+                                        <el-input @input="hiddenAddSourceBtn" v-model="source.name"></el-input>
                                     </el-form-item>
                                     <el-form-item prop="longName" label="Полное наименование набора">
-                                        <el-input v-model="source.longName"></el-input>
+                                        <el-input @input="hiddenAddSourceBtn" v-model="source.longName"></el-input>
                                     </el-form-item>
                                     <el-form-item prop="shortName" label="Краткое наименование набора">
-                                        <el-input v-model="source.shortName"></el-input>
+                                        <el-input @input="hiddenAddSourceBtn" v-model="source.shortName"></el-input>
                                     </el-form-item>
                                 </el-form>
                             </div>
@@ -24,13 +24,13 @@
                             <div class="grid-content bg-purple">
                                 <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
                                     <el-form-item prop="description" label="Описание">
-                                        <el-input v-model="source.description"></el-input>
+                                        <el-input @input="hiddenAddSourceBtn" v-model="source.description"></el-input>
                                     </el-form-item>
                                     <el-form-item prop="addDescription" label="Дополнительное описание">
-                                        <el-input v-model="source.addDescription"></el-input>
+                                        <el-input @input="hiddenAddSourceBtn" v-model="source.addDescription"></el-input>
                                     </el-form-item>
                                     <el-form-item prop="scope" label="Сфера (направление)">
-                                        <el-input v-model="source.scope"></el-input>
+                                        <el-input @input="hiddenAddSourceBtn" v-model="source.scope"></el-input>
                                     </el-form-item>
                                 </el-form>
                             </div>
@@ -39,13 +39,13 @@
                             <div class="grid-content bg-purple">
                                 <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
                                     <el-form-item prop="periodicity" label="Периодичность актуализации">
-                                        <el-input v-model="source.periodicity"></el-input>
+                                        <el-input @input="hiddenAddSourceBtn" v-model="source.periodicity"></el-input>
                                     </el-form-item>
                                     <el-form-item prop="renewalPeriod" label="Срок обновления набора данных">
-                                        <el-input v-model="source.renewalPeriod"></el-input>
+                                        <el-input @input="hiddenAddSourceBtn" v-model="source.renewalPeriod"></el-input>
                                     </el-form-item>
                                     <el-form-item prop="type" label="Вид набора">
-                                        <el-input v-model="source.type"></el-input>
+                                        <el-input @input="hiddenAddSourceBtn" v-model="source.type"></el-input>
                                     </el-form-item>
                                 </el-form>
                             </div>
@@ -54,19 +54,19 @@
                             <div class="grid-content bg-purple">
                                 <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
                                     <el-form-item prop="tags" label="Ключевые слова (теги)">
-                                        <el-input v-model="source.tags"></el-input>
+                                        <el-input @input="hiddenAddSourceBtn" v-model="source.tags"></el-input>
                                     </el-form-item>
                                     <el-form-item prop="providerLink" label="Источник данных">
-                                        <el-input v-model="source.providerLink"></el-input>
+                                        <el-input @input="hiddenAddSourceBtn" v-model="source.providerLink"></el-input>
                                     </el-form-item>
                                     <el-form-item prop="dataSource" label="Ссылка на данные">
-                                        <el-input v-model="source.dataSource"></el-input>
+                                        <el-input @input="hiddenAddSourceBtn" v-model="source.dataSource"></el-input>
                                     </el-form-item>
                                 </el-form>
                             </div>
                         </el-col>
                     </el-row>
-                    <el-button @click="createSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить источник</el-button>
+                    <el-button  v-if="sourceAddBtn" @click="createSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить источник</el-button>
                 </el-tab-pane>
                 <el-tab-pane label="Шаблоны" name="patternInfo">
                     <el-row :gutter="20">
@@ -74,10 +74,10 @@
                             <div>
                                 <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
                                     <el-form-item prop="name" label="Название">
-                                        <el-input v-model="pattern.name"></el-input>
+                                        <el-input @input="hiddenAddPatternBtn" v-model="pattern.name"></el-input>
                                     </el-form-item>
                                     <el-form-item prop="description" label="Описание">
-                                        <el-input v-model="pattern.description"></el-input>
+                                        <el-input @input="hiddenAddPatternBtn" v-model="pattern.description"></el-input>
                                     </el-form-item>
                                 </el-form>
                             </div>
@@ -86,19 +86,40 @@
                             <div>
                                 <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
                                     <el-form-item prop="direction" label="Направление:">
-                                        <el-input v-model="pattern.direction"></el-input>
+                                        <el-input @input="hiddenAddPatternBtn" v-model="pattern.direction"></el-input>
                                     </el-form-item>
                                     <el-form-item prop="management" label="Отвтественный за ведение:">
-                                        <el-input v-model="pattern.management"></el-input>
+                                        <el-input @input="hiddenAddPatternBtn" v-model="pattern.management"></el-input>
                                     </el-form-item>
                                 </el-form>
                             </div>
                         </el-col>
                     </el-row>
-                    <el-button @click="createPattern" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить шаблон</el-button>
+                    <span v-if="!sourceIsCreated">
+                        <p>Сначала создайте источник</p>
+                    </span>
+                    <span v-else-if="sourceIsCreated">
+                        <el-button v-if="patternAddBtn" @click="createPattern" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить шаблон</el-button>
+                    </span>
                 </el-tab-pane>
             </el-tabs>
             <el-button @click="back" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+            <span v-if="activeName === 'patternInfo' && patternIsExist">
+            <table style="">
+                <tr>
+                    <th>Название</th>
+                    <th>Описание</th>
+                    <th>Направление</th>
+                    <th>Отвтественный за ведение</th>
+                </tr>
+                <tr v-for="onePattern in patternTableData">
+                    <td>{{onePattern.name}}</td>
+                    <td>{{onePattern.description}}</td>
+                    <td>{{onePattern.direction}}</td>
+                    <td>{{onePattern.management}}</td>
+                </tr>
+            </table>
+                </span>
         </div>
     </div>
 </template>
@@ -110,6 +131,11 @@
         name: "sourceCreate",
         data(){
             return{
+                patternIsExist:false,
+                patternTableData: "",
+                sourceIsCreated: false,
+                sourceAddBtn: false,
+                patternAddBtn: false,
                 activeName: "sourceInfo",
                 labelPosition:"top",
                 source:{
@@ -186,6 +212,27 @@
             }
         },
         methods:{
+            hiddenAddPatternBtn(){
+                this.patternAddBtn = this.pattern.name !== "" &&
+                    this.pattern.description !== "" &&
+                    this.pattern.direction !== "" &&
+                    this.pattern.management !== "";
+            },
+
+            hiddenAddSourceBtn(){
+                this.sourceAddBtn = this.source.longName !== "" &&
+                    this.source.shortName !== "" &&
+                    this.source.description !== "" &&
+                    this.source.addDescription !== "" &&
+                    this.source.scope !== "" &&
+                    this.source.periodicity !== "" &&
+                    this.source.renewalPeriod !== "" &&
+                    this.source.type !== "" &&
+                    this.source.tags !== "" &&
+                    this.source.providerLink !== "" &&
+                    this.source.dataSource !== "";
+            },
+
             back(){
                 this.$confirm('Уверены что хотите вернуться?', 'Назад', {
                     confirmButtonText: 'Да',
@@ -227,6 +274,8 @@
                         this.pattern.sourceId = response.data.id;
                         console.log(this.pattern.sourceId);
                         this.noticeSuccess(' Источник  "' + response.data.name + '" успешно создан.');
+                        this.sourceIsCreated = true;
+                        this.patternIsExist = false;
                     }
                 });
             },
@@ -250,8 +299,12 @@
                         console.log(this.pattern.sourceId);
                         this.noticeError('Ошибка при создании шаблона.');
                     } else {
-                        console.log(this.pattern.sourceId);
                         this.noticeSuccess('Шаблон "' + response.data.name + '" успешно создан.');
+                        AXIOS.get("pattern/getAll/" + this.pattern.sourceId).then(response => {
+                            this.patternTableData = response.data.content;
+                            this.patternIsExist = true;
+                            console.log(this.patternTableData);
+                        });
                     }
                 });
             },
@@ -277,5 +330,22 @@
 </script>
 
 <style scoped>
+    table, td, th {
+        border: 1px solid #d7d7d7;
+        text-align: center;
+    }
 
+    td{
+        padding: 10px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        padding: 10px;
+        height: 50px;
+    }
 </style>

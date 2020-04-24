@@ -23,7 +23,7 @@
                             <el-form-item label="Ошибка:">
                                 {{patternLogInfo.errors.error}}
                             </el-form-item>
-                            <el-form-item label="Источник:">
+                            <el-form-item label="Шаблон:">
                                 {{patternLogInfo.patternId}}
                             </el-form-item>
                             <el-form-item label="Дата изменения:">

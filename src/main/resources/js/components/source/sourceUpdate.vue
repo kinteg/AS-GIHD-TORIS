@@ -639,10 +639,12 @@
             },
 
             patternView(id) {
-                this.hiddenView = true;
-                this.hiddenTable = false;
-                this.hiddenAdd = false;
-                this.patternId = id;
+                router.push("/pattern/card/" + id);
+                // router.push({name: 'card'})
+                // this.hiddenView = true;
+                // this.hiddenTable = false;
+                // this.hiddenAdd = false;
+                // this.patternId = id;
 
             },
 

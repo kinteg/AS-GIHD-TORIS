@@ -71,6 +71,7 @@
                             :page-size="pagination.pageSize"
                             :page-count="pagination.totalPages"
                             :current-page="pagination.currentPage"
+                            :pager-count="2"
                             @current-change="onCurrentChange"
                             :total="pagination.totalElements">
                     </el-pagination>
@@ -104,9 +105,7 @@
                     <p style="font-size: 20px">Версии</p>
                     <table style="overflow-x: auto; ">
                         <tr>
-                            <th>
-
-                            </th>
+                            <th></th>
                             <th>Версия</th>
                         </tr>
                         <tr v-for="tableVersion in patternTableVersion.content">

@@ -19,10 +19,13 @@
                     <el-input :disabled="true" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" v-model="patternTableName" placeholder="Название таблицы"></el-input>
                     <el-form v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
                         <el-form-item >
-                            <el-button :id="pole.key" @click="primaryChange(pole.key)" class="common" type="primary" size="mini" icon="el-icon-key"></el-button>
+                            <!--                            <el-button :id="pole.key" @click="primaryChange(pole.key)" class="common" type="primary" size="mini" icon="el-icon-key"></el-button>-->
                             <!--                                                    <input :checked="pole.primary" type="radio" :name="oneTable.tableModel.tableName"/>-->
-                        </el-form-item>
-                        <el-form-item >
+                            <el-radio-group v-model="oneTable.tableModel.primaryKey">
+                                <el-radio :label="pole.key">-</el-radio>
+                            </el-radio-group></el-form-item>
+                        <el-form-item>
+
                             <el-input v-model="pole.key" placeholder="Approved by"></el-input>
                         </el-form-item>
                         <el-form-item >
@@ -36,14 +39,16 @@
                         </el-form-item>
                     </el-form>
                     <h2>Предпросмотр</h2>
-                    <table style=" padding: 0 5px 0 0;">
-                        <tr>
-                            <th v-for="pole in oneTable.tableModel.models">{{pole.key}}</th>
-                        </tr>
-                        <tr v-for="value in oneTable.values">
-                            <td v-for="oneValue in value">{{oneValue}}</td>
-                        </tr>
-                    </table>
+                    <div class="horizontal-scroll-wrapper  rectangles">
+                        <table style=" padding: 0 5px 0 0;">
+                            <tr>
+                                <th v-for="pole in oneTable.tableModel.models">{{pole.key}}</th>
+                            </tr>
+                            <tr v-for="value in oneTable.values">
+                                <td v-for="oneValue in value">{{oneValue}}</td>
+                            </tr>
+                        </table>
+                    </div>
                 </el-collapse-item>
             </el-collapse>
             <!--            <el-button @click="showTableTab('yes')" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>-->
@@ -55,9 +60,9 @@
                 Назад
             </el-button>
         </router-link>
-<!--        <router-link :to="'/patternTable/show' + newPatternTableId">-->
+        <!--        <router-link :to="'/patternTable/show' + newPatternTableId">-->
         <el-button @click="updateTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
-<!--        </router-link>-->
+        <!--        </router-link>-->
     </div>
 
 </template>
@@ -103,17 +108,26 @@
                     let model = oneTable.tableModel.models;
                     let tableName = oneTable.tableModel.tableName;
                     let fileName = oneTable.tableModel.filename;
-
+                    let primaryKey = oneTable.tableModel.primaryKey;
                     for(let j = 0; j<model.length; j++){
+                        console.log(primaryKey);
+                        console.log(model[j].key);
+                        console.log("--------------");
+                        primary.push(primaryKey === model[j].key);
                         key.push(model[j].key);
                         type.push(model[j].type);
-                        if(model[j].key === this.primaryKey){
-                            primary.push(true);
-                        } else {
-                            primary.push(false);
-                        }
                         // primary.push(model[j].primary);
                     }
+                    // for(let j = 0; j<model.length; j++){
+                    //     key.push(model[j].key);
+                    //     type.push(model[j].type);
+                    //     if(model[j].key === this.primaryKey){
+                    //         primary.push(true);
+                    //     } else {
+                    //         primary.push(false);
+                    //     }
+                    //     // primary.push(model[j].primary);
+                    // }
 
                     let formData = new FormData();
 
@@ -231,5 +245,24 @@
         margin-bottom: 10px;
         background-color: #ffcf06;
         border-color: #ffcf06;
+    }
+
+    table, td, th {
+        border: 1px solid #d7d7d7;
+        text-align: center;
+    }
+
+    td{
+        padding: 10px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        padding: 10px;
+        height: 50px;
     }
 </style>

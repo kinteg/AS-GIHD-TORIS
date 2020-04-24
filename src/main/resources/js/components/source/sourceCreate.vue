@@ -104,6 +104,7 @@
                 </el-tab-pane>
             </el-tabs>
             <el-button @click="back" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+            <br>
             <span v-if="activeName === 'patternInfo' && patternIsExist">
             <table style="">
                 <tr>

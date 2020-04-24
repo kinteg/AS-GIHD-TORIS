@@ -1,147 +1,206 @@
 package ru.iac.ASGIHDTORIS.spring.service.source;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 import ru.iac.ASGIHDTORIS.spring.service.source.logger.SourceLoggerService;
-
-import java.time.LocalDateTime;
 
 @Service
 @Slf4j
 public class SourceServiceImpl implements SourceService {
 
     private final SourceRepo sourceRepo;
-    private final Validator<Source> validator;
     private final SourceLoggerService sourceLoggerService;
 
     public SourceServiceImpl(
             SourceRepo sourceRepo,
-            @Qualifier("getSourceValidator") Validator<Source> validator,
             SourceLoggerService sourceLoggerService) {
         this.sourceRepo = sourceRepo;
-        this.validator = validator;
         this.sourceLoggerService = sourceLoggerService;
     }
 
     public Source createSource(Source source) {
-        source.setDateCreation(LocalDateTime.now());
-        source.setDateActivation(LocalDateTime.now());
-        source.setLastUpdate(LocalDateTime.now());
+        source.setCreateTime();
+        return buildSource(source);
+    }
 
-        Source sourceAfter = validator.isValid(source)
-                ? !sourceRepo.existsByShortName(source.getShortName())
-                ? sourceRepo.save(source)
-                : Source.builder().id(Long.parseLong("-2")).build()
-                : Source.builder().id(Long.parseLong("-1")).build();
+    @Override
+    public Source archiveSource(Long id) {
+        return buildArchiveSource(id);
+    }
+
+    @Override
+    public Source deArchiveSource(Long id) {
+        return buildDeArchiveSource(id);
+    }
+
+    @Override
+    public Source updateSource(Source source) {
+        return buildUpdateSource(source);
+    }
+
+    private Source buildSource(Source source) {
+        Source sourceAfter;
+
+        if (!sourceRepo.existsByShortName(source.getShortName())) {
+            sourceAfter = saveCreateSource(source);
+        } else {
+            return Source.getBadIdSource(-2);
+        }
 
         sourceLoggerService.createLogSourceCreate(sourceAfter);
 
         return sourceAfter;
     }
 
-    @Override
-    public Source archiveSource(Long id) {
-        Source sourceBefore, sourceAfter;
-
-        if (id == null) {
-            sourceAfter = Source.builder().id((long) -4).build();
-            sourceBefore = sourceAfter;
-        } else if (!sourceRepo.existsById(id)) {
-            sourceAfter = Source.builder().id((long) -3).build();
-            sourceBefore = sourceAfter;
+    private Source buildArchiveSource(long id) {
+        if (sourceRepo.existsById(id)) {
+            return saveArchiveSource(id);
         } else {
-            sourceAfter = sourceRepo.findById((long) id);
-
-            sourceBefore = Source
-                    .builder()
-                    .isArchive(sourceAfter.getIsArchive())
-                    .dateDeactivation(sourceAfter.getDateDeactivation())
-                    .build();
-            sourceAfter.setIsArchive(true);
-            sourceAfter.setDateDeactivation(LocalDateTime.now());
-
-            sourceRepo.save(sourceAfter);
-
+            return buildBadArchiveSource();
         }
+    }
 
-        sourceLoggerService.createLogSourceArchive(sourceBefore, sourceAfter);
+    private Source buildDeArchiveSource(long id) {
+        if (sourceRepo.existsById(id)) {
+            return saveDeArchiveSource(id);
+        } else {
+            return buildBadDeArchiveSource();
+        }
+    }
+
+    private Source buildUpdateSource(Source source) {
+        if (!invalid(source)) {
+            return saveUpdateSource(source);
+        } else {
+            return buildInvalidSource(source);
+        }
+    }
+
+    private Source saveCreateSource(Source source) {
+        try {
+            return sourceRepo.save(source);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return Source.getBadIdSource(-1);
+        }
+    }
+
+    private Source saveArchiveSource(long id) {
+        Source sourceAfter = sourceRepo.findById(id);
+        Source sourceBefore = Source.getArchiveInfo(sourceAfter);
+
+        sourceAfter.archive();
+
+        sourceRepo.save(sourceAfter);
+
+        saveArchiveLog(sourceBefore, sourceAfter);
 
         return sourceAfter;
     }
 
-    @Override
-    public Source deArchiveSource(Long id) {
-        Source sourceBefore, sourceAfter;
+    private Source saveDeArchiveSource(long id) {
+        Source sourceAfter = sourceRepo.findById(id);
+        Source sourceBefore = Source.getDeArchiveInfo(sourceAfter);
 
-        if (id == null) {
-            sourceAfter = Source.builder().id((long) -4).build();
-            sourceBefore = sourceAfter;
-        } else if (!sourceRepo.existsById(id)) {
-            sourceAfter = Source.builder().id((long) -3).build();
-            sourceBefore = sourceAfter;
-        } else {
-            sourceAfter = sourceRepo.findById((long) id);
-            sourceBefore = Source
-                    .builder()
-                    .isArchive(sourceAfter.getIsArchive())
-                    .dateActivation(sourceAfter.getDateActivation())
-                    .build();
+        sourceAfter.deArchive();
 
-            sourceAfter.setIsArchive(false);
-            sourceAfter.setDateActivation(LocalDateTime.now());
+        sourceRepo.save(sourceAfter);
 
-            sourceRepo.save(sourceAfter);
-
-        }
-
-        sourceLoggerService.createLogSourceDeArchive(sourceBefore, sourceAfter);
+        saveDeArchiveLog(sourceBefore, sourceAfter);
 
         return sourceAfter;
     }
 
-    @Override
-    public Source updateSource(Source source) {
-        Source afterUpdate;
-        Source beforeUpdate;
+    private Source saveUpdateSource(Source source) {
+        Source beforeUpdate = new Source(sourceRepo.findById((long) source.getId()));
 
-        if (source.getId() == null) {
-            afterUpdate = Source.builder().id((long) -4).build();
-            beforeUpdate = afterUpdate;
+        source.setUpdateTime(beforeUpdate);
 
-        } else if (!sourceRepo.existsById(source.getId())) {
-            afterUpdate = Source.builder().id((long) -3).build();
-            beforeUpdate = afterUpdate;
-
-        } else if (!validator.isValid(source)) {
-            afterUpdate = Source.builder().id((long) -1).build();
-            beforeUpdate = afterUpdate;
-
-        } else if (sourceRepo.existsByShortName(source.getShortName())
-                && !sourceRepo.existsByShortNameAndId(
-                source.getShortName(),
-                source.getId())) {
-
-            afterUpdate = Source.builder().id((long) -2).build();
-            beforeUpdate = afterUpdate;
-        } else {
-
-            beforeUpdate = new Source(sourceRepo.findById((long) source.getId()));
-
-            source.setLastUpdate(LocalDateTime.now());
-            source.setDateCreation(beforeUpdate.getDateCreation());
-            source.setDateActivation(beforeUpdate.getDateActivation());
-            source.setDateDeactivation(beforeUpdate.getDateDeactivation());
-
-            afterUpdate = sourceRepo.save(source);
-        }
+        Source afterUpdate = sourceRepo.save(source);
 
         sourceLoggerService.createLogSourceUpdate(beforeUpdate, afterUpdate);
 
         return afterUpdate;
+    }
+
+    private Source buildInvalidSource(Source source) {
+        if (source.getId() == null) {
+            return buildBadIdSource();
+
+        } else if (!sourceRepo.existsById(source.getId())) {
+            return buildNotExistSource();
+
+        } else {
+            return buildBadNameSource();
+        }
+    }
+
+    private Source buildBadArchiveSource() {
+        Source sourceAfter = Source.getBadIdSource(-3);
+        Source sourceBefore = Source.getBadIdSource(-3);
+
+        saveArchiveLog(sourceBefore, sourceAfter);
+
+        return sourceAfter;
+    }
+
+    private Source buildBadDeArchiveSource() {
+        Source sourceAfter = Source.getBadIdSource(-3);
+        Source sourceBefore = Source.getBadIdSource(-3);
+
+        saveDeArchiveLog(sourceBefore, sourceAfter);
+
+        return sourceAfter;
+    }
+
+    private Source buildBadIdSource() {
+        Source sourceAfter = Source.getBadIdSource(-4);
+        Source sourceBefore = Source.getBadIdSource(-4);
+
+        saveUpdateLog(sourceBefore, sourceAfter);
+
+        return sourceAfter;
+    }
+
+    private Source buildNotExistSource() {
+        Source sourceAfter = Source.getBadIdSource(-3);
+        Source sourceBefore = Source.getBadIdSource(-3);
+
+        saveUpdateLog(sourceBefore, sourceAfter);
+
+        return sourceAfter;
+    }
+
+    private Source buildBadNameSource() {
+        Source sourceAfter = Source.getBadIdSource(-2);
+        Source sourceBefore = Source.getBadIdSource(-2);
+
+        saveUpdateLog(sourceBefore, sourceAfter);
+
+        return sourceAfter;
+    }
+
+    private boolean invalid(Source source) {
+        return source.getId() == null ||
+                !sourceRepo.existsById(source.getId()) ||
+                (
+                        sourceRepo.existsByShortName(source.getShortName()) &&
+                                !sourceRepo.existsByShortNameAndId(source.getShortName(), source.getId())
+                );
+    }
+
+    private void saveArchiveLog(Source before, Source after) {
+        sourceLoggerService.createLogSourceArchive(before, after);
+    }
+
+    private void saveDeArchiveLog(Source before, Source after) {
+        sourceLoggerService.createLogSourceDeArchive(before, after);
+    }
+
+    private void saveUpdateLog(Source before, Source after) {
+        sourceLoggerService.createLogSourceUpdate(before, after);
     }
 
 }

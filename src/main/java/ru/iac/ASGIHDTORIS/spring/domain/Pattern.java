@@ -61,6 +61,62 @@ public class Pattern {
         sourceId = pattern.getSourceId();
     }
 
+    public void setCreate() {
+        this.setDateCreation(LocalDateTime.now());
+        this.setDateActivation(LocalDateTime.now());
+        this.setLastUpdate(LocalDateTime.now());
+        this.setArchiveFileCount(0);
+        this.setFileCount(0);
+        this.setIsArchive(false);
+    }
+
+    public void setUpdate(Pattern beforeUpdate) {
+        this.setLastUpdate(LocalDateTime.now());
+        this.setDateCreation(beforeUpdate.getDateCreation());
+        this.setDateActivation(beforeUpdate.getDateActivation());
+        this.setDateDeactivation(beforeUpdate.getDateDeactivation());
+    }
+
+    public static Pattern getBadIdPattern(long id) {
+        return Pattern.builder().id(id).build();
+    }
+
+    public void archive() {
+        this.setIsArchive(true);
+        this.setDateDeactivation(LocalDateTime.now());
+    }
+
+    public void deArchive() {
+        this.setIsArchive(false);
+        this.setDateActivation(LocalDateTime.now());
+    }
+
+    public void incrementFiles(int count) {
+        this.setFileCount(this.getFileCount() + count);
+        this.setArchiveFileCount(this.getArchiveFileCount() - count);
+    }
+
+    public void decrementFiles(int count) {
+        this.setFileCount(this.getFileCount() - count);
+        this.setArchiveFileCount(this.getArchiveFileCount() + count);
+    }
+
+    public static Pattern getArchiveInfo(Pattern patternAfter) {
+        return Pattern
+                .builder()
+                .isArchive(patternAfter.getIsArchive())
+                .dateDeactivation(patternAfter.getDateDeactivation())
+                .build();
+    }
+
+    public static Pattern getDeArchiveInfo(Pattern patternAfter) {
+        return Pattern
+                .builder()
+                .isArchive(patternAfter.getIsArchive())
+                .dateActivation(patternAfter.getDateActivation())
+                .build();
+    }
+
 }
 
 

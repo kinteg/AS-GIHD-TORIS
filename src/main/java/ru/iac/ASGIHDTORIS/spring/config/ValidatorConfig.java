@@ -4,9 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
 import ru.iac.ASGIHDTORIS.common.validator.validator.domain.PatternValidator;
-import ru.iac.ASGIHDTORIS.common.validator.validator.domain.SourceValidator;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
-import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 
 @Configuration
@@ -16,11 +14,6 @@ public class ValidatorConfig {
 
     public ValidatorConfig(SourceRepo sourceRepo) {
         this.sourceRepo = sourceRepo;
-    }
-
-    @Bean
-    public Validator<Source> getSourceValidator() {
-        return new SourceValidator();
     }
 
     @Bean

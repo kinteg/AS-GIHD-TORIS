@@ -24,7 +24,7 @@
                                 {{patternLogInfo.errors.error}}
                             </el-form-item>
                             <el-form-item label="Источник:">
-                                {{patternLogInfo.sourceId}}
+                                {{patternLogInfo.patternId}}
                             </el-form-item>
                             <el-form-item label="Дата изменения:">
                                 {{patternLogInfo.dateCreation}}

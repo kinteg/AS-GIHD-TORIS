@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -22,19 +24,43 @@ public class Source {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotEmpty
+    @NotNull
     private String name;
+    @NotEmpty
+    @NotNull
     private String longName;
+    @NotEmpty
+    @NotNull
     private String shortName;
 
+    @NotEmpty
+    @NotNull
     private String description;
+    @NotEmpty
+    @NotNull
     private String addDescription;
 
+    @NotEmpty
+    @NotNull
     private String scope;
+    @NotEmpty
+    @NotNull
     private String periodicity;
+    @NotEmpty
+    @NotNull
     private String renewalPeriod;
+    @NotEmpty
+    @NotNull
     private String type;
+    @NotEmpty
+    @NotNull
     private String tags;
+    @NotEmpty
+    @NotNull
     private String providerLink;
+    @NotEmpty
+    @NotNull
     private String dataSource;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
@@ -72,6 +98,49 @@ public class Source {
         dateActivation = source.getDateActivation();
         lastUpdate = source.getLastUpdate();
         isArchive = source.getIsArchive();
+    }
+
+    public void setCreateTime() {
+        this.setDateCreation(LocalDateTime.now());
+        this.setDateActivation(LocalDateTime.now());
+        this.setLastUpdate(LocalDateTime.now());
+    }
+
+    public void setUpdateTime(Source beforeUpdate) {
+        this.setLastUpdate(LocalDateTime.now());
+        this.setDateCreation(beforeUpdate.getDateCreation());
+        this.setDateActivation(beforeUpdate.getDateActivation());
+        this.setDateDeactivation(beforeUpdate.getDateDeactivation());
+    }
+
+    public void archive() {
+        this.setIsArchive(true);
+        this.setDateDeactivation(LocalDateTime.now());
+    }
+
+    public void deArchive() {
+        this.setIsArchive(false);
+        this.setDateActivation(LocalDateTime.now());
+    }
+
+    public static Source getArchiveInfo(Source sourceAfter) {
+        return Source
+                .builder()
+                .isArchive(sourceAfter.getIsArchive())
+                .dateDeactivation(sourceAfter.getDateDeactivation())
+                .build();
+    }
+
+    public static Source getDeArchiveInfo(Source sourceAfter) {
+        return Source
+                .builder()
+                .isArchive(sourceAfter.getIsArchive())
+                .dateActivation(sourceAfter.getDateActivation())
+                .build();
+    }
+
+    public static Source getBadIdSource(long id) {
+        return Source.builder().id(id).build();
     }
 
     @Override

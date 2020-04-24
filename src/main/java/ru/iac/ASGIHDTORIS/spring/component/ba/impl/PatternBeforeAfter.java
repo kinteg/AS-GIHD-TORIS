@@ -140,7 +140,7 @@ public class PatternBeforeAfter implements BeforeAfter<Pattern> {
                 .patternLoggerId(loggerId)
                 .columnName("date_deactivation")
                 .before(before.getDateDeactivation() == null ?
-                        null : before.getDateDeactivation().toString())
+                        "-" : before.getDateDeactivation().toString())
                 .after(after.getDateDeactivation().toString())
                 .build();
 

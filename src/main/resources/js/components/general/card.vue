@@ -921,8 +921,11 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-                    console.log(response);
                     this.table = response.data;
+                    console.log(this.table);
+                    for(let i = 0; i < this.table.length; i++) {
+                        this.table[i].tableModel.primaryKey = this.table[0].tableModel.models[0].key;
+                    }
                 });
             },
 

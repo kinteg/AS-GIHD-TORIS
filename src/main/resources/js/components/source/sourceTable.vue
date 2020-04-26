@@ -138,18 +138,30 @@
                     </td>
                     <td><el-checkbox @change="check(source.id)"></el-checkbox></td>
                     <td v-if="hidden.id">{{source.id}}</td>
-                    <td v-if="hidden.name">{{source.name}}</td>
-                    <td v-if="hidden.longName">{{source.longName}}</td>
-                    <td v-if="hidden.shortName">{{source.shortName}}</td>
-                    <td v-if="hidden.description">{{source.description}}</td>
-                    <td v-if="hidden.addDescription">{{source.addDescription}}</td>
-                    <td v-if="hidden.scope">{{source.scope}}</td>
-                    <td v-if="hidden.periodicity">{{source.periodicity}}</td>
-                    <td v-if="hidden.renewalPeriod">{{source.renewalPeriod}}</td>
-                    <td v-if="hidden.type">{{source.type}}</td>
-                    <td v-if="hidden.tags">{{source.tags}}</td>
-                    <td v-if="hidden.providerLink">{{source.providerLink}}</td>
-                    <td v-if="hidden.dataSource">{{source.dataSource}}</td>
+                    <td v-if="hidden.name && source.name.length < 40">{{source.name.substr(0, 40)}}</td>
+                    <td v-else-if="hidden.name && source.name.length >= 40">{{source.name.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
+                    <td v-if="hidden.longName && source.longName.length < 40">{{source.longName.substr(0, 40)}}</td>
+                    <td v-else-if="hidden.longName && source.longName.length >= 40">{{source.longName.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
+                    <td v-if="hidden.shortName && source.shortName.length < 40">{{source.shortName.substr(0, 40)}}</td>
+                    <td v-else-if="hidden.shortName && source.shortName.length >= 40">{{source.shortName.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
+                    <td v-if="hidden.description && source.description.length < 40">{{source.description.substr(0, 40)}}</td>
+                    <td v-else-if="hidden.description && source.description.length >= 40">{{source.description.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
+                    <td v-if="hidden.addDescription && source.addDescription.length < 40">{{source.addDescription.substr(0, 40)}}</td>
+                    <td v-else-if="hidden.addDescription && source.addDescription.length >= 40">{{source.addDescription.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
+                    <td v-if="hidden.scope && source.scope.length < 40">{{source.scope.substr(0, 40)}}</td>
+                    <td v-else-if="hidden.scope && source.scope.length >= 40">{{source.scope.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
+                    <td v-if="hidden.periodicity && source.periodicity.length < 40">{{source.periodicity.substr(0, 40)}}</td>
+                    <td v-else-if="hidden.periodicity && source.periodicity.length >= 40">{{source.periodicity.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
+                    <td v-if="hidden.renewalPeriod && source.renewalPeriod.length < 40">{{source.renewalPeriod.substr(0, 40)}}</td>
+                    <td v-else-if="hidden.renewalPeriod && source.renewalPeriod.length >= 40">{{source.renewalPeriod.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
+                    <td v-if="hidden.type && source.type.length < 40">{{source.type.substr(0, 40)}}</td>
+                    <td v-else-if="hidden.type && source.type.length >= 40">{{source.type.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
+                    <td v-if="hidden.tags && source.tags.length < 40">{{source.tags.substr(0, 40)}}</td>
+                    <td v-else-if="hidden.tags && source.tags.length >= 40">{{source.tags.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
+                    <td v-if="hidden.providerLink && source.providerLink.length < 40">{{source.providerLink.substr(0, 40)}}</td>
+                    <td v-else-if="hidden.providerLink && source.providerLink.length >= 40">{{source.providerLink.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
+                    <td v-if="hidden.dataSource && source.dataSource.length < 40">{{source.dataSource.substr(0, 40)}}</td>
+                    <td v-else-if="hidden.dataSource && source.dataSource.length >= 40">{{source.dataSource.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
                     <td v-if="hidden.isArchive">{{source.isArchive ? "Да" : "Нет"}}</td>
                     <td v-if="hidden.dateCreation">{{source.dateCreation}}</td>
                     <td v-if="hidden.dateDeactivation">{{source.dateDeactivation}}</td>

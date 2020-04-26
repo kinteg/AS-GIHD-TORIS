@@ -10,8 +10,8 @@
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item><el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.nameTable = !hidden.nameTable">Навание</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.nameFile = !hidden.nameFile">Описание</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.nameTable = !hidden.nameTable">Навание таблицы</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.nameFile = !hidden.nameFile">Название файла</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check3" @change="hidden.isArchive = !hidden.isArchive">Архивность</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check4" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check5" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>

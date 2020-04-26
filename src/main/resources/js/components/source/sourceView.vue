@@ -11,22 +11,22 @@
                                     <el-col :span="12">
                                         <div>
                                             <el-form :label-position="labelPosition" label-width="100px" :model="source">
-                                                <el-form-item label="Поставщик данных:">
+                                                <el-form-item class="label" label="Поставщик данных:">
                                                     {{source.name}}
                                                 </el-form-item>
-                                                <el-form-item label="Полное наименование набора:">
+                                                <el-form-item class="label" label="Полное наименование набора:">
                                                     {{source.longName}}
                                                 </el-form-item>
-                                                <el-form-item label="Краткое наименование набора:">
+                                                <el-form-item class="label" label="Краткое наименование набора:">
                                                     {{source.shortName}}
                                                 </el-form-item>
-                                                <el-form-item label="Описание:">
+                                                <el-form-item class="label" label="Описание:">
                                                     {{source.description}}
                                                 </el-form-item>
-                                                <el-form-item label="Дополнительное описание:">
+                                                <el-form-item class="label" label="Дополнительное описание:">
                                                     {{source.addDescription}}
                                                 </el-form-item>
-                                                <el-form-item label="Сфера (направление):">
+                                                <el-form-item class="label" label="Сфера (направление):">
                                                     {{source.scope}}
                                                 </el-form-item>
                                             </el-form>
@@ -35,22 +35,22 @@
                                     <el-col :span="12">
                                         <div>
                                             <el-form :label-position="labelPosition" label-width="100px" :model="source">
-                                                <el-form-item label="Периодичность актуализации:">
+                                                <el-form-item class="label" label="Периодичность актуализации:">
                                                     {{source.periodicity}}
                                                 </el-form-item>
-                                                <el-form-item label="Срок обновления набора данных:">
+                                                <el-form-item class="label" label="Срок обновления набора данных:">
                                                     {{source.renewalPeriod}}
                                                 </el-form-item>
-                                                <el-form-item label="Вид набора:">
+                                                <el-form-item class="label" label="Вид набора:">
                                                     {{source.type}}
                                                 </el-form-item>
-                                                <el-form-item label="Ключевые слова (теги):">
+                                                <el-form-item class="label" label="Ключевые слова (теги):">
                                                     {{source.tags}}
                                                 </el-form-item>
-                                                <el-form-item label="Источник данных:">
+                                                <el-form-item class="label" label="Источник данных:">
                                                     {{source.providerLink}}
                                                 </el-form-item>
-                                                <el-form-item label="Ссылка на данные на сайте поставщика:">
+                                                <el-form-item class="label" label="Ссылка на данные на сайте поставщика:">
                                                     {{source.dataSource}}
                                                 </el-form-item>
                                             </el-form>
@@ -240,5 +240,9 @@
     th {
         padding: 10px;
         height: 50px;
+    }
+
+    .label{
+        word-break: break-all;
     }
 </style>

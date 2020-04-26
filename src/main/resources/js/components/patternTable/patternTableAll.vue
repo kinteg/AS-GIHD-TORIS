@@ -11,8 +11,8 @@
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item><el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.nameTable = !hidden.nameTable">Навание</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.nameFile = !hidden.nameFile">Описание</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.nameTable = !hidden.nameTable">Навание таблицы</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.nameFile = !hidden.nameFile">Название файла</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check3" @change="hidden.isArchive = !hidden.isArchive">Архивность</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check4" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
                         <el-dropdown-item><el-checkbox checked="checked" id="check5" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>
@@ -107,8 +107,10 @@
                         </td>
 <!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
                         <td v-if="hidden.id">{{table.id}}</td>
-                        <td v-if="hidden.nameTable">{{table.nameTable}}</td>
-                        <td v-if="hidden.nameFile">{{table.nameFile}}</td>
+                        <td v-if="hidden.nameTable && table.nameTable.length < 40">{{table.nameTable}}</td>
+                        <td v-else-if="hidden.nameTable && table.nameTable.length >= 40">{{table.nameTable.substr(0, 40)}}<router-link :to="'/patternTable/show/' + table.id">...</router-link></td>
+                        <td v-if="hidden.nameFile && table.nameFile.length < 40">{{table.nameFile}}</td>
+                        <td v-else-if="hidden.nameFile && table.nameFile.length >= 40">{{table.nameFile.substr(0, 40)}}<router-link :to="'/patternTable/show/' + table.id">...</router-link></td>
                         <td v-if="hidden.isArchive">{{table.isArchive ? "Да" : "Нет"}}</td>
                         <td v-if="hidden.dateCreation">{{table.dateCreation}}</td>
                         <td v-if="hidden.dateDeactivation">{{table.dateDeactivation}}</td>

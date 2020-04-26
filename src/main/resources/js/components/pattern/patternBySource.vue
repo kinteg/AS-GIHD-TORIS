@@ -9,16 +9,16 @@
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item><el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.name = !hidden.name">Навание</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.description = !hidden.description">Описание</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check3" @change="hidden.direction = !hidden.direction">Направление</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check4" @change="hidden.management = !hidden.management">Ответсвенный за ведение </el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check5" @change="hidden.isArchive = !hidden.isArchive">Архивность</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check6" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check7" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check8" @change="hidden.dateActivation = !hidden.dateActivation">Дата активации</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check9" @change="hidden.lastUpdate = !hidden.lastUpdate">Последнее обновление</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck1" @change="hidden.name = !hidden.name">Навание</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck2" @change="hidden.description = !hidden.description">Описание</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck3" @change="hidden.direction = !hidden.direction">Направление</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck4" @change="hidden.management = !hidden.management">Ответсвенный за ведение </el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck5" @change="hidden.isArchive = !hidden.isArchive">Архивность</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck6" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck7" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck8" @change="hidden.dateActivation = !hidden.dateActivation">Дата активации</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck9" @change="hidden.lastUpdate = !hidden.lastUpdate">Последнее обновление</el-checkbox></el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </p>
@@ -254,16 +254,16 @@
             },
 
             hiddenAll(){
-                document.getElementById("check").click();
-                document.getElementById("check1").click();
-                document.getElementById("check2").click();
-                document.getElementById("check3").click();
-                document.getElementById("check4").click();
-                document.getElementById("check5").click();
-                document.getElementById("check6").click();
-                document.getElementById("check7").click();
-                document.getElementById("check8").click();
-                document.getElementById("check9").click();
+                document.getElementById("patternCheck").click();
+                document.getElementById("patternCheck1").click();
+                document.getElementById("patternCheck2").click();
+                document.getElementById("patternCheck3").click();
+                document.getElementById("patternCheck4").click();
+                document.getElementById("patternCheck5").click();
+                document.getElementById("patternCheck6").click();
+                document.getElementById("patternCheck7").click();
+                document.getElementById("patternCheck8").click();
+                document.getElementById("patternCheck9").click();
             },
 
             showCard(patternId){

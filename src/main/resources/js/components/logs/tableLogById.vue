@@ -11,7 +11,7 @@
                         <el-form-item label="Действие:">
                             {{patternTableLogInfo.actions.action}}
                         </el-form-item>
-                        <el-form-item label="Краткое наименование набора:">
+                        <el-form-item label="Статус:">
                             {{patternTableLogInfo.statuses.status}}
                         </el-form-item>
                     </el-form>
@@ -47,6 +47,10 @@
                     <td>{{log.after}}</td>
                 </tr>
             </table>
+            <el-button @click="backToLogsTable"
+                       style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
+                Назад
+            </el-button>
         </div>
     </div>
 </template>
@@ -66,7 +70,9 @@
         },
 
         methods: {
-
+            backToLogsTable(){
+                router.push({name:'patternTableLogs'})
+            }
         },
 
         mounted() {

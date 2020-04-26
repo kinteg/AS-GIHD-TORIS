@@ -109,10 +109,14 @@
                     </td>
                     <td> <el-checkbox @change="check(pattern.id)"></el-checkbox></td>
                     <td v-if="hidden.id">{{pattern.id}}</td>
-                    <td v-if="hidden.name">{{pattern.name}}</td>
-                    <td v-if="hidden.description">{{pattern.description}}</td>
-                    <td v-if="hidden.direction">{{pattern.direction}}</td>
-                    <td v-if="hidden.management">{{pattern.management}}</td>
+                    <td v-if="hidden.name && pattern.name.length < 40">{{pattern.name}}</td>
+                    <td v-else-if="hidden.name && pattern.name.length >= 40">{{pattern.name.substr(0, 40)}}<router-link :to="'/pattern/card/' + pattern.id">...</router-link></td>
+                    <td v-if="hidden.description && pattern.description.length < 40">{{pattern.description}}</td>
+                    <td v-else-if="hidden.description && pattern.description.length >= 40">{{pattern.description.substr(0, 40)}}<router-link :to="'/pattern/card/' + pattern.id">...</router-link></td>
+                    <td v-if="hidden.direction && pattern.direction.length < 40">{{pattern.direction}}</td>
+                    <td v-else-if="hidden.direction && pattern.direction.length >= 40">{{pattern.direction.substr(0, 40)}}<router-link :to="'/pattern/card/' + pattern.id">...</router-link></td>
+                    <td v-if="hidden.management && pattern.management.length < 40">{{pattern.management}}</td>
+                    <td v-else-if="hidden.management && pattern.management.length >= 40">{{pattern.management.substr(0, 40)}}<router-link :to="'/pattern/card/' + pattern.id">...</router-link></td>
                     <td v-if="hidden.isArchive">{{pattern.isArchive ? "Да" : "Нет"}}</td>
                     <td v-if="hidden.dateCreation">{{pattern.dateCreation}}</td>
                     <td v-if="hidden.dateDeactivation">{{pattern.dateDeactivation}}</td>

@@ -5,13 +5,13 @@
             <el-col :span="8">
                 <div>
                     <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
-                        <el-form-item label="Название:">
+                        <el-form-item class="label" label="Название:">
                             {{pattern.name}}
                         </el-form-item>
-                        <el-form-item label="Описание:">
+                        <el-form-item class="label" label="Описание:">
                             {{pattern.description}}
                         </el-form-item>
-                        <el-form-item label="Сфера (направление):">
+                        <el-form-item class="label" label="Сфера (направление):">
                             {{pattern.direction}}
                         </el-form-item>
                     </el-form>
@@ -20,13 +20,13 @@
             <el-col :span="8">
                 <div>
                     <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
-                        <el-form-item label="Ответственный за ведение:">
+                        <el-form-item class="label" label="Ответственный за ведение:">
                             {{pattern.management}}
                         </el-form-item>
-                        <el-form-item label="Архивность:">
+                        <el-form-item class="label" label="Архивность:">
                             {{pattern.isArchive ? "Да" : "Нет"}}
                         </el-form-item>
-                        <el-form-item label="Дата создания:">
+                        <el-form-item class="label" label="Дата создания:">
                             {{pattern.dateCreation}}
                         </el-form-item>
                     </el-form>
@@ -35,13 +35,13 @@
             <el-col :span="8">
                 <div>
                     <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
-                        <el-form-item label="Дата архивации:">
+                        <el-form-item class="label" label="Дата архивации:">
                             {{pattern.dateDeactivation}}
                         </el-form-item>
-                        <el-form-item label="Дата активации:">
+                        <el-form-item class="label" label="Дата активации:">
                             {{pattern.dateActivation}}
                         </el-form-item>
-                        <el-form-item label="Последнее обновление:">
+                        <el-form-item class="label" label="Последнее обновление:">
                             {{pattern.lastUpdate}}
                         </el-form-item>
                     </el-form>
@@ -89,5 +89,7 @@
 </script>
 
 <style scoped>
-
+    .label{
+        word-break: break-all;
+    }
 </style>

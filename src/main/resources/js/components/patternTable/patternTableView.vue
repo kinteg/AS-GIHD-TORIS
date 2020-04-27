@@ -47,6 +47,8 @@
                                 :totalElements="paginationOneTable.totalElements"
                                 @onCurrentChange="onCurrentChangeOneTable"
                                 @onSizeChange="onSizeChangeOneTable"/>
+                        <el-button @click="backToPatternTableTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+
                     </div>
                 </div>
             </el-col>
@@ -101,7 +103,7 @@
                 </div>
             </el-col>
             <el-col :span="8">
-                <div style="margin-top: 20px; background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                <div v-if="patternTable.isActive" style="margin-top: 20px; background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
                     <p style="font-size: 20px">Версии</p>
                     <table style="overflow-x: auto; ">
                         <tr>
@@ -180,6 +182,10 @@
         },
 
         methods:{
+            backToPatternTableTable(){
+                router.push({name: "ShowPatternTable"});
+            },
+
             sort(key){
                 let formData = new FormData();
                 let keys = [];

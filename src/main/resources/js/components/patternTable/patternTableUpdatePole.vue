@@ -15,15 +15,14 @@
                 <el-button slot="trigger" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выберите файл для обновления полей</el-button>
             </el-upload>
             <el-collapse v-for="oneTable in table">
-                <el-collapse-item :title="patternTableName" >
+                <el-collapse-item :title="patternTableName">
                     <el-input :disabled="true" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" v-model="patternTableName" placeholder="Название таблицы"></el-input>
                     <el-form v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
-                        <el-form-item >
-                            <!--                            <el-button :id="pole.key" @click="primaryChange(pole.key)" class="common" type="primary" size="mini" icon="el-icon-key"></el-button>-->
-                            <!--                                                    <input :checked="pole.primary" type="radio" :name="oneTable.tableModel.tableName"/>-->
+                        <el-form-item>
                             <el-radio-group v-model="oneTable.tableModel.primaryKey">
                                 <el-radio :label="pole.key">-</el-radio>
-                            </el-radio-group></el-form-item>
+                            </el-radio-group>
+                        </el-form-item>
                         <el-form-item>
 
                             <el-input v-model="pole.key" placeholder="Approved by"></el-input>
@@ -110,9 +109,9 @@
                     let fileName = oneTable.tableModel.filename;
                     let primaryKey = oneTable.tableModel.primaryKey;
                     for(let j = 0; j<model.length; j++){
-                        console.log(primaryKey);
-                        console.log(model[j].key);
-                        console.log("--------------");
+                        // console.log(primaryKey);
+                        // console.log(model[j].key);
+                        // console.log("--------------");
                         primary.push(primaryKey === model[j].key);
                         key.push(model[j].key);
                         type.push(model[j].type);
@@ -216,6 +215,9 @@
                         }
                     }).then(response => {
                     this.table = response.data;
+                    this.table[0].tableModel.primaryKey = this.table[0].tableModel.models[0].key;
+                    console.log(response.data);
+                    console.log(this.table[0].tableModel.primaryKey );
                 });
             },
         },
@@ -229,6 +231,7 @@
                 this.patternTable = response.data.tableModel;
                 this.patternTableName = this.patternTable.tableName;
                 this.patternNameFile = this.patternTable.filename;
+
             });
         }
     }

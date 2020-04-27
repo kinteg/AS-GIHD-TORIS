@@ -12,22 +12,22 @@
                                         <el-col :span="12">
                                             <div>
                                                 <el-form :label-position="labelPosition" label-width="100px" :model="source">
-                                                    <el-form-item label="Поставщик данных:">
+                                                    <el-form-item class="label" label="Поставщик данных:">
                                                         {{source.name}}
                                                     </el-form-item>
-                                                    <el-form-item label="Полное наименование набора:">
+                                                    <el-form-item class="label" label="Полное наименование набора:">
                                                         {{source.longName}}
                                                     </el-form-item>
-                                                    <el-form-item label="Краткое наименование набора:">
+                                                    <el-form-item class="label" label="Краткое наименование набора:">
                                                         {{source.shortName}}
                                                     </el-form-item>
-                                                    <el-form-item label="Описание:">
+                                                    <el-form-item class="label" label="Описание:">
                                                         {{source.description}}
                                                     </el-form-item>
-                                                    <el-form-item label="Дополнительное описание:">
+                                                    <el-form-item class="label" label="Дополнительное описание:">
                                                         {{source.addDescription}}
                                                     </el-form-item>
-                                                    <el-form-item label="Сфера (направление):">
+                                                    <el-form-item class="label" label="Сфера (направление):">
                                                         {{source.scope}}
                                                     </el-form-item>
                                                 </el-form>
@@ -36,22 +36,22 @@
                                         <el-col :span="12">
                                             <div>
                                                 <el-form :label-position="labelPosition" label-width="100px" :model="source">
-                                                    <el-form-item label="Периодичность актуализации:">
+                                                    <el-form-item class="label" label="Периодичность актуализации:">
                                                         {{source.periodicity}}
                                                     </el-form-item>
-                                                    <el-form-item label="Срок обновления набора данных:">
+                                                    <el-form-item class="label" label="Срок обновления набора данных:">
                                                         {{source.renewalPeriod}}
                                                     </el-form-item>
-                                                    <el-form-item label="Вид набора:">
+                                                    <el-form-item class="label" label="Вид набора:">
                                                         {{source.type}}
                                                     </el-form-item>
-                                                    <el-form-item label="Ключевые слова (теги):">
+                                                    <el-form-item class="label" label="Ключевые слова (теги):">
                                                         {{source.tags}}
                                                     </el-form-item>
-                                                    <el-form-item label="Источник данных:">
+                                                    <el-form-item class="label" label="Источник данных:">
                                                         {{source.providerLink}}
                                                     </el-form-item>
-                                                    <el-form-item label="Ссылка на данные на сайте поставщика:">
+                                                    <el-form-item class="label" label="Ссылка на данные на сайте поставщика:">
                                                         {{source.dataSource}}
                                                     </el-form-item>
                                                 </el-form>
@@ -60,6 +60,11 @@
                                     </el-row>
                                 </div>
                                 <el-button @click="updateSource" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Редактировать</el-button>
+                                <el-button @click="backToPatternTable"
+                                           style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                           type="primary">
+                                    Назад
+                                </el-button>
                             </el-tab-pane>
                             <el-tab-pane label="Шаблон" name="patternInfo">
                                 <div v-if="viewPattern">
@@ -68,22 +73,22 @@
                                         <el-col :span="12">
                                             <div>
                                                 <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
-                                                    <el-form-item label="Название:">
+                                                    <el-form-item class="label" label="Название:">
                                                         {{pattern.name}}
                                                     </el-form-item>
-                                                    <el-form-item label="Описание:">
+                                                    <el-form-item class="label" label="Описание:">
                                                         {{pattern.description}}
                                                     </el-form-item>
-                                                    <el-form-item label="Сфера (направление):">
+                                                    <el-form-item class="label" label="Сфера (направление):">
                                                         {{pattern.direction}}
                                                     </el-form-item>
-                                                    <el-form-item label="Ответственный за ведение:">
+                                                    <el-form-item class="label" label="Ответственный за ведение:">
                                                         {{pattern.management}}
                                                     </el-form-item>
-                                                    <el-form-item label="Архивность:">
+                                                    <el-form-item class="label" label="Архивность:">
                                                         {{pattern.isArchive ? "Да" : "Нет"}}
                                                     </el-form-item>
-                                                    <el-form-item label="Дата создания:">
+                                                    <el-form-item class="label" label="Дата создания:">
                                                         {{pattern.dateCreation}}
                                                     </el-form-item>
                                                 </el-form>
@@ -92,32 +97,42 @@
                                         <el-col :span="12">
                                             <div>
                                                 <el-form :label-position="labelPosition" label-width="100px" :model="pattern">
-                                                    <el-form-item label="Дата архивации:">
+                                                    <el-form-item class="label" label="Дата архивации:">
                                                         {{pattern.dateDeactivation}}
                                                     </el-form-item>
-                                                    <el-form-item label="Дата активации:">
+                                                    <el-form-item class="label" label="Дата активации:">
                                                         {{pattern.dateActivation}}
                                                     </el-form-item>
-                                                    <el-form-item label="Последнее обновление:">
+                                                    <el-form-item class="label" label="Последнее обновление:">
                                                         {{pattern.lastUpdate}}
                                                     </el-form-item>
-                                                    <el-form-item label="Всего таблиц:">
+                                                    <el-form-item class="label" label="Всего таблиц:">
                                                         {{pattern.fileCount}}
                                                     </el-form-item>
-                                                    <el-form-item label="Архивировано таблиц:">
+                                                    <el-form-item class="label" label="Архивировано таблиц:">
                                                         {{pattern.archiveFileCount}}
                                                     </el-form-item>
                                                 </el-form>
                                             </div>
                                         </el-col>
                                     </el-row>
-                                    <el-button @click="updatePattern"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  >Редактировать</el-button>
+                                    <el-button @click="updatePattern"
+                                               style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                               type="primary">
+                                        Редактировать
+                                    </el-button>
+                                    <el-button @click="backToPatternTable"
+                                               style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                               type="primary">
+                                        Назад
+                                    </el-button>
                                 </div>
                                 <div v-else >
                                     <el-row :gutter="20">
                                         <el-col :span="12">
                                             <div>
-                                                <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
+                                                <el-form :model="pattern" :rules="rules" ref="pattern"
+                                                         :label-position="labelPosition" label-width="100px">
                                                     <el-form-item prop="name" label="Название">
                                                         <el-input v-model="pattern.name"></el-input>
                                                     </el-form-item>
@@ -129,7 +144,8 @@
                                         </el-col>
                                         <el-col :span="12">
                                             <div>
-                                                <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
+                                                <el-form :model="pattern" :rules="rules" ref="pattern"
+                                                         :label-position="labelPosition" label-width="100px">
                                                     <el-form-item prop="direction" label="Направление:">
                                                         <el-input v-model="pattern.direction"></el-input>
                                                     </el-form-item>
@@ -347,6 +363,11 @@
                                         <el-button @click="showTableTab('no')" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
                                     </div>
                                 </div>
+                                <el-button @click="backToPatternTable"
+                                           style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                           type="primary">
+                                    Назад
+                                </el-button>
                             </el-tab-pane>
                         </el-tabs>
                     </div>
@@ -380,7 +401,11 @@
                             <td>{{file.id}}</td>
                             <td>{{file.patternId}}</td>
                             <td>
-                                <el-button @click="downloadFile(file.file)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-download"></el-button>
+                                <el-button @click="downloadFile(file.file)"
+                                           style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                           type="primary"  icon="el-icon-download">
+
+                                </el-button>
                             </td>
                             <td>{{file.dateCreation}}</td>
                         </tr>
@@ -400,7 +425,7 @@
                         <tr v-for="tableVersion in patternTableVersion.content">
                             <td>
                                 <router-link :to="'/patternTable/show/' + tableVersion.id">
-                                    <el-button @click="viewVersion(tableVersion.id)" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
+                                    <el-button style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
                                 </router-link>
                             </td>
                             <td>{{tableVersion.version}}</td>
@@ -612,6 +637,10 @@
             }
         },
         methods:{
+            backToPatternTable(){
+                router.push({name:'showPattern'});
+            },
+
             updateSource(){
                 router.push("/source/update/" + this.sourceId)
             },
@@ -619,7 +648,8 @@
             onCurrentChangeVersion(value){
                 this.paginationVersion.currentPage = value;
                 let currentPage = this.paginationVersion.currentPage - 1;
-                AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName +"&size=" + this.paginationVersion.pageSize + "&page=" + currentPage).then(response => {
+                AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName +"&size="
+                    + this.paginationVersion.pageSize + "&page=" + currentPage).then(response => {
                     this.patternTableVersion = response.data;
                 })
             },
@@ -784,6 +814,13 @@
                     AXIOS.get("tableCreator/" + this.patternTableId).then(response => {
                         this.patternTableData = response.data;
                         console.log(response);
+                        this.tableName = response.data.nameTable;
+                        AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName + "&size=" + this.paginationVersion.pageSize).then(response => {
+                            this.patternTableVersion = response.data;
+                            console.log(this.patternTableVersion);
+                            this.paginationVersion.totalPages = response.data.totalPages;
+                            this.paginationVersion.totalElements = response.data.totalElements;
+                        });
                     });
                 });
             },
@@ -921,8 +958,11 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-                    console.log(response);
                     this.table = response.data;
+                    console.log(this.table);
+                    for(let i = 0; i < this.table.length; i++) {
+                        this.table[i].tableModel.primaryKey = this.table[0].tableModel.models[0].key;
+                    }
                 });
             },
 
@@ -1129,12 +1169,7 @@
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.patternTableData = response.data.content;
-                this.tableName = response.data.tableModel.tableName;
-                AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName + "&size=" + this.paginationVersion.pageSize).then(response => {
-                    this.patternTableVersion = response.data;
-                    this.paginationVersion.totalPages = response.data.totalPages;
-                    this.paginationVersion.totalElements = response.data.totalElements;
-                });
+
             });
 
             AXIOS.get("patternLogger/getAll/"+this.$route.params.id +"?size=" + this.pagination.pageSize).then(response => {
@@ -1181,5 +1216,9 @@
         margin-bottom: 10px;
         background-color: #ffcf06;
         border-color: #ffcf06;
+    }
+
+    .label{
+        word-break: break-all;
     }
 </style>

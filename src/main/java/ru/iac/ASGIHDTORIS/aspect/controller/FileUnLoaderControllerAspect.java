@@ -52,9 +52,11 @@ public class FileUnLoaderControllerAspect {
 
     @Before(value = "callFindPatternFileById()", argNames = "jp")
     public void beforeCallAtFindPatternFileById(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(",\n"));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -66,9 +68,11 @@ public class FileUnLoaderControllerAspect {
 
     @Before(value = "callGetAllPatternFile()", argNames = "jp")
     public void beforeCallAtGetAllPatternFile(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -94,9 +98,11 @@ public class FileUnLoaderControllerAspect {
 
     @Before(value = "callGetAllPatternFileByPatternId()", argNames = "jp")
     public void beforeCallAtGetAllPatternFileByPatternId(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -112,9 +118,11 @@ public class FileUnLoaderControllerAspect {
 
     @Before(value = "callFindPatternTableFileById()", argNames = "jp")
     public void beforeCallAtFindPatternTableFileById(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(",\n"));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -125,9 +133,11 @@ public class FileUnLoaderControllerAspect {
 
     @Before(value = "callGetAllPatternTableFile()", argNames = "jp")
     public void beforeCallAtGetAllPatternTableFile(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -153,9 +163,11 @@ public class FileUnLoaderControllerAspect {
 
     @Before(value = "callGetAllPatternTableFileByPatternId()")
     public void beforeCallAtGetAllPatternTableFileByPatternId(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -171,9 +183,11 @@ public class FileUnLoaderControllerAspect {
 
     @Before(value = "callGetPatternFile()")
     public void beforeCallAtGetPatternFile(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -184,9 +198,11 @@ public class FileUnLoaderControllerAspect {
 
     @Before(value = "callGetPatternTableFile()")
     public void beforeCallAtGetPatternTableFile(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 

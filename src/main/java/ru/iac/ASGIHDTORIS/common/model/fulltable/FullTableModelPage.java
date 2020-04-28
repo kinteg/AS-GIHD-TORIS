@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 
+import java.awt.print.Pageable;
+import java.util.Collections;
 import java.util.Map;
 
 @Data
@@ -17,5 +19,13 @@ public class FullTableModelPage {
 
     private TableModel tableModel;
     private Page<Map<String, String>> values;
+
+    public static FullTableModelPage getEmptyFullTableModelPage() {
+        return FullTableModelPage
+                .builder()
+                .tableModel(TableModel.emptyTableModel())
+                .values(Page.empty())
+                .build();
+    }
 
 }

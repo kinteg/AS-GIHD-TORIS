@@ -69,7 +69,8 @@ public class SourceControllerAspect {
 
     @Before("callCreateSource()")
     public void beforeCallAtCreateSource(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(",\n"));
         log.info("before " + jp.toString() + ", args=[" + args + "]");
@@ -82,9 +83,11 @@ public class SourceControllerAspect {
 
     @Before("callCheckName()")
     public void beforeCallAtCheckName(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -95,100 +98,117 @@ public class SourceControllerAspect {
 
     @Before("callGetById()")
     public void beforeCallAtGetById(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetById()", returning = "source")
     public void afterReturningCallAtGetById(JoinPoint jp, Source source) {
-        log.info("afterReturning " + jp.toString() + ", return= " + source);
+        log.info("afterReturning " + jp.toString() +
+                ", return= " + Objects.toString(source, ""));
     }
 
     @Before("callGetAll()")
     public void beforeCallAtGetAll(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAll()", returning = "pageSource")
     public void afterReturningCallAtGetAll(JoinPoint jp, Page<Source> pageSource) {
-        printPageSource(jp, pageSource);
+        log.info(printPageSource(jp, pageSource));
     }
 
     @Before("callGetAllSort()")
     public void beforeCallAtGetAllSort(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllSort()", returning = "pageSource")
     public void afterReturningCallAtGetAllSort(JoinPoint jp, Page<Source> pageSource) {
-        printPageSource(jp, pageSource);
+        log.info(printPageSource(jp, pageSource));
     }
 
     @Before("callGetAllArchive()")
     public void beforeCallAtGetAllArchive(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllArchive()", returning = "pageSource")
     public void afterReturningCallAtGetAllArchive(JoinPoint jp, Page<Source> pageSource) {
-        printPageSource(jp, pageSource);
+        log.info(printPageSource(jp, pageSource));
     }
 
     @Before("callGetAllArchiveSort()")
     public void beforeCallAtGetAllArchiveSort(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllArchiveSort()", returning = "pageSource")
     public void afterReturningCallAtGetAllArchiveSort(JoinPoint jp, Page<Source> pageSource) {
-        printPageSource(jp, pageSource);
+        log.info(printPageSource(jp, pageSource));
     }
 
     @Before("callGetAllNotArchive()")
     public void beforeCallAtGetAllNotArchive(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllNotArchive()", returning = "pageSource")
     public void afterReturningCallAtGetAllNotArchive(JoinPoint jp, Page<Source> pageSource) {
-        printPageSource(jp, pageSource);
+        log.info(printPageSource(jp, pageSource));
     }
 
     @Before("callGetAllNotArchiveSort()")
     public void beforeCallAtGetAllNotArchiveSort(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllNotArchiveSort()", returning = "pageSource")
     public void afterReturningCallAtGetAllNotArchiveSort(JoinPoint jp, Page<Source> pageSource) {
-        printPageSource(jp, pageSource);
+        log.info(printPageSource(jp, pageSource));
     }
 
     @Before("callArchiveSource()")
     public void beforeCallAtArchiveSource(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -199,9 +219,11 @@ public class SourceControllerAspect {
 
     @Before("callDeArchiveSource()")
     public void beforeCallAtDeArchiveSource(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -212,9 +234,11 @@ public class SourceControllerAspect {
 
     @Before("callUpdateSource()")
     public void beforeCallAtUpdateSource(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -223,8 +247,8 @@ public class SourceControllerAspect {
         log.info("afterReturning " + jp.toString() + ", return= " + source.toString());
     }
 
-    private void printPageSource(JoinPoint jp, Page<Source> pageSource) {
-        log.info("afterReturning " + jp.toString() + ",\n" +
+    private String printPageSource(JoinPoint jp, Page<Source> pageSource) {
+        return "afterReturning " + jp.toString() + ",\n" +
                 "return=[\n" +
                 "   pageCount=" + pageSource.getTotalPages() + ",\n" +
                 "   totalElements=" + pageSource.getTotalElements() + ",\n" +
@@ -233,13 +257,15 @@ public class SourceControllerAspect {
                 "   sort=" + pageSource.getPageable().getSort() + ",\n" +
                 "   values=[\n" +
                 "       " +
-                pageSource.getContent()
+                pageSource
+                        .getContent()
                         .stream()
                         .map(Source::toString)
                         .collect(Collectors.joining("\n       ")) +
                 "\n" +
                 "       ]\n" +
-                "]");
+                "]"
+                ;
     }
 
 }

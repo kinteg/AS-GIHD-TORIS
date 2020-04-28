@@ -103,7 +103,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             return tableRepo.getTable(patternTable.getNameTable(), patternTable.getNameFile(), searchModel);
         }
 
-        return new FullTableModelPage();
+        return FullTableModelPage.getEmptyFullTableModelPage();
     }
 
 

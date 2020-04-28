@@ -135,9 +135,11 @@ public class PatternTableControllerAspect {
 
     @Before("callCreatePatternTable()")
     public void beforeCallAtCreatePatternTable(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(",\n"));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -148,51 +150,61 @@ public class PatternTableControllerAspect {
 
     @Before("callGetTable()")
     public void beforeCallAtGetTable(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(",\n"));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetTable()", returning = "fullTableModelPage")
     public void afterReturningCallAtGetTable(JoinPoint jp, FullTableModelPage fullTableModelPage) {
-//        log.info(
-//                "afterReturning " + jp.toString() + ", return=[\n" +
-//                        "   filename=" + fullTableModelPage.getTableModel().getFilename() + ",\n" +
-//                        "   tableName=" + fullTableModelPage.getTableModel().getTableName() + ",\n" +
-//                        "   models=[\n      " + fullTableModelPage
-//                        .getTableModel()
-//                        .getModels()
-//                        .stream()
-//                        .map(DataModel::toString).collect(Collectors.joining("\n       ")) +
-//                        "]" + ",\n" +
-//                        "   values=(\n" +
-//                        "   pageCount=" + fullTableModelPage.getValues().getTotalPages() + ",\n" +
-//                        "   totalElements=" + fullTableModelPage.getValues().getTotalElements() + ",\n" +
-//                        "   pageNumber=" + fullTableModelPage.getValues().getPageable().getPageNumber() + ",\n" +
-//                        "   pageSize=" + fullTableModelPage.getValues().getPageable().getPageSize() + ",\n" +
-//                        "   sort=" + fullTableModelPage.getValues().getPageable().getSort() + ",\n" +
-//                        "   values=[\n" +
-//                        "       " +
-//                        fullTableModelPage.getValues().getContent()
-//                                .stream()
-//                                .map(Map::entrySet)
-//                                .map(entries -> entries.stream()
-//                                        .map(v -> v.getKey() + "=" + v.getValue())
-//                                        .collect(Collectors.joining(",\n         "))
-//                                )
-//                                .collect(Collectors.joining("\n       ")) +
-//                        "\n" +
-//                        "       ]\n" +
-//                        "]"
-//        );
+        log.info(
+                "afterReturning " + jp.toString() + ", return=[\n" +
+                        (fullTableModelPage != null ?
+                                "   filename=" + fullTableModelPage.getTableModel().getFilename() + ",\n" +
+                                        "   tableName=" + fullTableModelPage.getTableModel().getTableName() + ",\n" +
+                                        "   models=[\n      " +
+                                        fullTableModelPage
+                                                .getTableModel()
+                                                .getModels()
+                                                .stream()
+                                                .map(DataModel::toString).collect(Collectors.joining("\n       ")) +
+                                        "]" + ",\n" +
+                                        "   values=(\n" +
+                                        "   pageCount=" + fullTableModelPage.getValues().getTotalPages() + ",\n" +
+                                        "   totalElements=" + fullTableModelPage.getValues().getTotalElements() + ",\n" +
+                                        (!fullTableModelPage.getValues().equals(Page.empty()) ?
+                                                "   pageNumber=" + fullTableModelPage.getValues().getPageable().getPageNumber() + ",\n" +
+                                                        "   pageSize=" + fullTableModelPage.getValues().getPageable().getPageSize() + ",\n" +
+                                                        "   sort=" + fullTableModelPage.getValues().getPageable().getSort() + ",\n"
+                                                : "") +
+
+                                        "   values=[\n" +
+                                        "       " +
+                                        fullTableModelPage.getValues().getContent()
+                                                .stream()
+                                                .map(Map::entrySet)
+                                                .map(entries -> entries.stream()
+                                                        .map(v -> v.getKey() + "=" + v.getValue())
+                                                        .collect(Collectors.joining(",\n         "))
+                                                )
+                                                .collect(Collectors.joining("\n       ")) +
+                                        "\n" +
+                                        "       ]\n"
+                                : "") +
+                        "]"
+        );
     }
 
     @Before("callExistByName()")
     public void beforeCallAtExistByName(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays
+                .stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -203,9 +215,11 @@ public class PatternTableControllerAspect {
 
     @Before("callGetById()")
     public void beforeCallAtGetById(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -216,243 +230,281 @@ public class PatternTableControllerAspect {
 
     @Before("callGetAll()")
     public void beforeCallAtGetAll(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAll()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAll(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllSort()")
     public void beforeCallAtGetAllSort(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllSort()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllSort(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllByPatternId()")
     public void beforeCallAtGetAllByPatternId(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllByPatternId()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllByPatternId(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllBySourceId()")
     public void beforeCallAtGetAllBySourceId(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllBySourceId()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllBySourceId(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllByPatternIdSort()")
     public void beforeCallAtPatternIdSort(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllByPatternIdSort()", returning = "pagePatternTable")
     public void afterReturningCallAtPatternIdSort(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllBySourceIdSort()")
     public void beforeCallAtGetAllBySourceIdSort(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllBySourceIdSort()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllBySourceIdSort(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllArchive()")
     public void beforeCallAtGetAllArchive(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllArchive()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllArchive(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllArchiveSort()")
     public void beforeCallAtGetAllArchiveSort(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllArchiveSort()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllArchiveSort(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllArchiveByPatternId()")
     public void beforeCallAtGetAllArchiveByPatternId(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllArchiveByPatternId()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllArchiveByPatternId(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllArchiveByPatternIdSort()")
     public void beforeCallAtGetAllArchiveByPatternIdSort(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllArchiveByPatternIdSort()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllArchiveByPatternIdSort(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetArchiveBySourceId()")
     public void beforeCallAtGetArchiveBySourceId(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetArchiveBySourceId()", returning = "pagePatternTable")
     public void afterReturningCallAtGetArchiveBySourceId(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllArchiveBySourceIdSort()")
     public void beforeCallAtGetAllArchiveBySourceIdSort(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllArchiveBySourceIdSort()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllArchiveBySourceIdSort(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllNotArchive()")
     public void beforeCallAtGetAllNotArchive(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllNotArchive()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllNotArchive(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllNotArchiveSort()")
     public void beforeCallAtGetAllNotArchiveSort(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllNotArchiveSort()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllNotArchiveSort(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllNotArchiveByPatternId()")
     public void beforeCallAtGetAllNotArchiveByPatternId(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllNotArchiveByPatternId()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllNotArchiveByPatternId(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllNotArchiveByPatternIdSort()")
     public void beforeCallAtGetAllNotArchiveByPatternIdSort(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllNotArchiveByPatternIdSort()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllNotArchiveByPatternIdSort(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllNotArchiveBySourceId()")
     public void beforeCallAtGetAllNotArchiveBySourceId(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllNotArchiveBySourceId()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllNotArchiveBySourceId(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callGetAllNotArchiveBySourceIdSort()")
     public void beforeCallAtGetAllNotArchiveBySourceIdSort(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
     @AfterReturning(value = "callGetAllNotArchiveBySourceIdSort()", returning = "pagePatternTable")
     public void afterReturningCallAtGetAllNotArchiveBySourceIdSort(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        printPagePattern(jp, pagePatternTable);
+        log.info(printPagePattern(jp, pagePatternTable));
     }
 
     @Before("callArchivePattern()")
     public void beforeCallAtArchivePattern(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(",\n"));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -463,9 +515,11 @@ public class PatternTableControllerAspect {
 
     @Before("callDeArchivePattern()")
     public void beforeCallAtDeArchivePattern(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(",\n"));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -476,9 +530,11 @@ public class PatternTableControllerAspect {
 
     @Before("callArchivePatterns()")
     public void beforeCallAtArchivePatterns(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(",\n"));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -489,9 +545,11 @@ public class PatternTableControllerAspect {
 
     @Before("callDeArchivePatterns()")
     public void beforeCallAtDeArchivePatterns(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(",\n"));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -502,9 +560,11 @@ public class PatternTableControllerAspect {
 
     @Before("callArchivePatternsBySource()")
     public void beforeCallAtArchivePatternsBySource(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(",\n"));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -515,9 +575,11 @@ public class PatternTableControllerAspect {
 
     @Before("callDeArchivePatternsBySource()")
     public void beforeCallAtDeArchivePatternsBySource(JoinPoint jp) {
-        String args = Arrays.stream(jp.getArgs())
+        String args = Arrays.
+                stream(jp.getArgs())
                 .map(Object::toString)
                 .collect(Collectors.joining(",\n"));
+
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }
 
@@ -526,8 +588,8 @@ public class PatternTableControllerAspect {
         log.info("afterReturning " + jp.toString() + ", return= " + patternTable.toString());
     }
 
-    private void printPagePattern(JoinPoint jp, Page<PatternTable> pagePatternTable) {
-        log.info("afterReturning " + jp.toString() + ",\n" +
+    private String printPagePattern(JoinPoint jp, Page<PatternTable> pagePatternTable) {
+        return "afterReturning " + jp.toString() + ",\n" +
                 "return=[\n" +
                 "   pageCount=" + pagePatternTable.getTotalPages() + ",\n" +
                 "   totalElements=" + pagePatternTable.getTotalElements() + ",\n" +
@@ -542,7 +604,7 @@ public class PatternTableControllerAspect {
                         .collect(Collectors.joining("\n       ")) +
                 "\n" +
                 "       ]\n" +
-                "]");
+                "]";
     }
 
 }

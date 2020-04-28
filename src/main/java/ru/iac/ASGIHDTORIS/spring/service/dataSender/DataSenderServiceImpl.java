@@ -1,17 +1,11 @@
 package ru.iac.ASGIHDTORIS.spring.service.dataSender;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.iac.ASGIHDTORIS.common.Status;
-import ru.iac.ASGIHDTORIS.common.factory.FileParserFactory;
-import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
-import ru.iac.ASGIHDTORIS.common.model.file.FileStatusModel;
-import ru.iac.ASGIHDTORIS.parser.file.fixer.ColumnCreator;
-import ru.iac.ASGIHDTORIS.parser.file.parser.FileParser;
-import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
+import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternFile;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTableFile;
@@ -23,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -116,6 +109,7 @@ public class DataSenderServiceImpl implements DataSenderService {
                 .file(fileName)
                 .dateCreation(LocalDateTime.now())
                 .build();
+
         patternTableFileRepo.save(patternTableFile);
     }
 

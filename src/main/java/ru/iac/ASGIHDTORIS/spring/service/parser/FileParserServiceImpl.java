@@ -135,7 +135,7 @@ public class FileParserServiceImpl implements FileParserService {
         try {
             fullTableModel = parseFile(file, tableModel, limit);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage() + "tm4");
             fullTableModel = new FullTableModel();
         } finally {
             file.delete();
@@ -150,7 +150,7 @@ public class FileParserServiceImpl implements FileParserService {
         try {
             fullTableModel = parseFile(file, limit);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage() + "tm3");
             fullTableModel = new FullTableModel();
         } finally {
             file.delete();
@@ -167,7 +167,7 @@ public class FileParserServiceImpl implements FileParserService {
         try {
             fullTableModel = fileParser.getFullTable(file, limit, tableModel);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage() + "tm2");
             fullTableModel = new FullTableModel();
         }
 
@@ -182,7 +182,8 @@ public class FileParserServiceImpl implements FileParserService {
         try {
             fullTableModel = fileParser.getFullTable(file, limit);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage() + "tm1");
+            e.printStackTrace();
             fullTableModel = new FullTableModel();
         }
 

@@ -1,9 +1,7 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -14,10 +12,9 @@ import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo2;
 import ru.iac.ASGIHDTORIS.spring.service.source.SourceService;
-@Slf4j
+
 @RequestMapping("api/source/")
 @RestController
-@EnableAspectJAutoProxy
 public class SourceController {
 
     private final SourceRepo sourceRepo;
@@ -26,8 +23,9 @@ public class SourceController {
 
     public SourceController(
             SourceRepo sourceRepo,
-            SourceRepo2 sourceRepo2, SourceService sourceService
-    ) {
+            SourceRepo2 sourceRepo2,
+            SourceService sourceService) {
+
         this.sourceRepo = sourceRepo;
         this.sourceRepo2 = sourceRepo2;
         this.sourceService = sourceService;
@@ -62,9 +60,13 @@ public class SourceController {
     }
 
     @PostMapping("/getAllSort")
-    public Page<Source> getAllSort(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<Source> getAllSort(
+            @ModelAttribute SourceModel source,
+            @PageableDefault Pageable pageable,
+            @ModelAttribute HelpModel helpModel) {
+
         source.setHelpModel(helpModel);
-        log.info(source.toString());
+
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
 
@@ -75,9 +77,14 @@ public class SourceController {
     }
 
     @PostMapping("/getAllArchiveSort")
-    public Page<Source> getAllArchiveSort(@ModelAttribute SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<Source> getAllArchiveSort(
+            @ModelAttribute SourceModel source,
+            @PageableDefault Pageable pageable,
+            @ModelAttribute HelpModel helpModel) {
+
         source.setHelpModel(helpModel);
         source.getHelpModel().setIsArchive(true);
+
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
 
@@ -88,9 +95,14 @@ public class SourceController {
     }
 
     @PostMapping("/getAllNotArchiveSort")
-    public Page<Source> getAllNotArchiveSort(@PageableDefault(sort = "id") SourceModel source, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<Source> getAllNotArchiveSort(
+            @PageableDefault(sort = "id") SourceModel source,
+            @PageableDefault Pageable pageable,
+            @ModelAttribute HelpModel helpModel) {
+
         source.setHelpModel(helpModel);
         source.getHelpModel().setIsArchive(false);
+
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
 

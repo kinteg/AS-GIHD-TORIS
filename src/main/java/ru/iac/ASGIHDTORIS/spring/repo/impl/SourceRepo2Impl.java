@@ -14,6 +14,8 @@ import ru.iac.ASGIHDTORIS.spring.component.FullRepoHelper;
 import ru.iac.ASGIHDTORIS.spring.component.Mapper.Mapper;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo2;
+import ru.iac.ASGIHDTORIS.spring.repo.impl.params.ParamsCreator;
+import ru.iac.ASGIHDTORIS.spring.repo.impl.query.QueryCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,99 +24,40 @@ import java.util.List;
 @Slf4j
 public class SourceRepo2Impl implements SourceRepo2 {
 
-    private final String SELECT_QUERY = "SELECT * FROM source";
-    private final String COUNT_QUERY = "SELECT count(*) FROM source";
-
     private final Mapper<List<Source>> sourceMapper;
     private final CountMapper countMapper;
     private final FullRepoHelper<Source> fullRepoHelper;
-    private final DataQueryHelper dataQueryHelper;
+    private final QueryCreator<SourceModel> queryCreator;
+    private final ParamsCreator<SourceModel> paramsCreator;
 
-    public SourceRepo2Impl(@Qualifier("sourceMapper") Mapper<List<Source>> sourceMapper, CountMapper countMapper, FullRepoHelper<Source> fullRepoHelper, DataQueryHelper dataQueryHelper) {
+    public SourceRepo2Impl(
+            @Qualifier("sourceMapper") Mapper<List<Source>> sourceMapper,
+            CountMapper countMapper,
+            FullRepoHelper<Source> fullRepoHelper,
+            @Qualifier("sourceQueryCreatorImpl") QueryCreator<SourceModel> queryCreator,
+            @Qualifier("sourceParamsCreatorImpl") ParamsCreator<SourceModel> paramsCreator) {
+
         this.sourceMapper = sourceMapper;
         this.countMapper = countMapper;
         this.fullRepoHelper = fullRepoHelper;
-        this.dataQueryHelper = dataQueryHelper;
+        this.queryCreator = queryCreator;
+        this.paramsCreator = paramsCreator;
     }
 
     @Override
     public Page<Source> findAllSourceByQuery(Pageable pageable, SourceModel source) {
-        MapSqlParameterSource params = new MapSqlParameterSource();
 
-        String valueQuery = createQueryValue(source, params);
-        String pageQuery = fullRepoHelper.createPageQuery(pageable, source.getHelpModel().getSort(), source.getHelpModel().getKey(), "id");
+        queryCreator.makeQuery(source, pageable);
 
-        String selectQuery = SELECT_QUERY + valueQuery + pageQuery;
-        String countQuery = COUNT_QUERY + valueQuery;
+        String selectQuery = queryCreator.getSelectQuery();
+        String countQuery = queryCreator.getCountQuery();
+
+        MapSqlParameterSource params = paramsCreator.makeParams(source);
 
         List<Source> sources = fullRepoHelper.getAll(selectQuery, params, sourceMapper);
         int count = fullRepoHelper.getCount(countQuery, params, countMapper);
 
         return new PageImpl<>(sources, pageable, count);
-    }
-
-    private String createQueryValue(SourceModel source, MapSqlParameterSource params) {
-        List<String> values = new ArrayList<>();
-
-        if (source.getId() != null && !source.getId().equals("")) {
-            values.add(" cast(id as text) ILIKE :id");
-            params.addValue("id", "%" + source.getId() + "%");
-        }
-        if (source.getName() != null && !source.getName().equals("")) {
-            values.add(" name ILIKE :name ");
-            params.addValue("name", "%" + source.getName() + "%");
-        }
-        if (source.getLongName() != null && !source.getLongName().equals("")) {
-            values.add(" long_name ILIKE :longName");
-            params.addValue("longName", "%" + source.getLongName() + "%");
-        }
-        if (source.getShortName() != null && !source.getShortName().equals("")) {
-            values.add(" short_name ILIKE :shortName");
-            params.addValue("shortName", "%" + source.getShortName() + "%");
-        }
-        if (source.getDescription() != null && !source.getDescription().equals("")) {
-            values.add(" description ILIKE :description");
-            params.addValue("description", "%" + source.getDescription() + "%");
-        }
-        if (source.getAddDescription() != null && !source.getAddDescription().equals("")) {
-            values.add(" add_description ILIKE :addDescription");
-            params.addValue("addDescription", "%" + source.getAddDescription() + "%");
-        }
-        if (source.getScope() != null && !source.getScope().equals("")) {
-            values.add(" scope ILIKE :scope");
-            params.addValue("scope", "%" + source.getScope() + "%");
-        }
-        if (source.getPeriodicity() != null && !source.getPeriodicity().equals("")) {
-            values.add(" periodicity ILIKE :periodicity");
-            params.addValue("periodicity", "%" + source.getPeriodicity() + "%");
-        }
-        if (source.getRenewalPeriod() != null && !source.getRenewalPeriod().equals("")) {
-            values.add(" renewal_period ILIKE :renewalPeriod");
-            params.addValue("renewalPeriod", "%" + source.getRenewalPeriod() + "%");
-        }
-        if (source.getType() != null && !source.getType().equals("")) {
-            values.add(" type ILIKE :type");
-            params.addValue("type", "%" + source.getType() + "%");
-        }
-        if (source.getTags() != null && !source.getTags().equals("")) {
-            values.add(" tags ILIKE :tags");
-            params.addValue("tags", "%" + source.getTags() + "%");
-        }
-        if (source.getProviderLink() != null && !source.getProviderLink().equals("")) {
-            values.add(" provider_link ILIKE :providerLink");
-            params.addValue("providerLink", "%" + source.getProviderLink() + "%");
-        }
-        if (source.getDataSource() != null && !source.getDataSource().equals("")) {
-            values.add(" data_source ILIKE :dataSource");
-            params.addValue("dataSource", "%" + source.getDataSource() + "%");
-        }
-        dataQueryHelper.createDataQuery(source.getHelpModel());
-
-        values.addAll(dataQueryHelper.getValues());
-        params.addValues(dataQueryHelper.getParams().getValues());
-
-        return (values.size() != 0 ? " WHERE " : "") +
-                String.join(" AND ", values);
     }
 
 }

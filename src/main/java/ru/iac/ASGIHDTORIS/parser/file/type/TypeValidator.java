@@ -57,7 +57,7 @@ public class TypeValidator {
                 values) {
             double number = NumberUtils.toDouble(value);
 
-            if (number == 0 && !value.equals(String.valueOf(number))) {
+            if (value == null || number == 0 && !value.equals(String.valueOf(number))) {
                 return false;
             }
 

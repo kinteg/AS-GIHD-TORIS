@@ -1,6 +1,5 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -10,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternModel;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
-import ru.iac.ASGIHDTORIS.spring.service.pattern.PatternService;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo2;
+import ru.iac.ASGIHDTORIS.spring.service.pattern.PatternService;
 
 import java.util.List;
 

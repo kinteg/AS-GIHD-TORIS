@@ -15,6 +15,7 @@ public class SourceLoggerServiceImpl implements SourceLoggerService {
     public SourceLoggerServiceImpl(
             @Qualifier("sourceLoggerSender") LoggerSender<Source> sourceLoggerSender,
             @Qualifier("sourceBeforeAfter") BeforeAfter<Source> sourceBeforeAfter) {
+
         this.sourceLoggerSender = sourceLoggerSender;
         this.sourceBeforeAfter = sourceBeforeAfter;
     }

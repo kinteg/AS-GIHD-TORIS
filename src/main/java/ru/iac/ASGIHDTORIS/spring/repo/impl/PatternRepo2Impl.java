@@ -13,7 +13,7 @@ import ru.iac.ASGIHDTORIS.spring.component.Mapper.Mapper;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo2;
 import ru.iac.ASGIHDTORIS.spring.repo.impl.params.ParamsCreator;
-import ru.iac.ASGIHDTORIS.spring.repo.impl.query.impl.QueryCreator;
+import ru.iac.ASGIHDTORIS.spring.repo.impl.query.Data.QueryCreator;
 
 import java.util.List;
 

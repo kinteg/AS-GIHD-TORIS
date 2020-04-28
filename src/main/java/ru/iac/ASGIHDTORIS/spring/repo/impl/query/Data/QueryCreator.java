@@ -1,4 +1,4 @@
-package ru.iac.ASGIHDTORIS.spring.repo.impl.query.impl;
+package ru.iac.ASGIHDTORIS.spring.repo.impl.query.Data;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;

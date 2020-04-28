@@ -20,8 +20,8 @@ public class PostgresqlCreatorRepo implements CreatorRepo {
     private static final String SQL_CREATE =
             "CREATE TABLE IF NOT EXISTS ${table_name} (${keys})";
 
-    private static final String TABLE_NAME_REGEX = "\\$\\{table_name\\}";
-    private static final String KEYS_REGEX = "\\$\\{keys\\}";
+    private static final String TABLE_NAME_REGEX = "\\$\\{table_name}";
+    private static final String KEYS_REGEX = "\\$\\{keys}";
 
     private static final String PK = "PRIMARY KEY";
 

@@ -9,15 +9,13 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
-import ru.iac.ASGIHDTORIS.spring.component.DataQueryHelper;
 import ru.iac.ASGIHDTORIS.spring.component.FullRepoHelper;
 import ru.iac.ASGIHDTORIS.spring.component.Mapper.Mapper;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo2;
 import ru.iac.ASGIHDTORIS.spring.repo.impl.params.ParamsCreator;
-import ru.iac.ASGIHDTORIS.spring.repo.impl.query.QueryCreator;
+import ru.iac.ASGIHDTORIS.spring.repo.impl.query.impl.QueryCreator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository

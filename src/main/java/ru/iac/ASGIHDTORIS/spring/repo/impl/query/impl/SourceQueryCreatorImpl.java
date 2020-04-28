@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import ru.iac.ASGIHDTORIS.common.model.domain.SourceModel;
 import ru.iac.ASGIHDTORIS.spring.component.DataQueryHelper;
 import ru.iac.ASGIHDTORIS.spring.repo.impl.query.PageQueryCreator;
-import ru.iac.ASGIHDTORIS.spring.repo.impl.query.QueryCreator;
 
 import java.util.ArrayList;
 import java.util.List;

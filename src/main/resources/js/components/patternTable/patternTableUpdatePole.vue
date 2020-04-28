@@ -1,5 +1,10 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+        <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/patternTable/show' }">Все таблицы</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/patternTable/show/' + this.$route.params.id}">Просмотр</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/patternTable/update/' + this.$route.params.id}">Обновление</el-breadcrumb-item>
+        </el-breadcrumb>
         <p style="font-size: 20px">Обновление полей</p>
         <p style="font-size: 20px">{{patternTable.tableName}}</p>
 
@@ -228,10 +233,13 @@
             formData.append("id", this.patternTableId);
             AXIOS.post("tableCreator/getTable/",formData).then(response => {
                 console.log(response);
-                this.patternTable = response.data.tableModel;
-                this.patternTableName = this.patternTable.tableName;
-                this.patternNameFile = this.patternTable.filename;
-
+                if(response.data.values === null){
+                    router.push({name:'NotFoundPages'})
+                } else {
+                    this.patternTable = response.data.tableModel;
+                    this.patternTableName = this.patternTable.tableName;
+                    this.patternNameFile = this.patternTable.filename;
+                }
             });
         }
     }

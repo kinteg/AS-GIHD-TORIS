@@ -1,5 +1,9 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+        <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/logs/sourceLogs' }">Логи источников</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/logs/sourceLogs/' + this.sourceLogId }">Просмотр</el-breadcrumb-item>
+        </el-breadcrumb>
         <p style="font-size: 20px">Логи источника </p>
         <el-row :gutter="20">
             <el-col :span="12">
@@ -86,7 +90,11 @@
 
             AXIOS.get("sourceLogger/" + this.sourceLogId).then(response => {
                 console.log(response);
-                this.sourceLogInfo = response.data;
+                if(response.data === ""){
+                    router.push({name:'NotFoundPages'})
+                } else {
+                    this.sourceLogInfo = response.data;
+                }
             })
         }
     }

@@ -3,6 +3,10 @@
         <el-row :gutter="20">
             <el-col :span="16">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                    <el-breadcrumb separator="/">
+                        <el-breadcrumb-item :to="{ path: '/patternTable/show' }">Все таблицы</el-breadcrumb-item>
+                        <el-breadcrumb-item :to="{ path: '/patternTable/show/' + this.$route.params.id}">Просмотр</el-breadcrumb-item>
+                    </el-breadcrumb>
                     <p style="font-size: 20px">Просмотр таблицы</p>
                     <p style="font-size: 20px">{{showOnlyOneTable.tableModel.tableName}}
                         <span v-if="patternTable.isActive === true && patternTable.isArchive === false">
@@ -418,8 +422,11 @@
         mounted() {
             this.patternTableId = this.$route.params.id;
             AXIOS.get("tableCreator/" + this.patternTableId).then(response => {
-                this.patternTable = response.data;
-                console.log(response);
+                if(response.data === ""){
+                    router.push({name:'NotFoundPages'})
+                } else {
+                    this.patternTable = response.data;
+                }
             });
 
             let formData = new FormData();

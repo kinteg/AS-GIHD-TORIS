@@ -3,7 +3,11 @@
         <el-row :gutter="20">
             <el-col :span="16">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-                    <p style="font-size: 20px">Просмотр источника</p>
+                    <el-breadcrumb separator="/">
+                        <el-breadcrumb-item :to="{ path: '/source/show' }">Все источники</el-breadcrumb-item>
+                        <el-breadcrumb-item :to="{ path: '/source/view/' + this.$route.params.id}">Просмотр</el-breadcrumb-item>
+                    </el-breadcrumb>
+                   <p style="font-size: 20px">Просмотр источника</p>
                     <div>
                         <el-tabs v-model="activeName">
                             <el-tab-pane label="Источник" name="sourceInfo">
@@ -202,7 +206,12 @@
         },
         mounted() {
             AXIOS.get("source/" + this.$route.params.id).then(response => {
-                this.source = response.data;
+                console.log(response);
+                if(response.data === ""){
+                    router.push({name:'NotFoundPages'})
+                } else {
+                    this.source = response.data;
+                }
             });
 
             AXIOS.get("pattern/getAll/" + this.$route.params.id).then(response => {

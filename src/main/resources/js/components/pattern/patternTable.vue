@@ -1,5 +1,8 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+        <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/pattern/show' }">Все шаблоны</el-breadcrumb-item>
+        </el-breadcrumb>
         <p style="font-size: 20px">Шаблоны
             <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
             <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>

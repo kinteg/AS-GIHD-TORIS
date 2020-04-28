@@ -1,5 +1,8 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+        <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/source/show' }">Все источники</el-breadcrumb-item>
+        </el-breadcrumb>
         <p style="font-size: 20px">Источники
             <el-button @click="deArchiveSomeSource"  style="margin-left: 10px; float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
             <el-button class="trt" @click="deleteSomeSource"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>

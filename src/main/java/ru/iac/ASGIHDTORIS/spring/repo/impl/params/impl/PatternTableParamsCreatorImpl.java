@@ -63,11 +63,11 @@ public class PatternTableParamsCreatorImpl implements ParamsCreator<PatternTable
     }
 
     private String makePatternIdParam(PatternTableModel pattern) {
-        return "%" + pattern.getPatternId() + "%";
+        return pattern.getPatternId().toString();
     }
 
     private String makeSourceIdParam(PatternTableModel pattern) {
-        return "%" + pattern.getSourceId() + "%";
+        return pattern.getSourceId().toString();
     }
 
     private boolean makeIsActiveParam() {

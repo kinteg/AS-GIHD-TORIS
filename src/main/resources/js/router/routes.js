@@ -24,6 +24,9 @@ import TableLogsById from "../pages/logs/TableLogsById.vue";
 import ShowPatternTableArchive from "../pages/patternTable/ShowPatternTableArchive.vue";
 import ShowPatternTableNotArchive from "../pages/patternTable/ShowPatternTableNotArchive.vue";
 import PatternTableUpdate from "../pages/patternTable/PatternTableUpdate.vue";
+import UploadDataToAnotherSystem from "../pages/uploadData/UploadDataToAnotherSystem.vue";
+import UploadDataForm from "../pages/uploadData/UploadDataForm.vue";
+import NotFoundPages from "../pages/NotFoundPages.vue";
 
 const routes = [
     {
@@ -40,7 +43,7 @@ const routes = [
                 component: ShowSource,
                 name: 'show',
                 meta: {
-                    title: 'Все записи',
+                    title: 'Все источники',
                 },
             },
             {
@@ -173,6 +176,44 @@ const routes = [
     },
 
     {
+        path:'/uploadData',
+        name: 'uploadData',
+        component: UploadDataToAnotherSystem,
+        meta: {
+            title: 'Загрузить в другую систему',
+            icon: 'el-icon-download'
+        },
+        children:[
+            {
+                path:'send',
+                component: UploadDataForm,
+                name: 'send',
+                meta: {
+                    title: 'Загрузить в другую систему',
+                },
+            },
+        ]
+    },
+
+    {
+        path:'/source/view/:id',
+        component: ViewSource,
+        name: 'sourceUpdate',
+    },
+
+    {
+        path:'/source/create',
+        component: CreateSource,
+        name: 'CreateSource',
+    },
+
+    {
+        path:'/source/update/:id',
+        component: UpdateSource,
+        name: 'sourceUpdate',
+    },
+
+    {
         path:'/logs/sourceLogs/:id',
         component: SourceLogsById,
         name: 'sourceLogsById',
@@ -185,25 +226,9 @@ const routes = [
     },
 
     {
-        path:'/logs/patternTableLogs/:id',
-        component: TableLogsById,
-        name: 'patternLogsById',
-    },
-
-    {
-        path:'/source/update/:id',
-        component: UpdateSource,
-        name: 'sourceUpdate',
-    },
-    {
         path:'/pattern/card/:id',
         component: cardView,
         name: 'card',
-    },
-    {
-        path:'/source/view/:id',
-        component: ViewSource,
-        name: 'sourceUpdate',
     },
 
     {
@@ -213,16 +238,24 @@ const routes = [
     },
 
     {
+        path:'/logs/patternTableLogs/:id',
+        component: TableLogsById,
+        name: 'patternLogsById',
+    },
+
+    {
         path:'/patternTable/update/:id',
         component: PatternTableUpdate,
         name: 'PatternTableUpdate',
     },
 
     {
-        path:'/source/create',
-        component: CreateSource,
-        name: 'CreateSource',
-    }
+        path:'/notFound',
+        component: NotFoundPages,
+        name: 'NotFoundPages',
+    },
+
+
 ]
 
 export default routes

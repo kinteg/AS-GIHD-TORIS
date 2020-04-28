@@ -93,7 +93,6 @@ public class PatternTableController {
             @ModelAttribute SearchModel searchModel,
             @PageableDefault Pageable pageable
     ) {
-        log.info(searchModel.toString());
         return patternTableService.getTable(id, searchModel, pageable);
     }
 

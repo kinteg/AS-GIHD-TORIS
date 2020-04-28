@@ -1,5 +1,8 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+        <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/source/showNoArchive' }">Не архивные источники</el-breadcrumb-item>
+        </el-breadcrumb>
         <p style="font-size: 20px">Не архивные источники
             <el-button @click="deleteSomeSource"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
             <el-dropdown style="float: right" :hide-on-click="false">

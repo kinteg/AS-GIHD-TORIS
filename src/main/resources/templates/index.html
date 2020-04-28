@@ -10,7 +10,80 @@
             margin: 0px;
         }
     </style>
+<!--    <script type="text/javascript">-->
+<!--        /***-->
+<!--         *-->
+<!--         * Пример подключения и использования TORIS Widget API-->
+<!--         ***/-->
 
+<!--            // Загрузка виджета-->
+<!--        // https://test.toris.gov.spb.ru/widget/widget.js-->
+<!--        // http://test.toris.vpn/widget/widget.js-->
+<!--        var torisPortalDomain = 'test.toris.gov.spb.ru';-->
+<!--        var widgetUrl = '//' + torisPortalDomain + '/widget/widget.js';-->
+
+<!--        // создаём тэг скрипта, который будет грузиться по widgetUrl-->
+<!--        var widgetScriptEl = document.createElement('script');-->
+<!--        widgetScriptEl.setAttribute('src', widgetUrl);-->
+<!--        document.head.appendChild(widgetScriptEl);-->
+
+<!--        // ждём когда скрипт загрузится-->
+<!--        widgetScriptEl.onload = function () {-->
+<!--            console.info('attempt call TORIS.setOptions...');-->
+
+<!--            /*** Настройка параметров виджета ***/-->
+<!--            TORIS.setOptions({-->
+
+<!--                // ID подключаемой системы (выданный при регистрации в каталоге ТОРИС)-->
+<!--                sys_id: 'urn:eis:reestr:sposo',-->
+
+<!--                // Контакты поддержки, если система не является частью ТОРИС-->
+<!--                support: {-->
+<!--                    email: 'support@system.ru', // email ТП для отправки заявок-->
+<!--                    faq_link: 'http://system.ru/faq/',   // Ссылка на FAQ по системе-->
+<!--                    help_link: 'http://system.ru/help/',   // Ссылка на справку по системе-->
+<!--                    feedback_link: 'http://system.ru/feedback/'   // Ссылка на форму обратной связи с тех поддержкой-->
+<!--                },-->
+
+<!--                // Позволяет не показывать модалку авторизации, даже если пользователь не авторизован-->
+<!--                // Не рекомендуется устанавливать параметр в false, по умолчанию true-->
+<!--                //show_auth: false,-->
+
+<!--                // Обязательный служебный параметр,-->
+<!--                // имя домена, откуда грузить виджет-->
+<!--                domain: torisPortalDomain,-->
+
+<!--                // Меню можно конфигурировать при инициализации или позже через метод setMenu-->
+<!--                //menu: menu-->
+<!--            });-->
+
+<!--            console.info('attempt call TORIS.init...');-->
+
+
+<!--            /***-->
+<!--             * Результат первого этапа инициализации-->
+<!--             * Если возникли ошибки, то событие TORISWidgetInitComplete не будет вызвано-->
+<!--             * В противном случае надо  ждать TORISWidgetInitComplete-->
+<!--             *-->
+<!--             ***/-->
+<!--            TORIS.init(function (message) {-->
+<!--                console.info('Результат первичной инициализации:', message);-->
+<!--            });-->
+<!--        };-->
+
+
+<!--        /***-->
+<!--         * Событие полной загрузки виджета.-->
+<!--         * Можно использовать методы API-->
+<!--         ***/-->
+<!--        window.addEventListener('TORISWidgetInitComplete', function (e) {-->
+<!--            console.info('Виджет успешно инициализирован', e);-->
+
+
+
+
+<!--        });-->
+<!--    </script>-->
 </head>
 
 <body>

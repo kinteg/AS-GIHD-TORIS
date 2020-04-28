@@ -1,5 +1,9 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+        <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/logs/patternTableLogs' }">Логи таблиц</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/logs/patternTableLogs/' + this.patternTableLogId }">Просмотр</el-breadcrumb-item>
+        </el-breadcrumb>
         <p style="font-size: 20px">Логи таблицы </p>
         <el-row :gutter="20">
             <el-col :span="12">
@@ -85,7 +89,11 @@
 
             AXIOS.get("patternTableLogger/" + this.patternTableLogId).then(response => {
                 console.log(response);
-                this.patternTableLogInfo = response.data;
+                if(response.data === ""){
+                    router.push({name:'NotFoundPages'})
+                } else {
+                    this.patternTableLogInfo = response.data;
+                }
             })
         }
     }

@@ -156,36 +156,36 @@ public class PatternTableControllerAspect {
 
     @AfterReturning(value = "callGetTable()", returning = "fullTableModelPage")
     public void afterReturningCallAtGetTable(JoinPoint jp, FullTableModelPage fullTableModelPage) {
-        log.info(
-                "afterReturning " + jp.toString() + ", return=[\n" +
-                        "   filename=" + fullTableModelPage.getTableModel().getFilename() + ",\n" +
-                        "   tableName=" + fullTableModelPage.getTableModel().getTableName() + ",\n" +
-                        "   models=[\n      " + fullTableModelPage
-                        .getTableModel()
-                        .getModels()
-                        .stream()
-                        .map(DataModel::toString).collect(Collectors.joining("\n       ")) +
-                        "]" + ",\n" +
-                        "   values=(\n" +
-                        "   pageCount=" + fullTableModelPage.getValues().getTotalPages() + ",\n" +
-                        "   totalElements=" + fullTableModelPage.getValues().getTotalElements() + ",\n" +
-                        "   pageNumber=" + fullTableModelPage.getValues().getPageable().getPageNumber() + ",\n" +
-                        "   pageSize=" + fullTableModelPage.getValues().getPageable().getPageSize() + ",\n" +
-                        "   sort=" + fullTableModelPage.getValues().getPageable().getSort() + ",\n" +
-                        "   values=[\n" +
-                        "       " +
-                        fullTableModelPage.getValues().getContent()
-                                .stream()
-                                .map(Map::entrySet)
-                                .map(entries -> entries.stream()
-                                        .map(v -> v.getKey() + "=" + v.getValue())
-                                        .collect(Collectors.joining(",\n         "))
-                                )
-                                .collect(Collectors.joining("\n       ")) +
-                        "\n" +
-                        "       ]\n" +
-                        "]"
-        );
+//        log.info(
+//                "afterReturning " + jp.toString() + ", return=[\n" +
+//                        "   filename=" + fullTableModelPage.getTableModel().getFilename() + ",\n" +
+//                        "   tableName=" + fullTableModelPage.getTableModel().getTableName() + ",\n" +
+//                        "   models=[\n      " + fullTableModelPage
+//                        .getTableModel()
+//                        .getModels()
+//                        .stream()
+//                        .map(DataModel::toString).collect(Collectors.joining("\n       ")) +
+//                        "]" + ",\n" +
+//                        "   values=(\n" +
+//                        "   pageCount=" + fullTableModelPage.getValues().getTotalPages() + ",\n" +
+//                        "   totalElements=" + fullTableModelPage.getValues().getTotalElements() + ",\n" +
+//                        "   pageNumber=" + fullTableModelPage.getValues().getPageable().getPageNumber() + ",\n" +
+//                        "   pageSize=" + fullTableModelPage.getValues().getPageable().getPageSize() + ",\n" +
+//                        "   sort=" + fullTableModelPage.getValues().getPageable().getSort() + ",\n" +
+//                        "   values=[\n" +
+//                        "       " +
+//                        fullTableModelPage.getValues().getContent()
+//                                .stream()
+//                                .map(Map::entrySet)
+//                                .map(entries -> entries.stream()
+//                                        .map(v -> v.getKey() + "=" + v.getValue())
+//                                        .collect(Collectors.joining(",\n         "))
+//                                )
+//                                .collect(Collectors.joining("\n       ")) +
+//                        "\n" +
+//                        "       ]\n" +
+//                        "]"
+//        );
     }
 
     @Before("callExistByName()")

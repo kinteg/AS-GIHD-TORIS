@@ -1,6 +1,9 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <div v-if="allTable">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item :to="{ path: '/patternTable/show' }">Все таблицы</el-breadcrumb-item>
+            </el-breadcrumb>
             <p style="font-size: 20px">Все таблицы
 
 <!--                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->

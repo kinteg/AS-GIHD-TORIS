@@ -1,5 +1,9 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+        <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/source/show' }">Все источники</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/source/update/' + this.$route.params.id}">Редактирование</el-breadcrumb-item>
+        </el-breadcrumb>
         <p style="font-size: 20px">Просмотр</p>
         <div>
             <el-tabs v-model="activeName">
@@ -781,8 +785,14 @@
 
         mounted() {
             AXIOS.get("source/" + this.$route.params.id).then(response => {
-                this.source = response.data;
-                this.sourceId = this.$route.params.id;
+                console.log(response);
+                if(response.data === ""){
+                    router.push({name:'NotFoundPages'})
+
+                } else {
+                    this.source = response.data;
+                    this.sourceId = this.$route.params.id;
+                }
             });
 
             AXIOS.get("pattern/getAll/" + this.$route.params.id).then(response => {

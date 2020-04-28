@@ -3,6 +3,10 @@
         <el-row :gutter="20">
             <el-col :span="16">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                    <el-breadcrumb separator="/">
+                        <el-breadcrumb-item :to="{ path: '/pattern/show' }">Все шаблоны</el-breadcrumb-item>
+                        <el-breadcrumb-item :to="{ path: '/pattern/card/' + this.$route.params.id}">Просмотр</el-breadcrumb-item>
+                    </el-breadcrumb>
                     <p style="font-size: 20px">Просмотр</p>
                     <div>
                         <el-tabs v-model="activeName">
@@ -60,11 +64,11 @@
                                     </el-row>
                                 </div>
                                 <el-button @click="updateSource" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Редактировать</el-button>
-                                <el-button @click="backToPatternTable"
-                                           style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
-                                           type="primary">
-                                    Назад
-                                </el-button>
+<!--                                <el-button @click="backToPatternTable"-->
+<!--                                           style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
+<!--                                           type="primary">-->
+<!--                                    Назад-->
+<!--                                </el-button>-->
                             </el-tab-pane>
                             <el-tab-pane label="Шаблон" name="patternInfo">
                                 <div v-if="viewPattern">
@@ -121,11 +125,11 @@
                                                type="primary">
                                         Редактировать
                                     </el-button>
-                                    <el-button @click="backToPatternTable"
-                                               style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
-                                               type="primary">
-                                        Назад
-                                    </el-button>
+<!--                                    <el-button @click="backToPatternTable"-->
+<!--                                               style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
+<!--                                               type="primary">-->
+<!--                                        Назад-->
+<!--                                    </el-button>-->
                                 </div>
                                 <div v-else >
                                     <el-row :gutter="20">
@@ -363,11 +367,11 @@
                                         <el-button @click="showTableTab('no')" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
                                     </div>
                                 </div>
-                                <el-button @click="backToPatternTable"
-                                           style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394 "
-                                           type="primary">
-                                    Назад
-                                </el-button>
+<!--                                <el-button @click="backToPatternTable"-->
+<!--                                           style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394 "-->
+<!--                                           type="primary">-->
+<!--                                    Назад-->
+<!--                                </el-button>-->
                             </el-tab-pane>
                         </el-tabs>
                     </div>
@@ -1157,12 +1161,16 @@
         mounted() {
             this.patternId = this.$route.params.id;
             AXIOS.get("pattern/" + this.patternId).then(response => {
-                console.log(response);
-                this.pattern = response.data;
-                this.sourceId = response.data.sourceId;
-                AXIOS.get("source/" + this.sourceId).then(response => {
-                    this.source = response.data;
-                });
+                if(response.data === ""){
+                    router.push({name:'NotFoundPages'})
+                } else {
+                    this.pattern = response.data;
+                    this.sourceId = response.data.sourceId;
+                    AXIOS.get("source/" + this.sourceId).then(response => {
+                        this.source = response.data;
+                    });
+                }
+
             });
 
             AXIOS.get("tableCreator/getAll/" + this.patternId).then(response => {

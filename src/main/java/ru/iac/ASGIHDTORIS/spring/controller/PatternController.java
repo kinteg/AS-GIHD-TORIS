@@ -47,7 +47,6 @@ public class PatternController {
     }
 
     @GetMapping("/{id}")
-    @Cacheable(cacheNames = "getPatternById")
     public Pattern getPatternById(@PathVariable Long id) {
         return patternRepo.findById((long) id);
     }

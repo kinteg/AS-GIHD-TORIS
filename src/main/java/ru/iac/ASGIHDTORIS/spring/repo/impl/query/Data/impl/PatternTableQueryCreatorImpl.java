@@ -82,11 +82,11 @@ public class PatternTableQueryCreatorImpl implements QueryCreator<PatternTableMo
     }
 
     private String makePatternIdQuery() {
-        return " pattern_id = :patternId";
+        return " pattern_id = cast(:patternId as bigint)";
     }
 
     private String makeSourceIdQuery() {
-        return " source_id = :sourceId";
+        return " source_id = cast(:sourceId as bigint)";
     }
 
     private String makeIsActiveQuery() {

@@ -1,7 +1,9 @@
 package ru.iac.ASGIHDTORIS.spring.service.dataChecker.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
+import ru.iac.ASGIHDTORIS.common.FileConverter;
 import ru.iac.ASGIHDTORIS.common.factory.FileParserFactory;
 import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.file.FileStatusCreator;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class DataCheckerServiceImpl implements DataCheckerService {
 
     private final FileService fileService;
@@ -40,14 +43,14 @@ public class DataCheckerServiceImpl implements DataCheckerService {
     @Override
     public List<FileStatusModel> checkDates(File file, Long id) throws Exception {
         List<FileStatusModel> fileStatusModels = generateFileStatusModels(file, id);
-        file.delete();
+        FileConverter.delete(file);
         return fileStatusModels;
     }
 
     @Override
     public FileStatusModel checkData(File file, Long id) throws Exception {
         FileStatusModel fileStatusModel = generateFileStatusModel(file, id);
-        file.delete();
+        FileConverter.delete(file);
         return fileStatusModel;
     }
 

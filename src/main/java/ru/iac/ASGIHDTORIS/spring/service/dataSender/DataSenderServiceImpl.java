@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.iac.ASGIHDTORIS.common.FileConverter;
 import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternFile;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
@@ -54,9 +55,7 @@ public class DataSenderServiceImpl implements DataSenderService {
     @Override
     public boolean sendData(MultipartFile multipartFile, Long id) throws IOException {
         if (
-                multipartFile == null
-                        || id == null
-                        || id < 0
+                        id < 0
                         || !patternTableRepo.existsById(id)
                         || patternTableRepo.findById((long) id).getIsArchive()
                         || !patternTableRepo.findById((long) id).getIsActive()
@@ -70,7 +69,7 @@ public class DataSenderServiceImpl implements DataSenderService {
             uploadPatternTableFiles(multipartFile, id);
             cleanPatternTableFiles(id);
 
-            file.delete();
+            FileConverter.delete(file);
             return result;
         }
 
@@ -79,9 +78,7 @@ public class DataSenderServiceImpl implements DataSenderService {
     @Override
     public boolean sendDates(MultipartFile multipartFile, Long id) throws IOException {
         if (
-                multipartFile == null
-                        || id == null
-                        || id < 0
+                        id < 0
                         || !patternRepo.existsById(id)
         ) {
 
@@ -89,11 +86,13 @@ public class DataSenderServiceImpl implements DataSenderService {
         } else {
             List<PatternTable> patternTables = patternTableRepo.findAllByPatternIdAndIsArchiveAndIsActive(id, false, true);
             File file = fileService.convertFile(multipartFile);
+            boolean result = fileSenderService.sendFiles(patternTables, file);
 
             uploadPatternFiles(multipartFile, id);
             cleanPatternFiles(id);
 
-            return file != null && fileSenderService.sendFiles(patternTables, file);
+            FileConverter.delete(file);
+            return result;
         }
 
     }

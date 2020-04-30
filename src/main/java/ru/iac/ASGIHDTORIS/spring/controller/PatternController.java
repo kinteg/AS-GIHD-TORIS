@@ -192,4 +192,9 @@ public class PatternController {
         return patternService.updatePattern(pattern);
     }
 
+    @GetMapping("/isArchive/{id}")
+    public boolean isArchive(@PathVariable long id) {
+        return patternRepo.isArchive(id);
+    }
+
 }

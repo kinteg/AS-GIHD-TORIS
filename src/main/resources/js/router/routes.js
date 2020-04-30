@@ -189,7 +189,7 @@ const routes = [
                 component: UploadDataForm,
                 name: 'send',
                 meta: {
-                    title: 'Загрузить в другую систему',
+                    title: 'В другую систему',
                 },
             },
         ]

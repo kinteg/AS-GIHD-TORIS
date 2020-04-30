@@ -258,7 +258,9 @@
                                                 <tbody v-for="table in patternTableData">
                                                 <tr>
                                                     <td>
-                                                        <el-button @click="showOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                                                        <router-link :to="'/patternTable/show/' + table.id">
+                                                            <el-button style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                                                        </router-link>
                                                         <span v-if="table.isArchive">
                                                 <el-button @click="deArchiveOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
                                             </span>
@@ -333,39 +335,40 @@
                                     <el-button @click="addTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
                                 </div>
                                 <div v-else-if="showTable">
-                                    <div class="horizontal-scroll-wrapper  rectangles">
-                                        <p>
-                                            <span style="float: left; text-align: left; font-size: 20px">{{showOnlyOneTable.tableModel.tableName}}</span>
-                                            <span v-if="patternTableData.isActive === true && patternTableData.isArchive === false">
-                                            <el-upload
-                                                    style="float: right"
-                                                    class="upload-demo"
-                                                    ref="upload"
-                                                    action=""
-                                                    :limit="1"
-                                                    :on-change="sendData"
-                                                    :auto-upload="false">
-                                                <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицу</el-button>
-                                            </el-upload>
-                                            <router-link style="float: right" :to="'/patternTable/update/'+ patternTableId">
-                                                <el-button style=" margin-right: 10px;  margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
-                                                    Обновить поля
-                                                </el-button>
-                                            </router-link>
-                                            </span>
-                                        </p>
-                                        <div style="margin-top: 10px; padding-right: 2px;" class="horizontal-scroll-wrapper  rectangles">
-                                            <table style="display: block; overflow-x: auto; ">
-                                                <tr>
-                                                    <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
-                                                </tr>
-                                                <tr v-for="value in showOnlyOneTable.values.content">
-                                                    <td v-for="oneValue in value">{{oneValue}}</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <el-button @click="showTableTab('no')" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-                                    </div>
+                                    <pattern-table-view-by-pattern-id :pattern-id="patternId"/>
+<!--                                    <div class="horizontal-scroll-wrapper  rectangles">-->
+<!--                                        <p>-->
+<!--                                            <span style="float: left; text-align: left; font-size: 20px">{{showOnlyOneTable.tableModel.tableName}}</span>-->
+<!--                                            <span v-if="patternTableData.isActive === true && patternTableData.isArchive === false">-->
+<!--                                            <el-upload-->
+<!--                                                    style="float: right"-->
+<!--                                                    class="upload-demo"-->
+<!--                                                    ref="upload"-->
+<!--                                                    action=""-->
+<!--                                                    :limit="1"-->
+<!--                                                    :on-change="sendData"-->
+<!--                                                    :auto-upload="false">-->
+<!--                                                <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицу</el-button>-->
+<!--                                            </el-upload>-->
+<!--                                            <router-link style="float: right" :to="'/patternTable/update/'+ patternTableId">-->
+<!--                                                <el-button style=" margin-right: 10px;  margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">-->
+<!--                                                    Обновить поля-->
+<!--                                                </el-button>-->
+<!--                                            </router-link>-->
+<!--                                            </span>-->
+<!--                                        </p>-->
+<!--                                        <div style="margin-top: 10px; padding-right: 2px;" class="horizontal-scroll-wrapper  rectangles">-->
+<!--                                            <table style="display: block; overflow-x: auto; ">-->
+<!--                                                <tr>-->
+<!--                                                    <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>-->
+<!--                                                </tr>-->
+<!--                                                <tr v-for="value in showOnlyOneTable.values.content">-->
+<!--                                                    <td v-for="oneValue in value">{{oneValue}}</td>-->
+<!--                                                </tr>-->
+<!--                                            </table>-->
+<!--                                        </div>-->
+<!--                                        <el-button @click="showTableTab('no')" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>-->
+<!--                                    </div>-->
                                 </div>
 <!--                                <el-button @click="backToPatternTable"-->
 <!--                                           style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394 "-->
@@ -459,10 +462,11 @@
     import PatternLogCard from "../logs/patternLogCard.vue";
     import SourceLogCard from "../logs/sourceLogCard.vue";
     import PatternTableLogCard from "../logs/patternTableLogCard.vue";
+    import PatternTableViewByPatternId from "../patternTable/patternTableViewByPatternId.vue";
 
     export default {
         name: "card",
-        components: {PatternTableLogCard, SourceLogCard, PatternLogCard, MyPagination},
+        components: {PatternTableViewByPatternId, PatternTableLogCard, SourceLogCard, PatternLogCard, MyPagination},
         data(){
             return{
                 primaryKey:"",
@@ -1168,6 +1172,7 @@
                     this.sourceId = response.data.sourceId;
                     AXIOS.get("source/" + this.sourceId).then(response => {
                         this.source = response.data;
+                        console.log(response);
                     });
                 }
 

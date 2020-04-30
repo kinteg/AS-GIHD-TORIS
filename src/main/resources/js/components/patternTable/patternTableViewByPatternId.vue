@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>
+        <div v-if="allTable">
             <p style="font-size: 20px">Все таблицы
                 <!--                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
                 <!--                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
@@ -123,26 +123,26 @@
                         @onSizeChange="onSizeChange"/>
             </div>
         </div>
-<!--        <div v-else-if="oneTable">-->
-<!--            <div class="horizontal-scroll-wrapper  rectangles">-->
-<!--                <table style="display: block; overflow-x: auto;">-->
-<!--                    <tr>-->
-<!--                        <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>-->
-<!--                    </tr>-->
-<!--                    <tr v-for="value in showOnlyOneTable.values.content">-->
-<!--                        <td v-for="oneValue in value">{{oneValue}}</td>-->
-<!--                    </tr>-->
-<!--                </table>-->
-<!--                <my-pagination-->
-<!--                        :page-size="paginationOneTable.pageSize"-->
-<!--                        :current-page="paginationOneTable.currentPage"-->
-<!--                        :totalPages="paginationOneTable.totalPages"-->
-<!--                        :totalElements="paginationOneTable.totalElements"-->
-<!--                        @onCurrentChange="onCurrentChangeOneTable"-->
-<!--                        @onSizeChange="onSizeChangeOneTable"/>-->
-<!--                <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div v-else-if="oneTable">
+            <div class="horizontal-scroll-wrapper  rectangles">
+                <table style="display: block; overflow-x: auto;">
+                    <tr>
+                        <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
+                    </tr>
+                    <tr v-for="value in showOnlyOneTable.values.content">
+                        <td v-for="oneValue in value">{{oneValue}}</td>
+                    </tr>
+                </table>
+                <my-pagination
+                        :page-size="paginationOneTable.pageSize"
+                        :current-page="paginationOneTable.currentPage"
+                        :totalPages="paginationOneTable.totalPages"
+                        :totalElements="paginationOneTable.totalElements"
+                        @onCurrentChange="onCurrentChangeOneTable"
+                        @onSizeChange="onSizeChangeOneTable"/>
+                <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -152,9 +152,9 @@
     import MyPagination from "../general/pagination.vue";
 
     export default {
-        name: "patternTableAllViewOne",
+        name: "patternTableViewByPatternId",
         components: {MyPagination},
-        props:["sourceId"],
+        props:["patternId"],
         data() {
             return {
                 allTable: true,
@@ -252,6 +252,10 @@
             showTableTab(){
                 this.oneTable = false;
                 this.allTable = true;
+            },
+
+            showOneTable(id){
+                router.push('show/'+ id);
             },
 
             notify(title,message,type) {
@@ -572,7 +576,7 @@
         },
 
         mounted() {
-            AXIOS.get("tableCreator/getAllBySource/" + this.sourceId).then(response => {
+            AXIOS.get("tableCreator/getAll/" + this.patternId).then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.patternTableData = response.data.content;

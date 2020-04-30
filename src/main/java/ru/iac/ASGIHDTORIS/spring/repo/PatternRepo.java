@@ -17,6 +17,7 @@ public interface PatternRepo extends JpaRepository<Pattern, Long> {
 
     List<Pattern> findAllBySourceId(Long sourceId);
 
+    @Override
     Page<Pattern> findAll(Pageable pageable);
 
     Page<Pattern> findAllByIsArchive(Boolean isArchive, Pageable pageable);
@@ -28,5 +29,9 @@ public interface PatternRepo extends JpaRepository<Pattern, Long> {
     boolean existsById(long id);
 
     boolean existsBySourceId(long id);
+
+    @Query(value = "SELECT archive FROM pattern WHERE " +
+            "id = :id", nativeQuery = true)
+    boolean isArchive(@Param("id") long id);
 
 }

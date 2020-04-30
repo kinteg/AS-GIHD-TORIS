@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Slf4j
 @Repository
 public class PostgreSqlColumnExporterRepo implements ColumnExporterRepo {
 
@@ -25,7 +24,7 @@ public class PostgreSqlColumnExporterRepo implements ColumnExporterRepo {
     private final String SQL_P_KEY =
             "SELECT ${column_name} " +
                     "FROM INFORMATION_SCHEMA.key_column_usage " +
-                    "WHERE table_name = '${table_name}' AND constraint_name = '${table_name}_pkey'";
+                    "WHERE table_name = '${table_name}'";
 
     private final String COLUMN_NAME_REGEX = "\\$\\{column_name}";
     private final String TABLE_NAME_REGEX = "\\$\\{table_name}";
@@ -49,7 +48,6 @@ public class PostgreSqlColumnExporterRepo implements ColumnExporterRepo {
         List<String> columns = getColumnNames(tableName.toLowerCase());
         List<String> types = getDataType(tableName.toLowerCase());
         List<String> keys = getPKey(tableName.toLowerCase());
-
         for (int i = 0; i < columns.size() && i < types.size(); i++) {
 
             DataModel model = new DataModel(

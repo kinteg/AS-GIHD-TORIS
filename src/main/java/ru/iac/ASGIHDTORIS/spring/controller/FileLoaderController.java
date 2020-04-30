@@ -37,11 +37,11 @@ public class FileLoaderController {
 
     @PostMapping("/check")
     public List<FullTableModel> uploadFile(
-            @RequestParam(value = "file", required = true)
+            @RequestParam(value = "file")
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT)
                     Long limit,
-            @RequestParam(value = "sourceId", required = true, defaultValue = "")
+            @RequestParam(value = "sourceId", defaultValue = "")
                     Long patternId) {
 
         File file = fileService.convertFile(multipartFile);
@@ -50,7 +50,7 @@ public class FileLoaderController {
 
     @PostMapping("/firstUpload")
     public List<FullTableModel> uploadFirstFile(
-            @RequestParam(value = "file", required = true)
+            @RequestParam(value = "file")
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT)
                     Long limit) {
@@ -62,13 +62,13 @@ public class FileLoaderController {
 
     @PostMapping("/update")
     public FullTableModel uploadUpdateFile(
-            @RequestParam(value = "file", required = true)
+            @RequestParam(value = "file")
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT)
                     Long limit,
-            @RequestParam(value = "patternTableName", required = true)
+            @RequestParam(value = "patternTableName")
                     String patternTableName,
-            @RequestParam(value = "patternNameFile", required = true)
+            @RequestParam(value = "patternNameFile")
                     String patternNameFile) {
 
         File file = fileService.convertFile(multipartFile);
@@ -82,8 +82,8 @@ public class FileLoaderController {
             "getAllPatternTableFileByPatternId", "getAllPatternFileByPatternId"},
             allEntries = true)
     public boolean sendData(
-            @RequestParam(value = "file", required = false) MultipartFile multipartFile,
-            @RequestParam(value = "patternTableId", required = false, defaultValue = "") Long id
+            @RequestParam(value = "file") MultipartFile multipartFile,
+            @RequestParam(value = "patternTableId", defaultValue = "") Long id
     ) throws IOException {
         return dataSenderService.sendData(multipartFile, id);
     }
@@ -95,9 +95,9 @@ public class FileLoaderController {
             "getAllPatternTableFileByPatternId", "getAllPatternFileByPatternId"},
             allEntries = true)
     public boolean sendDates(
-            @RequestParam(value = "file", required = false)
+            @RequestParam(value = "file")
                     MultipartFile multipartFile,
-            @RequestParam(value = "patternId", required = false, defaultValue = "")
+            @RequestParam(value = "patternId", defaultValue = "")
                     Long id
     ) throws IOException {
         return dataSenderService.sendDates(multipartFile, id);
@@ -105,8 +105,8 @@ public class FileLoaderController {
 
     @PostMapping("/checkData")
     public FileStatusModel checkData(
-            @RequestParam(value = "file", required = true) MultipartFile multipartFile,
-            @RequestParam(value = "patternTableId", required = true) Long id
+            @RequestParam(value = "file") MultipartFile multipartFile,
+            @RequestParam(value = "patternTableId") Long id
     ) throws Exception {
         File file = fileService.convertFile(multipartFile);
         return dataCheckerService.checkData(file, id);
@@ -114,9 +114,9 @@ public class FileLoaderController {
 
     @PostMapping("/checkDates")
     public List<FileStatusModel> checkDates(
-            @RequestParam(value = "file", required = true)
+            @RequestParam(value = "file")
                     MultipartFile multipartFile,
-            @RequestParam(value = "patternId", required = true)
+            @RequestParam(value = "patternId")
                     Long id
     ) throws Exception {
         File file = fileService.convertFile(multipartFile);

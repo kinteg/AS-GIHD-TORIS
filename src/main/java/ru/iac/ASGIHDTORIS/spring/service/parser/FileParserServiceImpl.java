@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.FileNameUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
+import ru.iac.ASGIHDTORIS.common.FileConverter;
 import ru.iac.ASGIHDTORIS.common.factory.FileParserFactory;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
@@ -71,7 +72,7 @@ public class FileParserServiceImpl implements FileParserService {
         List<File> files = fileService.getFiles(file);
         List<FullTableModel> fullTableModels = getFullTableModels(files, tableModels, limit);
 
-        file.delete();
+        FileConverter.delete(file);
 
         return fullTableModels;
     }
@@ -80,7 +81,7 @@ public class FileParserServiceImpl implements FileParserService {
         List<File> files = fileService.getFiles(file);
         List<FullTableModel> fullTableModels = getFullTableModels(files, limit);
 
-        file.delete();
+        FileConverter.delete(file);
 
         return fullTableModels;
     }
@@ -92,7 +93,7 @@ public class FileParserServiceImpl implements FileParserService {
         file = fileService.getFile(file, patternNameFile);
         FullTableModel fullTableModel = getFullTableModel(file, limit, patternTableName);
 
-        file.delete();
+        FileConverter.delete(file);
 
         return fullTableModel;
     }
@@ -124,7 +125,7 @@ public class FileParserServiceImpl implements FileParserService {
         FullTableModel fullTableModel = getFullTableModel(file, limit);
         fullTableModel.getTableModel().setTableName(nameTable);
 
-        file.delete();
+        FileConverter.delete(file);
 
         return fullTableModel;
     }

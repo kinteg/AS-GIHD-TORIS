@@ -136,4 +136,9 @@ public class SourceController {
         return sourceService.updateSource(source);
     }
 
+    @GetMapping("/isArchive/{id}")
+    public boolean isArchive(@PathVariable long id) {
+        return sourceRepo.isArchive(id);
+    }
+
 }

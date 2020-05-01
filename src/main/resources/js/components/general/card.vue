@@ -469,6 +469,7 @@
         components: {PatternTableViewByPatternId, PatternTableLogCard, SourceLogCard, PatternLogCard, MyPagination},
         data(){
             return{
+                sourceArchive:"",
                 primaryKey:"",
                 tableName:"",
                 patternTableVersion:"",
@@ -1170,6 +1171,7 @@
                 } else {
                     this.pattern = response.data;
                     this.sourceId = response.data.sourceId;
+
                     AXIOS.get("source/" + this.sourceId).then(response => {
                         this.source = response.data;
                         console.log(response);

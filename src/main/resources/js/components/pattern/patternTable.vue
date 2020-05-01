@@ -103,12 +103,14 @@
                 <tr>
                     <td>
                         <el-button @click="showCard(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
-                        <span v-if="pattern.isArchive">
-                             <el-button @click="deArchiveOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
-                         </span>
-                        <span v-else>
-                            <el-button @click="deleteOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
-                         </span>
+                        <div v-if="!pattern.sourceArchive">
+                            <span v-if="pattern.isArchive">
+                                <el-button @click="deArchiveOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
+                            </span>
+                            <span v-else>
+                                <el-button @click="deleteOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                            </span>
+                        </div>
                     </td>
                     <td> <el-checkbox @change="check(pattern.id)"></el-checkbox></td>
                     <td v-if="hidden.id">{{pattern.id}}</td>
@@ -194,7 +196,7 @@
                     totalPages: 0,
                     totalElements: 0,
                 },
-                
+
                 hidden:{
                     id: true,
                     name: true,
@@ -207,7 +209,7 @@
                     dateActivation: true,
                     lastUpdate: true,
                 },
-                
+
                 pattern: {
                     check: [],
                     key: "id",
@@ -610,11 +612,24 @@
             }
         },
         mounted() {
+            //TODO тупой axios переделать потом
             AXIOS.get("pattern/getAll").then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
-                this.patternData = response.data.content;
-            })
+                let pattern = response.data.content;
+                for (let i = 0; i < pattern.length; i++) {
+                    AXIOS.get("pattern/" + pattern[i].id).then(response => {
+                        let sourceId = response.data.sourceId;
+                        let man = response.data.management;
+                        AXIOS.get("source/isArchive/" + sourceId).then(response => {
+                            pattern[i].sourceArchive = response.data;
+                            pattern[i].management = response.data;
+                            pattern[i].management = man;
+                        });
+                    });
+                }
+                this.patternData = pattern;
+            });
         }
     }
 </script>

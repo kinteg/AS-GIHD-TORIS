@@ -101,12 +101,14 @@
                             <router-link :to="'/patternTable/update/' + table.id">
                                 <el-button  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
                             </router-link>
+                            <div v-if="!table.patternArchive">
                             <span v-if="table.isArchive">
                             <el-button @click="deArchiveOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
                         </span>
                             <span v-else>
                             <el-button @click="deleteOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
                         </span>
+                            </div>
                         </td>
 <!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
                         <td v-if="hidden.id">{{table.id}}</td>
@@ -583,10 +585,20 @@
         },
 
         mounted() {
+            //TODO доделать вывод кнопок
             AXIOS.get("tableCreator/getAll").then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.patternTableData = response.data.content;
+                for(let i = 0; i < this.patternTableData.length; i++) {
+                    console.log(this.patternTableData[i]);
+                    let nameTable = this.patternTableData[i].nameTable;
+                    AXIOS.get("pattern/isArchive/" + this.patternTableData[i].patternId).then(response => {
+                        this.patternTableData[i].nameTable = "table";
+                        this.patternTableData[i].patternArchive = response.data;
+                        this.patternTableData[i].nameTable = nameTable;
+                    });
+                }
             })
         }
     }

@@ -9,16 +9,54 @@
                 <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item><el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.name = !hidden.name">Навание</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.description = !hidden.description">Описание</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check3" @change="hidden.direction = !hidden.direction">Направление</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check4" @change="hidden.management = !hidden.management">Ответсвенный за ведение </el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check6" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check7" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check8" @change="hidden.dateActivation = !hidden.dateActivation">Дата активации</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check9" @change="hidden.lastUpdate = !hidden.lastUpdate">Последнее обновление</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" @change="hiddenAll">
+                            Все
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">
+                            Номер
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check1" @change="hidden.name = !hidden.name">
+                            Навание
+                        </el-checkbox></el-dropdown-item>
+                    <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.description = !hidden.description">
+                        Описание
+                    </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check3" @change="hidden.direction = !hidden.direction">
+                            Направление
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check4" @change="hidden.management = !hidden.management">
+                            Ответсвенный за ведение
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check6" @change="hidden.dateCreation = !hidden.dateCreation">
+                            Дата создания
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check7" @change="hidden.dateDeactivation = !hidden.dateDeactivation">
+                            Дата деактивации
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check8" @change="hidden.dateActivation = !hidden.dateActivation">
+                            Дата активации
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check9" @change="hidden.lastUpdate = !hidden.lastUpdate">
+                            Последнее обновление
+                        </el-checkbox>
+                    </el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </p>
@@ -89,30 +127,74 @@
                 <tbody v-for="pattern in patternData">
                 <tr>
                     <td>
-                        <el-button @click="showCard(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                        <el-button
+                                @click="showCard(pattern.id)"
+                                style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                type="primary"
+                                size="mini"
+                                icon="el-icon-view"/>
                         <div v-if="!pattern.sourceArchive">
                         <span v-if="pattern.isArchive">
-                             <el-button @click="deArchiveOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
+                             <el-button
+                                     @click="deArchiveOnePattern(pattern.id)"
+                                     style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                     type="primary"
+                                     size="mini"
+                                     icon="el-icon-upload2"/>
                          </span>
                         <span v-else>
-                            <el-button @click="deleteOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                            <el-button @click="deleteOnePattern(pattern.id)"
+                                       style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                       type="primary"
+                                       size="mini"
+                                       icon="el-icon-delete"/>
                          </span>
                         </div>
                     </td>
                     <td> <el-checkbox @change="check(pattern.id)"></el-checkbox></td>
-                    <td v-if="hidden.id">{{pattern.id}}</td>
-                    <td v-if="hidden.name && pattern.name.length < 40">{{pattern.name}}</td>
-                    <td v-else-if="hidden.name && pattern.name.length >= 40">{{pattern.name.substr(0, 40)}}<router-link :to="'/pattern/card/' + pattern.id">...</router-link></td>
-                    <td v-if="hidden.description && pattern.description.length < 40">{{pattern.description}}</td>
-                    <td v-else-if="hidden.description && pattern.description.length >= 40">{{pattern.description.substr(0, 40)}}<router-link :to="'/pattern/card/' + pattern.id">...</router-link></td>
-                    <td v-if="hidden.direction && pattern.direction.length < 40">{{pattern.direction}}</td>
-                    <td v-else-if="hidden.direction && pattern.direction.length >= 40">{{pattern.direction.substr(0, 40)}}<router-link :to="'/pattern/card/' + pattern.id">...</router-link></td>
-                    <td v-if="hidden.management && pattern.management.length < 40">{{pattern.management}}</td>
-                    <td v-else-if="hidden.management && pattern.management.length >= 40">{{pattern.management.substr(0, 40)}}<router-link :to="'/pattern/card/' + pattern.id">...</router-link></td>
-                    <td v-if="hidden.dateCreation">{{pattern.dateCreation}}</td>
-                    <td v-if="hidden.dateDeactivation">{{pattern.dateDeactivation}}</td>
-                    <td v-if="hidden.dateActivation">{{pattern.dateActivation}}</td>
-                    <td v-if="hidden.lastUpdate">{{pattern.lastUpdate}}</td>
+                    <td v-if="hidden.id">
+                        {{pattern.id}}
+                    </td>
+                    <td v-if="hidden.name && pattern.name.length < 40">
+                        {{pattern.name}}
+                    </td>
+                    <td v-else-if="hidden.name && pattern.name.length >= 40">
+                        {{pattern.name.substr(0, 40)}}
+                        <router-link :to="'/pattern/card/' + pattern.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.description && pattern.description.length < 40">
+                        {{pattern.description}}
+                    </td>
+                    <td v-else-if="hidden.description && pattern.description.length >= 40">
+                        {{pattern.description.substr(0, 40)}}
+                        <router-link :to="'/pattern/card/' + pattern.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.direction && pattern.direction.length < 40">
+                        {{pattern.direction}}
+                    </td>
+                    <td v-else-if="hidden.direction && pattern.direction.length >= 40">
+                        {{pattern.direction.substr(0, 40)}}
+                        <router-link :to="'/pattern/card/' + pattern.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.management && pattern.management.length < 40">
+                        {{pattern.management}}
+                    </td>
+                    <td v-else-if="hidden.management && pattern.management.length >= 40">
+                        {{pattern.management.substr(0, 40)}}
+                        <router-link :to="'/pattern/card/' + pattern.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.dateCreation">
+                        {{pattern.dateCreation}}
+                    </td>
+                    <td v-if="hidden.dateDeactivation">
+                        {{pattern.dateDeactivation}}
+                    </td>
+                    <td v-if="hidden.dateActivation">
+                        {{pattern.dateActivation}}
+                    </td>
+                    <td v-if="hidden.lastUpdate">
+                        {{pattern.lastUpdate}}
+                    </td>
                 </tr>
                 </tbody>
             </table>

@@ -5,20 +5,67 @@
             <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
             <el-button class="plus" @click="addPattern" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
             <el-dropdown style="float: right" :hide-on-click="false">
-                <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
+                <el-button
+                        style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; "
+                        type="primary"
+                        icon="el-icon-s-tools">
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item><el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck1" @change="hidden.name = !hidden.name">Навание</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck2" @change="hidden.description = !hidden.description">Описание</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck3" @change="hidden.direction = !hidden.direction">Направление</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck4" @change="hidden.management = !hidden.management">Ответсвенный за ведение </el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck5" @change="hidden.isArchive = !hidden.isArchive">Архивность</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck6" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck7" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck8" @change="hidden.dateActivation = !hidden.dateActivation">Дата активации</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="patternCheck9" @change="hidden.lastUpdate = !hidden.lastUpdate">Последнее обновление</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" @change="hiddenAll">
+                            Все
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="patternCheck" @change="hidden.id = !hidden.id">
+                            Номер
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="patternCheck1" @change="hidden.name = !hidden.name">
+                            Навание
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="patternCheck2" @change="hidden.description = !hidden.description">
+                            Описание
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="patternCheck3" @change="hidden.direction = !hidden.direction">
+                            Направление
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="patternCheck4" @change="hidden.management = !hidden.management">
+                            Ответсвенный за ведение
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="patternCheck5" @change="hidden.isArchive = !hidden.isArchive">
+                            Архивность
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="patternCheck6" @change="hidden.dateCreation = !hidden.dateCreation">
+                            Дата создания
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="patternCheck7" @change="hidden.dateDeactivation = !hidden.dateDeactivation">
+                            Дата деактивации
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="patternCheck8" @change="hidden.dateActivation = !hidden.dateActivation">
+                            Дата активации
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="patternCheck9" @change="hidden.lastUpdate = !hidden.lastUpdate">
+                            Последнее обновление
+                        </el-checkbox>
+                    </el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </p>
@@ -39,13 +86,40 @@
                     <th v-if="hidden.lastUpdate" @click="sort('last_update')">Последнее обновление</th>
                 </tr>
                 <tr>
-                    <td><el-button @click="sort('')"  style=" background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
+                    <td>
+                        <el-button
+                                @click="sort('')"
+                                style=" background-color: #1ab394; border-color: #1ab394 "
+                                type="primary"
+                                size="mini"
+                                icon="el-icon-search"/>
+                    </td>
                     <td></td>
-                    <td v-if="hidden.id"><el-input placeholder="Please input" v-model="pattern.id"></el-input></td>
-                    <td v-if="hidden.name"><el-input placeholder="Please input" v-model="pattern.name"></el-input></td>
-                    <td v-if="hidden.description"><el-input placeholder="Please input" v-model="pattern.description"></el-input></td>
-                    <td v-if="hidden.direction"><el-input placeholder="Please input" v-model="pattern.direction"></el-input></td>
-                    <td v-if="hidden.management"><el-input placeholder="Please input" v-model="pattern.management"></el-input></td>
+                    <td v-if="hidden.id">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="pattern.id"/>
+                    </td>
+                    <td v-if="hidden.name">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="pattern.name"/>
+                    </td>
+                    <td v-if="hidden.description">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="pattern.description"/>
+                    </td>
+                    <td v-if="hidden.direction">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="pattern.direction"/>
+                    </td>
+                    <td v-if="hidden.management">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="pattern.management"/>
+                    </td>
                     <td v-if="hidden.isArchive">
                         <el-select v-model="value" placeholder="Select">
                             <el-option
@@ -56,56 +130,79 @@
                             </el-option>
                         </el-select>
                     </td>
-                    <td v-if="hidden.dateCreation"> <div class="block">
-                        <el-date-picker
-                                value-format="yyyy-MM-dd"
-                                v-model="pattern.dateCreation"
-                                type="daterange"
-                                range-separator="To"
-                                start-placeholder="Start date"
-                                end-placeholder="End date">
-                        </el-date-picker>
-                    </div></td>
-                    <td v-if="hidden.dateDeactivation"> <div class="block">
-                        <el-date-picker
-                                value-format="yyyy-MM-dd"
-                                v-model="pattern.dateDeactivation"
-                                type="daterange"
-                                range-separator="To"
-                                start-placeholder="Start date"
-                                end-placeholder="End date">
-                        </el-date-picker>
-                    </div></td>
-                    <td v-if="hidden.dateActivation"> <div class="block">
-                        <el-date-picker
-                                value-format="yyyy-MM-dd"
-                                v-model="pattern.dateActivation"
-                                type="daterange"
-                                range-separator="To"
-                                start-placeholder="Start date"
-                                end-placeholder="End date">
-                        </el-date-picker>
-                    </div></td>
-                    <td v-if="hidden.lastUpdate"> <div class="block">
-                        <el-date-picker
-                                value-format="yyyy-MM-dd"
-                                v-model="pattern.lastUpdate"
-                                type="daterange"
-                                range-separator="To"
-                                start-placeholder="Start date"
-                                end-placeholder="End date">
-                        </el-date-picker>
-                    </div></td>
+                    <td v-if="hidden.dateCreation">
+                        <div class="block">
+                            <el-date-picker
+                                    value-format="yyyy-MM-dd"
+                                    v-model="pattern.dateCreation"
+                                    type="daterange"
+                                    range-separator="To"
+                                    start-placeholder="Start date"
+                                    end-placeholder="End date">
+                            </el-date-picker>
+                        </div>
+                    </td>
+                    <td v-if="hidden.dateDeactivation">
+                        <div class="block">
+                            <el-date-picker
+                                    value-format="yyyy-MM-dd"
+                                    v-model="pattern.dateDeactivation"
+                                    type="daterange"
+                                    range-separator="To"
+                                    start-placeholder="Start date"
+                                    end-placeholder="End date">
+                            </el-date-picker>
+                        </div>
+                    </td>
+                    <td v-if="hidden.dateActivation">
+                        <div class="block">
+                            <el-date-picker
+                                    value-format="yyyy-MM-dd"
+                                    v-model="pattern.dateActivation"
+                                    type="daterange"
+                                    range-separator="To"
+                                    start-placeholder="Start date"
+                                    end-placeholder="End date">
+                            </el-date-picker>
+                        </div>
+                    </td>
+                    <td v-if="hidden.lastUpdate">
+                        <div class="block">
+                            <el-date-picker
+                                    value-format="yyyy-MM-dd"
+                                    v-model="pattern.lastUpdate"
+                                    type="daterange"
+                                    range-separator="To"
+                                    start-placeholder="Start date"
+                                    end-placeholder="End date">
+                            </el-date-picker>
+                        </div>
+                    </td>
                 </tr>
                 <tbody v-for="pattern in patternData">
                 <tr>
                     <td>
-                        <el-button @click="showCard(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                        <el-button
+                                @click="showCard(pattern.id)"
+                                style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                type="primary"
+                                size="mini"
+                                icon="el-icon-view"/>
                         <span v-if="pattern.isArchive">
-                             <el-button @click="deArchiveOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
+                             <el-button
+                                     @click="deArchiveOnePattern(pattern.id)"
+                                     style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                     type="primary"
+                                     size="mini"
+                                     icon="el-icon-upload2"/>
                          </span>
                         <span v-else>
-                            <el-button @click="deleteOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                            <el-button
+                                    @click="deleteOnePattern(pattern.id)"
+                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                    type="primary"
+                                    size="mini"
+                                    icon="el-icon-delete"/>
                          </span>
                     </td>
                     <td> <el-checkbox @change="check(pattern.id)"></el-checkbox></td>
@@ -126,15 +223,19 @@
         <span v-else-if="createPattern">
             <pattern-create :source-id="this.sourceId"/>
             <br>
-            <el-button @click="backAdd" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+            <el-button
+                    @click="backAdd"
+                    style="background-color: #1ab394; border-color: #1ab394; color: white;">
+                Назад
+            </el-button>
         </span>
         <my-pagination v-if="!createPattern"
-                :page-size="pagination.pageSize"
-                :current-page="pagination.currentPage"
-                :totalPages="pagination.totalPages"
-                :totalElements="pagination.totalElements"
-                @onCurrentChange="onCurrentChange"
-                @onSizeChange="onSizeChange"/>
+                       :page-size="pagination.pageSize"
+                       :current-page="pagination.currentPage"
+                       :totalPages="pagination.totalPages"
+                       :totalElements="pagination.totalElements"
+                       @onCurrentChange="onCurrentChange"
+                       @onSizeChange="onSizeChange"/>
     </div>
 </template>
 

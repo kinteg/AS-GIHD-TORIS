@@ -17,14 +17,22 @@
                 </tr>
                 <tr v-for="log in tableLog">
                     <td>
-                        <el-button @click="showCard(log.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                        <el-button
+                                @click="showCard(log.id)"
+                                style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                type="primary"
+                                size="mini"
+                                icon="el-icon-view"/>
                     </td>
                     <td>{{log.id}}</td>
                     <td>{{log.actions.action}}</td>
                     <td>{{log.statuses.status}}</td>
                     <td>{{log.errors.error}}</td>
                     <td>
-                        <router-link v-if="log.patternTableId > 0" :to="'/patternTable/show/' + log.patternTableId">{{log.patternTableId}}</router-link>
+                        <router-link v-if="log.patternTableId > 0"
+                                     :to="'/patternTable/show/' + log.patternTableId">
+                            {{log.patternTableId}}
+                        </router-link>
                         <span v-else-if="log.patternTableId < 0" >-</span>
                     </td>
                     <td>{{log.dateCreation}}</td>

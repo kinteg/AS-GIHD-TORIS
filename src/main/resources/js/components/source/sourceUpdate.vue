@@ -1,8 +1,14 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/source/show' }">Все источники</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/source/update/' + this.$route.params.id}">Редактирование</el-breadcrumb-item>
+            <el-breadcrumb-item
+                    :to="{ path: '/source/show' }">
+                Все источники
+            </el-breadcrumb-item>
+            <el-breadcrumb-item
+                    :to="{ path: '/source/update/' + this.$route.params.id}">
+                Редактирование
+            </el-breadcrumb-item>
         </el-breadcrumb>
         <p style="font-size: 20px">Просмотр</p>
         <div>
@@ -76,7 +82,12 @@
                 <el-tab-pane label="Шаблоны" name="patternInfo">
                     <div v-if="hiddenTable"  style="background-color: white; padding: 0 5px 0 0;  border-radius: 5px; " >
                         <p style="font-size: 20px">Все шаблоны
-                            <el-button class="plus" @click="addPattern" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
+                            <el-button
+                                    class="plus"
+                                    @click="addPattern"
+                                    style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "
+                                    type="primary"
+                                    icon="el-icon-plus"></el-button>
                         </p>
                         <table style="display: block; overflow-x: auto; ">
                             <tr>
@@ -93,12 +104,45 @@
                                 <th @click="sort('last_update')">Последнее обновление</th>
                             </tr>
                             <tr>
-                                <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
-                                <td><el-input placeholder="Please input" v-model="pattern.id"></el-input></td>
-                                <td><el-input placeholder="Please input" v-model="pattern.name"></el-input></td>
-                                <td><el-input placeholder="Please input" v-model="pattern.description"></el-input></td>
-                                <td><el-input placeholder="Please input" v-model="pattern.direction"></el-input></td>
-                                <td><el-input placeholder="Please input" v-model="pattern.management"></el-input></td>
+                                <td>
+                                    <el-button
+                                            @click="sort('')"
+                                            style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                            type="primary"
+                                            size="mini"
+                                            icon="el-icon-search">
+                                    </el-button>
+                                </td>
+                                <td>
+                                    <el-input
+                                            placeholder="Please input"
+                                            v-model="pattern.id">
+                                    </el-input
+                                    ></td>
+                                <td>
+                                    <el-input
+                                            placeholder="Please input"
+                                            v-model="pattern.name">
+                                    </el-input>
+                                </td>
+                                <td>
+                                    <el-input
+                                            placeholder="Please input"
+                                            v-model="pattern.description">
+                                    </el-input>
+                                </td>
+                                <td>
+                                    <el-input
+                                            placeholder="Please input"
+                                            v-model="pattern.direction">
+                                    </el-input>
+                                </td>
+                                <td>
+                                    <el-input
+                                            placeholder="Please input"
+                                            v-model="pattern.management">
+                                    </el-input>
+                                </td>
                                 <td>
                                     <el-select v-model="value" placeholder="Select">
                                         <el-option
@@ -154,15 +198,39 @@
                             <tr>
                                 <td>
                                     <span v-if="pattern.isArchive">
-                                        <el-button @click="deArchiveOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
+                                        <el-button
+                                                @click="deArchiveOnePattern(pattern.id)"
+                                                style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                                type="primary"
+                                                size="mini"
+                                                icon="el-icon-upload2">
+                                        </el-button>
                                     </span>
                                     <span v-else>
-                                        <el-button @click="deleteOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                                        <el-button
+                                                @click="deleteOnePattern(pattern.id)"
+                                                style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                                type="primary"
+                                                size="mini"
+                                                icon="el-icon-delete">
+                                        </el-button>
                                     </span>
                                     <br>
-                                    <el-button @click="openPatternUpdate(pattern.id)" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
+                                    <el-button
+                                            @click="openPatternUpdate(pattern.id)"
+                                            style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394"
+                                            type="primary"
+                                            size="mini"
+                                            icon="el-icon-edit">
+                                    </el-button>
                                     <br>
-                                    <el-button @click="patternView(pattern.id)" style="background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
+                                    <el-button
+                                            @click="patternView(pattern.id)"
+                                            style="background-color: #1ab394; border-color: #1ab394"
+                                            type="primary"
+                                            size="mini"
+                                            icon="el-icon-view">
+                                    </el-button>
                                 </td>
                                 <td>{{pattern.id}}</td>
                                 <td>{{pattern.name}}</td>
@@ -189,7 +257,12 @@
                         <el-row :gutter="20">
                             <el-col :span="12">
                                 <div>
-                                    <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
+                                    <el-form
+                                            :model="pattern"
+                                            :rules="rules"
+                                            ref="pattern"
+                                            :label-position="labelPosition"
+                                            label-width="100px">
                                         <el-form-item prop="name" label="Название">
                                             <el-input v-model="pattern.name"></el-input>
                                         </el-form-item>
@@ -201,7 +274,12 @@
                             </el-col>
                             <el-col :span="12">
                                 <div>
-                                    <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
+                                    <el-form
+                                            :model="pattern"
+                                            :rules="rules"
+                                            ref="pattern"
+                                            :label-position="labelPosition"
+                                            label-width="100px">
                                         <el-form-item prop="direction" label="Направление:">
                                             <el-input v-model="pattern.direction"></el-input>
                                         </el-form-item>
@@ -212,17 +290,33 @@
                                 </div>
                             </el-col>
                         </el-row>
-                        <el-button @click="backUpdate" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-                        <el-button @click="updatePattern" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
+                        <el-button
+                                @click="backUpdate"
+                                style="background-color: #1ab394; border-color: #1ab394; color: white;">
+                            Назад
+                        </el-button>
+                        <el-button
+                                @click="updatePattern"
+                                style="background-color: #1ab394; border-color: #1ab394; color: white;">
+                            Сохранить
+                        </el-button>
                     </div>
                     <div v-if="hiddenView">
                         <pattern-view :pattern-id="this.patternId" />
-                        <el-button @click="backView" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                        <el-button
+                                @click="backView"
+                                style="background-color: #1ab394; border-color: #1ab394; color: white;">
+                            Назад
+                        </el-button>
                     </div>
                     <div v-else-if="hiddenAdd">
                         <pattern-create :source-id="this.sourceId"/>
                         <br>
-                        <el-button @click="backAdd" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                        <el-button
+                                @click="backAdd"
+                                style="background-color: #1ab394; border-color: #1ab394; color: white;">
+                            Назад
+                        </el-button>
                     </div>
                 </el-tab-pane>
             </el-tabs>

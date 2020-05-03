@@ -8,7 +8,12 @@
             </tr>
             <tr v-for="log in patternTableLog">
                 <td>{{log.dateCreation}}</td>
-                <td><router-link :to="'/logs/patternTableLogs/' + log.id">Просмотр</router-link></td>
+                <td>
+                    <router-link
+                            :to="'/logs/patternTableLogs/' + log.id">
+                        Просмотр
+                    </router-link>
+                </td>
             </tr>
         </table>
         <el-pagination

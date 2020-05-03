@@ -4,8 +4,14 @@
             <el-col :span="16">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
                     <el-breadcrumb separator="/">
-                        <el-breadcrumb-item :to="{ path: '/pattern/show' }">Все шаблоны</el-breadcrumb-item>
-                        <el-breadcrumb-item :to="{ path: '/pattern/card/' + this.$route.params.id}">Просмотр</el-breadcrumb-item>
+                        <el-breadcrumb-item
+                                :to="{ path: '/pattern/show' }">
+                            Все шаблоны
+                        </el-breadcrumb-item>
+                        <el-breadcrumb-item
+                                :to="{ path: '/pattern/card/' + this.$route.params.id}">
+                            Просмотр
+                        </el-breadcrumb-item>
                     </el-breadcrumb>
                     <p style="font-size: 20px">Просмотр</p>
                     <div>
@@ -15,7 +21,10 @@
                                     <el-row :gutter="20">
                                         <el-col :span="12">
                                             <div>
-                                                <el-form :label-position="labelPosition" label-width="100px" :model="source">
+                                                <el-form
+                                                        :label-position="labelPosition"
+                                                        label-width="100px"
+                                                        :model="source">
                                                     <el-form-item class="label" label="Поставщик данных:">
                                                         {{source.name}}
                                                     </el-form-item>
@@ -39,7 +48,10 @@
                                         </el-col>
                                         <el-col :span="12">
                                             <div>
-                                                <el-form :label-position="labelPosition" label-width="100px" :model="source">
+                                                <el-form
+                                                        :label-position="labelPosition"
+                                                        label-width="100px"
+                                                        :model="source">
                                                     <el-form-item class="label" label="Периодичность актуализации:">
                                                         {{source.periodicity}}
                                                     </el-form-item>
@@ -63,7 +75,11 @@
                                         </el-col>
                                     </el-row>
                                 </div>
-                                <el-button @click="updateSource" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Редактировать</el-button>
+                                <el-button
+                                        @click="updateSource"
+                                        style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
+                                    Редактировать
+                                </el-button>
 <!--                                <el-button @click="backToPatternTable"-->
 <!--                                           style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
 <!--                                           type="primary">-->
@@ -160,14 +176,26 @@
                                             </div>
                                         </el-col>
                                     </el-row>
-                                    <el-button @click="backUpdate" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-                                    <el-button @click="updatePatternAccept" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
+                                    <el-button
+                                            @click="backUpdate"
+                                            style="background-color: #1ab394; border-color: #1ab394; color: white;">
+                                        Назад
+                                    </el-button>
+                                    <el-button
+                                            @click="updatePatternAccept"
+                                            style="background-color: #1ab394; border-color: #1ab394; color: white;">
+                                        Сохранить
+                                    </el-button>
                                 </div>
                             </el-tab-pane>
                             <el-tab-pane label="Таблицы" name="tableInfo">
                                 <p style="font-size: 20px">Таблицы
                                     <span v-if="isMainPage">
-                                        <el-button @click="addTableTab"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-plus"></el-button>
+                                        <el-button
+                                                @click="addTableTab"
+                                                style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                                type="primary"
+                                                icon="el-icon-plus"/>
                                         <el-upload
                                                 style="float: right; margin-right: 10px;"
                                                 class="upload-demo"
@@ -176,14 +204,18 @@
                                                 :limit="1"
                                                 :on-change="sendFiles"
                                                 :auto-upload="false">
-                                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицы</el-button>
+                                            <el-button
+                                                    slot="trigger"
+                                                    style="background-color: #1ab394; border-color: #1ab394"
+                                                    size="small"
+                                                    type="primary">
+                                                Загрузить данные в таблицы
+                                            </el-button>
                                         </el-upload>
                                     </span>
                                 </p>
                                 <div v-if="viewTable">
                                     <div>
-                                        <!--                                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
-                                        <!--                                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
                                         <div style="padding-right: 2px;" class="horizontal-scroll-wrapper  rectangles">
                                             <table style="display: block; overflow-x: auto; ">
                                                 <tr>
@@ -199,7 +231,14 @@
                                                     <th @click="sort('last_update')">Последнее обновление</th>
                                                 </tr>
                                                 <tr>
-                                                    <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
+                                                    <td><el-button
+                                                            @click="sort('')"
+                                                            style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                                            type="primary"
+                                                            size="mini"
+                                                            icon="el-icon-search">
+                                                    </el-button>
+                                                    </td>
                                                     <td></td>
                                                     <td><el-input placeholder="Please input" v-model="patternTable.id"></el-input></td>
                                                     <td><el-input placeholder="Please input" v-model="patternTable.nameTable"></el-input></td>
@@ -262,10 +301,19 @@
                                                             <el-button style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
                                                         </router-link>
                                                         <span v-if="table.isArchive">
-                                                <el-button @click="deArchiveOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
+                                                <el-button
+                                                        @click="deArchiveOneTable(table.id)"
+                                                        style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                                        type="primary" size="mini"
+                                                        icon="el-icon-upload2"/>
                                             </span>
                                                         <span v-else>
-                                                <el-button @click="deleteOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                                                <el-button
+                                                        @click="deleteOneTable(table.id)"
+                                                        style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                                        type="primary"
+                                                        size="mini"
+                                                        icon="el-icon-delete"/>
                                             </span>
                                                     </td>
                                                     <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>
@@ -295,12 +343,21 @@
                                             :on-remove="clearForm"
                                             :on-change="onChange"
                                             :auto-upload="false">
-                                        <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выбрать файл</el-button>
+                                        <el-button
+                                                slot="trigger"
+                                                style="background-color: #1ab394; border-color: #1ab394"
+                                                size="small"
+                                                type="primary">
+                                            Выбрать файл
+                                        </el-button>
                                         <div class="el-upload__tip" slot="tip">Выберите файл из которого будут созданы таблицы</div>
                                     </el-upload>
                                     <el-collapse v-for="oneTable in table">
                                         <el-collapse-item :title="oneTable.tableModel.tableName" >
-                                            <el-input style="padding-bottom: 10px;" v-model="oneTable.tableModel.tableName" placeholder="Название таблицы"></el-input>
+                                            <el-input
+                                                    style="padding-bottom: 10px;"
+                                                    v-model="oneTable.tableModel.tableName"
+                                                    placeholder="Название таблицы"/>
                                             <el-form  v-for="pole in oneTable.tableModel.models" :inline="true"  class="demo-form-inline">
                                                 <el-form-item>
                                                     <el-radio-group v-model="oneTable.tableModel.primaryKey">
@@ -331,8 +388,16 @@
                                             </table>
                                         </el-collapse-item>
                                     </el-collapse>
-                                    <el-button @click="showTableTab('yes')" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-                                    <el-button @click="addTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
+                                    <el-button
+                                            @click="showTableTab('yes')"
+                                            style="background-color: #1ab394; border-color: #1ab394; color: white;">
+                                        Назад
+                                    </el-button>
+                                    <el-button
+                                            @click="addTable"
+                                            style="background-color: #1ab394; border-color: #1ab394; color: white;">
+                                        Сохранить
+                                    </el-button>
                                 </div>
                                 <div v-else-if="showTable">
                                     <pattern-table-view-by-pattern-id :pattern-id="patternId"/>

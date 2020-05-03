@@ -8,15 +8,48 @@
                     <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                     </el-button>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item><el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.nameTable = !hidden.nameTable">Навание таблицы</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.nameFile = !hidden.nameFile">Название файла</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check3" @change="hidden.isArchive = !hidden.isArchive">Архивность</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check4" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check5" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check6" @change="hidden.dateActivation = !hidden.dateActivation">Дата активации</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item><el-checkbox checked="checked" id="check7" @change="hidden.lastUpdate = !hidden.lastUpdate">Последнее обновление</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item>
+                            <el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item>
+                            <el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">
+                                Номер
+                            </el-checkbox>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <el-checkbox checked="checked" id="check1" @change="hidden.nameTable = !hidden.nameTable">
+                                Навание таблицы
+                            </el-checkbox>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <el-checkbox checked="checked" id="check2" @change="hidden.nameFile = !hidden.nameFile">
+                                Название файла
+                            </el-checkbox>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <el-checkbox checked="checked" id="check3" @change="hidden.isArchive = !hidden.isArchive">
+                                Архивность
+                            </el-checkbox>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <el-checkbox checked="checked" id="check4" @change="hidden.dateCreation = !hidden.dateCreation">
+                                Дата создания
+                            </el-checkbox>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <el-checkbox checked="checked" id="check5" @change="hidden.dateDeactivation = !hidden.dateDeactivation">
+                                Дата деактивации
+                            </el-checkbox>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <el-checkbox checked="checked" id="check6" @change="hidden.dateActivation = !hidden.dateActivation">
+                                Дата активации
+                            </el-checkbox>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <el-checkbox checked="checked" id="check7" @change="hidden.lastUpdate = !hidden.lastUpdate">
+                                Последнее обновление
+                            </el-checkbox>
+                        </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </p>
@@ -34,7 +67,14 @@
                         <th v-if="hidden.lastUpdate" @click="sort('last_update')">Последнее обновление</th>
                     </tr>
                     <tr>
-                        <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
+                        <td>
+                            <el-button
+                                    @click="sort('')"
+                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                    type="primary"
+                                    size="mini"
+                                    icon="el-icon-search"/>
+                        </td>
                         <td v-if="hidden.id"><el-input placeholder="Please input" v-model="patternTable.id"></el-input></td>
                         <td v-if="hidden.nameTable"><el-input placeholder="Please input" v-model="patternTable.nameTable"></el-input></td>
                         <td v-if="hidden.nameFile"><el-input placeholder="Please input" v-model="patternTable.nameFile"></el-input></td>
@@ -96,10 +136,20 @@
                                 <el-button style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
                             </router-link>
                             <span v-if="table.isArchive">
-                            <el-button @click="deArchiveOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
+                            <el-button
+                                    @click="deArchiveOneTable(table.id)"
+                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                    type="primary"
+                                    size="mini"
+                                    icon="el-icon-upload2"/>
                         </span>
                             <span v-else>
-                            <el-button @click="deleteOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                            <el-button
+                                    @click="deleteOneTable(table.id)"
+                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                    type="primary"
+                                    size="mini"
+                                    icon="el-icon-delete"/>
                         </span>
                         </td>
                         <!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->

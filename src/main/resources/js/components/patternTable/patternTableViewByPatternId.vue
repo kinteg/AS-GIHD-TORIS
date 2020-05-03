@@ -92,14 +92,29 @@
                     <tbody v-for="table in patternTableData">
                     <tr>
                         <td>
-                            <router-link :to="'/patternTable/show/' + table.id">
-                                <el-button style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                            <router-link
+                                    :to="'/patternTable/show/' + table.id">
+                                <el-button
+                                        style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                        type="primary"
+                                        size="mini"
+                                        icon="el-icon-view"/>
                             </router-link>
                             <span v-if="table.isArchive">
-                            <el-button @click="deArchiveOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
+                            <el-button
+                                    @click="deArchiveOneTable(table.id)"
+                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                    type="primary"
+                                    size="mini"
+                                    icon="el-icon-upload2"/>
                         </span>
                             <span v-else>
-                            <el-button @click="deleteOneTable(table.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                            <el-button
+                                    @click="deleteOneTable(table.id)"
+                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                    type="primary"
+                                    size="mini"
+                                    icon="el-icon-delete"/>
                         </span>
                         </td>
                         <!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->

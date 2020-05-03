@@ -24,11 +24,11 @@
                 </el-dropdown-menu>
             </el-dropdown>
         </p>
-        <div class="horizontal-scroll-wrapper  rectangles">
+        <div v-if="patternData.length !== 0" class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto; ">
                 <tr>
                     <th></th>
-                    <th><el-checkbox ></el-checkbox></th>
+                    <th></th>
                     <th v-if="hidden.id" @click="sort('id')">Номер</th>
                     <th v-if="hidden.name" @click="sort('name')">Навание</th>
                     <th v-if="hidden.description" @click="sort('description')">Описание</th>
@@ -131,7 +131,11 @@
                 </tbody>
             </table>
         </div>
+        <div v-else>
+            <p style="font-size: 20px">Данных нет</p>
+        </div>
         <my-pagination
+                v-if="patternData.length !== 0"
                 :page-size="pagination.pageSize"
                 :current-page="pagination.currentPage"
                 :totalPages="pagination.totalPages"

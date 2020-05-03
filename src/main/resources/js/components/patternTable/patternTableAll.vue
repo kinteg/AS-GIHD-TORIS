@@ -5,10 +5,7 @@
                 <el-breadcrumb-item :to="{ path: '/patternTable/show' }">Все таблицы</el-breadcrumb-item>
             </el-breadcrumb>
             <p style="font-size: 20px">Все таблицы
-
-<!--                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
-<!--                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
-                <el-dropdown style="float: right" :hide-on-click="false">
+                <el-dropdown v-if="patternTableData.length !== 0" style="float: right" :hide-on-click="false">
                     <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                     </el-button>
                     <el-dropdown-menu slot="dropdown">
@@ -24,7 +21,7 @@
                     </el-dropdown-menu>
                 </el-dropdown>
             </p>
-            <div class="horizontal-scroll-wrapper  rectangles">
+            <div v-if="patternTableData.length !== 0" class="horizontal-scroll-wrapper  rectangles">
                 <table style="display: block; overflow-x: auto;">
                     <tr>
                         <th></th>
@@ -131,6 +128,9 @@
                         :totalElements="pagination.totalElements"
                         @onCurrentChange="onCurrentChange"
                         @onSizeChange="onSizeChange"/>
+            </div>
+            <div v-else>
+                <p style="font-size: 20px">Данных нет</p>
             </div>
         </div>
         <div v-else-if="oneTable">
@@ -591,7 +591,6 @@
                 this.pagination.totalElements = response.data.totalElements;
                 this.patternTableData = response.data.content;
                 for(let i = 0; i < this.patternTableData.length; i++) {
-                    console.log(this.patternTableData[i]);
                     let nameTable = this.patternTableData[i].nameTable;
                     AXIOS.get("pattern/isArchive/" + this.patternTableData[i].patternId).then(response => {
                         this.patternTableData[i].nameTable = "table";

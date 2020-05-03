@@ -34,7 +34,7 @@
             </el-dropdown>
 
         </p>
-        <div class="horizontal-scroll-wrapper  rectangles">
+        <div v-if="sourceData.length !== 0" class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto;">
                 <tr>
                     <th></th>
@@ -175,8 +175,11 @@
 
             </table>
         </div>
-        <el-backtop target=".trt"></el-backtop>
+        <div v-else>
+            <p style="font-size: 20px">Данных нет</p>
+        </div>
         <my-pagination
+                v-if="sourceData.length !== 0"
                 :page-size="pagination.pageSize"
                 :current-page="pagination.currentPage"
                 :totalPages="pagination.totalPages"

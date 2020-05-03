@@ -5,7 +5,7 @@
                 <el-breadcrumb-item :to="{ path: '/patternTable/showArchive' }">Архивные таблицы</el-breadcrumb-item>
             </el-breadcrumb>
             <p style="font-size: 20px">Архивные таблицы
-                <el-dropdown style="float: right" :hide-on-click="false">
+                <el-dropdown v-if="patternTableData.length !== 0" style="float: right" :hide-on-click="false">
                     <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                     </el-button>
                     <el-dropdown-menu slot="dropdown">
@@ -20,7 +20,7 @@
                     </el-dropdown-menu>
                 </el-dropdown>
             </p>
-            <div class="horizontal-scroll-wrapper  rectangles">
+            <div v-if="patternTableData.length !== 0" class="horizontal-scroll-wrapper  rectangles">
                 <table style="display: block; overflow-x: auto;">
                     <tr>
                         <th></th>
@@ -109,6 +109,9 @@
                         :totalElements="pagination.totalElements"
                         @onCurrentChange="onCurrentChange"
                         @onSizeChange="onSizeChange"/>
+            </div>
+            <div v-else>
+                <p style="font-size: 20px">Данных  нет</p>
             </div>
         </div>
         <div v-else-if="oneTable">

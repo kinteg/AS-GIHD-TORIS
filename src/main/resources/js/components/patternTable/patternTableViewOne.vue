@@ -20,7 +20,7 @@
                     </el-dropdown-menu>
                 </el-dropdown>
             </p>
-            <div class="horizontal-scroll-wrapper  rectangles">
+            <div v-if="patternTableData.length !== 0" class="horizontal-scroll-wrapper  rectangles">
                 <table style="display: block; overflow-x: auto;">
                     <tr>
                         <th></th>
@@ -121,6 +121,9 @@
                         :totalElements="pagination.totalElements"
                         @onCurrentChange="onCurrentChange"
                         @onSizeChange="onSizeChange"/>
+            </div>
+            <div v-else>
+                <p style="font-size: 20px">Данных нет</p>
             </div>
         </div>
 <!--        <div v-else-if="oneTable">-->

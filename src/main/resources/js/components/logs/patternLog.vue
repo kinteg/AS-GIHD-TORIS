@@ -4,7 +4,7 @@
             <el-breadcrumb-item :to="{ path: '/logs/patternLogs' }">Логи шаблонов</el-breadcrumb-item>
         </el-breadcrumb>
         <p style="font-size: 20px">Логи шаблонов </p>
-        <div class="horizontal-scroll-wrapper  rectangles">
+        <div v-if="patternLog.length !== 0" class="horizontal-scroll-wrapper  rectangles">
             <table style="overflow-x: auto; ">
                 <tr>
                     <th></th>
@@ -37,6 +37,9 @@
                     :totalElements="pagination.totalElements"
                     @onCurrentChange="onCurrentChange"
                     @onSizeChange="onSizeChange"/>
+        </div>
+        <div v-else>
+            <p style="font-size: 20px">Данных нет</p>
         </div>
     </div>
 </template>

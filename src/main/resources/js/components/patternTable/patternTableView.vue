@@ -27,7 +27,7 @@
                         </router-link>
                             </span>
                     </p>
-                    <div class="horizontal-scroll-wrapper  rectangles">
+                    <div v-if="showOnlyOneTable.values.content.length !== 0" class="horizontal-scroll-wrapper  rectangles">
                         <table style="display: block; overflow-x: auto;">
                             <tr>
                                 <th></th>
@@ -53,6 +53,9 @@
                                 @onSizeChange="onSizeChangeOneTable"/>
                         <el-button @click="backToPatternTableTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
 
+                    </div>
+                    <div v-else>
+                        <p style="font-size: 20px">Данных нет</p>
                     </div>
                 </div>
             </el-col>
@@ -435,9 +438,9 @@
                 this.paginationOneTable.totalPages = response.data.values.totalPages;
                 this.paginationOneTable.totalElements = response.data.values.totalElements;
                 this.showOnlyOneTable = response.data;
+
                 this.tableName = response.data.tableModel.tableName;
                 this.oneTable = response.data.tableModel.models;
-                console.log(response);
                 AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName + "&size=" + this.paginationVersion.pageSize).then(response => {
                     this.patternTableVersion = response.data;
                     this.paginationVersion.totalPages = response.data.totalPages;

@@ -4,7 +4,7 @@
             <el-breadcrumb-item :to="{ path: '/logs/patternTableLogs' }">Логи таблиц</el-breadcrumb-item>
         </el-breadcrumb>
         <p style="font-size: 20px">Логи таблиц </p>
-        <div class="horizontal-scroll-wrapper  rectangles">
+        <div v-if="tableLog.length !== 0" class="horizontal-scroll-wrapper  rectangles">
             <table style="overflow-x: auto; ">
                 <tr>
                     <th></th>
@@ -37,6 +37,9 @@
                     :totalElements="pagination.totalElements"
                     @onCurrentChange="onCurrentChange"
                     @onSizeChange="onSizeChange"/>
+        </div>
+        <div v-else>
+            <p style="font-size: 20px"></p>
         </div>
     </div>
 </template>
@@ -91,7 +94,6 @@
         mounted() {
             AXIOS.get("patternTableLogger/getAll").then(response => {
                 this.tableLog = response.data.content;
-                console.log(this.tableLog);
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
             });

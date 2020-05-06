@@ -4,8 +4,14 @@
             <el-col :span="16">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
                     <el-breadcrumb separator="/">
-                        <el-breadcrumb-item :to="{ path: '/source/show' }">Все источники</el-breadcrumb-item>
-                        <el-breadcrumb-item :to="{ path: '/source/view/' + this.$route.params.id}">Просмотр</el-breadcrumb-item>
+                        <el-breadcrumb-item
+                                :to="{ path: '/source/show' }">
+                            Все источники
+                        </el-breadcrumb-item>
+                        <el-breadcrumb-item
+                                :to="{ path: '/source/view/' + this.$route.params.id}">
+                            Просмотр
+                        </el-breadcrumb-item>
                     </el-breadcrumb>
                    <p style="font-size: 20px">Просмотр источника</p>
                     <div>
@@ -61,16 +67,30 @@
                                         </div>
                                     </el-col>
                                 </el-row>
-                                <el-button @click="back" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
-                                <el-button @click="update" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Редактировать</el-button>
+                                <el-button
+                                        @click="back"
+                                        style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
+                                    Назад
+                                </el-button>
+                                <el-button
+                                        @click="update"
+                                        style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
+                                    Редактировать
+                                </el-button>
                             </el-tab-pane>
                             <el-tab-pane label="Шаблоны" name="patternInfo">
                                 <span v-if="hiddenTable"  style="background-color: white;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-                                    <pattern-by-source style="padding: 0 5px 0 0; box-shadow: none " :source-id="this.$route.params.id"/>
+                                    <pattern-by-source
+                                            style="padding: 0 5px 0 0; box-shadow: none "
+                                            :source-id="this.$route.params.id"/>
                                 </span>
                                 <div v-else>
                                     <pattern-view :pattern-id="this.patternId" />
-                                    <el-button @click="backView" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+                                    <el-button
+                                            @click="backView"
+                                            style="background-color: #1ab394; border-color: #1ab394; color: white;">
+                                        Назад
+                                    </el-button>
                                 </div>
                             </el-tab-pane>
                             <el-tab-pane label="Таблицы" name="tableInfo">

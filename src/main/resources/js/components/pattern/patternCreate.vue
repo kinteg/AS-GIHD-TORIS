@@ -5,10 +5,10 @@
                 <div>
                     <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
                         <el-form-item prop="name" label="Название">
-                            <el-input @input="hiddenAddPatternBtn" v-model="pattern.name"></el-input>
+                            <el-input @input="hiddenAddPatternBtn" v-model="pattern.name"/>
                         </el-form-item>
                         <el-form-item prop="description" label="Описание">
-                            <el-input @input="hiddenAddPatternBtn" v-model="pattern.description"></el-input>
+                            <el-input @input="hiddenAddPatternBtn" v-model="pattern.description"/>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -17,10 +17,10 @@
                 <div>
                     <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
                         <el-form-item prop="direction" label="Направление:">
-                            <el-input @input="hiddenAddPatternBtn" v-model="pattern.direction"></el-input>
+                            <el-input @input="hiddenAddPatternBtn" v-model="pattern.direction"/>
                         </el-form-item>
                         <el-form-item prop="management" label="Отвтественный за ведение:">
-                            <el-input @input="hiddenAddPatternBtn" v-model="pattern.management"></el-input>
+                            <el-input @input="hiddenAddPatternBtn" v-model="pattern.management"/>
                         </el-form-item>
                     </el-form>
                 </div>

@@ -10,25 +10,69 @@
                 <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item><el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.name = !hidden.name">Навание</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.description = !hidden.description">Описание</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check3" @change="hidden.direction = !hidden.direction">Направление</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check4" @change="hidden.management = !hidden.management">Ответсвенный за ведение </el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check5" @change="hidden.isArchive = !hidden.isArchive">Архивность</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check6" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check7" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check8" @change="hidden.dateActivation = !hidden.dateActivation">Дата активации</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check9" @change="hidden.lastUpdate = !hidden.lastUpdate">Последнее обновление</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" @change="hiddenAll">
+                            Все
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">
+                            Номер
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check1" @change="hidden.name = !hidden.name">
+                            Навание
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check2" @change="hidden.description = !hidden.description">
+                            Описание
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check3" @change="hidden.direction = !hidden.direction">
+                            Направление
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check4" @change="hidden.management = !hidden.management">
+                            Ответсвенный за ведение
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check5" @change="hidden.isArchive = !hidden.isArchive">
+                            Архивность
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check6" @change="hidden.dateCreation = !hidden.dateCreation">
+                            Дата создания
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check7" @change="hidden.dateDeactivation = !hidden.dateDeactivation">
+                            Дата деактивации
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check8" @change="hidden.dateActivation = !hidden.dateActivation">
+                            Дата активации
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check9" @change="hidden.lastUpdate = !hidden.lastUpdate">
+                            Последнее обновление
+                        </el-checkbox>
+                    </el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </p>
-        <div class="horizontal-scroll-wrapper  rectangles">
+        <div v-if="patternData.length !== 0" class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto; ">
                 <tr>
                     <th></th>
-                    <th><el-checkbox ></el-checkbox></th>
+                    <th></th>
                     <th v-if="hidden.id" @click="sort('id')">Номер</th>
                     <th v-if="hidden.name" @click="sort('name')">Навание</th>
                     <th v-if="hidden.description" @click="sort('description')">Описание</th>
@@ -41,7 +85,14 @@
                     <th v-if="hidden.lastUpdate" @click="sort('last_update')">Последнее обновление</th>
                 </tr>
                 <tr>
-                    <td><el-button @click="sort('')"  style=" background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
+                    <td>
+                        <el-button
+                                @click="sort('')"
+                                style=" background-color: #1ab394; border-color: #1ab394 "
+                                type="primary"
+                                size="mini"
+                                icon="el-icon-search"/>
+                    </td>
                     <td></td>
                     <td v-if="hidden.id"><el-input placeholder="Please input" v-model="pattern.id"></el-input></td>
                     <td v-if="hidden.name"><el-input placeholder="Please input" v-model="pattern.name"></el-input></td>
@@ -68,68 +119,127 @@
                                 end-placeholder="End date">
                         </el-date-picker>
                     </div></td>
-                    <td v-if="hidden.dateDeactivation"> <div class="block">
-                        <el-date-picker
-                                value-format="yyyy-MM-dd"
-                                v-model="pattern.dateDeactivation"
-                                type="daterange"
-                                range-separator="To"
-                                start-placeholder="Start date"
-                                end-placeholder="End date">
-                        </el-date-picker>
-                    </div></td>
-                    <td v-if="hidden.dateActivation"> <div class="block">
-                        <el-date-picker
-                                value-format="yyyy-MM-dd"
-                                v-model="pattern.dateActivation"
-                                type="daterange"
-                                range-separator="To"
-                                start-placeholder="Start date"
-                                end-placeholder="End date">
-                        </el-date-picker>
-                    </div></td>
-                    <td v-if="hidden.lastUpdate"> <div class="block">
-                        <el-date-picker
-                                value-format="yyyy-MM-dd"
-                                v-model="pattern.lastUpdate"
-                                type="daterange"
-                                range-separator="To"
-                                start-placeholder="Start date"
-                                end-placeholder="End date">
-                        </el-date-picker>
-                    </div></td>
+                    <td v-if="hidden.dateDeactivation">
+                        <div class="block">
+                            <el-date-picker
+                                    value-format="yyyy-MM-dd"
+                                    v-model="pattern.dateDeactivation"
+                                    type="daterange"
+                                    range-separator="To"
+                                    start-placeholder="Start date"
+                                    end-placeholder="End date">
+                            </el-date-picker>
+                        </div>
+                    </td>
+                    <td v-if="hidden.dateActivation">
+                        <div class="block">
+                            <el-date-picker
+                                    value-format="yyyy-MM-dd"
+                                    v-model="pattern.dateActivation"
+                                    type="daterange"
+                                    range-separator="To"
+                                    start-placeholder="Start date"
+                                    end-placeholder="End date">
+                            </el-date-picker>
+                        </div>
+                    </td>
+                    <td v-if="hidden.lastUpdate">
+                        <div class="block">
+                            <el-date-picker
+                                    value-format="yyyy-MM-dd"
+                                    v-model="pattern.lastUpdate"
+                                    type="daterange"
+                                    range-separator="To"
+                                    start-placeholder="Start date"
+                                    end-placeholder="End date">
+                            </el-date-picker>
+                        </div>
+                    </td>
                 </tr>
                 <tbody v-for="pattern in patternData">
                 <tr>
                     <td>
-                        <el-button @click="showCard(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
-                        <span v-if="pattern.isArchive">
-                             <el-button @click="deArchiveOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-upload2"></el-button>
-                         </span>
-                        <span v-else>
-                            <el-button @click="deleteOnePattern(pattern.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
-                         </span>
+                        <el-button
+                                @click="showCard(pattern.id)"
+                                style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                type="primary"
+                                size="mini"
+                                icon="el-icon-view"/>
+                        <div v-if="!pattern.sourceArchive">
+                            <span v-if="pattern.isArchive">
+                                <el-button
+                                        @click="deArchiveOnePattern(pattern.id)"
+                                        style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                        type="primary"
+                                        size="mini"
+                                        icon="el-icon-upload2"/>
+                            </span>
+                            <span v-else>
+                                <el-button
+                                        @click="deleteOnePattern(pattern.id)"
+                                        style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                        type="primary"
+                                        size="mini"
+                                        icon="el-icon-delete"/>
+                            </span>
+                        </div>
                     </td>
                     <td> <el-checkbox @change="check(pattern.id)"></el-checkbox></td>
-                    <td v-if="hidden.id">{{pattern.id}}</td>
-                    <td v-if="hidden.name && pattern.name.length < 40">{{pattern.name}}</td>
-                    <td v-else-if="hidden.name && pattern.name.length >= 40">{{pattern.name.substr(0, 40)}}<router-link :to="'/pattern/card/' + pattern.id">...</router-link></td>
-                    <td v-if="hidden.description && pattern.description.length < 40">{{pattern.description}}</td>
-                    <td v-else-if="hidden.description && pattern.description.length >= 40">{{pattern.description.substr(0, 40)}}<router-link :to="'/pattern/card/' + pattern.id">...</router-link></td>
-                    <td v-if="hidden.direction && pattern.direction.length < 40">{{pattern.direction}}</td>
-                    <td v-else-if="hidden.direction && pattern.direction.length >= 40">{{pattern.direction.substr(0, 40)}}<router-link :to="'/pattern/card/' + pattern.id">...</router-link></td>
-                    <td v-if="hidden.management && pattern.management.length < 40">{{pattern.management}}</td>
-                    <td v-else-if="hidden.management && pattern.management.length >= 40">{{pattern.management.substr(0, 40)}}<router-link :to="'/pattern/card/' + pattern.id">...</router-link></td>
-                    <td v-if="hidden.isArchive">{{pattern.isArchive ? "Да" : "Нет"}}</td>
-                    <td v-if="hidden.dateCreation">{{pattern.dateCreation}}</td>
-                    <td v-if="hidden.dateDeactivation">{{pattern.dateDeactivation}}</td>
-                    <td v-if="hidden.dateActivation">{{pattern.dateActivation}}</td>
-                    <td v-if="hidden.lastUpdate">{{pattern.lastUpdate}}</td>
+                    <td v-if="hidden.id">
+                        {{pattern.id}}
+                    </td>
+                    <td v-if="hidden.name && pattern.name.length < 40">
+                        {{pattern.name}}
+                    </td>
+                    <td v-else-if="hidden.name && pattern.name.length >= 40">
+                        {{pattern.name.substr(0, 40)}}
+                        <router-link :to="'/pattern/card/' + pattern.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.description && pattern.description.length < 40">
+                        {{pattern.description}}
+                    </td>
+                    <td v-else-if="hidden.description && pattern.description.length >= 40">
+                        {{pattern.description.substr(0, 40)}}
+                        <router-link :to="'/pattern/card/' + pattern.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.direction && pattern.direction.length < 40">
+                        {{pattern.direction}}
+                    </td>
+                    <td v-else-if="hidden.direction && pattern.direction.length >= 40">
+                        {{pattern.direction.substr(0, 40)}}
+                        <router-link :to="'/pattern/card/' + pattern.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.management && pattern.management.length < 40">
+                        {{pattern.management}}
+                    </td>
+                    <td v-else-if="hidden.management && pattern.management.length >= 40">
+                        {{pattern.management.substr(0, 40)}}
+                        <router-link :to="'/pattern/card/' + pattern.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.isArchive">
+                        {{pattern.isArchive ? "Да" : "Нет"}}
+                    </td>
+                    <td v-if="hidden.dateCreation">
+                        {{pattern.dateCreation}}
+                    </td>
+                    <td v-if="hidden.dateDeactivation">
+                        {{pattern.dateDeactivation}}
+                    </td>
+                    <td v-if="hidden.dateActivation">
+                        {{pattern.dateActivation}}
+                    </td>
+                    <td v-if="hidden.lastUpdate">
+                        {{pattern.lastUpdate}}
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <div v-else>
+            <p style="font-size: 20px">Данных нет</p>
+        </div>
         <my-pagination
+                v-if="patternData.length !== 0"
                 :page-size="pagination.pageSize"
                 :current-page="pagination.currentPage"
                 :totalPages="pagination.totalPages"
@@ -194,7 +304,7 @@
                     totalPages: 0,
                     totalElements: 0,
                 },
-                
+
                 hidden:{
                     id: true,
                     name: true,
@@ -207,7 +317,7 @@
                     dateActivation: true,
                     lastUpdate: true,
                 },
-                
+
                 pattern: {
                     check: [],
                     key: "id",
@@ -610,11 +720,24 @@
             }
         },
         mounted() {
+            //TODO тупой axios переделать потом
             AXIOS.get("pattern/getAll").then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
-                this.patternData = response.data.content;
-            })
+                let pattern = response.data.content;
+                for (let i = 0; i < pattern.length; i++) {
+                    AXIOS.get("pattern/" + pattern[i].id).then(response => {
+                        let sourceId = response.data.sourceId;
+                        let man = response.data.management;
+                        AXIOS.get("source/isArchive/" + sourceId).then(response => {
+                            pattern[i].sourceArchive = response.data;
+                            pattern[i].management = response.data;
+                            pattern[i].management = man;
+                        });
+                    });
+                }
+                this.patternData = pattern;
+            });
         }
     }
 </script>

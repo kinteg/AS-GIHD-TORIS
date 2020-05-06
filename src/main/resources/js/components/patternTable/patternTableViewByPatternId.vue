@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>
+        <div v-if="allTable">
             <p style="font-size: 20px">Все таблицы
                 <!--                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
                 <!--                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
@@ -8,52 +8,19 @@
                     <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                     </el-button>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>
-                            <el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
-                        <el-dropdown-item>
-                            <el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">
-                                Номер
-                            </el-checkbox>
-                        </el-dropdown-item>
-                        <el-dropdown-item>
-                            <el-checkbox checked="checked" id="check1" @change="hidden.nameTable = !hidden.nameTable">
-                                Навание таблицы
-                            </el-checkbox>
-                        </el-dropdown-item>
-                        <el-dropdown-item>
-                            <el-checkbox checked="checked" id="check2" @change="hidden.nameFile = !hidden.nameFile">
-                                Название файла
-                            </el-checkbox>
-                        </el-dropdown-item>
-                        <el-dropdown-item>
-                            <el-checkbox checked="checked" id="check3" @change="hidden.isArchive = !hidden.isArchive">
-                                Архивность
-                            </el-checkbox>
-                        </el-dropdown-item>
-                        <el-dropdown-item>
-                            <el-checkbox checked="checked" id="check4" @change="hidden.dateCreation = !hidden.dateCreation">
-                                Дата создания
-                            </el-checkbox>
-                        </el-dropdown-item>
-                        <el-dropdown-item>
-                            <el-checkbox checked="checked" id="check5" @change="hidden.dateDeactivation = !hidden.dateDeactivation">
-                                Дата деактивации
-                            </el-checkbox>
-                        </el-dropdown-item>
-                        <el-dropdown-item>
-                            <el-checkbox checked="checked" id="check6" @change="hidden.dateActivation = !hidden.dateActivation">
-                                Дата активации
-                            </el-checkbox>
-                        </el-dropdown-item>
-                        <el-dropdown-item>
-                            <el-checkbox checked="checked" id="check7" @change="hidden.lastUpdate = !hidden.lastUpdate">
-                                Последнее обновление
-                            </el-checkbox>
-                        </el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.nameTable = !hidden.nameTable">Навание таблицы</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.nameFile = !hidden.nameFile">Название файла</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" id="check3" @change="hidden.isArchive = !hidden.isArchive">Архивность</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" id="check4" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" id="check5" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" id="check6" @change="hidden.dateActivation = !hidden.dateActivation">Дата активации</el-checkbox></el-dropdown-item>
+                        <el-dropdown-item><el-checkbox checked="checked" id="check7" @change="hidden.lastUpdate = !hidden.lastUpdate">Последнее обновление</el-checkbox></el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </p>
-            <div v-if="patternTableData.length !== 0" class="horizontal-scroll-wrapper  rectangles">
+            <div class="horizontal-scroll-wrapper  rectangles">
                 <table style="display: block; overflow-x: auto;">
                     <tr>
                         <th></th>
@@ -67,14 +34,7 @@
                         <th v-if="hidden.lastUpdate" @click="sort('last_update')">Последнее обновление</th>
                     </tr>
                     <tr>
-                        <td>
-                            <el-button
-                                    @click="sort('')"
-                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
-                                    type="primary"
-                                    size="mini"
-                                    icon="el-icon-search"/>
-                        </td>
+                        <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
                         <td v-if="hidden.id"><el-input placeholder="Please input" v-model="patternTable.id"></el-input></td>
                         <td v-if="hidden.nameTable"><el-input placeholder="Please input" v-model="patternTable.nameTable"></el-input></td>
                         <td v-if="hidden.nameFile"><el-input placeholder="Please input" v-model="patternTable.nameFile"></el-input></td>
@@ -132,8 +92,13 @@
                     <tbody v-for="table in patternTableData">
                     <tr>
                         <td>
-                            <router-link :to="'/patternTable/show/' + table.id">
-                                <el-button style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                            <router-link
+                                    :to="'/patternTable/show/' + table.id">
+                                <el-button
+                                        style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                        type="primary"
+                                        size="mini"
+                                        icon="el-icon-view"/>
                             </router-link>
                             <span v-if="table.isArchive">
                             <el-button
@@ -172,30 +137,27 @@
                         @onCurrentChange="onCurrentChange"
                         @onSizeChange="onSizeChange"/>
             </div>
-            <div v-else>
-                <p style="font-size: 20px">Данных нет</p>
+        </div>
+        <div v-else-if="oneTable">
+            <div class="horizontal-scroll-wrapper  rectangles">
+                <table style="display: block; overflow-x: auto;">
+                    <tr>
+                        <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
+                    </tr>
+                    <tr v-for="value in showOnlyOneTable.values.content">
+                        <td v-for="oneValue in value">{{oneValue}}</td>
+                    </tr>
+                </table>
+                <my-pagination
+                        :page-size="paginationOneTable.pageSize"
+                        :current-page="paginationOneTable.currentPage"
+                        :totalPages="paginationOneTable.totalPages"
+                        :totalElements="paginationOneTable.totalElements"
+                        @onCurrentChange="onCurrentChangeOneTable"
+                        @onSizeChange="onSizeChangeOneTable"/>
+                <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
             </div>
         </div>
-<!--        <div v-else-if="oneTable">-->
-<!--            <div class="horizontal-scroll-wrapper  rectangles">-->
-<!--                <table style="display: block; overflow-x: auto;">-->
-<!--                    <tr>-->
-<!--                        <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>-->
-<!--                    </tr>-->
-<!--                    <tr v-for="value in showOnlyOneTable.values.content">-->
-<!--                        <td v-for="oneValue in value">{{oneValue}}</td>-->
-<!--                    </tr>-->
-<!--                </table>-->
-<!--                <my-pagination-->
-<!--                        :page-size="paginationOneTable.pageSize"-->
-<!--                        :current-page="paginationOneTable.currentPage"-->
-<!--                        :totalPages="paginationOneTable.totalPages"-->
-<!--                        :totalElements="paginationOneTable.totalElements"-->
-<!--                        @onCurrentChange="onCurrentChangeOneTable"-->
-<!--                        @onSizeChange="onSizeChangeOneTable"/>-->
-<!--                <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
 </template>
 
@@ -205,9 +167,9 @@
     import MyPagination from "../general/pagination.vue";
 
     export default {
-        name: "patternTableAllViewOne",
+        name: "patternTableViewByPatternId",
         components: {MyPagination},
-        props:["sourceId"],
+        props:["patternId"],
         data() {
             return {
                 allTable: true,
@@ -305,6 +267,10 @@
             showTableTab(){
                 this.oneTable = false;
                 this.allTable = true;
+            },
+
+            showOneTable(id){
+                router.push('show/'+ id);
             },
 
             notify(title,message,type) {
@@ -625,7 +591,7 @@
         },
 
         mounted() {
-            AXIOS.get("tableCreator/getAllBySource/" + this.sourceId).then(response => {
+            AXIOS.get("tableCreator/getAll/" + this.patternId).then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.patternTableData = response.data.content;

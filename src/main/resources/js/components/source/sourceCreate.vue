@@ -1,8 +1,14 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/source/show' }">Все источники</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/source/create'}">Создание</el-breadcrumb-item>
+            <el-breadcrumb-item
+                    :to="{ path: '/source/show' }">
+                Все источники
+            </el-breadcrumb-item>
+            <el-breadcrumb-item
+                    :to="{ path: '/source/create'}">
+                Создание
+            </el-breadcrumb-item>
         </el-breadcrumb>
         <p style="font-size: 20px">Создание</p>
         <div>
@@ -11,7 +17,12 @@
                     <el-row :gutter="20">
                         <el-col :span="6">
                             <div class="grid-content bg-purple">
-                                <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                                <el-form
+                                        :model="source"
+                                        :rules="rules"
+                                        ref="source"
+                                        :label-position="labelPosition"
+                                        label-width="100px">
                                     <el-form-item prop="name" label="Поставщик данных">
                                         <el-input @input="hiddenAddSourceBtn" v-model="source.name"></el-input>
                                     </el-form-item>
@@ -26,7 +37,12 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="grid-content bg-purple">
-                                <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                                <el-form
+                                        :model="source"
+                                        :rules="rules"
+                                        ref="source"
+                                        :label-position="labelPosition"
+                                        label-width="100px">
                                     <el-form-item prop="description" label="Описание">
                                         <el-input @input="hiddenAddSourceBtn" v-model="source.description"></el-input>
                                     </el-form-item>
@@ -41,7 +57,12 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="grid-content bg-purple">
-                                <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                                <el-form
+                                        :model="source"
+                                        :rules="rules"
+                                        ref="source"
+                                        :label-position="labelPosition"
+                                        label-width="100px">
                                     <el-form-item prop="periodicity" label="Периодичность актуализации">
                                         <el-input @input="hiddenAddSourceBtn" v-model="source.periodicity"></el-input>
                                     </el-form-item>
@@ -56,7 +77,12 @@
                         </el-col>
                         <el-col :span="6">
                             <div class="grid-content bg-purple">
-                                <el-form :model="source" :rules="rules" ref="source" :label-position="labelPosition" label-width="100px">
+                                <el-form
+                                        :model="source"
+                                        :rules="rules"
+                                        ref="source"
+                                        :label-position="labelPosition"
+                                        label-width="100px">
                                     <el-form-item prop="tags" label="Ключевые слова (теги)">
                                         <el-input @input="hiddenAddSourceBtn" v-model="source.tags"></el-input>
                                     </el-form-item>
@@ -70,13 +96,22 @@
                             </div>
                         </el-col>
                     </el-row>
-                    <el-button  v-if="sourceAddBtn" @click="createSource" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить источник</el-button>
+                    <el-button  v-if="sourceAddBtn"
+                                @click="createSource"
+                                style="background-color: #1ab394; border-color: #1ab394; color: white;">
+                        Добавить источник
+                    </el-button>
                 </el-tab-pane>
                 <el-tab-pane label="Шаблоны" name="patternInfo">
                     <el-row :gutter="20">
                         <el-col :span="12">
                             <div>
-                                <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
+                                <el-form
+                                        :model="pattern"
+                                        :rules="rules"
+                                        ref="pattern"
+                                        :label-position="labelPosition"
+                                        label-width="100px">
                                     <el-form-item prop="name" label="Название">
                                         <el-input @input="hiddenAddPatternBtn" v-model="pattern.name"></el-input>
                                     </el-form-item>
@@ -88,7 +123,12 @@
                         </el-col>
                         <el-col :span="12">
                             <div>
-                                <el-form :model="pattern" :rules="rules" ref="pattern" :label-position="labelPosition" label-width="100px">
+                                <el-form
+                                        :model="pattern"
+                                        :rules="rules"
+                                        ref="pattern"
+                                        :label-position="labelPosition"
+                                        label-width="100px">
                                     <el-form-item prop="direction" label="Направление:">
                                         <el-input @input="hiddenAddPatternBtn" v-model="pattern.direction"></el-input>
                                     </el-form-item>
@@ -103,11 +143,19 @@
                         <p>Сначала создайте источник</p>
                     </span>
                     <span v-else-if="sourceIsCreated">
-                        <el-button v-if="patternAddBtn" @click="createPattern" style="background-color: #1ab394; border-color: #1ab394; color: white;">Добавить шаблон</el-button>
+                        <el-button v-if="patternAddBtn"
+                                   @click="createPattern"
+                                   style="background-color: #1ab394; border-color: #1ab394; color: white;">
+                            Добавить шаблон
+                        </el-button>
                     </span>
                 </el-tab-pane>
             </el-tabs>
-            <el-button @click="back" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
+            <el-button
+                    @click="back"
+                    style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
+                Назад
+            </el-button>
             <br>
             <span v-if="activeName === 'patternInfo' && patternIsExist">
             <table style="">

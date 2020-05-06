@@ -1,7 +1,12 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <p style="font-size: 20px">Загрузка данных в другую систему</p>
-        <el-form style="width: 50%" :label-position="labelPosition" label-width="100px" :model="dataBase" :rules="rules" ref="ruleForm">
+        <el-form
+                style="width: 50%"
+                :label-position="labelPosition"
+                label-width="100px" :model="dataBase"
+                :rules="rules"
+                ref="ruleForm">
             <el-form-item label="Ссылка на базу данных">
                 <el-input @input="validate" v-model="dataBase.url"></el-input>
             </el-form-item>

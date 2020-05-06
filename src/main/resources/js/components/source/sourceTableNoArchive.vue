@@ -9,28 +9,100 @@
                 <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item><el-checkbox checked="checked" @change="hiddenAll">Все</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">Номер</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check1" @change="hidden.name = !hidden.name">Поставщик данных</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check2" @change="hidden.longName = !hidden.longName">Полное наименование набора</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check3" @change="hidden.shortName = !hidden.shortName">Краткое наименование набора</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check4" @change="hidden.description = !hidden.description">Описание</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check5" @change="hidden.addDescription = !hidden.addDescription">Дополнительное описание</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check6" @change="hidden.scope = !hidden.scope">Сфера (направление)</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check7" @change="hidden.periodicity = !hidden.periodicity">Периодичность актуализации</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check8" @change="hidden.renewalPeriod = !hidden.renewalPeriod">Срок обновления набора данных</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check9" @change="hidden.type = !hidden.type">Вид набора</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check10" @change="hidden.tags = !hidden.tags">Ключевые слова (теги)</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check11" @change="hidden.providerLink = !hidden.providerLink">Информационная система - источник данных</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check12" @change="hidden.dataSource = !hidden.dataSource">Ссылка на данные на сайте поставщика</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check14" @change="hidden.dateCreation = !hidden.dateCreation">Дата создания</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check15" @change="hidden.dateDeactivation = !hidden.dateDeactivation">Дата деактивации</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check16" @change="hidden.dateActivation = !hidden.dateActivation">Дата активации</el-checkbox></el-dropdown-item>
-                    <el-dropdown-item><el-checkbox checked="checked" id="check17" @change="hidden.lastUpdate = !hidden.lastUpdate">Последнее обновление</el-checkbox></el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" @change="hiddenAll">
+                            Все
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check" @change="hidden.id = !hidden.id">
+                            Номер
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check1" @change="hidden.name = !hidden.name">
+                            Поставщик данных
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check2" @change="hidden.longName = !hidden.longName">
+                            Полное наименование набора
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check3" @change="hidden.shortName = !hidden.shortName">
+                            Краткое наименование набора
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check4" @change="hidden.description = !hidden.description">
+                            Описание
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check5" @change="hidden.addDescription = !hidden.addDescription">
+                            Дополнительное описание
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check6" @change="hidden.scope = !hidden.scope">
+                            Сфера (направление)
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check7" @change="hidden.periodicity = !hidden.periodicity">
+                            Периодичность актуализации
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check8" @change="hidden.renewalPeriod = !hidden.renewalPeriod">
+                            Срок обновления набора данных
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check9" @change="hidden.type = !hidden.type">
+                            Вид набора
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check10" @change="hidden.tags = !hidden.tags">
+                            Ключевые слова (теги)
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check11" @change="hidden.providerLink = !hidden.providerLink">
+                            Информационная система - источник данных
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check12" @change="hidden.dataSource = !hidden.dataSource">
+                            Ссылка на данные на сайте поставщика
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check14" @change="hidden.dateCreation = !hidden.dateCreation">
+                            Дата создания
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check15" @change="hidden.dateDeactivation = !hidden.dateDeactivation">
+                            Дата деактивации
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check16" @change="hidden.dateActivation = !hidden.dateActivation">
+                            Дата активации
+                        </el-checkbox>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <el-checkbox checked="checked" id="check17" @change="hidden.lastUpdate = !hidden.lastUpdate">
+                            Последнее обновление
+                        </el-checkbox>
+                    </el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </p>
-        <div class="horizontal-scroll-wrapper  rectangles">
+        <div v-if="sourceData.length !== 0" class="horizontal-scroll-wrapper  rectangles">
             <table style="display: block; overflow-x: auto; ">
                 <tr>
                     <th></th>
@@ -54,107 +126,277 @@
                     <th v-if="hidden.lastUpdate" @click="sort('last_update')">Последнее обновление</th>
                 </tr>
                 <tr>
-                    <td><el-button @click="sort('')"  style="background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
+                    <td><el-button
+                            @click="sort('')"
+                            style="background-color: #1ab394; border-color: #1ab394 "
+                            type="primary"
+                            size="mini"
+                            icon="el-icon-search"></el-button></td>
                     <td></td>
-                    <td v-if="hidden.id"><el-input placeholder="Please input" v-model="source.id"></el-input></td>
-                    <td v-if="hidden.name"><el-input placeholder="Please input" v-model="source.name"></el-input></td>
-                    <td v-if="hidden.longName"><el-input placeholder="Please input" v-model="source.longName"></el-input></td>
-                    <td v-if="hidden.shortName"><el-input placeholder="Please input" v-model="source.shortName"></el-input></td>
-                    <td v-if="hidden.description"><el-input placeholder="Please input" v-model="source.description"></el-input></td>
-                    <td v-if="hidden.addDescription"><el-input placeholder="Please input" v-model="source.addDescription"></el-input></td>
-                    <td v-if="hidden.scope"><el-input placeholder="Please input" v-model="source.scope"></el-input></td>
-                    <td v-if="hidden.periodicity"><el-input placeholder="Please input" v-model="source.periodicity"></el-input></td>
-                    <td v-if="hidden.renewalPeriod"><el-input placeholder="Please input" v-model="source.renewalPeriod"></el-input></td>
-                    <td v-if="hidden.type"><el-input placeholder="Please input" v-model="source.type"></el-input></td>
-                    <td v-if="hidden.tags"><el-input placeholder="Please input" v-model="source.tags"></el-input></td>
-                    <td v-if="hidden.providerLink"><el-input placeholder="Please input" v-model="source.providerLink"></el-input></td>
-                    <td v-if="hidden.dataSource"><el-input placeholder="Please input" v-model="source.dataSource"></el-input></td>
-                    <td v-if="hidden.dateCreation"> <div class="block">
-                        <el-date-picker
-                                value-format="yyyy-MM-dd"
-                                v-model="source.dateCreation"
-                                type="daterange"
-                                range-separator="To"
-                                start-placeholder="Start date"
-                                end-placeholder="End date">
-                        </el-date-picker>
-                    </div></td>
-                    <td v-if="hidden.dateDeactivation"> <div class="block">
-                        <el-date-picker
-                                value-format="yyyy-MM-dd"
-                                v-model="source.dateDeactivation"
-                                type="daterange"
-                                range-separator="To"
-                                start-placeholder="Start date"
-                                end-placeholder="End date">
-                        </el-date-picker>
-                    </div></td>
-                    <td v-if="hidden.dateActivation"> <div class="block">
-                        <el-date-picker
-                                value-format="yyyy-MM-dd"
-                                v-model="source.dateActivation"
-                                type="daterange"
-                                range-separator="To"
-                                start-placeholder="Start date"
-                                end-placeholder="End date">
-                        </el-date-picker>
-                    </div></td>
-                    <td v-if="hidden.lastUpdate"> <div class="block">
-                        <el-date-picker
-                                value-format="yyyy-MM-dd"
-                                v-model="source.lastUpdate"
-                                type="daterange"
-                                range-separator="To"
-                                start-placeholder="Start date"
-                                end-placeholder="End date">
-                        </el-date-picker>
-                    </div></td>
+                    <td v-if="hidden.id">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.id">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.name">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.name">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.longName">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.longName">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.shortName">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.shortName">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.description">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.description">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.addDescription">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.addDescription">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.scope">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.scope">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.periodicity">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.periodicity">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.renewalPeriod">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.renewalPeriod">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.type">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.type">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.tags">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.tags">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.providerLink">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.providerLink">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.dataSource">
+                        <el-input
+                                placeholder="Please input"
+                                v-model="source.dataSource">
+                        </el-input>
+                    </td>
+                    <td v-if="hidden.dateCreation">
+                        <div class="block">
+                            <el-date-picker
+                                    value-format="yyyy-MM-dd"
+                                    v-model="source.dateCreation"
+                                    type="daterange"
+                                    range-separator="To"
+                                    start-placeholder="Start date"
+                                    end-placeholder="End date">
+                            </el-date-picker>
+                        </div>
+                    </td>
+                    <td v-if="hidden.dateDeactivation">
+                        <div class="block">
+                            <el-date-picker
+                                    value-format="yyyy-MM-dd"
+                                    v-model="source.dateDeactivation"
+                                    type="daterange"
+                                    range-separator="To"
+                                    start-placeholder="Start date"
+                                    end-placeholder="End date">
+                            </el-date-picker>
+                        </div>
+                    </td>
+                    <td v-if="hidden.dateActivation">
+                        <div class="block">
+                            <el-date-picker
+                                    value-format="yyyy-MM-dd"
+                                    v-model="source.dateActivation"
+                                    type="daterange"
+                                    range-separator="To"
+                                    start-placeholder="Start date"
+                                    end-placeholder="End date">
+                            </el-date-picker>
+                        </div>
+                    </td>
+                    <td v-if="hidden.lastUpdate">
+                        <div class="block">
+                            <el-date-picker
+                                    value-format="yyyy-MM-dd"
+                                    v-model="source.lastUpdate"
+                                    type="daterange"
+                                    range-separator="To"
+                                    start-placeholder="Start date"
+                                    end-placeholder="End date">
+                            </el-date-picker>
+                        </div>
+                    </td>
                 </tr>
                 <tbody v-for="source in sourceData">
                 <tr >
                     <td>
-                        <el-button @click="deleteOneSource(source.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-delete"></el-button>
+                        <el-button
+                                @click="deleteOneSource(source.id)"
+                                style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                type="primary"
+                                size="mini"
+                                icon="el-icon-delete">
+                        </el-button>
                         <br>
-                        <el-button @click="updateSource(source.id)" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"></el-button>
+                        <el-button
+                                @click="updateSource(source.id)"
+                                style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394"
+                                type="primary"
+                                size="mini"
+                                icon="el-icon-edit">
+                        </el-button>
                         <br>
-                        <el-button @click="sourceView(source.id)" style="background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
+                        <el-button
+                                @click="sourceView(source.id)"
+                                style="background-color: #1ab394; border-color: #1ab394"
+                                type="primary"
+                                size="mini"
+                                icon="el-icon-view">
+                        </el-button>
                     </td>
                     <td> <el-checkbox @change="check(source.id)"></el-checkbox></td>
-                    <td v-if="hidden.id">{{source.id}}</td>
-                    <td v-if="hidden.name && source.name.length < 40">{{source.name.substr(0, 40)}}</td>
-                    <td v-else-if="hidden.name && source.name.length >= 40">{{source.name.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
-                    <td v-if="hidden.longName && source.longName.length < 40">{{source.longName.substr(0, 40)}}</td>
-                    <td v-else-if="hidden.longName && source.longName.length >= 40">{{source.longName.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
-                    <td v-if="hidden.shortName && source.shortName.length < 40">{{source.shortName.substr(0, 40)}}</td>
-                    <td v-else-if="hidden.shortName && source.shortName.length >= 40">{{source.shortName.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
-                    <td v-if="hidden.description && source.description.length < 40">{{source.description.substr(0, 40)}}</td>
-                    <td v-else-if="hidden.description && source.description.length >= 40">{{source.description.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
-                    <td v-if="hidden.addDescription && source.addDescription.length < 40">{{source.addDescription.substr(0, 40)}}</td>
-                    <td v-else-if="hidden.addDescription && source.addDescription.length >= 40">{{source.addDescription.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
-                    <td v-if="hidden.scope && source.scope.length < 40">{{source.scope.substr(0, 40)}}</td>
-                    <td v-else-if="hidden.scope && source.scope.length >= 40">{{source.scope.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
-                    <td v-if="hidden.periodicity && source.periodicity.length < 40">{{source.periodicity.substr(0, 40)}}</td>
-                    <td v-else-if="hidden.periodicity && source.periodicity.length >= 40">{{source.periodicity.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
-                    <td v-if="hidden.renewalPeriod && source.renewalPeriod.length < 40">{{source.renewalPeriod.substr(0, 40)}}</td>
-                    <td v-else-if="hidden.renewalPeriod && source.renewalPeriod.length >= 40">{{source.renewalPeriod.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
-                    <td v-if="hidden.type && source.type.length < 40">{{source.type.substr(0, 40)}}</td>
-                    <td v-else-if="hidden.type && source.type.length >= 40">{{source.type.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
-                    <td v-if="hidden.tags && source.tags.length < 40">{{source.tags.substr(0, 40)}}</td>
-                    <td v-else-if="hidden.tags && source.tags.length >= 40">{{source.tags.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
-                    <td v-if="hidden.providerLink && source.providerLink.length < 40">{{source.providerLink.substr(0, 40)}}</td>
-                    <td v-else-if="hidden.providerLink && source.providerLink.length >= 40">{{source.providerLink.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
-                    <td v-if="hidden.dataSource && source.dataSource.length < 40">{{source.dataSource.substr(0, 40)}}</td>
-                    <td v-else-if="hidden.dataSource && source.dataSource.length >= 40">{{source.dataSource.substr(0, 40)}}<router-link :to="'/source/view/' + source.id">...</router-link></td>
-                    <td v-if="hidden.dateCreation">{{source.dateCreation}}</td>
-                    <td v-if="hidden.dateDeactivation">{{source.dateDeactivation}}</td>
-                    <td v-if="hidden.dateActivation">{{source.dateActivation}}</td>
-                    <td v-if="hidden.lastUpdate">{{source.lastUpdate}}</td>
+                    <td v-if="hidden.id">
+                        {{source.id}}
+                    </td>
+                    <td v-if="hidden.name && source.name.length < 40">
+                        {{source.name.substr(0, 40)}}
+                    </td>
+                    <td v-else-if="hidden.name && source.name.length >= 40">
+                        {{source.name.substr(0, 40)}}
+                        <router-link :to="'/source/view/' + source.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.longName && source.longName.length < 40">
+                        {{source.longName.substr(0, 40)}}
+                    </td>
+                    <td v-else-if="hidden.longName && source.longName.length >= 40">
+                        {{source.longName.substr(0, 40)}}
+                        <router-link :to="'/source/view/' + source.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.shortName && source.shortName.length < 40">
+                        {{source.shortName.substr(0, 40)}}
+                    </td>
+                    <td v-else-if="hidden.shortName && source.shortName.length >= 40">
+                        {{source.shortName.substr(0, 40)}}
+                        <router-link :to="'/source/view/' + source.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.description && source.description.length < 40">
+                        {{source.description.substr(0, 40)}}
+                    </td>
+                    <td v-else-if="hidden.description && source.description.length >= 40">
+                        {{source.description.substr(0, 40)}}
+                        <router-link :to="'/source/view/' + source.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.addDescription && source.addDescription.length < 40">
+                        {{source.addDescription.substr(0, 40)}}
+                    </td>
+                    <td v-else-if="hidden.addDescription && source.addDescription.length >= 40">
+                        {{source.addDescription.substr(0, 40)}}
+                        <router-link :to="'/source/view/' + source.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.scope && source.scope.length < 40">
+                        {{source.scope.substr(0, 40)}}
+                    </td>
+                    <td v-else-if="hidden.scope && source.scope.length >= 40">
+                        {{source.scope.substr(0, 40)}}
+                        <router-link :to="'/source/view/' + source.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.periodicity && source.periodicity.length < 40">
+                        {{source.periodicity.substr(0, 40)}}
+                    </td>
+                    <td v-else-if="hidden.periodicity && source.periodicity.length >= 40">
+                        {{source.periodicity.substr(0, 40)}}
+                        <router-link :to="'/source/view/' + source.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.renewalPeriod && source.renewalPeriod.length < 40">
+                        {{source.renewalPeriod.substr(0, 40)}}
+                    </td>
+                    <td v-else-if="hidden.renewalPeriod && source.renewalPeriod.length >= 40">
+                        {{source.renewalPeriod.substr(0, 40)}}
+                        <router-link :to="'/source/view/' + source.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.type && source.type.length < 40">
+                        {{source.type.substr(0, 40)}}
+                    </td>
+                    <td v-else-if="hidden.type && source.type.length >= 40">
+                        {{source.type.substr(0, 40)}}
+                        <router-link :to="'/source/view/' + source.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.tags && source.tags.length < 40">
+                        {{source.tags.substr(0, 40)}}
+                    </td>
+                    <td v-else-if="hidden.tags && source.tags.length >= 40">
+                        {{source.tags.substr(0, 40)}}
+                        <router-link :to="'/source/view/' + source.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.providerLink && source.providerLink.length < 40">
+                        {{source.providerLink.substr(0, 40)}}
+                    </td>
+                    <td v-else-if="hidden.providerLink && source.providerLink.length >= 40">
+                        {{source.providerLink.substr(0, 40)}}
+                        <router-link :to="'/source/view/' + source.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.dataSource && source.dataSource.length < 40">
+                        {{source.dataSource.substr(0, 40)}}
+                    </td>
+                    <td v-else-if="hidden.dataSource && source.dataSource.length >= 40">
+                        {{source.dataSource.substr(0, 40)}}
+                        <router-link :to="'/source/view/' + source.id">...</router-link>
+                    </td>
+                    <td v-if="hidden.dateCreation">
+                        {{source.dateCreation}}
+                    </td>
+                    <td v-if="hidden.dateDeactivation">
+                        {{source.dateDeactivation}}
+                    </td>
+                    <td v-if="hidden.dateActivation">
+                        {{source.dateActivation}}
+                    </td>
+                    <td v-if="hidden.lastUpdate">
+                        {{source.lastUpdate}}
+                    </td>
                 </tr>
                 </tbody>
 
             </table>
         </div>
+        <div v-else>
+            <p style="font-size: 20px">Данных нет</p>
+        </div>
         <my-pagination
+                v-if="sourceData.length !== 0"
                 :page-size="pagination.pageSize"
                 :current-page="pagination.currentPage"
                 :totalPages="pagination.totalPages"

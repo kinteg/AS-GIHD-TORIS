@@ -4,7 +4,7 @@
             <el-breadcrumb-item :to="{ path: '/logs/patternTableLogs' }">Логи таблиц</el-breadcrumb-item>
         </el-breadcrumb>
         <p style="font-size: 20px">Логи таблиц </p>
-        <div class="horizontal-scroll-wrapper  rectangles">
+        <div v-if="tableLog.length !== 0" class="horizontal-scroll-wrapper  rectangles">
             <table style="overflow-x: auto; ">
                 <tr>
                     <th></th>
@@ -17,14 +17,22 @@
                 </tr>
                 <tr v-for="log in tableLog">
                     <td>
-                        <el-button @click="showCard(log.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                        <el-button
+                                @click="showCard(log.id)"
+                                style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                type="primary"
+                                size="mini"
+                                icon="el-icon-view"/>
                     </td>
                     <td>{{log.id}}</td>
                     <td>{{log.actions.action}}</td>
                     <td>{{log.statuses.status}}</td>
                     <td>{{log.errors.error}}</td>
                     <td>
-                        <router-link v-if="log.patternTableId > 0" :to="'/patternTable/show/' + log.patternTableId">{{log.patternTableId}}</router-link>
+                        <router-link v-if="log.patternTableId > 0"
+                                     :to="'/patternTable/show/' + log.patternTableId">
+                            {{log.patternTableId}}
+                        </router-link>
                         <span v-else-if="log.patternTableId < 0" >-</span>
                     </td>
                     <td>{{log.dateCreation}}</td>
@@ -37,6 +45,9 @@
                     :totalElements="pagination.totalElements"
                     @onCurrentChange="onCurrentChange"
                     @onSizeChange="onSizeChange"/>
+        </div>
+        <div v-else>
+            <p style="font-size: 20px"></p>
         </div>
     </div>
 </template>
@@ -91,7 +102,6 @@
         mounted() {
             AXIOS.get("patternTableLogger/getAll").then(response => {
                 this.tableLog = response.data.content;
-                console.log(this.tableLog);
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
             });

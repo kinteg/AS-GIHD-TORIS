@@ -4,8 +4,14 @@
             <el-col :span="16">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
                     <el-breadcrumb separator="/">
-                        <el-breadcrumb-item :to="{ path: '/patternTable/show' }">Все таблицы</el-breadcrumb-item>
-                        <el-breadcrumb-item :to="{ path: '/patternTable/show/' + this.$route.params.id}">Просмотр</el-breadcrumb-item>
+                        <el-breadcrumb-item
+                                :to="{ path: '/patternTable/show' }">
+                            Все таблицы
+                        </el-breadcrumb-item>
+                        <el-breadcrumb-item
+                                :to="{ path: '/patternTable/show/' + this.$route.params.id}">
+                            Просмотр
+                        </el-breadcrumb-item>
                     </el-breadcrumb>
                     <p style="font-size: 20px">Просмотр таблицы</p>
                     <p style="font-size: 20px">{{showOnlyOneTable.tableModel.tableName}}
@@ -18,7 +24,13 @@
                                 :limit="1"
                                 :on-change="sendFiles"
                                 :auto-upload="false">
-                            <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицу</el-button>
+                            <el-button
+                                    slot="trigger"
+                                    style="background-color: #1ab394; border-color: #1ab394"
+                                    size="small"
+                                    type="primary">
+                                Загрузить данные в таблицу
+                            </el-button>
                         </el-upload>
                         <router-link :to="'/patternTable/update/' + this.patternTableId">
                             <el-button style="float: right; margin-right: 10px; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
@@ -27,14 +39,20 @@
                         </router-link>
                             </span>
                     </p>
-                    <div class="horizontal-scroll-wrapper  rectangles">
+                    <div v-if="showOnlyOneTable.values.content.length !== 0" class="horizontal-scroll-wrapper  rectangles">
                         <table style="display: block; overflow-x: auto;">
                             <tr>
                                 <th></th>
                                 <th @click="sort(pole.key)" v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>
                             </tr>
                             <tr>
-                                <td><el-button @click="sort('')"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-search"></el-button></td>
+                                <td><el-button
+                                        @click="sort('')"
+                                        style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                        type="primary"
+                                        size="mini"
+                                        icon="el-icon-search"/>
+                                </td>
                                 <td v-for="serchPole in oneTable">
                                     <input type="text" class="input" :id="serchPole.key"/>
                                 </td>
@@ -53,6 +71,9 @@
                                 @onSizeChange="onSizeChangeOneTable"/>
                         <el-button @click="backToPatternTableTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>
 
+                    </div>
+                    <div v-else>
+                        <p style="font-size: 20px">Данных нет</p>
                     </div>
                 </div>
             </el-col>
@@ -99,7 +120,11 @@
                             <td>{{file.id}}</td>
                             <td>{{file.patternTableId}}</td>
                             <td>
-                                <el-button @click="downloadFile(file.file)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-download"></el-button>
+                                <el-button
+                                        @click="downloadFile(file.file)"
+                                        style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                        type="primary"
+                                        icon="el-icon-download"/>
                             </td>
                             <td>{{file.dateCreation}}</td>
                         </tr>
@@ -107,7 +132,8 @@
                 </div>
             </el-col>
             <el-col :span="8">
-                <div v-if="patternTable.isActive" style="margin-top: 20px; background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+                <div v-if="patternTable.isActive"
+                     style="margin-top: 20px; background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
                     <p style="font-size: 20px">Версии</p>
                     <table style="overflow-x: auto; ">
                         <tr>
@@ -117,7 +143,12 @@
                         <tr v-for="tableVersion in patternTableVersion.content">
                             <td>
                                 <router-link :to="'/patternTable/show/' + tableVersion.id">
-                                    <el-button @click="viewVersion(tableVersion.id)" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-view"></el-button>
+                                    <el-button
+                                            @click="viewVersion(tableVersion.id)"
+                                            style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394"
+                                            type="primary"
+                                            size="mini"
+                                            icon="el-icon-view"/>
                                 </router-link>
                             </td>
                             <td>{{tableVersion.version}}</td>
@@ -435,9 +466,9 @@
                 this.paginationOneTable.totalPages = response.data.values.totalPages;
                 this.paginationOneTable.totalElements = response.data.values.totalElements;
                 this.showOnlyOneTable = response.data;
+
                 this.tableName = response.data.tableModel.tableName;
                 this.oneTable = response.data.tableModel.models;
-                console.log(response);
                 AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName + "&size=" + this.paginationVersion.pageSize).then(response => {
                     this.patternTableVersion = response.data;
                     this.paginationVersion.totalPages = response.data.totalPages;

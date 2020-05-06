@@ -4,7 +4,7 @@
             <el-breadcrumb-item :to="{ path: '/logs/sourceLogs' }">Логи источников</el-breadcrumb-item>
         </el-breadcrumb>
         <p style="font-size: 20px">Логи источников </p>
-        <div class="horizontal-scroll-wrapper  rectangles">
+        <div v-if="sourceLog.length !== 0" class="horizontal-scroll-wrapper  rectangles">
             <table style=" overflow-x: auto; ">
                 <tr>
                     <th></th>
@@ -17,7 +17,12 @@
                 </tr>
                 <tr v-for="log in sourceLog">
                     <td>
-                        <el-button @click="showCard(log.id)"  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
+                        <el-button
+                                @click="showCard(log.id)"
+                                style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                type="primary"
+                                size="mini"
+                                icon="el-icon-view"/>
                     </td>
                     <td>{{log.id}}</td>
                     <td>{{log.actions.action}}</td>
@@ -37,6 +42,9 @@
                     :totalElements="pagination.totalElements"
                     @onCurrentChange="onCurrentChange"
                     @onSizeChange="onSizeChange"/>
+        </div>
+        <div v-else>
+            <p style="font-size: 20px"> Данных нет</p>
         </div>
     </div>
 </template>
@@ -91,7 +99,6 @@
                 this.sourceLog = response.data.content;
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
-                console.log(this.sourceLog);
             });
         }
     }

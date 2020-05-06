@@ -1,6 +1,7 @@
 package ru.iac.ASGIHDTORIS.common.model.table;
 
-import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.DataModel;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.TableModel;
 
 import java.util.List;
 

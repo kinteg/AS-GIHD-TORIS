@@ -1,22 +1,16 @@
 package ru.iac.ASGIHDTORIS.spring.service.dataChecker.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
-import ru.iac.ASGIHDTORIS.common.FileConverter;
-import ru.iac.ASGIHDTORIS.common.factory.FileParserFactory;
-import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.file.FileStatusCreator;
 import ru.iac.ASGIHDTORIS.common.model.file.FileStatusModel;
 import ru.iac.ASGIHDTORIS.common.validator.checkDataValidator.DataCheckValidator;
-import ru.iac.ASGIHDTORIS.parser.file.fixer.ColumnCreator;
-import ru.iac.ASGIHDTORIS.parser.file.parser.FileParser;
-import ru.iac.ASGIHDTORIS.parser.file.reader.Reader;
+import ru.iac.ASGIHDTORIS.lib.app.UnArchiver;
+import ru.iac.ASGIHDTORIS.lib.lib.db.exporter.ColumnExporterRepo;
+import ru.iac.ASGIHDTORIS.lib.lib.parser.file.parser.SimpleFileParser;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
-import ru.iac.ASGIHDTORIS.spring.repo.ColumnExporterRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.spring.service.dataChecker.DataCheckerService;
-import ru.iac.ASGIHDTORIS.spring.service.file.FileService;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,35 +20,33 @@ import java.util.List;
 @Slf4j
 public class DataCheckerServiceImpl implements DataCheckerService {
 
-    private final FileService fileService;
     private final PatternTableRepo patternTableRepo;
     private final ColumnExporterRepo columnExporterRepo;
     private final FileStatusCreator fileStatusCreator;
     private final DataCheckValidator dataCheckValidator;
+    private final UnArchiver unArchiver;
+    private final SimpleFileParser simpleFileParser;
 
-    public DataCheckerServiceImpl(FileService fileService, PatternTableRepo patternTableRepo, ColumnExporterRepo columnExporterRepo, FileStatusCreator fileStatusCreator, DataCheckValidator dataCheckValidator) {
-        this.fileService = fileService;
+    public DataCheckerServiceImpl(PatternTableRepo patternTableRepo, ColumnExporterRepo columnExporterRepo, FileStatusCreator fileStatusCreator, DataCheckValidator dataCheckValidator, UnArchiver unArchiver, SimpleFileParser simpleFileParser) {
         this.patternTableRepo = patternTableRepo;
         this.columnExporterRepo = columnExporterRepo;
         this.fileStatusCreator = fileStatusCreator;
         this.dataCheckValidator = dataCheckValidator;
+        this.unArchiver = unArchiver;
+        this.simpleFileParser = simpleFileParser;
     }
 
     @Override
-    public List<FileStatusModel> checkDates(File file, Long id) throws Exception {
-        List<FileStatusModel> fileStatusModels = generateFileStatusModels(file, id);
-        FileConverter.delete(file);
-        return fileStatusModels;
+    public List<FileStatusModel> checkDates(File file, Long id) {
+        return generateFileStatusModels(file, id);
     }
 
     @Override
-    public FileStatusModel checkData(File file, Long id) throws Exception {
-        FileStatusModel fileStatusModel = generateFileStatusModel(file, id);
-        FileConverter.delete(file);
-        return fileStatusModel;
+    public FileStatusModel checkData(File file, Long id) {
+        return generateFileStatusModel(file, id);
     }
 
-    private List<FileStatusModel> generateFileStatusModels(File file, Long id) throws Exception {
+    private List<FileStatusModel> generateFileStatusModels(File file, Long id) {
         if (dataCheckValidator.checkByPatternId(file, id)) {
             return getFileStatusModels(file, id);
         } else {
@@ -62,7 +54,7 @@ public class DataCheckerServiceImpl implements DataCheckerService {
         }
     }
 
-    private List<FileStatusModel> getFileStatusModels(File file, Long id) throws Exception {
+    private List<FileStatusModel> getFileStatusModels(File file, Long id) {
         List<PatternTable> patternTables = patternTableRepo
                 .findAllByPatternIdAndIsArchiveAndIsActive(id, false, true);
 
@@ -76,7 +68,7 @@ public class DataCheckerServiceImpl implements DataCheckerService {
         return fileStatusModels;
     }
 
-    private FileStatusModel generateFileStatusModel(File file, Long id) throws Exception {
+    private FileStatusModel generateFileStatusModel(File file, Long id) {
         if (dataCheckValidator.checkByPatternTableId(file, id)) {
             return getFileStatusModel(file, id);
         } else {
@@ -84,14 +76,14 @@ public class DataCheckerServiceImpl implements DataCheckerService {
         }
     }
 
-    private FileStatusModel getFileStatusModel(File file, Long id) throws Exception {
+    private FileStatusModel getFileStatusModel(File file, Long id) {
         PatternTable patternTable = patternTableRepo.findById((long) id);
-        File targetFile = fileService.getFile(file, patternTable.getNameFile());
+        File targetFile = unArchiver.unArchiveFile(file, patternTable.getNameFile());
 
         return createFileStatusModel(targetFile, patternTable);
     }
 
-    private FileStatusModel createFileStatusModel(File targetFile, PatternTable patternTable) throws Exception {
+    private FileStatusModel createFileStatusModel(File targetFile, PatternTable patternTable) {
         FileStatusModel fileStatusModel;
 
         if (targetFile == null) {
@@ -108,7 +100,7 @@ public class DataCheckerServiceImpl implements DataCheckerService {
         return fileStatusCreator.getFileNotFoundStatusModel(patternTable.getNameFile(), patternTable.getNameTable());
     }
 
-    private FileStatusModel createFileStatusModelOtherStatus(File targetFile, PatternTable patternTable) throws Exception {
+    private FileStatusModel createFileStatusModelOtherStatus(File targetFile, PatternTable patternTable) {
         int fileColumnSize = getFileCountSize(targetFile);
         int tableColumnSize = columnExporterRepo.exportDataModel(patternTable.getNameTable()).size();
 
@@ -116,15 +108,7 @@ public class DataCheckerServiceImpl implements DataCheckerService {
                 patternTable.getNameFile(), patternTable.getNameTable());
     }
 
-    private int getFileCountSize(File targetFile) throws Exception {
-        FileParser fileParser = FileParserFactory.getParser(FilenameUtils.getExtension(targetFile.getName()));
-        Reader reader = fileParser.createReader(targetFile);
-
-        return getNamesColumn(reader).size();
-    }
-
-    private List<DataModel> getNamesColumn(Reader reader) throws Exception {
-        List<String> nameColumns = reader.readNext();
-        return ColumnCreator.createColumns(nameColumns);
+    private int getFileCountSize(File targetFile) {
+        return simpleFileParser.getFullTable(targetFile).getModels().size();
     }
 }

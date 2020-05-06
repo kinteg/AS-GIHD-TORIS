@@ -2,13 +2,13 @@ package ru.iac.ASGIHDTORIS.common.model.table.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
-import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModelCreator;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModelCreatorFromDb;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.DataModel;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.TableModel;
+import ru.iac.ASGIHDTORIS.lib.lib.db.exporter.ColumnExporterRepo;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
-import ru.iac.ASGIHDTORIS.spring.repo.ColumnExporterRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 

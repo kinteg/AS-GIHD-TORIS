@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ru.iac.ASGIHDTORIS.common.model.file.FileStatusModel;
-import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModel;
+import ru.iac.ASGIHDTORIS.lib.app.CommonFileParser;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.FullTableModel;
 import ru.iac.ASGIHDTORIS.spring.service.dataChecker.DataCheckerService;
 import ru.iac.ASGIHDTORIS.spring.service.dataSender.DataSenderService;
 import ru.iac.ASGIHDTORIS.spring.service.file.FileService;
-import ru.iac.ASGIHDTORIS.spring.service.parser.FileParserService;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,29 +23,16 @@ public class FileLoaderController {
 
     private final String DEFAULT_LIMIT = "5";
 
-    private final FileParserService fileParserService;
     private final FileService fileService;
     private final DataSenderService dataSenderService;
     private final DataCheckerService dataCheckerService;
+    private final CommonFileParser commonFileParser;
 
-    public FileLoaderController(FileParserService fileParserService, FileService fileService, DataSenderService dataSenderService, DataCheckerService dataCheckerService) {
-        this.fileParserService = fileParserService;
+    public FileLoaderController(FileService fileService, DataSenderService dataSenderService, DataCheckerService dataCheckerService, CommonFileParser commonFileParser) {
         this.fileService = fileService;
         this.dataSenderService = dataSenderService;
         this.dataCheckerService = dataCheckerService;
-    }
-
-    @PostMapping("/check")
-    public List<FullTableModel> uploadFile(
-            @RequestParam(value = "file")
-                    MultipartFile multipartFile,
-            @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT)
-                    Long limit,
-            @RequestParam(value = "sourceId", defaultValue = "")
-                    Long patternId) {
-
-        File file = fileService.convertFile(multipartFile);
-        return fileParserService.getFullTable(file, limit, patternId);
+        this.commonFileParser = commonFileParser;
     }
 
     @PostMapping("/firstUpload")
@@ -57,7 +44,10 @@ public class FileLoaderController {
 
 
         File file = fileService.convertFile(multipartFile);
-        return fileParserService.getFullTable(file, limit);
+        List<FullTableModel> fullTableModels = commonFileParser.parseFile(file, limit);
+        fileService.delete(file);
+
+        return fullTableModels;
     }
 
     @PostMapping("/update")
@@ -72,7 +62,11 @@ public class FileLoaderController {
                     String patternNameFile) {
 
         File file = fileService.convertFile(multipartFile);
-        return fileParserService.getFullTable(file, limit, patternTableName, patternNameFile);
+        FullTableModel fullTableModel = commonFileParser.parseFile(file, limit, patternNameFile);
+        fullTableModel.getTableModel().setTableName(patternTableName);
+        fileService.delete(file);
+
+        return fullTableModel;
     }
 
     @PostMapping("/sendData")
@@ -109,7 +103,10 @@ public class FileLoaderController {
             @RequestParam(value = "patternTableId") Long id
     ) throws Exception {
         File file = fileService.convertFile(multipartFile);
-        return dataCheckerService.checkData(file, id);
+        FileStatusModel fileStatusModel = dataCheckerService.checkData(file, id);
+        fileService.delete(file);
+
+        return fileStatusModel;
     }
 
     @PostMapping("/checkDates")
@@ -120,7 +117,10 @@ public class FileLoaderController {
                     Long id
     ) throws Exception {
         File file = fileService.convertFile(multipartFile);
-        return dataCheckerService.checkDates(file, id);
+        List<FileStatusModel> fileStatusModels = dataCheckerService.checkDates(file, id);
+        fileService.delete(file);
+
+        return fileStatusModels;
     }
 
 }

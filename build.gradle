@@ -5,9 +5,9 @@ plugins {
 	id("com.github.node-gradle.node") version "2.2.0"
 }
 
-//group = 'ru.iac'
-//version = '0.0.1-SNAPSHOT'
-//sourceCompatibility = '1.8'
+group = 'ru.iac'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
 //
 //task buildFront(type: YarnTask) {
 //	args = ['build']
@@ -63,7 +63,6 @@ dependencies {
 	runtime group: 'org.flywaydb', name: 'flyway-gradle-plugin', version: '6.2.4'
 	implementation group: 'com.opencsv', name: 'opencsv', version: '5.1'
 	implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
-	implementation group: 'com.opencsv', name: 'opencsv', version: '5.1'
 	implementation group: 'net.lingala.zip4j', name: 'zip4j', version: '2.3.1'
 	implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 	compileOnly 'org.projectlombok:lombok'

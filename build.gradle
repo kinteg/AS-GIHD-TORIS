@@ -8,14 +8,14 @@ plugins {
 group = 'ru.iac'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
-//
-//task buildFront(type: YarnTask) {
-//	args = ['build']
-//}
-//
-//yarn_install.dependsOn(yarn_cache_clean)
-//buildFront.dependsOn(yarn_install)
-//processResources.dependsOn(buildFront)
+
+task buildFront(type: YarnTask) {
+	args = ['build']
+}
+
+yarn_install.dependsOn(yarn_cache_clean)
+buildFront.dependsOn(yarn_install)
+processResources.dependsOn(buildFront)
 
 sourceSets {
 	main {
@@ -38,10 +38,10 @@ configurations {
 repositories {
 	mavenCentral()
 }
-//
-//node {
-//	download = true
-//}
+
+node {
+	download = true
+}
 
 dependencies {
 	testImplementation 'org.hamcrest:hamcrest:2.2'

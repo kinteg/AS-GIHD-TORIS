@@ -9,6 +9,7 @@ import ru.iac.ASGIHDTORIS.lib.lib.parser.file.parser.impl.FileParserImpl;
 
 import java.io.File;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CommonFileParserImpl implements CommonFileParser {
@@ -38,6 +39,13 @@ public class CommonFileParserImpl implements CommonFileParser {
     public FullTableModel parseFile(File file, long limit, String fileName) {
         File targetFile = unArchiver.unArchiveFile(file, fileName);
         return fileParser.getFullTable(targetFile, limit);
+    }
+
+    @Override
+    public List<String> getFileNames(File file) {
+        return unArchiver.unArchiveFiles(file)
+                .stream().map(File::getName)
+                .collect(Collectors.toList());
     }
 
 }

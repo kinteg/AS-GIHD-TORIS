@@ -32,7 +32,11 @@ public class TableRepoImpl implements TableRepo {
     private final FullRepoHelper<Map<String, String>> fullRepoHelper;
 
 
-    public TableRepoImpl(ColumnExporterRepo columnExporterRepo, @Qualifier("tableMapper") Mapper<List<Map<String, String>>> mapper, CountMapper countMapper, FullRepoHelper<Map<String, String>> fullRepoHelper) {
+    public TableRepoImpl(
+            ColumnExporterRepo columnExporterRepo,
+            @Qualifier("tableMapper") Mapper<List<Map<String, String>>> mapper,
+            CountMapper countMapper,
+            FullRepoHelper<Map<String, String>> fullRepoHelper) {
         this.columnExporterRepo = columnExporterRepo;
         this.mapper = mapper;
         this.countMapper = countMapper;

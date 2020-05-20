@@ -15,4 +15,6 @@ public interface CommonFileParser {
 
     FullTableModel parseFile(File file, long limit, String fileName);
 
+    List<String> getFileNames(File file);
+
 }

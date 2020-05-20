@@ -41,8 +41,6 @@ public class FileLoaderController {
                     MultipartFile multipartFile,
             @RequestParam(value = "limit", required = false, defaultValue = DEFAULT_LIMIT)
                     Long limit) {
-
-
         File file = fileService.convertFile(multipartFile);
         List<FullTableModel> fullTableModels = commonFileParser.parseFile(file, limit);
         fileService.delete(file);

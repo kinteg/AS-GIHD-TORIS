@@ -31,4 +31,13 @@ public class DataModel {
         this.primary = primary;
     }
 
+    public static DataModel createEmptyDataModel() {
+        return DataModel
+                .builder()
+                .key("")
+                .type("")
+                .primary(false)
+                .build();
+    }
+
 }

@@ -82,12 +82,10 @@
             mounted() {
                 this.patternLogId = this.$route.params.id;
                 AXIOS.get("patternLogger/getAll/beforeAfter/" + this.patternLogId).then(response => {
-                    console.log(response);
                     this.patternLog = response.data.content;
                 });
 
                 AXIOS.get("patternLogger/" + this.patternLogId).then(response => {
-                    console.log(response);
                     if(response.data === ""){
                         router.push({name:'NotFoundPages'})
                     } else {

@@ -738,12 +738,6 @@
 
             patternView(id) {
                 router.push("/pattern/card/" + id);
-                // router.push({name: 'card'})
-                // this.hiddenView = true;
-                // this.hiddenTable = false;
-                // this.hiddenAdd = false;
-                // this.patternId = id;
-
             },
 
             backView() {
@@ -827,7 +821,6 @@
                     }
                 ).then(response => {
                     if(response.data.name == null){
-                        console.log(this.pattern.sourceId);
                         this.notify("Ошибка","Ошибка при изменении шаблона.","error");
                     } else {
                         this.notify("Успешно",'Шаблон "' + response.data.name + '" успешно изменен.',"success");
@@ -879,7 +872,6 @@
 
         mounted() {
             AXIOS.get("source/" + this.$route.params.id).then(response => {
-                console.log(response);
                 if(response.data === ""){
                     router.push({name:'NotFoundPages'})
 

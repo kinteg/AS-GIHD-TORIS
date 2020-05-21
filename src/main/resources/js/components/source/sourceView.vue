@@ -226,7 +226,6 @@
         },
         mounted() {
             AXIOS.get("source/" + this.$route.params.id).then(response => {
-                console.log(response);
                 if(response.data === ""){
                     router.push({name:'NotFoundPages'})
                 } else {

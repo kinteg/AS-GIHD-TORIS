@@ -325,7 +325,6 @@
                         this.noticeError('Ошибка при создании источника.');
                     } else {
                         this.pattern.sourceId = response.data.id;
-                        console.log(this.pattern.sourceId);
                         this.noticeSuccess(' Источник  "' + response.data.name + '" успешно создан.');
                         this.sourceIsCreated = true;
                         this.patternIsExist = false;
@@ -349,14 +348,12 @@
                     }
                 ).then(response => {
                     if(response.data.name == null){
-                        console.log(this.pattern.sourceId);
                         this.noticeError('Ошибка при создании шаблона.');
                     } else {
                         this.noticeSuccess('Шаблон "' + response.data.name + '" успешно создан.');
                         AXIOS.get("pattern/getAll/" + this.pattern.sourceId).then(response => {
                             this.patternTableData = response.data.content;
                             this.patternIsExist = true;
-                            console.log(this.patternTableData);
                         });
                     }
                 });

@@ -534,8 +534,6 @@
                 }
             },
 
-
-
             deleteSource(id){
                 AXIOS.get("source/archive/" + id).then(response => {
                     if(response.data.name !== ""){
@@ -887,8 +885,6 @@
         },
         mounted() {
             let formData = new FormData();
-            // formData.append("size",this.pagination.pageSize);
-            // formData.append("page",0);
             formData.append("sort","");
             formData.append("key","");
             formData.append("name","");

@@ -401,45 +401,7 @@
                                 </div>
                                 <div v-else-if="showTable">
                                     <pattern-table-view-by-pattern-id :pattern-id="patternId"/>
-<!--                                    <div class="horizontal-scroll-wrapper  rectangles">-->
-<!--                                        <p>-->
-<!--                                            <span style="float: left; text-align: left; font-size: 20px">{{showOnlyOneTable.tableModel.tableName}}</span>-->
-<!--                                            <span v-if="patternTableData.isActive === true && patternTableData.isArchive === false">-->
-<!--                                            <el-upload-->
-<!--                                                    style="float: right"-->
-<!--                                                    class="upload-demo"-->
-<!--                                                    ref="upload"-->
-<!--                                                    action=""-->
-<!--                                                    :limit="1"-->
-<!--                                                    :on-change="sendData"-->
-<!--                                                    :auto-upload="false">-->
-<!--                                                <el-button slot="trigger" style="background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Загрузить данные в таблицу</el-button>-->
-<!--                                            </el-upload>-->
-<!--                                            <router-link style="float: right" :to="'/patternTable/update/'+ patternTableId">-->
-<!--                                                <el-button style=" margin-right: 10px;  margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">-->
-<!--                                                    Обновить поля-->
-<!--                                                </el-button>-->
-<!--                                            </router-link>-->
-<!--                                            </span>-->
-<!--                                        </p>-->
-<!--                                        <div style="margin-top: 10px; padding-right: 2px;" class="horizontal-scroll-wrapper  rectangles">-->
-<!--                                            <table style="display: block; overflow-x: auto; ">-->
-<!--                                                <tr>-->
-<!--                                                    <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>-->
-<!--                                                </tr>-->
-<!--                                                <tr v-for="value in showOnlyOneTable.values.content">-->
-<!--                                                    <td v-for="oneValue in value">{{oneValue}}</td>-->
-<!--                                                </tr>-->
-<!--                                            </table>-->
-<!--                                        </div>-->
-<!--                                        <el-button @click="showTableTab('no')" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>-->
-<!--                                    </div>-->
                                 </div>
-<!--                                <el-button @click="backToPatternTable"-->
-<!--                                           style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394 "-->
-<!--                                           type="primary">-->
-<!--                                    Назад-->
-<!--                                </el-button>-->
                             </el-tab-pane>
                         </el-tabs>
                     </div>
@@ -711,10 +673,6 @@
             }
         },
         methods:{
-            backToPatternTable(){
-                router.push({name:'showPattern'});
-            },
-
             updateSource(){
                 router.push("/source/update/" + this.sourceId)
             },
@@ -795,7 +753,6 @@
                         this.showOnlyOneTable = response.data;
                     });
                 });
-
 
             },
 
@@ -883,15 +840,12 @@
                 let formData = new FormData();
                 formData.append("id",id);
                 AXIOS.post("tableCreator/getTable/",formData).then(response => {
-                    console.log(response.data);
                     this.showOnlyOneTable = response.data;
                     AXIOS.get("tableCreator/" + this.patternTableId).then(response => {
                         this.patternTableData = response.data;
-                        console.log(response);
                         this.tableName = response.data.nameTable;
                         AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName + "&size=" + this.paginationVersion.pageSize).then(response => {
                             this.patternTableVersion = response.data;
-                            console.log(this.patternTableVersion);
                             this.paginationVersion.totalPages = response.data.totalPages;
                             this.paginationVersion.totalElements = response.data.totalElements;
                         });
@@ -949,15 +903,10 @@
                     let fileName = oneTable.tableModel.filename;
                     let primaryKey = oneTable.tableModel.primaryKey;
                     for(let j = 0; j<model.length; j++){
-                        console.log(primaryKey);
-                        console.log(model[j].key);
-                        console.log("--------------");
                         primary.push(primaryKey === model[j].key);
                         key.push(model[j].key);
                         type.push(model[j].type);
-                        // primary.push(model[j].primary);
                     }
-                    console.log(primary);
                     let formData = new FormData();
 
                     formData.append("filename", fileName );
@@ -1033,7 +982,6 @@
                         }
                     }).then(response => {
                     this.table = response.data;
-                    console.log(this.table);
                     for(let i = 0; i < this.table.length; i++) {
                         this.table[i].tableModel.primaryKey = this.table[0].tableModel.models[0].key;
                     }
@@ -1239,7 +1187,6 @@
 
                     AXIOS.get("source/" + this.sourceId).then(response => {
                         this.source = response.data;
-                        console.log(response);
                     });
                 }
 

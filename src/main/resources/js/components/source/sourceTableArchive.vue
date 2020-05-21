@@ -501,7 +501,7 @@
             }
         },
         methods:{
-            hiddenAll(){
+            hiddenAll() {
                 document.getElementById("check").click();
                 document.getElementById("check1").click();
                 document.getElementById("check2").click();
@@ -523,18 +523,16 @@
 
             check(id){
                 let key = this.source.check.indexOf(id);
-                if(key !== -1){
+                if(key !== -1) {
                     this.source.check.splice(key,1);
                 } else {
                     this.source.check.push(id);
                 }
             },
 
-
-
-            deArchiveSource(id){
+            deArchiveSource(id) {
                 AXIOS.get("source/deArchive/" + id).then(response => {
-                    if(response.data.name !== ""){
+                    if(response.data.name !== "") {
                         this.notify('Успешно','Источник был активирован','success');
                         this.updatePage();
                     } else {
@@ -878,8 +876,6 @@
         },
         mounted() {
             let formData = new FormData();
-            // formData.append("size",this.pagination.pageSize);
-            // formData.append("page",0);
             formData.append("sort","");
             formData.append("key","");
             formData.append("name","");

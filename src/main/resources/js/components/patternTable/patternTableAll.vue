@@ -345,7 +345,6 @@
                 formData.append("size",this.paginationOneTable.pageSize);
                 formData.append("page",this.paginationOneTable.currentPage - 1);
                 AXIOS.post("tableCreator/getTable/",formData).then(response => {
-                    console.log(response.data);
                     this.showOnlyOneTable = response.data;
                 });
             },
@@ -357,7 +356,6 @@
                 formData.append("size",this.paginationOneTable.pageSize);
                 formData.append("page",this.paginationOneTable.currentPage - 1);
                 AXIOS.post("tableCreator/getTable/",formData).then(response => {
-                    console.log(response.data);
                     this.showOnlyOneTable = response.data;
                 });
             },

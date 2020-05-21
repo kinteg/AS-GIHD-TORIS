@@ -184,3 +184,480 @@ Identify and stop the process that's listening on port 8082 or configure this ap
 20.05.2020 18:12:09.714 [restartedMain] INFO   o.a.c.h.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
 20.05.2020 18:12:09.724 [restartedMain] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path ''
 20.05.2020 18:12:09.726 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - Started AsGihdTorisApplication in 4.254 seconds (JVM running for 4.739)
+21.05.2020 11:46:26.782 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - Starting AsGihdTorisApplication on nikita-HP-Pavilion-15-Notebook-PC with PID 5074 (/home/nikita/work/AS-GIHD-TORIS-master/build/classes/java/main started by nikita in /home/nikita/work/AS-GIHD-TORIS-master)
+21.05.2020 11:46:26.792 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - The following profiles are active: dev
+21.05.2020 11:46:26.895 [restartedMain] INFO   o.s.b.d.r.ChangeableUrls - The Class-Path manifest attribute in /home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/junrar-4.0.0.jar referenced one or more files that do not exist: file:/home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/commons-logging-1.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/commons-vfs2-2.2.jar
+21.05.2020 11:46:26.895 [restartedMain] INFO   o.s.b.d.r.ChangeableUrls - The Class-Path manifest attribute in /home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jakarta.xml.bind-api-2.3.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/txw2-2.3.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/istack-commons-runtime-3.0.8.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/stax-ex-1.8.1.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/FastInfoset-1.2.16.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jakarta.activation-api-1.2.1.jar
+21.05.2020 11:46:26.898 [restartedMain] INFO   o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+21.05.2020 11:46:26.900 [restartedMain] INFO   o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+21.05.2020 11:46:29.100 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+21.05.2020 11:46:29.101 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+21.05.2020 11:46:29.191 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ActionsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.193 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.196 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternTableRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.198 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterSourceRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.200 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ErrorsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.202 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ObjectsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.204 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternFileRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.206 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.208 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.210 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableFileRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.212 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.214 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.216 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.SourceLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.218 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.SourceRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.220 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.StatusesRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 11:46:29.221 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 106ms. Found 0 JDBC repository interfaces.
+21.05.2020 11:46:29.239 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+21.05.2020 11:46:29.240 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+21.05.2020 11:46:29.425 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 177ms. Found 15 JPA repository interfaces.
+21.05.2020 11:46:30.062 [restartedMain] INFO   o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+21.05.2020 11:46:31.174 [restartedMain] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+21.05.2020 11:46:31.185 [restartedMain] INFO   o.a.c.h.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+21.05.2020 11:46:31.186 [restartedMain] INFO   o.a.c.c.StandardService - Starting service [Tomcat]
+21.05.2020 11:46:31.186 [restartedMain] INFO   o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.30]
+21.05.2020 11:46:31.378 [restartedMain] INFO   o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+21.05.2020 11:46:31.379 [restartedMain] INFO   o.s.w.c.ContextLoader - Root WebApplicationContext: initialization completed in 4479 ms
+21.05.2020 11:46:31.854 [restartedMain] INFO   o.f.c.i.l.VersionPrinter - Flyway Community Edition 6.2.4 by Redgate
+21.05.2020 11:46:31.859 [restartedMain] INFO   c.z.h.HikariDataSource - HikariPool-1 - Starting...
+21.05.2020 11:46:32.218 [restartedMain] INFO   c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+21.05.2020 11:46:32.235 [restartedMain] INFO   o.f.c.i.d.DatabaseFactory - Database: jdbc:postgresql://localhost:5432/iac5 (PostgreSQL 11.6)
+21.05.2020 11:46:32.329 [restartedMain] INFO   o.f.c.i.c.DbValidate - Successfully validated 5 migrations (execution time 00:00.067s)
+21.05.2020 11:46:32.341 [restartedMain] INFO   o.f.c.i.c.DbMigrate - Current version of schema "public": 5
+21.05.2020 11:46:32.343 [restartedMain] INFO   o.f.c.i.c.DbMigrate - Schema "public" is up to date. No migration necessary.
+21.05.2020 11:46:32.964 [restartedMain] INFO   o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+21.05.2020 11:46:33.024 [restartedMain] INFO   o.hibernate.Version - HHH000412: Hibernate Core {5.4.10.Final}
+21.05.2020 11:46:33.359 [restartedMain] INFO   o.h.a.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+21.05.2020 11:46:33.470 [restartedMain] INFO   o.h.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+21.05.2020 11:46:34.677 [restartedMain] INFO   o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+21.05.2020 11:46:34.686 [restartedMain] INFO   o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+21.05.2020 11:46:34.770 [restartedMain] INFO   o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+21.05.2020 11:46:37.419 [restartedMain] INFO   o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+21.05.2020 11:46:37.550 [restartedMain] INFO   o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+21.05.2020 11:46:38.375 [restartedMain] INFO   o.a.c.h.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+21.05.2020 11:46:38.395 [restartedMain] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path ''
+21.05.2020 11:46:38.400 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - Started AsGihdTorisApplication in 12.378 seconds (JVM running for 13.868)
+21.05.2020 11:48:26.183 [http-nio-8082-exec-1] INFO   o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+21.05.2020 11:48:26.185 [http-nio-8082-exec-1] INFO   o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+21.05.2020 11:48:26.261 [http-nio-8082-exec-1] INFO   o.s.w.s.DispatcherServlet - Completed initialization in 75 ms
+21.05.2020 11:50:04.499 [http-nio-8082-exec-4] INFO   r.i.A.a.c.SourceControllerAspect - before execution(Page ru.iac.ASGIHDTORIS.spring.controller.SourceController.getAll(Pageable)), args=[Page request [number: 0, size 10, sort: id: ASC]]
+21.05.2020 11:50:04.716 [http-nio-8082-exec-4] INFO   r.i.A.a.c.SourceControllerAspect - afterReturning execution(Page ru.iac.ASGIHDTORIS.spring.controller.SourceController.getAll(Pageable)),
+return=[
+   pageCount=1,
+   totalElements=8,
+   pageNumber=0,
+   pageSize=10,
+   sort=id: ASC,
+   values=[
+       Source(id=1, name=й, longName=й, shortName=й, description=й, addDescription=й, scope=й, periodicity=й, renewalPeriod=й, type=й, tags=й, providerLink=й, dataSource=й, dateCreation=2020-04-28T15:09:16.663805, dateDeactivation=2020-05-14T14:44:00.997989, dateActivation=2020-05-14T14:45:11.969014, lastUpdate=2020-04-28T15:09:16.663950, isArchive=false)
+       Source(id=20, name=йц, longName=ц, shortName=ц, description=ц, addDescription=ц, scope=ц, periodicity=ц, renewalPeriod=ц, type=ц, tags=ц, providerLink=ц, dataSource=ц, dateCreation=2020-04-28T15:09:22.172535, dateDeactivation=2020-05-03T13:37:43.841313, dateActivation=2020-05-03T13:37:50.647980, lastUpdate=2020-04-28T15:09:22.172581, isArchive=false)
+       Source(id=39, name=йцу, longName=у, shortName=у, description=у, addDescription=у, scope=у, periodicity=у, renewalPeriod=у, type=у, tags=у, providerLink=у, dataSource=цу, dateCreation=2020-04-28T15:09:27.738208, dateDeactivation=2020-05-03T13:37:44.763099, dateActivation=2020-05-03T13:37:50.894463, lastUpdate=2020-04-28T15:09:27.738254, isArchive=false)
+       Source(id=58, name=йцуы, longName=ыы, shortName=ы, description=у, addDescription=ы, scope=ы, periodicity=ы, renewalPeriod=ы, type=ы, tags=ы, providerLink=ыы, dataSource=цу, dateCreation=2020-04-28T15:09:38.362149, dateDeactivation=2020-05-03T13:37:45.407453, dateActivation=2020-05-03T13:37:51.182425, lastUpdate=2020-04-28T15:09:38.362194, isArchive=false)
+       Source(id=77, name=йцуыфф, longName=ф, shortName=ф, description=ф, addDescription=ф, scope=ы, periodicity=ф, renewalPeriod=ф, type=ф, tags=ф, providerLink=ф, dataSource=ф, dateCreation=2020-04-28T15:09:41.975089, dateDeactivation=2020-05-03T13:37:46.013442, dateActivation=2020-05-03T13:37:51.453728, lastUpdate=2020-04-28T15:09:41.975138, isArchive=false)
+       Source(id=96, name=йцуыффчч, longName=ч, shortName=ч, description=ч, addDescription=ч, scope=ч, periodicity=ч, renewalPeriod=ф, type=чччч, tags=ч, providerLink=ч, dataSource=ч, dateCreation=2020-04-28T15:09:46.739336, dateDeactivation=2020-05-03T13:37:46.625201, dateActivation=2020-05-03T13:37:51.819391, lastUpdate=2020-04-28T15:09:46.739379, isArchive=false)
+       Source(id=115, name=сйцуыффчч, longName=с, shortName=с, description=с, addDescription=с, scope=с, periodicity=сссс, renewalPeriod=с, type=с, tags=с, providerLink=с, dataSource=с, dateCreation=2020-04-28T15:09:52.043308, dateDeactivation=2020-05-03T13:37:47.209353, dateActivation=2020-05-03T13:37:52.269983, lastUpdate=2020-04-28T15:09:52.043355, isArchive=false)
+       Source(id=862, name=фывыыс, longName=ы, shortName=ывы, description=с, addDescription=ыыв, scope=ыв, periodicity=ы, renewalPeriod=вы, type=выв, tags=ы, providerLink=вы, dataSource=в, dateCreation=2020-05-14T14:39:14.164320, dateDeactivation=null, dateActivation=2020-05-14T14:39:14.164352, lastUpdate=2020-05-14T14:39:14.164365, isArchive=false)
+       ]
+]
+21.05.2020 12:32:14.115 [SpringContextShutdownHook] INFO   o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+21.05.2020 12:32:14.290 [SpringContextShutdownHook] INFO   o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+21.05.2020 12:32:14.520 [SpringContextShutdownHook] INFO   c.z.h.HikariDataSource - HikariPool-1 - Shutdown initiated...
+21.05.2020 12:32:14.532 [SpringContextShutdownHook] INFO   c.z.h.HikariDataSource - HikariPool-1 - Shutdown completed.
+21.05.2020 12:44:44.293 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - Starting AsGihdTorisApplication on nikita-HP-Pavilion-15-Notebook-PC with PID 4869 (/home/nikita/work/AS-GIHD-TORIS-master/build/classes/java/main started by nikita in /home/nikita/work/AS-GIHD-TORIS-master)
+21.05.2020 12:44:44.297 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - The following profiles are active: dev
+21.05.2020 12:44:44.443 [restartedMain] INFO   o.s.b.d.r.ChangeableUrls - The Class-Path manifest attribute in /home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/junrar-4.0.0.jar referenced one or more files that do not exist: file:/home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/commons-logging-1.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/commons-vfs2-2.2.jar
+21.05.2020 12:44:44.445 [restartedMain] INFO   o.s.b.d.r.ChangeableUrls - The Class-Path manifest attribute in /home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jakarta.xml.bind-api-2.3.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/txw2-2.3.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/istack-commons-runtime-3.0.8.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/stax-ex-1.8.1.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/FastInfoset-1.2.16.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jakarta.activation-api-1.2.1.jar
+21.05.2020 12:44:44.447 [restartedMain] INFO   o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+21.05.2020 12:44:44.447 [restartedMain] INFO   o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+21.05.2020 12:44:46.965 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+21.05.2020 12:44:46.976 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+21.05.2020 12:44:47.158 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ActionsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.161 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.163 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternTableRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.165 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterSourceRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.167 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ErrorsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.169 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ObjectsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.172 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternFileRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.174 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.176 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.179 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableFileRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.182 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.184 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.187 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.SourceLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.189 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.SourceRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.192 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.StatusesRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 12:44:47.193 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 199ms. Found 0 JDBC repository interfaces.
+21.05.2020 12:44:47.245 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+21.05.2020 12:44:47.246 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+21.05.2020 12:44:47.481 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 214ms. Found 15 JPA repository interfaces.
+21.05.2020 12:44:48.185 [restartedMain] INFO   o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+21.05.2020 12:44:49.319 [restartedMain] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+21.05.2020 12:44:49.328 [restartedMain] INFO   o.a.c.h.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+21.05.2020 12:44:49.328 [restartedMain] INFO   o.a.c.c.StandardService - Starting service [Tomcat]
+21.05.2020 12:44:49.329 [restartedMain] INFO   o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.30]
+21.05.2020 12:44:49.406 [restartedMain] INFO   o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+21.05.2020 12:44:49.406 [restartedMain] INFO   o.s.w.c.ContextLoader - Root WebApplicationContext: initialization completed in 4958 ms
+21.05.2020 12:44:49.738 [restartedMain] INFO   o.f.c.i.l.VersionPrinter - Flyway Community Edition 6.2.4 by Redgate
+21.05.2020 12:44:49.743 [restartedMain] INFO   c.z.h.HikariDataSource - HikariPool-1 - Starting...
+21.05.2020 12:44:50.080 [restartedMain] INFO   c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+21.05.2020 12:44:50.096 [restartedMain] INFO   o.f.c.i.d.DatabaseFactory - Database: jdbc:postgresql://localhost:5432/iac5 (PostgreSQL 11.6)
+21.05.2020 12:44:50.183 [restartedMain] INFO   o.f.c.i.c.DbValidate - Successfully validated 5 migrations (execution time 00:00.061s)
+21.05.2020 12:44:50.193 [restartedMain] INFO   o.f.c.i.c.DbMigrate - Current version of schema "public": 5
+21.05.2020 12:44:50.195 [restartedMain] INFO   o.f.c.i.c.DbMigrate - Schema "public" is up to date. No migration necessary.
+21.05.2020 12:44:50.624 [restartedMain] INFO   o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+21.05.2020 12:44:50.691 [restartedMain] INFO   o.hibernate.Version - HHH000412: Hibernate Core {5.4.10.Final}
+21.05.2020 12:44:50.913 [restartedMain] INFO   o.h.a.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+21.05.2020 12:44:51.014 [restartedMain] INFO   o.h.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+21.05.2020 12:44:52.212 [restartedMain] INFO   o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+21.05.2020 12:44:52.220 [restartedMain] INFO   o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+21.05.2020 12:44:52.305 [restartedMain] INFO   o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+21.05.2020 12:44:55.046 [restartedMain] INFO   o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+21.05.2020 12:44:55.182 [restartedMain] INFO   o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+21.05.2020 12:44:56.414 [restartedMain] INFO   o.a.c.h.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+21.05.2020 12:44:56.516 [restartedMain] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path ''
+21.05.2020 12:44:56.524 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - Started AsGihdTorisApplication in 12.893 seconds (JVM running for 14.886)
+21.05.2020 12:45:12.605 [http-nio-8082-exec-1] INFO   o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+21.05.2020 12:45:12.607 [http-nio-8082-exec-1] INFO   o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+21.05.2020 12:45:12.662 [http-nio-8082-exec-1] INFO   o.s.w.s.DispatcherServlet - Completed initialization in 53 ms
+21.05.2020 13:32:04.037 [http-nio-8082-exec-2] INFO   r.i.A.a.c.SourceControllerAspect - before execution(Page ru.iac.ASGIHDTORIS.spring.controller.SourceController.getAll(Pageable)), args=[Page request [number: 0, size 10, sort: id: ASC]]
+21.05.2020 13:32:04.431 [http-nio-8082-exec-2] INFO   r.i.A.a.c.SourceControllerAspect - afterReturning execution(Page ru.iac.ASGIHDTORIS.spring.controller.SourceController.getAll(Pageable)),
+return=[
+   pageCount=1,
+   totalElements=8,
+   pageNumber=0,
+   pageSize=10,
+   sort=id: ASC,
+   values=[
+       Source(id=1, name=й, longName=й, shortName=й, description=й, addDescription=й, scope=й, periodicity=й, renewalPeriod=й, type=й, tags=й, providerLink=й, dataSource=й, dateCreation=2020-04-28T15:09:16.663805, dateDeactivation=2020-05-14T14:44:00.997989, dateActivation=2020-05-14T14:45:11.969014, lastUpdate=2020-04-28T15:09:16.663950, isArchive=false)
+       Source(id=20, name=йц, longName=ц, shortName=ц, description=ц, addDescription=ц, scope=ц, periodicity=ц, renewalPeriod=ц, type=ц, tags=ц, providerLink=ц, dataSource=ц, dateCreation=2020-04-28T15:09:22.172535, dateDeactivation=2020-05-03T13:37:43.841313, dateActivation=2020-05-03T13:37:50.647980, lastUpdate=2020-04-28T15:09:22.172581, isArchive=false)
+       Source(id=39, name=йцу, longName=у, shortName=у, description=у, addDescription=у, scope=у, periodicity=у, renewalPeriod=у, type=у, tags=у, providerLink=у, dataSource=цу, dateCreation=2020-04-28T15:09:27.738208, dateDeactivation=2020-05-03T13:37:44.763099, dateActivation=2020-05-03T13:37:50.894463, lastUpdate=2020-04-28T15:09:27.738254, isArchive=false)
+       Source(id=58, name=йцуы, longName=ыы, shortName=ы, description=у, addDescription=ы, scope=ы, periodicity=ы, renewalPeriod=ы, type=ы, tags=ы, providerLink=ыы, dataSource=цу, dateCreation=2020-04-28T15:09:38.362149, dateDeactivation=2020-05-03T13:37:45.407453, dateActivation=2020-05-03T13:37:51.182425, lastUpdate=2020-04-28T15:09:38.362194, isArchive=false)
+       Source(id=77, name=йцуыфф, longName=ф, shortName=ф, description=ф, addDescription=ф, scope=ы, periodicity=ф, renewalPeriod=ф, type=ф, tags=ф, providerLink=ф, dataSource=ф, dateCreation=2020-04-28T15:09:41.975089, dateDeactivation=2020-05-03T13:37:46.013442, dateActivation=2020-05-03T13:37:51.453728, lastUpdate=2020-04-28T15:09:41.975138, isArchive=false)
+       Source(id=96, name=йцуыффчч, longName=ч, shortName=ч, description=ч, addDescription=ч, scope=ч, periodicity=ч, renewalPeriod=ф, type=чччч, tags=ч, providerLink=ч, dataSource=ч, dateCreation=2020-04-28T15:09:46.739336, dateDeactivation=2020-05-03T13:37:46.625201, dateActivation=2020-05-03T13:37:51.819391, lastUpdate=2020-04-28T15:09:46.739379, isArchive=false)
+       Source(id=115, name=сйцуыффчч, longName=с, shortName=с, description=с, addDescription=с, scope=с, periodicity=сссс, renewalPeriod=с, type=с, tags=с, providerLink=с, dataSource=с, dateCreation=2020-04-28T15:09:52.043308, dateDeactivation=2020-05-03T13:37:47.209353, dateActivation=2020-05-03T13:37:52.269983, lastUpdate=2020-04-28T15:09:52.043355, isArchive=false)
+       Source(id=862, name=фывыыс, longName=ы, shortName=ывы, description=с, addDescription=ыыв, scope=ыв, periodicity=ы, renewalPeriod=вы, type=выв, tags=ы, providerLink=вы, dataSource=в, dateCreation=2020-05-14T14:39:14.164320, dateDeactivation=null, dateActivation=2020-05-14T14:39:14.164352, lastUpdate=2020-05-14T14:39:14.164365, isArchive=false)
+       ]
+]
+21.05.2020 13:32:09.146 [http-nio-8082-exec-3] INFO   r.i.A.a.c.SourceControllerAspect - before execution(Page ru.iac.ASGIHDTORIS.spring.controller.SourceController.getAllArchive(Pageable)), args=[Page request [number: 0, size 10, sort: id: ASC]]
+21.05.2020 13:32:09.233 [http-nio-8082-exec-3] INFO   r.i.A.a.c.SourceControllerAspect - afterReturning execution(Page ru.iac.ASGIHDTORIS.spring.controller.SourceController.getAllArchive(Pageable)),
+return=[
+   pageCount=0,
+   totalElements=0,
+   pageNumber=0,
+   pageSize=10,
+   sort=id: ASC,
+   values=[
+       
+       ]
+]
+21.05.2020 13:32:55.743 [SpringContextShutdownHook] INFO   o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+21.05.2020 13:32:55.759 [SpringContextShutdownHook] INFO   o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+21.05.2020 13:32:55.766 [SpringContextShutdownHook] INFO   c.z.h.HikariDataSource - HikariPool-1 - Shutdown initiated...
+21.05.2020 13:32:55.810 [SpringContextShutdownHook] INFO   c.z.h.HikariDataSource - HikariPool-1 - Shutdown completed.
+21.05.2020 13:37:14.825 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - Starting AsGihdTorisApplication on nikita-HP-Pavilion-15-Notebook-PC with PID 9332 (/home/nikita/work/AS-GIHD-TORIS-master/build/classes/java/main started by nikita in /home/nikita/work/AS-GIHD-TORIS-master)
+21.05.2020 13:37:14.829 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - The following profiles are active: dev
+21.05.2020 13:37:15.098 [restartedMain] INFO   o.s.b.d.r.ChangeableUrls - The Class-Path manifest attribute in /home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/junrar-4.0.0.jar referenced one or more files that do not exist: file:/home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/commons-logging-1.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/commons-vfs2-2.2.jar
+21.05.2020 13:37:15.098 [restartedMain] INFO   o.s.b.d.r.ChangeableUrls - The Class-Path manifest attribute in /home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jakarta.xml.bind-api-2.3.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/txw2-2.3.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/istack-commons-runtime-3.0.8.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/stax-ex-1.8.1.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/FastInfoset-1.2.16.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jakarta.activation-api-1.2.1.jar
+21.05.2020 13:37:15.100 [restartedMain] INFO   o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+21.05.2020 13:37:15.100 [restartedMain] INFO   o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+21.05.2020 13:37:17.086 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+21.05.2020 13:37:17.088 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+21.05.2020 13:37:17.189 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ActionsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.198 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.201 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternTableRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.205 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterSourceRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.209 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ErrorsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.211 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ObjectsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.213 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternFileRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.215 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.217 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.220 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableFileRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.223 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.229 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.231 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.SourceLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.234 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.SourceRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.236 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.StatusesRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:37:17.237 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 142ms. Found 0 JDBC repository interfaces.
+21.05.2020 13:37:17.252 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+21.05.2020 13:37:17.252 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+21.05.2020 13:37:17.490 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 230ms. Found 15 JPA repository interfaces.
+21.05.2020 13:37:18.325 [restartedMain] INFO   o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+21.05.2020 13:37:19.811 [restartedMain] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+21.05.2020 13:37:19.839 [restartedMain] INFO   o.a.c.h.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+21.05.2020 13:37:19.840 [restartedMain] INFO   o.a.c.c.StandardService - Starting service [Tomcat]
+21.05.2020 13:37:19.841 [restartedMain] INFO   o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.30]
+21.05.2020 13:37:19.986 [restartedMain] INFO   o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+21.05.2020 13:37:19.986 [restartedMain] INFO   o.s.w.c.ContextLoader - Root WebApplicationContext: initialization completed in 4885 ms
+21.05.2020 13:37:20.323 [restartedMain] INFO   o.f.c.i.l.VersionPrinter - Flyway Community Edition 6.2.4 by Redgate
+21.05.2020 13:37:20.327 [restartedMain] INFO   c.z.h.HikariDataSource - HikariPool-1 - Starting...
+21.05.2020 13:37:20.708 [restartedMain] INFO   c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+21.05.2020 13:37:20.727 [restartedMain] INFO   o.f.c.i.d.DatabaseFactory - Database: jdbc:postgresql://localhost:5432/iac5 (PostgreSQL 11.6)
+21.05.2020 13:37:20.796 [restartedMain] INFO   o.f.c.i.c.DbValidate - Successfully validated 5 migrations (execution time 00:00.049s)
+21.05.2020 13:37:20.804 [restartedMain] INFO   o.f.c.i.c.DbMigrate - Current version of schema "public": 5
+21.05.2020 13:37:20.805 [restartedMain] INFO   o.f.c.i.c.DbMigrate - Schema "public" is up to date. No migration necessary.
+21.05.2020 13:37:21.244 [restartedMain] INFO   o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+21.05.2020 13:37:21.345 [restartedMain] INFO   o.hibernate.Version - HHH000412: Hibernate Core {5.4.10.Final}
+21.05.2020 13:37:21.553 [restartedMain] INFO   o.h.a.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+21.05.2020 13:37:21.698 [restartedMain] INFO   o.h.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+21.05.2020 13:37:23.042 [restartedMain] INFO   o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+21.05.2020 13:37:23.059 [restartedMain] INFO   o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+21.05.2020 13:37:23.183 [restartedMain] INFO   o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+21.05.2020 13:37:27.140 [restartedMain] INFO   o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+21.05.2020 13:37:27.322 [restartedMain] INFO   o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+21.05.2020 13:37:28.638 [restartedMain] INFO   o.a.c.h.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+21.05.2020 13:37:28.753 [restartedMain] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path ''
+21.05.2020 13:37:28.764 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - Started AsGihdTorisApplication in 14.958 seconds (JVM running for 16.922)
+21.05.2020 13:38:13.005 [http-nio-8082-exec-1] INFO   o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+21.05.2020 13:38:13.008 [http-nio-8082-exec-1] INFO   o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+21.05.2020 13:38:13.066 [http-nio-8082-exec-1] INFO   o.s.w.s.DispatcherServlet - Completed initialization in 58 ms
+21.05.2020 13:38:16.227 [http-nio-8082-exec-2] INFO   r.i.A.a.c.SourceControllerAspect - before execution(Page ru.iac.ASGIHDTORIS.spring.controller.SourceController.getAllArchive(Pageable)), args=[Page request [number: 0, size 10, sort: id: ASC]]
+21.05.2020 13:38:16.642 [http-nio-8082-exec-2] INFO   r.i.A.a.c.SourceControllerAspect - afterReturning execution(Page ru.iac.ASGIHDTORIS.spring.controller.SourceController.getAllArchive(Pageable)),
+return=[
+   pageCount=0,
+   totalElements=0,
+   pageNumber=0,
+   pageSize=10,
+   sort=id: ASC,
+   values=[
+       
+       ]
+]
+21.05.2020 13:45:11.048 [SpringContextShutdownHook] INFO   o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+21.05.2020 13:45:11.066 [SpringContextShutdownHook] INFO   o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+21.05.2020 13:45:11.074 [SpringContextShutdownHook] INFO   c.z.h.HikariDataSource - HikariPool-1 - Shutdown initiated...
+21.05.2020 13:45:11.117 [SpringContextShutdownHook] INFO   c.z.h.HikariDataSource - HikariPool-1 - Shutdown completed.
+21.05.2020 13:50:43.605 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - Starting AsGihdTorisApplication on nikita-HP-Pavilion-15-Notebook-PC with PID 11669 (/home/nikita/work/AS-GIHD-TORIS-master/build/classes/java/main started by nikita in /home/nikita/work/AS-GIHD-TORIS-master)
+21.05.2020 13:50:43.616 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - The following profiles are active: dev
+21.05.2020 13:50:44.029 [restartedMain] INFO   o.s.b.d.r.ChangeableUrls - The Class-Path manifest attribute in /home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/junrar-4.0.0.jar referenced one or more files that do not exist: file:/home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/commons-logging-1.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/commons-vfs2-2.2.jar
+21.05.2020 13:50:44.030 [restartedMain] INFO   o.s.b.d.r.ChangeableUrls - The Class-Path manifest attribute in /home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jakarta.xml.bind-api-2.3.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/txw2-2.3.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/istack-commons-runtime-3.0.8.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/stax-ex-1.8.1.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/FastInfoset-1.2.16.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jakarta.activation-api-1.2.1.jar
+21.05.2020 13:50:44.034 [restartedMain] INFO   o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+21.05.2020 13:50:44.036 [restartedMain] INFO   o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+21.05.2020 13:50:48.559 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+21.05.2020 13:50:48.561 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+21.05.2020 13:50:48.787 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ActionsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.796 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.805 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternTableRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.809 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterSourceRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.812 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ErrorsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.818 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ObjectsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.821 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternFileRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.823 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.830 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.833 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableFileRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.839 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.857 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.876 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.SourceLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.901 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.SourceRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.911 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.StatusesRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:50:48.921 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 344ms. Found 0 JDBC repository interfaces.
+21.05.2020 13:50:49.025 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+21.05.2020 13:50:49.026 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+21.05.2020 13:50:49.633 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 601ms. Found 15 JPA repository interfaces.
+21.05.2020 13:50:51.499 [restartedMain] INFO   o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+21.05.2020 13:50:54.547 [restartedMain] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+21.05.2020 13:50:54.605 [restartedMain] INFO   o.a.c.h.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+21.05.2020 13:50:54.612 [restartedMain] INFO   o.a.c.c.StandardService - Starting service [Tomcat]
+21.05.2020 13:50:54.622 [restartedMain] INFO   o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.30]
+21.05.2020 13:50:54.964 [restartedMain] INFO   o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+21.05.2020 13:50:54.964 [restartedMain] INFO   o.s.w.c.ContextLoader - Root WebApplicationContext: initialization completed in 10927 ms
+21.05.2020 13:50:55.502 [restartedMain] INFO   o.f.c.i.l.VersionPrinter - Flyway Community Edition 6.2.4 by Redgate
+21.05.2020 13:50:55.511 [restartedMain] INFO   c.z.h.HikariDataSource - HikariPool-1 - Starting...
+21.05.2020 13:50:56.404 [restartedMain] INFO   c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+21.05.2020 13:50:56.492 [restartedMain] INFO   o.f.c.i.d.DatabaseFactory - Database: jdbc:postgresql://localhost:5432/iac5 (PostgreSQL 11.6)
+21.05.2020 13:50:56.731 [restartedMain] INFO   o.f.c.i.c.DbValidate - Successfully validated 5 migrations (execution time 00:00.121s)
+21.05.2020 13:50:56.745 [restartedMain] INFO   o.f.c.i.c.DbMigrate - Current version of schema "public": 5
+21.05.2020 13:50:56.747 [restartedMain] INFO   o.f.c.i.c.DbMigrate - Schema "public" is up to date. No migration necessary.
+21.05.2020 13:50:57.865 [restartedMain] INFO   o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+21.05.2020 13:50:58.089 [restartedMain] INFO   o.hibernate.Version - HHH000412: Hibernate Core {5.4.10.Final}
+21.05.2020 13:50:58.607 [restartedMain] INFO   o.h.a.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+21.05.2020 13:50:58.796 [restartedMain] INFO   o.h.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+21.05.2020 13:51:01.522 [restartedMain] INFO   o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+21.05.2020 13:51:01.543 [restartedMain] INFO   o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+21.05.2020 13:51:01.788 [restartedMain] INFO   o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+21.05.2020 13:51:09.343 [restartedMain] INFO   o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+21.05.2020 13:51:09.902 [restartedMain] INFO   o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+21.05.2020 13:51:12.733 [restartedMain] INFO   o.a.c.h.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+21.05.2020 13:51:12.889 [restartedMain] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path ''
+21.05.2020 13:51:12.906 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - Started AsGihdTorisApplication in 31.315 seconds (JVM running for 35.7)
+21.05.2020 13:52:35.859 [http-nio-8082-exec-1] INFO   o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+21.05.2020 13:52:35.859 [http-nio-8082-exec-1] INFO   o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+21.05.2020 13:52:35.910 [http-nio-8082-exec-1] INFO   o.s.w.s.DispatcherServlet - Completed initialization in 51 ms
+21.05.2020 13:53:31.229 [SpringContextShutdownHook] INFO   o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+21.05.2020 13:53:31.248 [SpringContextShutdownHook] INFO   o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+21.05.2020 13:53:31.256 [SpringContextShutdownHook] INFO   c.z.h.HikariDataSource - HikariPool-1 - Shutdown initiated...
+21.05.2020 13:53:31.330 [SpringContextShutdownHook] INFO   c.z.h.HikariDataSource - HikariPool-1 - Shutdown completed.
+21.05.2020 13:53:44.048 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - Starting AsGihdTorisApplication on nikita-HP-Pavilion-15-Notebook-PC with PID 12155 (/home/nikita/work/AS-GIHD-TORIS-master/build/classes/java/main started by nikita in /home/nikita/work/AS-GIHD-TORIS-master)
+21.05.2020 13:53:44.076 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - The following profiles are active: dev
+21.05.2020 13:53:44.379 [restartedMain] INFO   o.s.b.d.r.ChangeableUrls - The Class-Path manifest attribute in /home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/junrar-4.0.0.jar referenced one or more files that do not exist: file:/home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/commons-logging-1.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/com.github.junrar/junrar/4.0.0/93f9b74e1507db9c55c5bdd35369376a474e4db5/commons-vfs2-2.2.jar
+21.05.2020 13:53:44.382 [restartedMain] INFO   o.s.b.d.r.ChangeableUrls - The Class-Path manifest attribute in /home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jakarta.xml.bind-api-2.3.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/txw2-2.3.2.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/istack-commons-runtime-3.0.8.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/stax-ex-1.8.1.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/FastInfoset-1.2.16.jar,file:/home/nikita/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.2/5528bc882ea499a09d720b42af11785c4fc6be2a/jakarta.activation-api-1.2.1.jar
+21.05.2020 13:53:44.389 [restartedMain] INFO   o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+21.05.2020 13:53:44.394 [restartedMain] INFO   o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+21.05.2020 13:53:48.550 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+21.05.2020 13:53:48.555 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+21.05.2020 13:53:48.798 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ActionsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.807 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.821 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterPatternTableRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.832 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.BeforeAfterSourceRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.856 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ErrorsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.876 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.ObjectsRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.886 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternFileRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.902 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.908 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.922 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableFileRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.939 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.956 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.971 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.SourceLoggerRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.985 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.SourceRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.995 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface ru.iac.ASGIHDTORIS.spring.repo.StatusesRepo. If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+21.05.2020 13:53:48.996 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 433ms. Found 0 JDBC repository interfaces.
+21.05.2020 13:53:49.056 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+21.05.2020 13:53:49.061 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+21.05.2020 13:53:49.432 [restartedMain] INFO   o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 354ms. Found 15 JPA repository interfaces.
+21.05.2020 13:53:51.307 [restartedMain] INFO   o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+21.05.2020 13:53:54.910 [restartedMain] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+21.05.2020 13:53:54.930 [restartedMain] INFO   o.a.c.h.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+21.05.2020 13:53:54.932 [restartedMain] INFO   o.a.c.c.StandardService - Starting service [Tomcat]
+21.05.2020 13:53:54.932 [restartedMain] INFO   o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.30]
+21.05.2020 13:53:55.085 [restartedMain] INFO   o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+21.05.2020 13:53:55.087 [restartedMain] INFO   o.s.w.c.ContextLoader - Root WebApplicationContext: initialization completed in 10690 ms
+21.05.2020 13:53:55.777 [restartedMain] INFO   o.f.c.i.l.VersionPrinter - Flyway Community Edition 6.2.4 by Redgate
+21.05.2020 13:53:55.798 [restartedMain] INFO   c.z.h.HikariDataSource - HikariPool-1 - Starting...
+21.05.2020 13:53:56.669 [restartedMain] INFO   c.z.h.HikariDataSource - HikariPool-1 - Start completed.
+21.05.2020 13:53:56.739 [restartedMain] INFO   o.f.c.i.d.DatabaseFactory - Database: jdbc:postgresql://localhost:5432/iac5 (PostgreSQL 11.6)
+21.05.2020 13:53:56.892 [restartedMain] INFO   o.f.c.i.c.DbValidate - Successfully validated 5 migrations (execution time 00:00.084s)
+21.05.2020 13:53:56.955 [restartedMain] INFO   o.f.c.i.c.DbMigrate - Current version of schema "public": 5
+21.05.2020 13:53:56.959 [restartedMain] INFO   o.f.c.i.c.DbMigrate - Schema "public" is up to date. No migration necessary.
+21.05.2020 13:53:57.915 [restartedMain] INFO   o.h.j.i.u.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+21.05.2020 13:53:58.106 [restartedMain] INFO   o.hibernate.Version - HHH000412: Hibernate Core {5.4.10.Final}
+21.05.2020 13:53:58.548 [restartedMain] INFO   o.h.a.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+21.05.2020 13:53:58.830 [restartedMain] INFO   o.h.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+21.05.2020 13:54:01.888 [restartedMain] INFO   o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+21.05.2020 13:54:01.906 [restartedMain] INFO   o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+21.05.2020 13:54:02.078 [restartedMain] INFO   o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+21.05.2020 13:54:08.837 [restartedMain] INFO   o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+21.05.2020 13:54:09.062 [restartedMain] INFO   o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+21.05.2020 13:54:10.879 [restartedMain] INFO   o.a.c.h.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+21.05.2020 13:54:10.954 [restartedMain] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path ''
+21.05.2020 13:54:10.979 [restartedMain] INFO   r.i.A.AsGihdTorisApplication - Started AsGihdTorisApplication in 28.433 seconds (JVM running for 31.005)
+21.05.2020 13:55:37.863 [http-nio-8082-exec-1] INFO   o.a.c.c.C.[.[.[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+21.05.2020 13:55:37.866 [http-nio-8082-exec-1] INFO   o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+21.05.2020 13:55:37.909 [http-nio-8082-exec-1] INFO   o.s.w.s.DispatcherServlet - Completed initialization in 43 ms
+21.05.2020 13:55:37.936 [http-nio-8082-exec-1] WARN   o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+21.05.2020 13:56:56.251 [http-nio-8082-exec-5] ERROR  o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.web.multipart.MultipartException: Current request is not a multipart request] with root cause
+org.springframework.web.multipart.MultipartException: Current request is not a multipart request
+	at org.springframework.web.method.annotation.RequestParamMethodArgumentResolver.handleMissingValue(RequestParamMethodArgumentResolver.java:196)
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:114)
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:121)
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:167)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:134)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:888)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:367)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21.05.2020 16:49:30.776 [http-nio-8082-exec-2] INFO   r.i.A.a.c.SourceControllerAspect - before execution(Page ru.iac.ASGIHDTORIS.spring.controller.SourceController.getAllArchive(Pageable)), args=[Page request [number: 0, size 10, sort: id: ASC]]
+21.05.2020 16:49:31.095 [http-nio-8082-exec-3] INFO   r.i.A.a.c.SourceControllerAspect - before execution(Page ru.iac.ASGIHDTORIS.spring.controller.SourceController.getAll(Pageable)), args=[Page request [number: 0, size 10, sort: id: ASC]]
+21.05.2020 16:49:31.393 [http-nio-8082-exec-2] INFO   r.i.A.a.c.SourceControllerAspect - afterReturning execution(Page ru.iac.ASGIHDTORIS.spring.controller.SourceController.getAllArchive(Pageable)),
+return=[
+   pageCount=0,
+   totalElements=0,
+   pageNumber=0,
+   pageSize=10,
+   sort=id: ASC,
+   values=[
+       
+       ]
+]
+21.05.2020 16:49:31.401 [http-nio-8082-exec-3] INFO   r.i.A.a.c.SourceControllerAspect - afterReturning execution(Page ru.iac.ASGIHDTORIS.spring.controller.SourceController.getAll(Pageable)),
+return=[
+   pageCount=1,
+   totalElements=8,
+   pageNumber=0,
+   pageSize=10,
+   sort=id: ASC,
+   values=[
+       Source(id=1, name=й, longName=й, shortName=й, description=й, addDescription=й, scope=й, periodicity=й, renewalPeriod=й, type=й, tags=й, providerLink=й, dataSource=й, dateCreation=2020-04-28T15:09:16.663805, dateDeactivation=2020-05-14T14:44:00.997989, dateActivation=2020-05-14T14:45:11.969014, lastUpdate=2020-04-28T15:09:16.663950, isArchive=false)
+       Source(id=20, name=йц, longName=ц, shortName=ц, description=ц, addDescription=ц, scope=ц, periodicity=ц, renewalPeriod=ц, type=ц, tags=ц, providerLink=ц, dataSource=ц, dateCreation=2020-04-28T15:09:22.172535, dateDeactivation=2020-05-03T13:37:43.841313, dateActivation=2020-05-03T13:37:50.647980, lastUpdate=2020-04-28T15:09:22.172581, isArchive=false)
+       Source(id=39, name=йцу, longName=у, shortName=у, description=у, addDescription=у, scope=у, periodicity=у, renewalPeriod=у, type=у, tags=у, providerLink=у, dataSource=цу, dateCreation=2020-04-28T15:09:27.738208, dateDeactivation=2020-05-03T13:37:44.763099, dateActivation=2020-05-03T13:37:50.894463, lastUpdate=2020-04-28T15:09:27.738254, isArchive=false)
+       Source(id=58, name=йцуы, longName=ыы, shortName=ы, description=у, addDescription=ы, scope=ы, periodicity=ы, renewalPeriod=ы, type=ы, tags=ы, providerLink=ыы, dataSource=цу, dateCreation=2020-04-28T15:09:38.362149, dateDeactivation=2020-05-03T13:37:45.407453, dateActivation=2020-05-03T13:37:51.182425, lastUpdate=2020-04-28T15:09:38.362194, isArchive=false)
+       Source(id=77, name=йцуыфф, longName=ф, shortName=ф, description=ф, addDescription=ф, scope=ы, periodicity=ф, renewalPeriod=ф, type=ф, tags=ф, providerLink=ф, dataSource=ф, dateCreation=2020-04-28T15:09:41.975089, dateDeactivation=2020-05-03T13:37:46.013442, dateActivation=2020-05-03T13:37:51.453728, lastUpdate=2020-04-28T15:09:41.975138, isArchive=false)
+       Source(id=96, name=йцуыффчч, longName=ч, shortName=ч, description=ч, addDescription=ч, scope=ч, periodicity=ч, renewalPeriod=ф, type=чччч, tags=ч, providerLink=ч, dataSource=ч, dateCreation=2020-04-28T15:09:46.739336, dateDeactivation=2020-05-03T13:37:46.625201, dateActivation=2020-05-03T13:37:51.819391, lastUpdate=2020-04-28T15:09:46.739379, isArchive=false)
+       Source(id=115, name=сйцуыффчч, longName=с, shortName=с, description=с, addDescription=с, scope=с, periodicity=сссс, renewalPeriod=с, type=с, tags=с, providerLink=с, dataSource=с, dateCreation=2020-04-28T15:09:52.043308, dateDeactivation=2020-05-03T13:37:47.209353, dateActivation=2020-05-03T13:37:52.269983, lastUpdate=2020-04-28T15:09:52.043355, isArchive=false)
+       Source(id=862, name=фывыыс, longName=ы, shortName=ывы, description=с, addDescription=ыыв, scope=ыв, periodicity=ы, renewalPeriod=вы, type=выв, tags=ы, providerLink=вы, dataSource=в, dateCreation=2020-05-14T14:39:14.164320, dateDeactivation=null, dateActivation=2020-05-14T14:39:14.164352, lastUpdate=2020-05-14T14:39:14.164365, isArchive=false)
+       ]
+]
+21.05.2020 16:49:39.298 [http-nio-8082-exec-5] INFO   r.i.A.a.c.PatternTableControllerAspect - before execution(Page ru.iac.ASGIHDTORIS.spring.controller.PatternTableController.getAllBySourceId(Pageable,Long)), args=[Page request [number: 0, size 10, sort: id: ASC],1]
+21.05.2020 16:49:39.310 [http-nio-8082-exec-6] INFO   r.i.A.a.c.SourceControllerAspect - before execution(Source ru.iac.ASGIHDTORIS.spring.controller.SourceController.getById(Long)), args=[1]
+21.05.2020 16:49:39.321 [http-nio-8082-exec-4] INFO   r.i.A.a.c.PatternControllerAspect - before execution(Page ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternBySourceId(Long,Pageable)), args=[1,Page request [number: 0, size 10, sort: id: ASC]]
+21.05.2020 16:49:39.365 [http-nio-8082-exec-5] INFO   r.i.A.a.c.PatternTableControllerAspect - afterReturning execution(Page ru.iac.ASGIHDTORIS.spring.controller.PatternTableController.getAllBySourceId(Pageable,Long)),
+return=[
+   pageCount=1,
+   totalElements=3,
+   pageNumber=0,
+   pageSize=10,
+   sort=id: ASC,
+   values=[
+       PatternTable(id=147, nameTable=lurwowcxganuwkr, nameFile=q.csv, patternId=134, sourceId=1, isArchive=true, dateCreation=2020-04-28T16:33:51.785204, dateDeactivation=2020-05-14T14:44:01.024601, dateActivation=2020-05-03T13:49:25.603089, lastUpdate=2020-04-28T16:33:51.785236, dateKill=null, version=1, isActive=true, oldName=null)
+       PatternTable(id=596, nameTable=kjiwzhfrwvresyj, nameFile=q.csv, patternId=158, sourceId=1, isArchive=true, dateCreation=2020-05-01T16:11:45.944116, dateDeactivation=2020-05-14T14:44:01.024588, dateActivation=2020-05-03T13:49:50.129065, lastUpdate=2020-05-01T16:11:45.944131, dateKill=null, version=1, isActive=true, oldName=null)
+       PatternTable(id=955, nameTable=qcuecdxirrjbkhr, nameFile=q.csv, patternId=134, sourceId=1, isArchive=false, dateCreation=2020-05-14T14:51:50.437597, dateDeactivation=null, dateActivation=2020-05-14T14:51:50.437548, lastUpdate=2020-05-14T14:51:50.437608, dateKill=null, version=2, isActive=true, oldName=null)
+       ]
+]
+21.05.2020 16:49:39.383 [http-nio-8082-exec-4] INFO   r.i.A.a.c.PatternControllerAspect - afterReturning execution(Page ru.iac.ASGIHDTORIS.spring.controller.PatternController.getAllPatternBySourceId(Long,Pageable)),
+return=[
+   pageCount=1,
+   totalElements=9,
+   pageNumber=0,
+   pageSize=10,
+   sort=id: ASC,
+   values=[
+       Pattern(id=134, fileCount=0, archiveFileCount=2, name=й, description=й, direction=й, management=й, isArchive=false, dateCreation=2020-04-28T16:01:22.128967, dateDeactivation=2020-05-03T13:37:42.145413, dateActivation=2020-05-03T13:39:05.119157, lastUpdate=2020-04-28T16:01:22.129015, sourceId=1)
+       Pattern(id=158, fileCount=0, archiveFileCount=1, name=q, description=q, direction=qq, management=q, isArchive=true, dateCreation=2020-04-28T17:32:22.853059, dateDeactivation=2020-05-14T14:44:01.026635, dateActivation=2020-05-03T13:39:08.964166, lastUpdate=2020-04-28T17:32:22.853144, sourceId=1)
+       Pattern(id=163, fileCount=0, archiveFileCount=0, name=q, description=q, direction=qq, management=q, isArchive=true, dateCreation=2020-04-28T17:32:23.008794, dateDeactivation=2020-05-14T14:44:01.026528, dateActivation=2020-05-03T13:39:09.642352, lastUpdate=2020-04-28T17:32:23.008836, sourceId=1)
+       Pattern(id=184, fileCount=0, archiveFileCount=0, name=q, description=q, direction=qq, management=q, isArchive=true, dateCreation=2020-04-28T17:32:23.181581, dateDeactivation=2020-05-14T14:44:01.026568, dateActivation=2020-05-03T13:39:10.209092, lastUpdate=2020-04-28T17:32:23.181627, sourceId=1)
+       Pattern(id=197, fileCount=0, archiveFileCount=0, name=q, description=q, direction=qq, management=q, isArchive=true, dateCreation=2020-04-28T17:32:23.346435, dateDeactivation=2020-05-14T14:44:01.026583, dateActivation=2020-05-03T13:39:10.631050, lastUpdate=2020-04-28T17:32:23.346477, sourceId=1)
+       Pattern(id=210, fileCount=0, archiveFileCount=0, name=q, description=q, direction=qq, management=q, isArchive=true, dateCreation=2020-04-28T17:32:23.501544, dateDeactivation=2020-05-14T14:44:01.026595, dateActivation=2020-05-03T13:39:10.933925, lastUpdate=2020-04-28T17:32:23.501579, sourceId=1)
+       Pattern(id=223, fileCount=0, archiveFileCount=0, name=q, description=q, direction=qq, management=q, isArchive=true, dateCreation=2020-04-28T17:32:23.659283, dateDeactivation=2020-05-14T14:44:01.026606, dateActivation=2020-05-03T13:39:11.234875, lastUpdate=2020-04-28T17:32:23.659335, sourceId=1)
+       Pattern(id=236, fileCount=0, archiveFileCount=0, name=q, description=q, direction=qq, management=q, isArchive=true, dateCreation=2020-04-28T17:32:23.802077, dateDeactivation=2020-05-14T14:44:01.026616, dateActivation=2020-05-03T13:39:11.514511, lastUpdate=2020-04-28T17:32:23.802126, sourceId=1)
+       Pattern(id=249, fileCount=0, archiveFileCount=0, name=q, description=q, direction=qq, management=q, isArchive=true, dateCreation=2020-04-28T17:32:23.957028, dateDeactivation=2020-05-14T14:44:01.026626, dateActivation=2020-05-03T13:39:11.702505, lastUpdate=2020-04-28T17:32:23.957083, sourceId=1)
+       ]
+]
+21.05.2020 16:49:39.421 [http-nio-8082-exec-6] INFO   r.i.A.a.c.SourceControllerAspect - afterReturning execution(Source ru.iac.ASGIHDTORIS.spring.controller.SourceController.getById(Long)), return= Source(id=1, name=й, longName=й, shortName=й, description=й, addDescription=й, scope=й, periodicity=й, renewalPeriod=й, type=й, tags=й, providerLink=й, dataSource=й, dateCreation=2020-04-28T15:09:16.663805, dateDeactivation=2020-05-14T14:44:00.997989, dateActivation=2020-05-14T14:45:11.969014, lastUpdate=2020-04-28T15:09:16.663950, isArchive=false)

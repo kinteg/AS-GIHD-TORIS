@@ -365,7 +365,7 @@
                                                     </el-radio-group>
                                                 </el-form-item>
                                                 <el-form-item>
-                                                    <el-input v-model="pole.key" placeholder="Approved by"></el-input>
+                                                    <el-input v-model="pole.key" placeholder="Название поля"></el-input>
                                                 </el-form-item>
                                                 <el-form-item>
                                                     <el-autocomplete
@@ -373,7 +373,7 @@
                                                             class="inline-input"
                                                             v-model="pole.type"
                                                             :fetch-suggestions="querySearch"
-                                                            placeholder="Please Input"
+                                                            placeholder="Введите тип"
                                                     ></el-autocomplete>
                                                 </el-form-item>
                                             </el-form>

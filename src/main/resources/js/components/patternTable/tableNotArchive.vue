@@ -282,7 +282,6 @@
                 formData.append("size",this.paginationOneTable.pageSize);
                 formData.append("page",this.paginationOneTable.currentPage - 1);
                 AXIOS.post("tableCreator/getTable/",formData).then(response => {
-                    console.log(response.data);
                     this.showOnlyOneTable = response.data;
                 });
             },
@@ -294,7 +293,6 @@
                 formData.append("size",this.paginationOneTable.pageSize);
                 formData.append("page",this.paginationOneTable.currentPage - 1);
                 AXIOS.post("tableCreator/getTable/",formData).then(response => {
-                    console.log(response.data);
                     this.showOnlyOneTable = response.data;
                 });
             },
@@ -625,7 +623,6 @@
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
                 this.patternTableData = response.data.content;
-                console.log(response)
             })
         }
     }

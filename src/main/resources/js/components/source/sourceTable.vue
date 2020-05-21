@@ -233,79 +233,79 @@
                     <td></td>
                     <td v-if="hidden.id">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.id">
                         </el-input>
                     </td>
                     <td v-if="hidden.name">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.name">
                         </el-input>
                     </td>
                     <td v-if="hidden.longName">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.longName">
                         </el-input>
                     </td>
                     <td v-if="hidden.shortName">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.shortName">
                         </el-input>
                     </td>
                     <td v-if="hidden.description">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.description">
                         </el-input>
                     </td>
                     <td v-if="hidden.addDescription">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.addDescription">
                         </el-input>
                     </td>
                     <td v-if="hidden.scope">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.scope">
                         </el-input>
                     </td>
                     <td v-if="hidden.periodicity">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.periodicity">
                         </el-input>
                     </td>
                     <td v-if="hidden.renewalPeriod">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.renewalPeriod">
                         </el-input>
                     </td>
                     <td v-if="hidden.type">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.type">
                         </el-input>
                     </td>
                     <td v-if="hidden.tags">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.tags">
                         </el-input>
                     </td>
                     <td v-if="hidden.providerLink">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.providerLink">
                         </el-input>
                     </td>
                     <td v-if="hidden.dataSource">
                         <el-input
-                                placeholder="Please input"
+                                placeholder="Введите данные"
                                 v-model="source.dataSource">
                         </el-input>
                     </td>

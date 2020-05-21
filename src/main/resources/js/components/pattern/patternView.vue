@@ -81,7 +81,6 @@
         },
         mounted() {
             AXIOS.get("pattern/" + this.patternId).then(response => {
-                console.log(response.data);
                 this.pattern = response.data;
             })
         }

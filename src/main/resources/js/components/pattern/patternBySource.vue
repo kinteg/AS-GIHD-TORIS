@@ -492,8 +492,6 @@
                     this.pattern.key = key;
                     this.pattern.sort = "asc";
                 }
-                console.log(this.pattern.key);
-                console.log(this.pattern.sort);
                 let formData = new FormData();
                 formData.append("isArchive",this.value);
                 formData.append("sort",this.pattern.sort);
@@ -523,7 +521,6 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-                    console.log(response);
                     this.pagination.totalPages = response.data.totalPages;
                     this.pagination.totalElements = response.data.totalElements;
                     this.patternData = response.data.content;

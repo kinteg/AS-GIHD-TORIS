@@ -84,12 +84,10 @@
             this.sourceLogId = this.$route.params.id;
             // /getAll/beforeAfter/
             AXIOS.get("sourceLogger/getAll/beforeAfter/" + this.sourceLogId).then(response => {
-                console.log(response);
                 this.sourceLog = response.data.content;
             });
 
             AXIOS.get("sourceLogger/" + this.sourceLogId).then(response => {
-                console.log(response);
                 if(response.data === ""){
                     router.push({name:'NotFoundPages'})
                 } else {

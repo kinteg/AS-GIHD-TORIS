@@ -272,7 +272,6 @@
             updatePage(){
                 AXIOS.get("tableCreator/" + this.patternTableId).then(response => {
                     this.patternTable = response.data;
-                    console.log(response);
                 });
 
                 let formData = new FormData();
@@ -283,7 +282,6 @@
                     this.showOnlyOneTable = response.data;
                     this.tableName = response.data.tableModel.tableName;
                     this.oneTable = response.data.tableModel.models;
-                    console.log(response);
                     AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName + "&size=" + this.paginationVersion.pageSize).then(response => {
                         this.patternTableVersion = response.data;
                         this.paginationVersion.totalPages = response.data.totalPages;
@@ -391,7 +389,6 @@
                 this.paginationVersion.currentPage = value;
                 let currentPage = this.paginationVersion.currentPage - 1;
                 AXIOS.get("tableCreator/getAllOldVersions?oldName=" + this.tableName +"&size=" + this.paginationVersion.pageSize + "&page=" + currentPage).then(response => {
-                    console.log(response);
                     this.patternTableVersion = response.data;
                 })
             },

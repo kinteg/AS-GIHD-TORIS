@@ -114,24 +114,10 @@
                     let fileName = oneTable.tableModel.filename;
                     let primaryKey = oneTable.tableModel.primaryKey;
                     for(let j = 0; j<model.length; j++){
-                        // console.log(primaryKey);
-                        // console.log(model[j].key);
-                        // console.log("--------------");
                         primary.push(primaryKey === model[j].key);
                         key.push(model[j].key);
                         type.push(model[j].type);
-                        // primary.push(model[j].primary);
                     }
-                    // for(let j = 0; j<model.length; j++){
-                    //     key.push(model[j].key);
-                    //     type.push(model[j].type);
-                    //     if(model[j].key === this.primaryKey){
-                    //         primary.push(true);
-                    //     } else {
-                    //         primary.push(false);
-                    //     }
-                    //     // primary.push(model[j].primary);
-                    // }
 
                     let formData = new FormData();
 
@@ -156,7 +142,6 @@
                                     }
                                 }
                             ).then(response => {
-                                console.log(response);
                                 this.newPatternTableId = response.data.patternTable.id;
                                 if(response.data.tableModel.status === "OK") {
                                     this.notify("Успешно","Таблица " + tableName + " была обновлена", "success");
@@ -221,8 +206,6 @@
                     }).then(response => {
                     this.table = response.data;
                     this.table[0].tableModel.primaryKey = this.table[0].tableModel.models[0].key;
-                    console.log(response.data);
-                    console.log(this.table[0].tableModel.primaryKey );
                 });
             },
         },
@@ -232,7 +215,6 @@
             let formData = new FormData();
             formData.append("id", this.patternTableId);
             AXIOS.post("tableCreator/getTable/",formData).then(response => {
-                console.log(response);
                 if(response.data.values === null){
                     router.push({name:'NotFoundPages'})
                 } else {

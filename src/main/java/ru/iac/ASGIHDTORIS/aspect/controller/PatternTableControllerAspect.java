@@ -8,8 +8,8 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModelPage;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.DataModel;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 
 import java.util.Arrays;

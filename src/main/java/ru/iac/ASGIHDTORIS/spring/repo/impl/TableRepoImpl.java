@@ -5,14 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModelPage;
 import ru.iac.ASGIHDTORIS.common.model.serch.SearchModel;
-import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.DataModel;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.TableModel;
+import ru.iac.ASGIHDTORIS.lib.lib.db.exporter.ColumnExporterRepo;
 import ru.iac.ASGIHDTORIS.spring.component.CountMapper;
 import ru.iac.ASGIHDTORIS.spring.component.FullRepoHelper;
 import ru.iac.ASGIHDTORIS.spring.component.Mapper.Mapper;
-import ru.iac.ASGIHDTORIS.spring.repo.ColumnExporterRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.TableRepo;
 
 import java.util.ArrayList;
@@ -32,7 +32,11 @@ public class TableRepoImpl implements TableRepo {
     private final FullRepoHelper<Map<String, String>> fullRepoHelper;
 
 
-    public TableRepoImpl(ColumnExporterRepo columnExporterRepo, @Qualifier("tableMapper") Mapper<List<Map<String, String>>> mapper, CountMapper countMapper, FullRepoHelper<Map<String, String>> fullRepoHelper) {
+    public TableRepoImpl(
+            ColumnExporterRepo columnExporterRepo,
+            @Qualifier("tableMapper") Mapper<List<Map<String, String>>> mapper,
+            CountMapper countMapper,
+            FullRepoHelper<Map<String, String>> fullRepoHelper) {
         this.columnExporterRepo = columnExporterRepo;
         this.mapper = mapper;
         this.countMapper = countMapper;

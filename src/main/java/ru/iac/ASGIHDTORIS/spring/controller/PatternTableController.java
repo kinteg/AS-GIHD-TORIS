@@ -13,7 +13,7 @@ import ru.iac.ASGIHDTORIS.common.model.domain.PatternTableModel;
 import ru.iac.ASGIHDTORIS.common.model.fulltable.FullTableModelPage;
 import ru.iac.ASGIHDTORIS.common.model.serch.SearchModel;
 import ru.iac.ASGIHDTORIS.common.model.table.PatternTableModelStatus;
-import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.TableModel;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo2;

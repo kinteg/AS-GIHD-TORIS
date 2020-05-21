@@ -7,18 +7,19 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PatternRepo extends JpaRepository<Pattern, Long> {
-
 
     Page<Pattern> findAllBySourceId(Long sourceId, Pageable pageable);
 
     List<Pattern> findAllBySourceId(Long sourceId);
 
     @Override
-    Page<Pattern> findAll(Pageable pageable);
+    @NotNull
+    Page<Pattern> findAll(@NotNull Pageable pageable);
 
     Page<Pattern> findAllByIsArchive(Boolean isArchive, Pageable pageable);
 

@@ -3,9 +3,9 @@ package ru.iac.ASGIHDTORIS.spring.repo.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.iac.ASGIHDTORIS.common.Status;
-import ru.iac.ASGIHDTORIS.common.model.data.DataModel;
-import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
 import ru.iac.ASGIHDTORIS.common.model.table.TableModelStatus;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.DataModel;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.TableModel;
 import ru.iac.ASGIHDTORIS.spring.repo.CreatorRepo;
 
 import java.sql.Connection;

@@ -4,8 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.common.Status;
 import ru.iac.ASGIHDTORIS.common.model.table.PatternTableModelStatus;
-import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
-import ru.iac.ASGIHDTORIS.common.model.table.TableModelStatus;
+import ru.iac.ASGIHDTORIS.lib.app.SimpleTableCreator;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.TableModel;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.TableModelStatus;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 import ru.iac.ASGIHDTORIS.spring.repo.CreatorRepo;
@@ -16,7 +17,6 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -24,14 +24,14 @@ public class TableCreatorServiceImpl implements TableCreatorService {
 
     private final PatternRepo patternRepo;
     private final PatternTableRepo patternTableRepo;
-    private final CreatorRepo creatorRepo;
     private final DataSource dataSource;
+    private final SimpleTableCreator simpleTableCreator;
 
-    public TableCreatorServiceImpl(PatternRepo patternRepo, PatternTableRepo patternTableRepo, CreatorRepo creatorRepo, DataSource dataSource) {
+    public TableCreatorServiceImpl(PatternRepo patternRepo, PatternTableRepo patternTableRepo, DataSource dataSource, SimpleTableCreator simpleTableCreator) {
         this.patternRepo = patternRepo;
         this.patternTableRepo = patternTableRepo;
-        this.creatorRepo = creatorRepo;
         this.dataSource = dataSource;
+        this.simpleTableCreator = simpleTableCreator;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class TableCreatorServiceImpl implements TableCreatorService {
         PatternTable patternTable;
 
         if (checkPattern(id)) {
-            tableModelStatus = createTable(tableModel);
+            tableModelStatus = simpleTableCreator.createTable(tableModel);
 
             if (tableModelStatus.getStatus().equals(Status.OK)) {
                 patternTable = createPatternTable(tableModel, id);
@@ -66,7 +66,7 @@ public class TableCreatorServiceImpl implements TableCreatorService {
         String oldName = patternTable.getNameTable();
         String newName = patternTable.getNameTable() + "_v" + patternTable.getVersion();
         killOldTable(oldName, newName);
-        TableModelStatus tableModelStatus = createTable(tableModel);
+        TableModelStatus tableModelStatus = simpleTableCreator.createTable(tableModel);
 
         if (tableModelStatus.getStatus().equals(Status.OK)) {
             patternTable = updatePatternTable(tableModel, patternTable);
@@ -85,10 +85,6 @@ public class TableCreatorServiceImpl implements TableCreatorService {
         return patternRepo.existsById(id);
     }
 
-    private TableModelStatus createTable(TableModel tableModel) {
-        return creatorRepo.createTable(tableModel);
-    }
-
     private PatternTable createPatternTable(TableModel tableModel, long id) {
         Pattern pattern = patternRepo.findById(id);
 
@@ -101,7 +97,7 @@ public class TableCreatorServiceImpl implements TableCreatorService {
                 .dateActivation(LocalDateTime.now())
                 .dateCreation(LocalDateTime.now())
                 .lastUpdate(LocalDateTime.now())
-                .version(Long.valueOf(1))
+                .version(1L)
                 .isActive(true)
                 .sourceId(pattern.getSourceId())
                 .build();

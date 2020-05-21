@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
-import ru.iac.ASGIHDTORIS.common.model.table.TableModel;
+import ru.iac.ASGIHDTORIS.lib.lib.common.model.TableModel;
 
-import java.awt.print.Pageable;
-import java.util.Collections;
 import java.util.Map;
 
 @Data

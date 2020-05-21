@@ -99,4 +99,19 @@ public class UnArchiverImpl implements UnArchiver {
                 .filter(file -> targetFile.isTargetFile(file.getName()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteFiles(List<File> files) {
+        for (File file :
+                files) {
+            deleteFile(file);
+        }
+    }
+
+    @Override
+    public void deleteFile(File file) {
+        if (file.exists()) {
+            file.delete();
+        }
+    }
 }

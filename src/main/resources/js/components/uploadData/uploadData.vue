@@ -47,9 +47,9 @@
                     </div>
                 </el-col>
                 <el-col :span="12">
-                    <div v-if="allFiles!==''" class="tableBlock">
+                    <div v-if="viewFiles!==''" class="tableBlock">
                         <p style="font-size: 16px">Файлы:</p>
-                        <p class="nameTable" v-for="file in allFiles" @click="viewFile(file)">{{file}}</p>
+                        <p class="nameTable" v-for="file in viewFiles" @click="viewFile(file)">{{file}}</p>
                     </div>
                 </el-col>
             </el-row>
@@ -89,6 +89,7 @@
         name: "uploadData",
         data(){
             return{
+                viewFiles:"",
                 selectedFile:[],
                 tableInfo:"",
                 fileInfo:"",
@@ -247,8 +248,15 @@
                 let formData = new FormData();
                 formData.append("file",file.raw);
                 AXIOS.post("/fileLoaderAnotherDb/getAllFileNames", formData).then(response=>{
-                    this.allFiles = response.data;
-                    this.allFiles.push("-");
+                    // this.allFiles = response.data;
+                    // this.allFiles.push("-");
+                    this.viewFiles = response.data;
+                    let first = [];
+                    first.push("-");
+                    let mas = response.data;
+
+                    this.allFiles = first.concat(mas);
+                    console.log(this.allFiles);
                 })
             },
 

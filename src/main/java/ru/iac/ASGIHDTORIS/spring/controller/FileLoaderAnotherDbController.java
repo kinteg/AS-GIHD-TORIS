@@ -71,8 +71,8 @@ public class FileLoaderAnotherDbController {
     public void executeFile(
             @RequestParam(value = "file") MultipartFile multipartFile,
             @ModelAttribute CustomConnection customConnection,
-            @ModelAttribute List<String> filenames,
-            @ModelAttribute List<String> tableNames
+            @RequestParam List<String> filenames,
+            @RequestParam List<String> tableNames
     ) throws SQLException {
         File file = fileService.convertFile(multipartFile);
         Connection connection = testConnection.getConnection(customConnection);

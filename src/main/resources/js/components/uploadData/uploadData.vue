@@ -101,9 +101,9 @@
                 allFiles: ["-"],
                 file:"",
                 dataBase:{
-                    url:'jdbc:postgresql://localhost:5432/foodloft',
-                    userName:'postgres',
-                    password:'123',
+                    url:'',
+                    userName:'',
+                    password:'',
                 },
                 tables:{
                     table: [],

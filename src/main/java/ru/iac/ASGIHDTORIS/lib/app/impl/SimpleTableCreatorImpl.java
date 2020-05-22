@@ -33,6 +33,7 @@ public class SimpleTableCreatorImpl implements SimpleTableCreator {
         List<File> files = unArchiver.unArchiveFiles(file);
         List<TableModel> tableModels = simpleFileParser.getFullTable(files);
 
+        unArchiver.deleteFiles(files);
         return createTable(tableModels);
     }
 

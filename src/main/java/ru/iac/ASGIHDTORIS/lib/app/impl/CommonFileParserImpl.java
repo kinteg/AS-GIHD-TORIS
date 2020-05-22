@@ -32,20 +32,33 @@ public class CommonFileParserImpl implements CommonFileParser {
     @Override
     public List<FullTableModel> parseFile(File file, long limit) {
         List<File> files = unArchiver.unArchiveFiles(file);
-        return fileParser.getFullTable(files, limit);
+
+        List<FullTableModel> fullTableModels = fileParser.getFullTable(files, limit);
+
+        unArchiver.deleteFiles(files);
+        return fullTableModels;
     }
 
     @Override
     public FullTableModel parseFile(File file, long limit, String fileName) {
         File targetFile = unArchiver.unArchiveFile(file, fileName);
-        return fileParser.getFullTable(targetFile, limit);
+        FullTableModel fullTableModel = fileParser.getFullTable(targetFile, limit);
+
+        unArchiver.deleteFile(targetFile);
+        return fullTableModel;
     }
 
     @Override
     public List<String> getFileNames(File file) {
-        return unArchiver.unArchiveFiles(file)
+        List<File> files = unArchiver.unArchiveFiles(file);
+
+        List<String> names = files
                 .stream().map(File::getName)
                 .collect(Collectors.toList());
+
+        unArchiver.deleteFiles(files);
+
+        return names;
     }
 
 }

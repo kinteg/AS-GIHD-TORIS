@@ -12,4 +12,8 @@ public interface UnArchiver {
 
     File unArchiveFile(File file, String filename);
 
+    void deleteFiles(List<File> files);
+
+    void deleteFile(File file);
+
 }

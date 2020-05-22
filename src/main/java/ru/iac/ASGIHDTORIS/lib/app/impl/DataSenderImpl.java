@@ -60,6 +60,8 @@ public class DataSenderImpl implements DataSender {
             e.printStackTrace();
         }
 
+        unArchiver.deleteFile(findFile);
+
         return result;
     }
 
@@ -82,6 +84,8 @@ public class DataSenderImpl implements DataSender {
         Map<String, TableModel> tableModelMap = buildTableModels(readerMap, names);
 
         send(readerMap, tableModelMap);
+
+        unArchiver.deleteFiles(files);
 
         return true;
     }

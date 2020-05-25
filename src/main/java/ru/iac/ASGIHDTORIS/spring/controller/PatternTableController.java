@@ -107,7 +107,9 @@ public class PatternTableController {
     }
 
     @GetMapping("/getAllOldVersions")
-    public Page<PatternTable> getAllOldVersions(@RequestParam String oldName, @PageableDefault(sort = "dateKill", direction = Sort.Direction.DESC) Pageable pageable) {
+    public Page<PatternTable> getAllOldVersions(
+            @RequestParam String oldName,
+            @PageableDefault(sort = "dateKill", direction = Sort.Direction.DESC) Pageable pageable) {
         return patternTableRepo.findAllByOldNameAndIsActive(oldName, false, pageable);
     }
 
@@ -118,7 +120,10 @@ public class PatternTableController {
     }
 
     @PostMapping("/getAllSort")
-    public Page<PatternTable> getAllSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllSort(
+            @ModelAttribute PatternTableModel pattern,
+            @PageableDefault Pageable pageable,
+            @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
@@ -126,18 +131,25 @@ public class PatternTableController {
 
     @GetMapping("/getAll/{patternId}")
     @Cacheable(cacheNames = "getAllPatternTableByPatternId")
-    public Page<PatternTable> getAllByPatternId(@PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
+    public Page<PatternTable> getAllByPatternId
+            (@PathVariable Long patternId,
+             @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByPatternIdAndIsActive(patternId, pageable, true);
     }
 
     @GetMapping("/getAllBySource/{sourceId}")
     @Cacheable(cacheNames = "getAllPatternTableBySourceId")
-    public Page<PatternTable> getAllBySourceId(@PageableDefault(sort = "id") Pageable pageable, @PathVariable Long sourceId) {
+    public Page<PatternTable> getAllBySourceId(
+            @PageableDefault(sort = "id") Pageable pageable,
+            @PathVariable Long sourceId) {
         return patternTableRepo.findAllBySourceIdAndIsActive(sourceId, pageable, true);
     }
 
     @PostMapping("/getAllSort/{patternId}")
-    public Page<PatternTable> getAllByPatternIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllByPatternIdSort(
+            @ModelAttribute PatternTableModel pattern,
+            @PageableDefault Pageable pageable,
+            @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
         return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
@@ -157,7 +169,10 @@ public class PatternTableController {
     }
 
     @PostMapping("/getAllArchiveSort")
-    public Page<PatternTable> getAllArchiveSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllArchiveSort(
+            @ModelAttribute PatternTableModel pattern,
+            @PageableDefault Pageable pageable,
+            @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
         pattern.getHelpModel().setIsArchive(true);
@@ -166,12 +181,16 @@ public class PatternTableController {
 
     @GetMapping("/getAllArchive/{patternId}")
     @Cacheable(cacheNames = "getAllPatternTableArchiveByPatternId")
-    public Page<PatternTable> getAllArchiveByPatternId(@PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
+    public Page<PatternTable> getAllArchiveByPatternId(
+            @PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByPatternIdAndIsArchiveAndIsActive(patternId, true, pageable, true);
     }
 
     @PostMapping("/getAllArchiveSort/{patternId}")
-    public Page<PatternTable> getAllArchiveByPatternIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllArchiveByPatternIdSort(
+            @ModelAttribute PatternTableModel pattern,
+            @PageableDefault Pageable pageable,
+            @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         pattern.setIsActive(true);
@@ -179,12 +198,17 @@ public class PatternTableController {
     }
 
     @GetMapping("/getAllArchiveBySourceId/{sourceId}")
-    public Page<PatternTable> getAllArchiveBySourceId(@PathVariable Long sourceId, @PageableDefault(sort = "id") Pageable pageable) {
+    public Page<PatternTable> getAllArchiveBySourceId(
+            @PathVariable Long sourceId,
+            @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllBySourceIdAndIsArchiveAndIsActive(sourceId, true, pageable, true);
     }
 
     @PostMapping("/getAllArchiveSortBySourceId/{sourceId}")
-    public Page<PatternTable> getAllArchiveBySourceIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllArchiveBySourceIdSort(
+            @ModelAttribute PatternTableModel pattern,
+            @PageableDefault Pageable pageable,
+            @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         pattern.setIsActive(true);
@@ -198,7 +222,10 @@ public class PatternTableController {
     }
 
     @PostMapping("/getAllNotArchiveSort")
-    public Page<PatternTable> getAllNotArchiveSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllNotArchiveSort(
+            @ModelAttribute PatternTableModel pattern,
+            @PageableDefault Pageable pageable,
+            @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         pattern.setIsActive(true);
@@ -207,12 +234,16 @@ public class PatternTableController {
 
     @GetMapping("/getAllNotArchive/{patternId}")
     @Cacheable(cacheNames = "getAllPatternTableNotArchiveByPatternId")
-    public Page<PatternTable> getAllNotArchiveByPatternId(@PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
+    public Page<PatternTable> getAllNotArchiveByPatternId(
+            @PathVariable Long patternId, @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllByPatternIdAndIsArchiveAndIsActive(patternId, false, pageable, true);
     }
 
     @PostMapping("/getAllNotArchiveSort/{patternId}")
-    public Page<PatternTable> getAllNotArchiveByPatternIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllNotArchiveByPatternIdSort(
+            @ModelAttribute PatternTableModel pattern,
+            @PageableDefault Pageable pageable,
+            @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         pattern.setIsActive(true);
@@ -221,12 +252,17 @@ public class PatternTableController {
 
     @GetMapping("/getAllNotArchiveBySourceId/{sourceId}")
     @Cacheable(cacheNames = "getAllPatternTableNotArchiveBySourceId")
-    public Page<PatternTable> getAllNotArchiveBySourceId(@PathVariable Long sourceId, @PageableDefault(sort = "id") Pageable pageable) {
+    public Page<PatternTable> getAllNotArchiveBySourceId(
+            @PathVariable Long sourceId,
+            @PageableDefault(sort = "id") Pageable pageable) {
         return patternTableRepo.findAllBySourceIdAndIsArchiveAndIsActive(sourceId, false, pageable, true);
     }
 
     @PostMapping("/getAllNotArchiveSortBySourceIdSort/{sourceId}")
-    public Page<PatternTable> getAllNotArchiveBySourceIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+    public Page<PatternTable> getAllNotArchiveBySourceIdSort(
+            @ModelAttribute PatternTableModel pattern,
+            @PageableDefault Pageable pageable,
+            @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         pattern.setIsActive(true);

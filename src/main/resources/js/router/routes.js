@@ -27,6 +27,7 @@ import PatternTableUpdate from "../pages/patternTable/PatternTableUpdate.vue";
 import UploadDataToAnotherSystem from "../pages/uploadData/UploadDataToAnotherSystem.vue";
 import UploadDataForm from "../pages/uploadData/UploadDataForm.vue";
 import NotFoundPages from "../pages/NotFoundPages.vue";
+import LoginPage from "../pages/LoginPage.vue";
 
 const routes = [
     {
@@ -253,6 +254,12 @@ const routes = [
         path:'/notFound',
         component: NotFoundPages,
         name: 'NotFoundPages',
+    },
+
+    {
+        path:'/login',
+        component: LoginPage,
+        name: 'login',
     },
 
 

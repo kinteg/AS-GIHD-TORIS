@@ -9,12 +9,31 @@ import router from "./router/router.js";
 import App from "./pages/App.vue";
 import '@babel/polyfill'
 import store from './store/store'
+import {defaultConfig, setToken, torisInit} from './modules/auth'
 localeUI.use(defaultLang);
 
 Vue.use(VueRouter);
 
 Vue.use(VueResource);
 Vue.use(Element, { size: 'small', zIndex: 3000 });
+
+torisInit(
+    {
+        config: {
+            sys_id: "urn-eis-toris-gihd-uzd-2020",
+            domain: "test.toris.gov.spb.ru",
+            domain_proto: "https:"
+        },
+
+        error(){
+
+        },
+
+        success(data){
+            setToken(data.AISTOKEN);
+        }
+    }
+);
 
 new Vue({
     el: '#app',

@@ -14,11 +14,11 @@ export default new Vuex.Store({
         routes: routes
     },
 
-
     getters: {
         sidebar: state => state.sidebarMenu,
         permission_routers: state => state.routes
     },
+
     mutations: {
         setCollapse: state => {
             if (state.sidebarMenu.opened) {

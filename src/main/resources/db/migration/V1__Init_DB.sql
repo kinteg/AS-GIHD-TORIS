@@ -9,9 +9,7 @@ create table user_role
 create table usr
 (
     id         int8 not null,
-    first_name text not null,
-    last_name  text not null,
-    middleName text,
+    fio        text not null,
     secret_key text not null,
     primary key (id)
 );
@@ -282,8 +280,8 @@ create table pattern_table_file2
 
 create table source_set
 (
-    id int8 not null,
-    usr_id int8 not null,
+    id        int8 not null,
+    usr_id    int8 not null,
     source_id int8 not null,
     primary key (id),
     foreign key (usr_id) references usr (id)

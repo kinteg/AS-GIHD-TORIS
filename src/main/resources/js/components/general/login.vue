@@ -21,7 +21,9 @@
 
         mounted() {
             console.log(getToken());
-
+            AXIOS.get("/user/isAdmin/" + getToken()).then(response=>{
+                console.log(response);
+            })
         }
     }
 </script>

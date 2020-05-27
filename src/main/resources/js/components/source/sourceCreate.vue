@@ -180,6 +180,7 @@
 <script>
     import {AXIOS} from "../../AXIOS/http-common";
     import router from "../../router/router";
+    import {getToken} from "../../modules/auth";
     export default {
         name: "sourceCreate",
         data(){
@@ -313,6 +314,8 @@
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
                 formData.append("isArchive",false);
+                formData.append("token",getToken());
+
                 AXIOS.post("/source/create",
                     formData,
                     {

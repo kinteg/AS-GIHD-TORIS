@@ -533,6 +533,7 @@
     import router from "../../router/router";
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
+    import {getToken} from "../../modules/auth";
 
     export default {
         name: "sourceTable",
@@ -1062,6 +1063,8 @@
                 this.pagination.totalElements = response.data.totalElements;
                 this.sourceData = response.data.content;
             });
+
+
         }
     }
 </script>

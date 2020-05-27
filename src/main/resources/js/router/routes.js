@@ -17,9 +17,7 @@ import PatternLogs from "../pages/logs/PatternLogs.vue";
 import TableLogs from "../pages/logs/TableLogs.vue";
 import SourceLogsById from "../pages/logs/SourceLogsById.vue";
 import PatternLogsById from "../pages/logs/PatternTableLogsById.vue";
-import patternTableView from "../components/patternTable/patternTableView.vue";
 import OnePatternTableView from "../pages/patternTable/OnePatternTableView.vue";
-import PatternTableLogsById from "../pages/logs/PatternTableLogsById.vue";
 import TableLogsById from "../pages/logs/TableLogsById.vue";
 import ShowPatternTableArchive from "../pages/patternTable/ShowPatternTableArchive.vue";
 import ShowPatternTableNotArchive from "../pages/patternTable/ShowPatternTableNotArchive.vue";
@@ -28,7 +26,14 @@ import UploadDataToAnotherSystem from "../pages/uploadData/UploadDataToAnotherSy
 import UploadDataForm from "../pages/uploadData/UploadDataForm.vue";
 import NotFoundPages from "../pages/NotFoundPages.vue";
 import LoginPage from "../pages/LoginPage.vue";
+import {AXIOS} from "../AXIOS/http-common";
+import {getToken} from "../modules/auth";
 
+let hidden = false;
+AXIOS.get("/user/isAdmin/" + getToken()).then(response=>{
+    hidden = !response.data;
+    console.log(hidden);
+});
 const routes = [
     {
         path:'/source',
@@ -146,8 +151,10 @@ const routes = [
         component: Logs,
         meta: {
             title: 'Логи',
-            icon: 'el-icon-paperclip'
+            icon: 'el-icon-paperclip',
         },
+        hidden: hidden,
+
         children:[
             {
                 path:'sourceLogs',

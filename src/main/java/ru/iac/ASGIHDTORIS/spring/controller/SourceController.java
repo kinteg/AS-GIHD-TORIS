@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,7 @@ import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo2;
 import ru.iac.ASGIHDTORIS.spring.service.source.SourceService;
 import ru.iac.ASGIHDTORIS.spring.service.user.UserService;
-
+@Slf4j
 @RequestMapping("api/source/")
 @RestController
 public class SourceController {
@@ -41,6 +42,7 @@ public class SourceController {
             "getAllSourceNotArchive"},
             allEntries = true)
     public Source createSource(@ModelAttribute Source source, String token) {
+        log.info(token);
         return sourceService.createSource(source, userService.loginUser(token));
     }
 

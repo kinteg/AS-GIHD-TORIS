@@ -34,12 +34,8 @@ create table if not exists source
     date_deactivation timestamp,
     date_activation   timestamp not null default current_timestamp,
     last_update       timestamp not null default current_timestamp,
-    usr_id            int8,
     primary key (id),
-    unique (short_name),
-    foreign key (usr_id) references usr (id)
-        on delete cascade
-        on update cascade
+    unique (short_name)
 );
 
 create table if not exists pattern

@@ -47,7 +47,7 @@ public class UserController {
     public boolean isUser(@PathVariable String token) {
         return userRepo.existsBySecretKey(userService.loginUser(token).getSecretKey());
     }
-
+//может ли юзер менять сурс
     @GetMapping("isChangeSource/{token}/{sourceId}")
     public boolean isChangeSource(@PathVariable String token, @PathVariable Long sourceId) {
         User user = userService.loginUser(token);
@@ -84,8 +84,8 @@ public class UserController {
                 .stream().map(v -> userRepo.findById(sourceId)).collect(Collectors.toList());
     }
 
-    @GetMapping("getAllUserWithoutUser/{sourceId}")
-    public List<User> getAllUserWithoutUser(@PathVariable long sourceId) {
+    @GetMapping("getAllUserWithoutSource/{sourceId}")
+    public List<User> getAllUserWithoutSource(@PathVariable long sourceId) {
         return sourceSetRepo.findAllBySourceIdNot(sourceId)
                 .stream().map(v -> userRepo.findById(sourceId)).collect(Collectors.toList());
     }

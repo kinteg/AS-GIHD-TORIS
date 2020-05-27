@@ -32,4 +32,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    public static User createEmptyUser() {
+        return User.builder().id(-1L).secretKey("").fio("").build();
+    }
+
 }

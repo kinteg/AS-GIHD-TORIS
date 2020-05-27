@@ -11,4 +11,6 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     User findBySecretKey(String secret);
 
+    User findById(long id);
+
 }

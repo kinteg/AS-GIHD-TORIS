@@ -109,15 +109,6 @@ create table statuses
     unique (status)
 );
 
-create table objects
-(
-    id     int8 not null,
-    name   text not null,
-    object text not null,
-    primary key (id),
-    unique (object)
-);
-
 create table actions
 (
     id     int8 not null,
@@ -249,28 +240,6 @@ create table pattern_table_file
     id               int8      not null,
     pattern_table_id int8      not null,
     file             text      not null,
-    date_creation    timestamp not null default current_timestamp,
-    primary key (id),
-    foreign key (pattern_table_id) references pattern_table (id)
-        on delete cascade
-        on update cascade
-);
-
-create table pattern_file2
-(
-    id            int8      not null,
-    pattern_id    int8      not null,
-    date_creation timestamp not null default current_timestamp,
-    primary key (id),
-    foreign key (pattern_id) references pattern (id)
-        on delete cascade
-        on update cascade
-);
-
-create table pattern_table_file2
-(
-    id               int8      not null,
-    pattern_table_id int8      not null,
     date_creation    timestamp not null default current_timestamp,
     primary key (id),
     foreign key (pattern_table_id) references pattern_table (id)

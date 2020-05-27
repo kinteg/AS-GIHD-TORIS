@@ -71,7 +71,7 @@ public class SourceControllerAspect {
     public void beforeCallAtCreateSource(JoinPoint jp) {
         String args = Arrays
                 .stream(jp.getArgs())
-                .map(Object::toString)
+                .map(v -> v == null ? "" : v.toString())
                 .collect(Collectors.joining(",\n"));
         log.info("before " + jp.toString() + ", args=[" + args + "]");
     }

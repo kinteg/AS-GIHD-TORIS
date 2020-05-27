@@ -5,10 +5,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.iac.ASGIHDTORIS.spring.domain.Role;
+import ru.iac.ASGIHDTORIS.spring.domain.SourceSet;
 import ru.iac.ASGIHDTORIS.spring.domain.User;
+import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceSetRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.UserRepo;
 import ru.iac.ASGIHDTORIS.spring.service.user.UserService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("api/user/")
 @RestController
@@ -17,11 +23,13 @@ public class UserController {
     private final UserService userService;
     private final UserRepo userRepo;
     private final SourceSetRepo sourceSetRepo;
+    private final SourceRepo sourceRepo;
 
-    public UserController(UserService userService, UserRepo userRepo, SourceSetRepo sourceSetRepo) {
+    public UserController(UserService userService, UserRepo userRepo, SourceSetRepo sourceSetRepo, SourceRepo sourceRepo) {
         this.userService = userService;
         this.userRepo = userRepo;
         this.sourceSetRepo = sourceSetRepo;
+        this.sourceRepo = sourceRepo;
     }
 
     @SneakyThrows
@@ -32,14 +40,54 @@ public class UserController {
 
     @GetMapping("isAdmin/{token}")
     public boolean isAdmin(@PathVariable String token) {
+        return userRepo.findBySecretKey(userService.loginUser(token).getSecretKey()).getRoles().contains(Role.ADMIN);
+    }
+
+    @GetMapping("isUser/{token}")
+    public boolean isUser(@PathVariable String token) {
         return userRepo.existsBySecretKey(userService.loginUser(token).getSecretKey());
     }
 
     @GetMapping("isChangeSource/{token}/{sourceId}")
     public boolean isChangeSource(@PathVariable String token, @PathVariable Long sourceId) {
-        Long userId = userService.loginUser(token).getId();
+        User user = userService.loginUser(token);
 
-        return sourceSetRepo.existsBySourceIdAndUserId(sourceId, userId);
+        return user.getRoles().contains(Role.ADMIN) ||
+                sourceSetRepo.existsBySourceIdAndUserId(sourceId, user.getId());
+    }
+
+    @GetMapping("setUserInSource/{token}/{sourceId}/{secret}")
+    public boolean setUserInSource(
+            @PathVariable String token, @PathVariable Long sourceId, @PathVariable String secret) {
+
+        if (isAdmin(token) && sourceRepo.existsById(sourceId) && userRepo.existsBySecretKey(secret)) {
+            sourceSetRepo.save(
+                    SourceSet
+                            .builder()
+                            .userId(userRepo.findBySecretKey(secret).getId())
+                            .sourceId(sourceId)
+                            .build());
+            return true;
+        }
+
+        return false;
+    }
+
+    @GetMapping("getAllUser/")
+    public List<User> getAllUser() {
+        return userRepo.findAll();
+    }
+
+    @GetMapping("getAllUserWithSource/{sourceId}")
+    public List<User> getAllUserWithSource(@PathVariable long sourceId) {
+        return sourceSetRepo.findAllBySourceId(sourceId)
+                .stream().map(v -> userRepo.findById(sourceId)).collect(Collectors.toList());
+    }
+
+    @GetMapping("getAllUserWithoutUser/{sourceId}")
+    public List<User> getAllUserWithoutUser(@PathVariable long sourceId) {
+        return sourceSetRepo.findAllBySourceIdNot(sourceId)
+                .stream().map(v -> userRepo.findById(sourceId)).collect(Collectors.toList());
     }
 
 }

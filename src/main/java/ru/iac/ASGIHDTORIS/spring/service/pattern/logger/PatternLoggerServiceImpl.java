@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.spring.component.ba.BeforeAfter;
 import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
+import ru.iac.ASGIHDTORIS.spring.domain.User;
 
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class PatternLoggerServiceImpl implements PatternLoggerService {
     }
 
     @Override
-    public void createLogCreate(Pattern patternAfter) {
-        long loggerId = patternLoggerSender.afterCreate(patternAfter);
+    public void createLogCreate(Pattern patternAfter, User user) {
+        long loggerId = patternLoggerSender.afterCreate(patternAfter, user);
 
         if (patternAfter.getId() > 0) {
             patternBeforeAfter.afterCreate(patternAfter, loggerId);
@@ -33,15 +34,15 @@ public class PatternLoggerServiceImpl implements PatternLoggerService {
     }
 
     @Override
-    public void createLogPatternsArchive(List<Pattern> patternBefore, List<Pattern> patternAfter) {
+    public void createLogPatternsArchive(List<Pattern> patternBefore, List<Pattern> patternAfter, User user) {
         for (int i = 0; i < patternAfter.size() && i < patternBefore.size(); i++) {
-            createLogPatternArchive(patternBefore.get(i), patternAfter.get(i));
+            createLogPatternArchive(patternBefore.get(i), patternAfter.get(i), user);
         }
     }
 
     @Override
-    public void createLogPatternArchive(Pattern patternBefore, Pattern patternAfter) {
-        long loggerId = patternLoggerSender.afterArchive(patternAfter);
+    public void createLogPatternArchive(Pattern patternBefore, Pattern patternAfter, User user) {
+        long loggerId = patternLoggerSender.afterArchive(patternAfter, user);
 
         if (patternAfter.getId() > 0) {
             patternBeforeAfter.afterArchive(patternBefore, patternAfter, loggerId);
@@ -49,15 +50,15 @@ public class PatternLoggerServiceImpl implements PatternLoggerService {
     }
 
     @Override
-    public void createLogPatternsDeArchive(List<Pattern> patternBefore, List<Pattern> patternAfter) {
+    public void createLogPatternsDeArchive(List<Pattern> patternBefore, List<Pattern> patternAfter, User user) {
         for (int i = 0; i < patternAfter.size() && i < patternBefore.size(); i++) {
-            createLogPatternDeArchive(patternBefore.get(i), patternAfter.get(i));
+            createLogPatternDeArchive(patternBefore.get(i), patternAfter.get(i), user);
         }
     }
 
     @Override
-    public void createLogPatternDeArchive(Pattern patternBefore, Pattern patternAfter) {
-        long loggerId = patternLoggerSender.afterArchive(patternAfter);
+    public void createLogPatternDeArchive(Pattern patternBefore, Pattern patternAfter, User user) {
+        long loggerId = patternLoggerSender.afterArchive(patternAfter, user);
 
         if (patternAfter.getId() > 0) {
             patternBeforeAfter.afterArchive(patternBefore, patternAfter, loggerId);
@@ -65,9 +66,9 @@ public class PatternLoggerServiceImpl implements PatternLoggerService {
     }
 
     @Override
-    public void createLogPatternUpdate(Pattern patternBefore, Pattern patternAfter) {
+    public void createLogPatternUpdate(Pattern patternBefore, Pattern patternAfter, User user) {
 
-        long loggerId = patternLoggerSender.afterUpdate(patternAfter);
+        long loggerId = patternLoggerSender.afterUpdate(patternAfter, user);
 
         if (patternBefore.getId() > 0) {
             patternBeforeAfter.afterUpdate(patternBefore, patternAfter, loggerId);
@@ -76,8 +77,8 @@ public class PatternLoggerServiceImpl implements PatternLoggerService {
     }
 
     @Override
-    public void createLogIncrement(Pattern patternBefore, Pattern patternAfter) {
-        long loggerId = patternLoggerSender.afterUpdate(patternAfter);
+    public void createLogIncrement(Pattern patternBefore, Pattern patternAfter, User user) {
+        long loggerId = patternLoggerSender.afterUpdate(patternAfter, user);
 
         if (patternAfter.getId() > 0) {
             patternBeforeAfter.afterUpdate(patternBefore, patternAfter, loggerId);
@@ -85,8 +86,8 @@ public class PatternLoggerServiceImpl implements PatternLoggerService {
     }
 
     @Override
-    public void createLogDecrement(Pattern patternBefore, Pattern patternAfter) {
-        long loggerId = patternLoggerSender.afterUpdate(patternAfter);
+    public void createLogDecrement(Pattern patternBefore, Pattern patternAfter, User user) {
+        long loggerId = patternLoggerSender.afterUpdate(patternAfter, user);
 
         if (patternAfter.getId() > 0) {
             patternBeforeAfter.afterUpdate(patternBefore, patternAfter, loggerId);

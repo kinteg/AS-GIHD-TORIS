@@ -34,18 +34,18 @@ public class SourceServiceImpl implements SourceService {
     }
 
     @Override
-    public Source archiveSource(Long id) {
-        return buildArchiveSource(id);
+    public Source archiveSource(Long id, User user) {
+        return buildArchiveSource(id, user);
     }
 
     @Override
-    public Source deArchiveSource(Long id) {
-        return buildDeArchiveSource(id);
+    public Source deArchiveSource(Long id, User user) {
+        return buildDeArchiveSource(id, user);
     }
 
     @Override
-    public Source updateSource(Source source) {
-        return buildUpdateSource(source);
+    public Source updateSource(Source source, User user) {
+        return buildUpdateSource(source, user);
     }
 
     private Source buildSource(Source source, User user) {
@@ -57,7 +57,7 @@ public class SourceServiceImpl implements SourceService {
             return Source.getBadIdSource(-2);
         }
 
-        sourceLoggerService.createLogSourceCreate(sourceAfter);
+        sourceLoggerService.createLogSourceCreate(sourceAfter, user);
 
         sourceSetRepo.save(SourceSet.builder()
                 .sourceId(sourceAfter.getId())
@@ -66,27 +66,27 @@ public class SourceServiceImpl implements SourceService {
         return sourceAfter;
     }
 
-    private Source buildArchiveSource(long id) {
+    private Source buildArchiveSource(long id, User user) {
         if (sourceRepo.existsById(id)) {
-            return saveArchiveSource(id);
+            return saveArchiveSource(id, user);
         } else {
-            return buildBadArchiveSource();
+            return buildBadArchiveSource(user);
         }
     }
 
-    private Source buildDeArchiveSource(long id) {
+    private Source buildDeArchiveSource(long id, User user) {
         if (sourceRepo.existsById(id)) {
-            return saveDeArchiveSource(id);
+            return saveDeArchiveSource(id, user);
         } else {
-            return buildBadDeArchiveSource();
+            return buildBadDeArchiveSource(user);
         }
     }
 
-    private Source buildUpdateSource(Source source) {
+    private Source buildUpdateSource(Source source, User user) {
         if (!invalid(source)) {
-            return saveUpdateSource(source);
+            return saveUpdateSource(source, user);
         } else {
-            return buildInvalidSource(source);
+            return buildInvalidSource(source, user);
         }
     }
 
@@ -99,7 +99,7 @@ public class SourceServiceImpl implements SourceService {
         }
     }
 
-    private Source saveArchiveSource(long id) {
+    private Source saveArchiveSource(long id, User user) {
         Source sourceAfter = sourceRepo.findById(id);
         Source sourceBefore = Source.getArchiveInfo(sourceAfter);
 
@@ -107,12 +107,12 @@ public class SourceServiceImpl implements SourceService {
 
         sourceRepo.save(sourceAfter);
 
-        saveArchiveLog(sourceBefore, sourceAfter);
+        saveArchiveLog(sourceBefore, sourceAfter, user);
 
         return sourceAfter;
     }
 
-    private Source saveDeArchiveSource(long id) {
+    private Source saveDeArchiveSource(long id, User user) {
         Source sourceAfter = sourceRepo.findById(id);
         Source sourceBefore = Source.getDeArchiveInfo(sourceAfter);
 
@@ -120,76 +120,76 @@ public class SourceServiceImpl implements SourceService {
 
         sourceRepo.save(sourceAfter);
 
-        saveDeArchiveLog(sourceBefore, sourceAfter);
+        saveDeArchiveLog(sourceBefore, sourceAfter, user);
 
         return sourceAfter;
     }
 
-    private Source saveUpdateSource(Source source) {
+    private Source saveUpdateSource(Source source, User user) {
         Source beforeUpdate = new Source(sourceRepo.findById((long) source.getId()));
 
         source.setUpdateTime(beforeUpdate);
 
         Source afterUpdate = sourceRepo.save(source);
 
-        sourceLoggerService.createLogSourceUpdate(beforeUpdate, afterUpdate);
+        sourceLoggerService.createLogSourceUpdate(beforeUpdate, afterUpdate, user);
 
         return afterUpdate;
     }
 
-    private Source buildInvalidSource(Source source) {
+    private Source buildInvalidSource(Source source, User user) {
         if (source.getId() == null) {
-            return buildBadIdSource();
+            return buildBadIdSource(user);
 
         } else if (!sourceRepo.existsById(source.getId())) {
-            return buildNotExistSource();
+            return buildNotExistSource(user);
 
         } else {
-            return buildBadNameSource();
+            return buildBadNameSource(user);
         }
     }
 
-    private Source buildBadArchiveSource() {
+    private Source buildBadArchiveSource(User user) {
         Source sourceAfter = Source.getBadIdSource(-3);
         Source sourceBefore = Source.getBadIdSource(-3);
 
-        saveArchiveLog(sourceBefore, sourceAfter);
+        saveArchiveLog(sourceBefore, sourceAfter, user);
 
         return sourceAfter;
     }
 
-    private Source buildBadDeArchiveSource() {
+    private Source buildBadDeArchiveSource(User user) {
         Source sourceAfter = Source.getBadIdSource(-3);
         Source sourceBefore = Source.getBadIdSource(-3);
 
-        saveDeArchiveLog(sourceBefore, sourceAfter);
+        saveDeArchiveLog(sourceBefore, sourceAfter, user);
 
         return sourceAfter;
     }
 
-    private Source buildBadIdSource() {
+    private Source buildBadIdSource(User user) {
         Source sourceAfter = Source.getBadIdSource(-4);
         Source sourceBefore = Source.getBadIdSource(-4);
 
-        saveUpdateLog(sourceBefore, sourceAfter);
+        saveUpdateLog(sourceBefore, sourceAfter, user);
 
         return sourceAfter;
     }
 
-    private Source buildNotExistSource() {
+    private Source buildNotExistSource(User user) {
         Source sourceAfter = Source.getBadIdSource(-3);
         Source sourceBefore = Source.getBadIdSource(-3);
 
-        saveUpdateLog(sourceBefore, sourceAfter);
+        saveUpdateLog(sourceBefore, sourceAfter, user);
 
         return sourceAfter;
     }
 
-    private Source buildBadNameSource() {
+    private Source buildBadNameSource(User user) {
         Source sourceAfter = Source.getBadIdSource(-2);
         Source sourceBefore = Source.getBadIdSource(-2);
 
-        saveUpdateLog(sourceBefore, sourceAfter);
+        saveUpdateLog(sourceBefore, sourceAfter, user);
 
         return sourceAfter;
     }
@@ -203,16 +203,16 @@ public class SourceServiceImpl implements SourceService {
                 );
     }
 
-    private void saveArchiveLog(Source before, Source after) {
-        sourceLoggerService.createLogSourceArchive(before, after);
+    private void saveArchiveLog(Source before, Source after, User user) {
+        sourceLoggerService.createLogSourceArchive(before, after, user);
     }
 
-    private void saveDeArchiveLog(Source before, Source after) {
-        sourceLoggerService.createLogSourceDeArchive(before, after);
+    private void saveDeArchiveLog(Source before, Source after, User user) {
+        sourceLoggerService.createLogSourceDeArchive(before, after, user);
     }
 
-    private void saveUpdateLog(Source before, Source after) {
-        sourceLoggerService.createLogSourceUpdate(before, after);
+    private void saveUpdateLog(Source before, Source after, User user) {
+        sourceLoggerService.createLogSourceUpdate(before, after, user);
     }
 
 }

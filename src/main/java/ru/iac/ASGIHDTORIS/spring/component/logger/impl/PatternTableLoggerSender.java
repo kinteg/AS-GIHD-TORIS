@@ -3,10 +3,7 @@ package ru.iac.ASGIHDTORIS.spring.component.logger.impl;
 import org.springframework.stereotype.Component;
 import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.component.logger.error.ErrorCreator;
-import ru.iac.ASGIHDTORIS.spring.domain.Errors;
-import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
-import ru.iac.ASGIHDTORIS.spring.domain.PatternTableLogger;
-import ru.iac.ASGIHDTORIS.spring.domain.Statuses;
+import ru.iac.ASGIHDTORIS.spring.domain.*;
 import ru.iac.ASGIHDTORIS.spring.repo.ActionsRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableLoggerRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.StatusesRepo;
@@ -31,7 +28,7 @@ public class PatternTableLoggerSender implements LoggerSender<PatternTable> {
     }
 
     @Override
-    public Long afterCreate(PatternTable object) {
+    public Long afterCreate(PatternTable object, User user) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -47,14 +44,14 @@ public class PatternTableLoggerSender implements LoggerSender<PatternTable> {
                 .statuses(status)
                 .patternTableId(object.getId())
                 .actions(actionsRepo.findById(4))
-                .dateCreation(LocalDateTime.now())
+                .dateCreation(LocalDateTime.now()).usrId(user)
                 .build();
 
         return patternTableLoggerRepo.save(patternLogger).getId();
     }
 
     @Override
-    public Long afterArchive(PatternTable object) {
+    public Long afterArchive(PatternTable object, User user) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -77,14 +74,14 @@ public class PatternTableLoggerSender implements LoggerSender<PatternTable> {
     }
 
     @Override
-    public List<Long> afterArchive(List<PatternTable> object) {
+    public List<Long> afterArchive(List<PatternTable> object, User user) {
         return object.stream()
-                .map(this::afterArchive)
+                .map(v -> afterArchive(v, user))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Long afterDeArchive(PatternTable object) {
+    public Long afterDeArchive(PatternTable object, User user) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -107,14 +104,14 @@ public class PatternTableLoggerSender implements LoggerSender<PatternTable> {
     }
 
     @Override
-    public List<Long> afterDeArchive(List<PatternTable> object) {
+    public List<Long> afterDeArchive(List<PatternTable> object, User user) {
         return object.stream()
-                .map(this::afterDeArchive)
+                .map(v -> afterDeArchive(v, user))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Long afterUpdate(PatternTable object) {
+    public Long afterUpdate(PatternTable object, User user) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 

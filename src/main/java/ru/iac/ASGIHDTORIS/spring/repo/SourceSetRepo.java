@@ -13,4 +13,6 @@ public interface SourceSetRepo extends JpaRepository<SourceSet, Long> {
 
     List<SourceSet> findAllBySourceIdNot(Long sourceId);
 
+    void deleteBySourceIdAndUserId(Long sourceId, Long userId);
+
 }

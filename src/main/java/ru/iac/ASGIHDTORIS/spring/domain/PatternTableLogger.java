@@ -37,4 +37,8 @@ public class PatternTableLogger {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime dateCreation;
 
+    @OneToOne
+    @JoinColumn(name = "usr_id", referencedColumnName = "id")
+    private User usrId;
+
 }

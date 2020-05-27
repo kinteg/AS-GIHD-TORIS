@@ -73,6 +73,18 @@ public class UserController {
         return false;
     }
 
+    @GetMapping("deleteUserInSource/{token}/{sourceId}/{secret}")
+    public boolean deleteUserInSource(
+            @PathVariable String token, @PathVariable Long sourceId, @PathVariable String secret) {
+
+        if (isAdmin(token) && sourceRepo.existsById(sourceId) && userRepo.existsBySecretKey(secret)) {
+            sourceSetRepo.deleteBySourceIdAndUserId(sourceId, userRepo.findBySecretKey(secret).getId());
+            return true;
+        }
+
+        return false;
+    }
+
     @GetMapping("getAllUser/")
     public List<User> getAllUser() {
         return userRepo.findAll();

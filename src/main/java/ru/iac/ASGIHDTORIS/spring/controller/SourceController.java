@@ -23,16 +23,18 @@ public class SourceController {
     private final SourceRepo2 sourceRepo2;
     private final SourceService sourceService;
     private final UserService userService;
+    private final UserController userController;
 
     public SourceController(
             SourceRepo sourceRepo,
             SourceRepo2 sourceRepo2,
-            SourceService sourceService, UserService userService) {
+            SourceService sourceService, UserService userService, UserController userController) {
 
         this.sourceRepo = sourceRepo;
         this.sourceRepo2 = sourceRepo2;
         this.sourceService = sourceService;
         this.userService = userService;
+        this.userController = userController;
     }
 
     @PostMapping("/create")
@@ -111,24 +113,30 @@ public class SourceController {
         return sourceRepo2.findAllSourceByQuery(pageable, source);
     }
 
-    @GetMapping("/archive/{id}")
+    @GetMapping("/archive/{id}/{token}")
     @CacheEvict(value = {
             "checkSourceName", "getBySourceId",
             "getAllSource", "getAllSourceArchive",
             "getAllSourceNotArchive"},
             beforeInvocation = true, allEntries = true)
-    public Source archiveSource(@PathVariable Long id) {
-        return sourceService.archiveSource(id);
+    public Source archiveSource(@PathVariable Long id, @PathVariable String token) {
+        if (userController.isChangeSource(token, id)) {
+            return sourceService.archiveSource(id, userService.loginUser(token));
+        }
+        return null;
     }
 
-    @GetMapping("/deArchive/{id}")
+    @GetMapping("/deArchive/{id}/{token}")
     @CacheEvict(value = {
             "checkSourceName", "getBySourceId",
             "getAllSource", "getAllSourceArchive",
             "getAllSourceNotArchive"},
             beforeInvocation = true, allEntries = true)
-    public Source deArchiveSource(@PathVariable Long id) {
-        return sourceService.deArchiveSource(id);
+    public Source deArchiveSource(@PathVariable Long id, @PathVariable String token) {
+        if (userController.isChangeSource(token, id)) {
+            return sourceService.deArchiveSource(id, userService.loginUser(token));
+        }
+        return null;
     }
 
     @PostMapping("/update")
@@ -137,8 +145,11 @@ public class SourceController {
             "getAllSource", "getAllSourceArchive",
             "getAllSourceNotArchive"},
             beforeInvocation = true, allEntries = true)
-    public Source updateSource(@ModelAttribute Source source) {
-        return sourceService.updateSource(source);
+    public Source updateSource(@ModelAttribute Source source, String token) {
+        if (userController.isChangeSource(token, source.getId())) {
+            return sourceService.updateSource(source, userService.loginUser(token));
+        }
+        return null;
     }
 
     @GetMapping("/isArchive/{id}")

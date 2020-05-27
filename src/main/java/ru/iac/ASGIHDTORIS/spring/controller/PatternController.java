@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternModel;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
+import ru.iac.ASGIHDTORIS.spring.domain.User;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo2;
 import ru.iac.ASGIHDTORIS.spring.service.pattern.PatternService;
@@ -42,8 +43,8 @@ public class PatternController {
             "getAllPatternNotArchive",
             "getAllPatternNotArchiveBySourceId"},
             allEntries = true)
-    public Pattern createPattern(@ModelAttribute Pattern pattern) {
-        return patternService.createPattern(pattern);
+    public Pattern createPattern(@ModelAttribute Pattern pattern, User user) {
+        return patternService.createPattern(pattern, user);
     }
 
     @GetMapping("/{id}")
@@ -156,8 +157,8 @@ public class PatternController {
             "getAllPatternNotArchive",
             "getAllPatternNotArchiveBySourceId"},
             allEntries = true)
-    public Pattern archivePattern(@PathVariable Long id) {
-        return patternService.archivePattern(id);
+    public Pattern archivePattern(@PathVariable Long id, User user) {
+        return patternService.archivePattern(id, user);
     }
 
     @GetMapping("/deArchive/{id}")
@@ -169,8 +170,8 @@ public class PatternController {
             "getAllPatternNotArchive",
             "getAllPatternNotArchiveBySourceId"},
             allEntries = true)
-    public Pattern deArchivePattern(@PathVariable Long id) {
-        return patternService.deArchivePattern(id);
+    public Pattern deArchivePattern(@PathVariable Long id, User user) {
+        return patternService.deArchivePattern(id, user);
     }
 
     @GetMapping("/archivePatterns/{sourceId}")
@@ -182,8 +183,8 @@ public class PatternController {
             "getAllPatternNotArchive",
             "getAllPatternNotArchiveBySourceId"},
             allEntries = true)
-    public List<Pattern> archivePatterns(@PathVariable Long sourceId) {
-        return patternService.archivePatterns(sourceId);
+    public List<Pattern> archivePatterns(@PathVariable Long sourceId, User user) {
+        return patternService.archivePatterns(sourceId, user);
     }
 
     @GetMapping("/deArchivePatterns/{sourceId}")
@@ -195,8 +196,8 @@ public class PatternController {
             "getAllPatternNotArchive",
             "getAllPatternNotArchiveBySourceId"},
             allEntries = true)
-    public List<Pattern> deArchivePatterns(@PathVariable Long sourceId) {
-        return patternService.deArchivePatterns(sourceId);
+    public List<Pattern> deArchivePatterns(@PathVariable Long sourceId, User user) {
+        return patternService.deArchivePatterns(sourceId, user);
     }
 
     @PostMapping("/update")
@@ -208,8 +209,8 @@ public class PatternController {
             "getAllPatternNotArchive",
             "getAllPatternNotArchiveBySourceId"},
             allEntries = true)
-    public Pattern update(@ModelAttribute Pattern pattern) {
-        return patternService.updatePattern(pattern);
+    public Pattern update(@ModelAttribute Pattern pattern, User user) {
+        return patternService.updatePattern(pattern, user);
     }
 
     @GetMapping("/isArchive/{id}")

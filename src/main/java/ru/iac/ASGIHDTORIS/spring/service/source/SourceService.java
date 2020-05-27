@@ -10,10 +10,10 @@ public interface SourceService {
 
     Source createSource(Source source, User user);
 
-    Source archiveSource(Long id);
+    Source archiveSource(Long id, User user);
 
-    Source deArchiveSource(Long id);
+    Source deArchiveSource(Long id, User user);
 
-    Source updateSource(@ModelAttribute Source source);
+    Source updateSource(Source source, User user);
 
 }

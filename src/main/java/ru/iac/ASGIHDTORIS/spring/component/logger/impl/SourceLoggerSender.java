@@ -3,10 +3,7 @@ package ru.iac.ASGIHDTORIS.spring.component.logger.impl;
 import org.springframework.stereotype.Component;
 import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.component.logger.error.ErrorCreator;
-import ru.iac.ASGIHDTORIS.spring.domain.Errors;
-import ru.iac.ASGIHDTORIS.spring.domain.Source;
-import ru.iac.ASGIHDTORIS.spring.domain.SourceLogger;
-import ru.iac.ASGIHDTORIS.spring.domain.Statuses;
+import ru.iac.ASGIHDTORIS.spring.domain.*;
 import ru.iac.ASGIHDTORIS.spring.repo.ActionsRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceLoggerRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.StatusesRepo;
@@ -31,7 +28,7 @@ public class SourceLoggerSender implements LoggerSender<Source> {
     }
 
     @Override
-    public Long afterCreate(Source object) {
+    public Long afterCreate(Source object, User user) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -48,13 +45,14 @@ public class SourceLoggerSender implements LoggerSender<Source> {
                 .sourceId(object.getId())
                 .actions(actionsRepo.findById(4))
                 .dateCreation(LocalDateTime.now())
+                .usrId(user)
                 .build();
 
         return sourceLoggerRepo.save(sourceLogger).getId();
     }
 
     @Override
-    public Long afterArchive(Source object) {
+    public Long afterArchive(Source object, User user) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -71,20 +69,21 @@ public class SourceLoggerSender implements LoggerSender<Source> {
                 .sourceId(object.getId())
                 .actions(actionsRepo.findById(2))
                 .dateCreation(LocalDateTime.now())
+                .usrId(user)
                 .build();
 
         return sourceLoggerRepo.save(sourceLogger).getId();
     }
 
     @Override
-    public List<Long> afterArchive(List<Source> object) {
+    public List<Long> afterArchive(List<Source> object, User user) {
         return object.stream()
-                .map(this::afterArchive)
+                .map(v -> afterArchive(v, user))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Long afterDeArchive(Source object) {
+    public Long afterDeArchive(Source object, User user) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -101,20 +100,21 @@ public class SourceLoggerSender implements LoggerSender<Source> {
                 .sourceId(object.getId())
                 .actions(actionsRepo.findById(3))
                 .dateCreation(LocalDateTime.now())
+                .usrId(user)
                 .build();
 
         return sourceLoggerRepo.save(sourceLogger).getId();
     }
 
     @Override
-    public List<Long> afterDeArchive(List<Source> object) {
+    public List<Long> afterDeArchive(List<Source> object, User user) {
         return object.stream()
-                .map(this::afterDeArchive)
+                .map(v -> afterDeArchive(v, user))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Long afterUpdate(Source object) {
+    public Long afterUpdate(Source object, User user) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -131,6 +131,7 @@ public class SourceLoggerSender implements LoggerSender<Source> {
                 .sourceId(object.getId())
                 .actions(actionsRepo.findById(5))
                 .dateCreation(LocalDateTime.now())
+                .usrId(user)
                 .build();
 
         return sourceLoggerRepo.save(sourceLogger).getId();

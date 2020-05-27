@@ -15,6 +15,7 @@ import ru.iac.ASGIHDTORIS.lib.lib.common.model.TableModelStatus;
 import ru.iac.ASGIHDTORIS.spring.component.ba.BeforeAfter;
 import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
+import ru.iac.ASGIHDTORIS.spring.domain.User;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.TableRepo;
 import ru.iac.ASGIHDTORIS.spring.service.pattern.PatternService;
@@ -52,7 +53,7 @@ public class PatternTableServiceImpl implements PatternTableService {
     }
 
     @Override
-    public PatternTableModelStatus createPatternTable(TableModel tableModel, DataModelList dataModelList, Long patternId) {
+    public PatternTableModelStatus createPatternTable(TableModel tableModel, DataModelList dataModelList, Long patternId, User user) {
         PatternTableModelStatus patternAfter;
         long loggerId;
 
@@ -62,21 +63,21 @@ public class PatternTableServiceImpl implements PatternTableService {
                     .tableModel(TableModelStatus.emptyTableModelStatus())
                     .patternTable(PatternTable.builder().id(Long.parseLong("-1")).build())
                     .build();
-            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable());
+            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable(), user);
         } else if (patternTableRepo.existsByNameTable(tableModel.getTableName())) {
             patternAfter = PatternTableModelStatus
                     .builder()
                     .tableModel(TableModelStatus.emptyTableModelStatus())
                     .patternTable(PatternTable.builder().id(Long.parseLong("-2")).build())
                     .build();
-            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable());
+            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable(), user);
         } else if (!dataModelListValidator.isValid(dataModelList)) {
             patternAfter = PatternTableModelStatus
                     .builder()
                     .tableModel(TableModelStatus.emptyTableModelStatus())
                     .patternTable(PatternTable.builder().id(Long.parseLong("-1")).build())
                     .build();
-            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable());
+            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable(), user);
         } else {
 
             dataModelCreator.setDataModel(dataModelList);
@@ -84,7 +85,7 @@ public class PatternTableServiceImpl implements PatternTableService {
             tableModel.setModels(dataModels);
 
             patternAfter = tableCreatorService.addTable(tableModel, patternId);
-            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable());
+            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable(), user);
 
         }
 
@@ -108,7 +109,7 @@ public class PatternTableServiceImpl implements PatternTableService {
 
 
     @Override
-    public PatternTable archivePatternTable(Long id) {
+    public PatternTable archivePatternTable(Long id, User user) {
         PatternTable patternBefore, patternAfter;
 
         if (id == null) {
@@ -128,10 +129,10 @@ public class PatternTableServiceImpl implements PatternTableService {
             patternAfter.setDateDeactivation(LocalDateTime.now());
 
             patternTableRepo.save(patternAfter);
-            patternService.decrementFiles(patternAfter.getPatternId(), 1);
+            patternService.decrementFiles(patternAfter.getPatternId(), 1, user);
         }
 
-        long loggerId = patternTableLoggerSender.afterArchive(patternAfter);
+        long loggerId = patternTableLoggerSender.afterArchive(patternAfter, user);
 
         if (patternAfter.getId() > 0) {
             patternTableBeforeAfter.afterArchive(patternBefore, patternAfter, loggerId);
@@ -141,7 +142,7 @@ public class PatternTableServiceImpl implements PatternTableService {
     }
 
     @Override
-    public PatternTable deArchivePatternTable(Long id) {
+    public PatternTable deArchivePatternTable(Long id, User user) {
         PatternTable patternBefore, patternAfter;
 
         if (id == null) {
@@ -162,10 +163,10 @@ public class PatternTableServiceImpl implements PatternTableService {
 
             patternTableRepo.save(patternAfter);
 
-            patternService.incrementFiles(patternAfter.getPatternId(), 1);
+            patternService.incrementFiles(patternAfter.getPatternId(), 1, user);
         }
 
-        long loggerId = patternTableLoggerSender.afterDeArchive(patternAfter);
+        long loggerId = patternTableLoggerSender.afterDeArchive(patternAfter, user);
 
         if (patternAfter.getId() > 0) {
             patternTableBeforeAfter.afterArchive(patternBefore, patternAfter, loggerId);
@@ -175,7 +176,7 @@ public class PatternTableServiceImpl implements PatternTableService {
     }
 
     @Override
-    public List<PatternTable> archivePatternTablesByPatternId(Long patternId) {
+    public List<PatternTable> archivePatternTablesByPatternId(Long patternId, User user) {
         List<PatternTable> patternsBefore, patternsAfter;
 
         if (patternId == null) {
@@ -206,10 +207,10 @@ public class PatternTableServiceImpl implements PatternTableService {
 
             patternsAfter = patternTableRepo.saveAll(patternsAfter);
 
-            patternService.decrementFiles(patternsAfter.get(0).getPatternId(), patternsAfter.size());
+            patternService.decrementFiles(patternsAfter.get(0).getPatternId(), patternsAfter.size(), user);
         }
 
-        List<Long> loggerId = patternTableLoggerSender.afterArchive(patternsAfter);
+        List<Long> loggerId = patternTableLoggerSender.afterArchive(patternsAfter, user);
 
         if (patternsAfter.get(0).getId() > 0) {
             for (int i = 0; i < patternsAfter.size() && i < patternsBefore.size() && i < loggerId.size(); i++) {
@@ -223,7 +224,7 @@ public class PatternTableServiceImpl implements PatternTableService {
     }
 
     @Override
-    public List<PatternTable> deArchivePatternTablesByPatternId(Long patternId) {
+    public List<PatternTable> deArchivePatternTablesByPatternId(Long patternId, User user) {
         List<PatternTable> patternsBefore, patternsAfter;
 
         if (patternId == null) {
@@ -253,10 +254,10 @@ public class PatternTableServiceImpl implements PatternTableService {
                     .collect(Collectors.toList());
 
             patternsAfter = patternTableRepo.saveAll(patternsAfter);
-            patternService.incrementFiles(patternsAfter.get(0).getPatternId(), patternsAfter.size());
+            patternService.incrementFiles(patternsAfter.get(0).getPatternId(), patternsAfter.size(), user);
         }
 
-        List<Long> loggerId = patternTableLoggerSender.afterDeArchive(patternsAfter);
+        List<Long> loggerId = patternTableLoggerSender.afterDeArchive(patternsAfter, user);
 
         if (patternsAfter.get(0).getId() > 0) {
             for (int i = 0; i < patternsAfter.size() && i < patternsBefore.size() && i < loggerId.size(); i++) {
@@ -270,7 +271,7 @@ public class PatternTableServiceImpl implements PatternTableService {
     }
 
     @Override
-    public List<PatternTable> archivePatternTablesBySourceId(Long id) {
+    public List<PatternTable> archivePatternTablesBySourceId(Long id, User user) {
         List<PatternTable> patternsBefore, patternsAfter;
 
         if (id == null) {
@@ -308,10 +309,10 @@ public class PatternTableServiceImpl implements PatternTableService {
                     .distinct()
                     .collect(Collectors.toList());
 
-            patternService.decrementFiles(ids);
+            patternService.decrementFiles(ids, user);
         }
 
-        List<Long> loggerId = patternTableLoggerSender.afterArchive(patternsAfter);
+        List<Long> loggerId = patternTableLoggerSender.afterArchive(patternsAfter, user);
 
         if (patternsAfter.get(0).getId() > 0) {
             for (int i = 0; i < patternsAfter.size() && i < patternsBefore.size() && i < loggerId.size(); i++) {
@@ -325,7 +326,7 @@ public class PatternTableServiceImpl implements PatternTableService {
     }
 
     @Override
-    public List<PatternTable> deArchivePatternTablesBySourceId(Long id) {
+    public List<PatternTable> deArchivePatternTablesBySourceId(Long id, User user) {
         List<PatternTable> patternsBefore, patternsAfter;
 
         if (id == null) {
@@ -363,10 +364,10 @@ public class PatternTableServiceImpl implements PatternTableService {
                     .distinct()
                     .collect(Collectors.toList());
 
-            patternService.incrementFiles(ids);
+            patternService.incrementFiles(ids, user);
         }
 
-        List<Long> loggerId = patternTableLoggerSender.afterDeArchive(patternsAfter);
+        List<Long> loggerId = patternTableLoggerSender.afterDeArchive(patternsAfter, user);
 
         if (patternsAfter.get(0).getId() > 0) {
             for (int i = 0; i < patternsAfter.size() && i < patternsBefore.size() && i < loggerId.size(); i++) {
@@ -380,7 +381,7 @@ public class PatternTableServiceImpl implements PatternTableService {
     }
 
     @Override
-    public PatternTableModelStatus updatePatternTable(TableModel tableModel, DataModelList dataModelList, Long patternTableId) {
+    public PatternTableModelStatus updatePatternTable(TableModel tableModel, DataModelList dataModelList, Long patternTableId, User user) {
         if (patternTableRepo.existsById(patternTableId)) {
 
             PatternTable patternTable = patternTableRepo.findById((long) patternTableId);
@@ -404,7 +405,7 @@ public class PatternTableServiceImpl implements PatternTableService {
                 patternAfter = tableCreatorService.updateTable(tableModel, patternTable);
 
             }
-            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable());
+            loggerId = patternTableLoggerSender.afterCreate(patternAfter.getPatternTable(), user);
 
             if (patternAfter.getPatternTable().getId() > 0) {
                 patternTableBeforeAfter.afterCreate(patternAfter.getPatternTable(), loggerId);

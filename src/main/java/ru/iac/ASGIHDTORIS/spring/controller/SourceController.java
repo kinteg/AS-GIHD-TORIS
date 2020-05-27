@@ -12,6 +12,7 @@ import ru.iac.ASGIHDTORIS.spring.domain.Source;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo2;
 import ru.iac.ASGIHDTORIS.spring.service.source.SourceService;
+import ru.iac.ASGIHDTORIS.spring.service.user.UserService;
 
 @RequestMapping("api/source/")
 @RestController
@@ -20,15 +21,17 @@ public class SourceController {
     private final SourceRepo sourceRepo;
     private final SourceRepo2 sourceRepo2;
     private final SourceService sourceService;
+    private final UserService userService;
 
     public SourceController(
             SourceRepo sourceRepo,
             SourceRepo2 sourceRepo2,
-            SourceService sourceService) {
+            SourceService sourceService, UserService userService) {
 
         this.sourceRepo = sourceRepo;
         this.sourceRepo2 = sourceRepo2;
         this.sourceService = sourceService;
+        this.userService = userService;
     }
 
     @PostMapping("/create")
@@ -37,8 +40,8 @@ public class SourceController {
             "getAllSource", "getAllSourceArchive",
             "getAllSourceNotArchive"},
             allEntries = true)
-    public Source createSource(@ModelAttribute Source source) {
-        return sourceService.createSource(source);
+    public Source createSource(@ModelAttribute Source source, String token) {
+        return sourceService.createSource(source, userService.loginUser(token));
     }
 
     @GetMapping("/checkName")

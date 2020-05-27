@@ -36,4 +36,8 @@ public class User {
         return User.builder().id(-1L).secretKey("").fio("").build();
     }
 
+    public boolean isEmpty() {
+        return id == -1L && secretKey.equals("") && fio.equals("");
+    }
+
 }

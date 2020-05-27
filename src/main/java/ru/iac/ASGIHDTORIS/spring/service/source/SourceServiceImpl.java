@@ -3,7 +3,10 @@ package ru.iac.ASGIHDTORIS.spring.service.source;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
+import ru.iac.ASGIHDTORIS.spring.domain.SourceSet;
+import ru.iac.ASGIHDTORIS.spring.domain.User;
 import ru.iac.ASGIHDTORIS.spring.repo.SourceRepo;
+import ru.iac.ASGIHDTORIS.spring.repo.SourceSetRepo;
 import ru.iac.ASGIHDTORIS.spring.service.source.logger.SourceLoggerService;
 
 @Service
@@ -12,17 +15,22 @@ public class SourceServiceImpl implements SourceService {
 
     private final SourceRepo sourceRepo;
     private final SourceLoggerService sourceLoggerService;
+    private final SourceSetRepo sourceSetRepo;
 
     public SourceServiceImpl(
             SourceRepo sourceRepo,
-            SourceLoggerService sourceLoggerService) {
+            SourceLoggerService sourceLoggerService, SourceSetRepo sourceSetRepo) {
         this.sourceRepo = sourceRepo;
         this.sourceLoggerService = sourceLoggerService;
+        this.sourceSetRepo = sourceSetRepo;
     }
 
-    public Source createSource(Source source) {
+    public Source createSource(Source source, User user) {
+        if (user.isEmpty()) {
+            return Source.getBadIdSource(-1);
+        }
         source.setCreateTime();
-        return buildSource(source);
+        return buildSource(source, user);
     }
 
     @Override
@@ -40,7 +48,7 @@ public class SourceServiceImpl implements SourceService {
         return buildUpdateSource(source);
     }
 
-    private Source buildSource(Source source) {
+    private Source buildSource(Source source, User user) {
         Source sourceAfter;
 
         if (!sourceRepo.existsByShortName(source.getShortName())) {
@@ -50,6 +58,10 @@ public class SourceServiceImpl implements SourceService {
         }
 
         sourceLoggerService.createLogSourceCreate(sourceAfter);
+
+        sourceSetRepo.save(SourceSet.builder()
+                .sourceId(sourceAfter.getId())
+                .userId(user.getId()).build());
 
         return sourceAfter;
     }

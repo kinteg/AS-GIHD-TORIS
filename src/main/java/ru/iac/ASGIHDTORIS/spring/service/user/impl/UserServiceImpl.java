@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
         return register(user, token);
     }
 
-    private User getUserInfo(String token)  {
+    private User getUserInfo(String token) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<User> entity = new HttpEntity<>(createHeader(token));
 
@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService {
             return createUser((JSONObject) parser.parse(object.get("data").toString()));
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("хуй");
-            return null;
+
+            return User.createEmptyUser();
         }
     }
 
@@ -79,13 +79,15 @@ public class UserServiceImpl implements UserService {
     }
 
     private User register(User user, String token) {
-        if (user != null && !userRepo.existsBySecretKey(user.getSecretKey())) {
+        if (!userRepo.existsBySecretKey(user.getSecretKey())) {
             try {
                 user.setRoles(getRoles(token));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             user = userRepo.save(user);
+        } else if (userRepo.existsBySecretKey(user.getSecretKey())) {
+            user = userRepo.findBySecretKey(user.getSecretKey());
         }
 
         return user;

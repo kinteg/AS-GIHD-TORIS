@@ -1,5 +1,7 @@
 import './widget'
 import { setToken } from './cookies'
+import {AXIOS} from "../../AXIOS/http-common";
+import response from "vue-resource/src/http/response";
 
 export * from './cookies'
 
@@ -50,6 +52,9 @@ export function torisInit ({ config, success, error }) {
   window.addEventListener('TORISWidgetInitComplete', () =>
       window.TORIS.userProfile(result => {
         window.TORIS._info('Профиль пользователя:', result);
+        AXIOS.get("user/acceptToken/" + result.data.AISTOKEN).then(response => {
+          console.log(response);
+        });
         if (result && result.data) {
           success(result.data)
         } else if (result.code === 103) {

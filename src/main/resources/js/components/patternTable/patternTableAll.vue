@@ -389,8 +389,23 @@
                 document.getElementById("check7").click();
             },
 
+            deArchiveTable(id){
+                AXIOS.get("/tableCreator/deArchive/" + id + "/" + getToken()).then(response => {
+                    if(response.data.name !== ""){
+                        this.notify('Успешно','Таблица была активирована','success');
+                        this.updatePage();
+                    } else {
+                        this.notify('Ошибка','Таблица не была активирована','error');
+                    }
+                });
+            },
+
+            deArchiveOneTable(id){
+                this.deArchiveTable(id);
+            },
+
             deleteTable(id) {
-                AXIOS.get("tableCreator/archive/" + id + "/" + getToken()).then(response => {
+                AXIOS.get("/tableCreator/archive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была архивирована','success');
                         this.updatePage();
@@ -465,20 +480,6 @@
                 })
             },
 
-            deArchiveTable(id){
-                AXIOS.get("tableCreator/deArchive/" + id + "/" + getToken()).then(response => {
-                    if(response.data.name !== ""){
-                        this.notify('Успешно','Таблица была активирована','success');
-                        this.updatePage();
-                    } else {
-                        this.notify('Ошибка','Таблица не была активирована','error');
-                    }
-                });
-            },
-
-            deArchiveOneTable(id){
-                this.deArchiveTable(id);
-            },
 
             onCurrentChange(value) {
                 this.pagination.currentPage = value;

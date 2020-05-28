@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.component.logger.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.component.logger.error.ErrorCreator;
@@ -11,7 +12,7 @@ import ru.iac.ASGIHDTORIS.spring.repo.StatusesRepo;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Component
 public class PatternTableLoggerSender implements LoggerSender<PatternTable> {
 
@@ -37,7 +38,7 @@ public class PatternTableLoggerSender implements LoggerSender<PatternTable> {
         } else {
             status = statusesRepo.findById(5);
         }
-
+        log.info(user.toString());
         PatternTableLogger patternLogger = PatternTableLogger
                 .builder()
                 .errors(error)

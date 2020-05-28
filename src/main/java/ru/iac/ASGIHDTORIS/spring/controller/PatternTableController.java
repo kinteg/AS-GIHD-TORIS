@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ import ru.iac.ASGIHDTORIS.spring.service.patterTable.PatternTableService;
 import ru.iac.ASGIHDTORIS.spring.service.user.UserService;
 
 import java.util.List;
-
+@Slf4j
 @RequestMapping("api/tableCreator/")
 @RestController
 public class PatternTableController {
@@ -300,7 +301,9 @@ public class PatternTableController {
             "existByPatternTableName"},
             allEntries = true)
     public PatternTable archivePattern(@PathVariable Long id, @PathVariable String token) {
+        log.error(patternTableRepo.findById((long) id).getSourceId() + "archive");
         if (userController.isChangeSource(token, patternTableRepo.findById((long) id).getSourceId())) {
+            log.info("huiarchive");
             return patternTableService.archivePatternTable(id, userService.loginUser(token));
         }
         return null;
@@ -321,7 +324,9 @@ public class PatternTableController {
             "existByPatternTableName"},
             allEntries = true)
     public PatternTable deArchivePattern(@PathVariable Long id,@PathVariable String token) {
+        log.error(patternTableRepo.findById((long) id).getSourceId() + "deArchive");
         if (userController.isChangeSource(token, patternTableRepo.findById((long) id).getSourceId())) {
+            log.info("huideArchive");
             return patternTableService.deArchivePatternTable(id, userService.loginUser(token));
         }
         return null;

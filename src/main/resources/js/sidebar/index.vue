@@ -36,7 +36,6 @@
                 'sidebar'
             ]),
             isCollapse () {
-                console.log(this.sidebar.opened );
                 return !this.sidebar.opened
             }
         }

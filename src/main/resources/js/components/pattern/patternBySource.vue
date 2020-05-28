@@ -495,6 +495,7 @@
                     this.pattern.key = key;
                     this.pattern.sort = "asc";
                 }
+                console.log(this.sourceId);
                 let formData = new FormData();
                 formData.append("isArchive",this.value);
                 formData.append("sort",this.pattern.sort);
@@ -505,7 +506,7 @@
                 formData.append("description",this.pattern.description);
                 formData.append("management",this.pattern.management);
                 formData.append("periodicity",this.pattern.periodicity);
-                formData.append("sourceId",this.pattern.sourceId);
+                formData.append("sourceId",this.sourceId);
                 formData.append("dateCreation1",this.pattern.dateCreation1);
                 formData.append("dateCreation2",this.pattern.dateCreation2);
                 formData.append("dateDeactivation1",this.pattern.dateDeactivation1);

@@ -17,6 +17,7 @@
                     <p style="font-size: 20px">{{showOnlyOneTable.tableModel.tableName}}
                         <span v-if="patternTable.isActive === true && patternTable.isArchive === false">
                         <el-upload
+                                v-if="userAccess"
                                 style="float: right;"
                                 class="upload-demo"
                                 ref="upload"
@@ -25,6 +26,7 @@
                                 :on-change="sendFiles"
                                 :auto-upload="false">
                             <el-button
+                                    v-if="userAccess"
                                     slot="trigger"
                                     style="background-color: #1ab394; border-color: #1ab394"
                                     size="small"
@@ -33,7 +35,7 @@
                             </el-button>
                         </el-upload>
                         <router-link :to="'/patternTable/update/' + this.patternTableId">
-                            <el-button style="float: right; margin-right: 10px; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
+                            <el-button v-if="userAccess" style="float: right; margin-right: 10px; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
                                 Обновить поля
                             </el-button>
                         </router-link>
@@ -77,7 +79,7 @@
                     </div>
                 </div>
             </el-col>
-            <el-col :span="8">
+            <el-col v-if="userAccess" :span="8">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
                     <p style="font-size: 20px">История изменений</p>
                     <table style="overflow-x: auto; ">
@@ -175,12 +177,14 @@
     import router from "../../router/router";
     import MyPagination from "../general/pagination.vue";
     import {AXIOS} from "../../AXIOS/http-common";
+    import {getToken} from "../../modules/auth";
     export default {
         name: "patternTableView",
         components: {MyPagination},
         props:['tableId'],
         data() {
             return {
+                userAccess:"",
                 patternTable:"",
                 sorted:"",
                 key:"",
@@ -453,6 +457,10 @@
                 if(response.data === ""){
                     router.push({name:'NotFoundPages'})
                 } else {
+                    AXIOS.get("/user/isChangeSource/" + getToken() + "/" + response.data.sourceId).then(response => {
+                        console.log(response.data);
+                        this.userAccess = response.data;
+                    });
                     this.patternTable = response.data;
                 }
             });

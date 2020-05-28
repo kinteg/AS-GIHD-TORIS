@@ -164,7 +164,7 @@
                                     icon="el-icon-view"/>
                             <br>
                             <router-link :to="'/patternTable/update/' + table.id">
-                                <el-button  style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"/>
+                                <el-button style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" type="primary" size="mini" icon="el-icon-edit"/>
                             </router-link>
                             <div v-if="!table.patternArchive">
                             <span v-if="table.isArchive">

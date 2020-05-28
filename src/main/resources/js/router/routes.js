@@ -28,12 +28,9 @@ import NotFoundPages from "../pages/NotFoundPages.vue";
 import LoginPage from "../pages/LoginPage.vue";
 import {AXIOS} from "../AXIOS/http-common";
 import {getToken} from "../modules/auth";
-
-let hidden = false;
-AXIOS.get("/user/isAdmin/" + getToken()).then(response=>{
-    hidden = !response.data;
-    console.log(hidden);
-});
+import Cookies from 'js-cookie'
+let hidden;
+hidden = Cookies.get('isAdmin') !== "true";
 const routes = [
     {
         path:'/source',
@@ -154,7 +151,6 @@ const routes = [
             icon: 'el-icon-paperclip',
         },
         hidden: hidden,
-
         children:[
             {
                 path:'sourceLogs',

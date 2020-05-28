@@ -10,6 +10,7 @@
 
         <div>
             <el-upload
+                    v-if="userAccess"
                     class="upload-demo"
                     ref="upload"
                     action=""
@@ -62,7 +63,7 @@
                 Назад
             </el-button>
         </router-link>
-        <el-button @click="updateTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
+        <el-button v-if="userAccess" @click="updateTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
     </div>
 
 </template>
@@ -77,6 +78,7 @@
         name: "patternTableUpdatePole",
         data(){
             return{
+                userAccess: "",
                 newPatternTableId:"",
                 primaryKey:"",
                 table:[],
@@ -210,6 +212,13 @@
 
         mounted() {
             this.patternTableId = this.$route.params.id;
+            AXIOS.get("/tableCreator/" + this.patternTableId).then(response => {
+                AXIOS.get("/user/isChangeSource/" + getToken() + "/" + response.data.sourceId).then(response => {
+                    console.log(response.data);
+                    this.userAccess = response.data;
+                });
+            });
+
             let formData = new FormData();
             formData.append("id", this.patternTableId);
             AXIOS.post("tableCreator/getTable/",formData).then(response => {
@@ -219,6 +228,7 @@
                     this.patternTable = response.data.tableModel;
                     this.patternTableName = this.patternTable.tableName;
                     this.patternNameFile = this.patternTable.filename;
+                    console.log(this.patternTable);
                 }
             });
         }

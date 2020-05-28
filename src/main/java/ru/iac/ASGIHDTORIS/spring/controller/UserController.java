@@ -93,13 +93,16 @@ public class UserController {
     @GetMapping("getAllUserWithSource/{sourceId}")
     public List<User> getAllUserWithSource(@PathVariable long sourceId) {
         return sourceSetRepo.findAllBySourceId(sourceId)
-                .stream().map(v -> userRepo.findById(sourceId)).collect(Collectors.toList());
+                .stream().map(v -> userRepo.findById((long)v.getUserId())).collect(Collectors.toList());
     }
 
     @GetMapping("getAllUserWithoutSource/{sourceId}")
     public List<User> getAllUserWithoutSource(@PathVariable long sourceId) {
-        return sourceSetRepo.findAllBySourceIdNot(sourceId)
-                .stream().map(v -> userRepo.findById(sourceId)).collect(Collectors.toList());
+        List<User> list = userRepo.findAll();
+        list.removeAll(sourceSetRepo.findAllBySourceId(sourceId)
+                .stream().map(v -> userRepo.findById((long)v.getUserId())).collect(Collectors.toList()));
+
+        return list;
     }
 
 }

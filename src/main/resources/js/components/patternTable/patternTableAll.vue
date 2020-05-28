@@ -1,4 +1,4 @@
-<template>
+    <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <div v-if="allTable">
             <el-breadcrumb separator="/">
@@ -264,6 +264,7 @@
     import router from "../../router/router";
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
+    import {getToken} from "../../modules/auth";
 
     export default {
         name: "patternTableAll",
@@ -389,7 +390,7 @@
             },
 
             deleteTable(id) {
-                AXIOS.get("tableCreator/archive/" + id).then(response => {
+                AXIOS.get("tableCreator/archive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была архивирована','success');
                         this.updatePage();
@@ -465,7 +466,7 @@
             },
 
             deArchiveTable(id){
-                AXIOS.get("tableCreator/deArchive/" + id).then(response => {
+                AXIOS.get("tableCreator/deArchive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была активирована','success');
                         this.updatePage();

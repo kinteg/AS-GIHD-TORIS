@@ -10,6 +10,7 @@
                     <th></th>
                     <th>Номер</th>
                     <th>Действие</th>
+                    <th>Кто изменил</th>
                     <th>Статус</th>
                     <th>Ошибка</th>
                     <th>Шаблон</th>
@@ -26,6 +27,7 @@
                     </td>
                     <td>{{log.id}}</td>
                     <td>{{log.actions.action}}</td>
+                    <td>{{log.usrId.fio}}</td>
                     <td>{{log.statuses.status}}</td>
                     <td>{{log.errors.error}}</td>
                     <td>

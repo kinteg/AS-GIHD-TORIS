@@ -203,6 +203,7 @@
     import router from "../../router/router";
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
+    import {getToken} from "../../modules/auth";
 
     export default {
         name: "patternTableAllViewOne",
@@ -325,7 +326,7 @@
             },
 
             deleteTable(id) {
-                AXIOS.get("tableCreator/archive/" + id).then(response => {
+                AXIOS.get("tableCreator/archive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была архивирована','success');
                         this.updatePage();
@@ -401,7 +402,7 @@
             },
 
             deArchiveTable(id){
-                AXIOS.get("tableCreator/deArchive/" + id).then(response => {
+                AXIOS.get("tableCreator/deArchive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была архивирована','success');
                         this.updatePage();

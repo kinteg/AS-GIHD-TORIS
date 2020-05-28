@@ -80,11 +80,6 @@
                                         style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
                                     Редактировать
                                 </el-button>
-<!--                                <el-button @click="backToPatternTable"-->
-<!--                                           style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
-<!--                                           type="primary">-->
-<!--                                    Назад-->
-<!--                                </el-button>-->
                             </el-tab-pane>
                             <el-tab-pane label="Шаблон" name="patternInfo">
                                 <div v-if="viewPattern">
@@ -141,11 +136,6 @@
                                                type="primary">
                                         Редактировать
                                     </el-button>
-<!--                                    <el-button @click="backToPatternTable"-->
-<!--                                               style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
-<!--                                               type="primary">-->
-<!--                                        Назад-->
-<!--                                    </el-button>-->
                                 </div>
                                 <div v-else >
                                     <el-row :gutter="20">
@@ -490,6 +480,7 @@
     import SourceLogCard from "../logs/sourceLogCard.vue";
     import PatternTableLogCard from "../logs/patternTableLogCard.vue";
     import PatternTableViewByPatternId from "../patternTable/patternTableViewByPatternId.vue";
+    import {getToken} from "../../modules/auth";
 
     export default {
         name: "card",
@@ -800,7 +791,7 @@
             },
 
             deleteTable(id) {
-                AXIOS.get("tableCreator/archive/" + id).then(response => {
+                AXIOS.get("tableCreator/archive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была активирована','success');
                         this.updatePage();
@@ -815,7 +806,7 @@
             },
 
             deArchiveTable(id){
-                AXIOS.get("tableCreator/deArchive/" + id).then(response => {
+                AXIOS.get("tableCreator/deArchive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была активирована','success');
                         this.updatePage();
@@ -915,6 +906,7 @@
                     formData.append("types", type );
                     formData.append("primaries", primary );
                     formData.append("patternId", this.patternId);
+                    formData.append("token", getToken());
 
                     AXIOS.get("/tableCreator/exist/"+tableName).then(response => {
                         existingTable = response.data;
@@ -1011,6 +1003,7 @@
                 formData.append("management",this.pattern.management);
                 formData.append("sourceId",this.pattern.sourceId);
                 formData.append("isArchive",this.pattern.isArchive);
+                formData.append("token", getToken());
                 AXIOS.post("/pattern/update",
                     formData,
                     {

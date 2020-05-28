@@ -55,18 +55,14 @@
                     </div>
                 </el-collapse-item>
             </el-collapse>
-            <!--            <el-button @click="showTableTab('yes')" style="background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>-->
-            <!--            <el-button @click="addTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>-->
-        </div>
+          </div>
 
         <router-link :to="'/patternTable/show'">
             <el-button style=" margin-right: 10px;  margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
                 Назад
             </el-button>
         </router-link>
-        <!--        <router-link :to="'/patternTable/show' + newPatternTableId">-->
         <el-button @click="updateTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
-        <!--        </router-link>-->
     </div>
 
 </template>
@@ -75,6 +71,7 @@
     import router from "../../router/router";
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
+    import {getToken} from "../../modules/auth";
 
     export default {
         name: "patternTableUpdatePole",
@@ -127,6 +124,7 @@
                     formData.append("types", type );
                     formData.append("primaries", primary );
                     formData.append("patternTableId", this.patternTableId);
+                    formData.append("token", getToken());
 
                     AXIOS.get("/tableCreator/exist/"+tableName).then(response => {
                         existingTable = response.data;

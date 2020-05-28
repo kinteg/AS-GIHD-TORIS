@@ -33,6 +33,7 @@
 
 <script>
     import {AXIOS} from "../../AXIOS/http-common";
+    import {getToken} from "../../modules/auth";
 
     export default {
         name: "patternCreate",
@@ -116,6 +117,7 @@
                 formData.append("direction",this.pattern.direction);
                 formData.append("management",this.pattern.management);
                 formData.append("sourceId",this.sourceId);
+                formData.append("token", getToken());
                 AXIOS.post("/pattern/create",
                     formData,
                     {

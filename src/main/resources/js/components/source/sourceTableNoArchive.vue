@@ -407,6 +407,7 @@
 </template>
 
 <script>
+    import {getToken} from "../../modules/auth";
     import router from "../../router/router";
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
@@ -555,8 +556,8 @@
                 if(this.source.check.length !== 0){
                     for(let i = 0; i < this.source.check.length; i++){
                         this.deleteSource(this.source.check[i]);
-                        AXIOS.get("pattern/archivePatterns/" + i);
-                        AXIOS.get("tableCreator/archivePatternsBySource/" + i);
+                        AXIOS.get("pattern/archivePatterns/" + i  + "/" + getToken());
+                        AXIOS.get("tableCreator/archivePatternsBySource/" + i + "/" + getToken());
                     }
                     this.updatePage();
                 } else {

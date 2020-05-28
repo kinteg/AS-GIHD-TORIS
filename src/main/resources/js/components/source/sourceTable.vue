@@ -672,7 +672,7 @@
             },
 
             deArchiveSource(id){
-                AXIOS.get("source/deArchive/" + id).then(response => {
+                AXIOS.get("source/deArchive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Источник был активирован','success');
                         this.updatePage();
@@ -702,7 +702,7 @@
             },
 
             deleteSource(id) {
-                AXIOS.get("source/archive/" + id).then(response => {
+                AXIOS.get("source/archive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Источник был архивирован','success');
                         this.updatePage();
@@ -714,8 +714,8 @@
 
             deleteOneSource(id) {
                 this.deleteSource(id);
-                AXIOS.get("pattern/archivePatterns/" + id);
-                AXIOS.get("tableCreator/archivePatternsBySource/" + id);
+                AXIOS.get("pattern/archivePatterns/" + id + "/" + getToken());
+                AXIOS.get("tableCreator/archivePatternsBySource/" + id + "/" + getToken());
             },
 
             deleteSomeSource() {

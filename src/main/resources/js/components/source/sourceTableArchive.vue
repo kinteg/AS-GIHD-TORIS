@@ -407,6 +407,7 @@
     import router from "../../router/router";
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
+    import {getToken} from "../../modules/auth";
     export default {
         name: "sourceTableArchive",
         components: {MyPagination},
@@ -531,7 +532,7 @@
             },
 
             deArchiveSource(id) {
-                AXIOS.get("source/deArchive/" + id).then(response => {
+                AXIOS.get("source/deArchive/" + id  + "/" + getToken()).then(response => {
                     if(response.data.name !== "") {
                         this.notify('Успешно','Источник был активирован','success');
                         this.updatePage();

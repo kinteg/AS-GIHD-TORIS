@@ -244,6 +244,7 @@
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
     import PatternCreate from "./patternCreate.vue";
+    import {getToken} from "../../modules/auth";
     export default {
         name: "patternBySource",
         props:['sourceId'],
@@ -412,7 +413,7 @@
             },
 
             deletePattern(id) {
-                AXIOS.get("pattern/archive/" + id).then(response => {
+                AXIOS.get("pattern/archive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был архивирован','success');
                         this.updatePage();
@@ -424,11 +425,11 @@
 
             deleteOnePattern(id) {
                 this.deletePattern(id);
-                AXIOS.get("tableCreator/archivePatterns/" + id)
+                AXIOS.get("tableCreator/archivePatterns/" + id  + "/" + getToken())
             },
 
             deArchivePattern(id){
-                AXIOS.get("pattern/deArchive/" + id).then(response => {
+                AXIOS.get("pattern/deArchive/" + id  + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был активирован','success');
                         this.updatePage();

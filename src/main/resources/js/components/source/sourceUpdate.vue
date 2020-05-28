@@ -330,6 +330,7 @@
     import PatternView from "../pattern/patternView.vue";
     import PatternCreate from "../pattern/patternCreate.vue";
     import MyPagination from "../general/pagination.vue";
+    import {getToken} from "../../modules/auth";
     export default {
         name: "sourceCreate",
         components: {MyPagination, PatternCreate, PatternView},
@@ -707,7 +708,7 @@
             },
 
             deletePattern(id) {
-                AXIOS.get("pattern/archive/" + id).then(response => {
+                AXIOS.get("pattern/archive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был архивирован','success');
                         this.updatePage();
@@ -722,7 +723,7 @@
             },
 
             deArchivePattern(id){
-                AXIOS.get("pattern/deArchive/" + id).then(response => {
+                AXIOS.get("pattern/deArchive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был активирован','success');
                         this.updatePage();
@@ -811,6 +812,7 @@
                 formData.append("management",this.pattern.management);
                 formData.append("isArchive",this.pattern.isArchive);
                 formData.append("sourceId",this.pattern.sourceId);
+                formData.append("token",getToken());
 
                 AXIOS.post("/pattern/update",
                     formData,
@@ -844,6 +846,7 @@
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
                 formData.append("isArchive",this.source.isArchive);
+                formData.append("token", getToken());
                 AXIOS.post("/source/update",
                     formData,
                     {

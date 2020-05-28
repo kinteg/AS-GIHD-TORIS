@@ -226,6 +226,7 @@
     import router from "../../router/router";
     import {AXIOS} from "../../AXIOS/http-common";
     import MyPagination from "../general/pagination.vue";
+    import {getToken} from "../../modules/auth";
     export default {
         name: "patternTableArchive",
         components: {MyPagination},
@@ -375,7 +376,7 @@
             },
 
             deletePattern(id) {
-                AXIOS.get("pattern/archive/" + id).then(response => {
+                AXIOS.get("pattern/archive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был архивирован','success');
                         this.updatePage();
@@ -390,7 +391,7 @@
             },
 
             deArchivePattern(id){
-                AXIOS.get("pattern/deArchive/" + id).then(response => {
+                AXIOS.get("pattern/deArchive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был активирован','success');
                         this.updatePage();

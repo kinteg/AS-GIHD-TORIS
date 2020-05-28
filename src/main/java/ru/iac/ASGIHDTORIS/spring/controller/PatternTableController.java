@@ -143,7 +143,7 @@ public class PatternTableController {
             @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAll/{patternId}")
@@ -169,14 +169,14 @@ public class PatternTableController {
             @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @PostMapping("/getAllBySourceSort/{sourceId}")
     public Page<PatternTable> getAllBySourceIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllArchive")
@@ -193,7 +193,7 @@ public class PatternTableController {
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
         pattern.getHelpModel().setIsArchive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllArchive/{patternId}")
@@ -211,7 +211,7 @@ public class PatternTableController {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllArchiveBySourceId/{sourceId}")
@@ -229,7 +229,7 @@ public class PatternTableController {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllNotArchive")
@@ -246,7 +246,7 @@ public class PatternTableController {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllNotArchive/{patternId}")
@@ -264,7 +264,7 @@ public class PatternTableController {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllNotArchiveBySourceId/{sourceId}")
@@ -283,7 +283,7 @@ public class PatternTableController {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/archive/{id}/{token}")
@@ -301,9 +301,7 @@ public class PatternTableController {
             "existByPatternTableName"},
             allEntries = true)
     public PatternTable archivePattern(@PathVariable Long id, @PathVariable String token) {
-        log.error(patternTableRepo.findById((long) id).getSourceId() + "archive");
         if (userController.isChangeSource(token, patternTableRepo.findById((long) id).getSourceId())) {
-            log.info("huiarchive");
             return patternTableService.archivePatternTable(id, userService.loginUser(token));
         }
         return null;
@@ -324,9 +322,7 @@ public class PatternTableController {
             "existByPatternTableName"},
             allEntries = true)
     public PatternTable deArchivePattern(@PathVariable Long id,@PathVariable String token) {
-        log.error(patternTableRepo.findById((long) id).getSourceId() + "deArchive");
         if (userController.isChangeSource(token, patternTableRepo.findById((long) id).getSourceId())) {
-            log.info("huideArchive");
             return patternTableService.deArchivePatternTable(id, userService.loginUser(token));
         }
         return null;

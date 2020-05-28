@@ -136,7 +136,7 @@
                                 <el-button style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
                             </router-link>
                             <span v-if="table.isArchive">
-                            <el-button
+                            <el-button v-if="access"
                                     @click="deArchiveOneTable(table.id)"
                                     style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                     type="primary"
@@ -144,7 +144,7 @@
                                     icon="el-icon-upload2"/>
                         </span>
                             <span v-else>
-                            <el-button
+                            <el-button v-if="access"
                                     @click="deleteOneTable(table.id)"
                                     style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                     type="primary"
@@ -176,26 +176,6 @@
                 <p style="font-size: 20px">Данных нет</p>
             </div>
         </div>
-<!--        <div v-else-if="oneTable">-->
-<!--            <div class="horizontal-scroll-wrapper  rectangles">-->
-<!--                <table style="display: block; overflow-x: auto;">-->
-<!--                    <tr>-->
-<!--                        <th v-for="pole in showOnlyOneTable.tableModel.models">{{pole.key}}</th>-->
-<!--                    </tr>-->
-<!--                    <tr v-for="value in showOnlyOneTable.values.content">-->
-<!--                        <td v-for="oneValue in value">{{oneValue}}</td>-->
-<!--                    </tr>-->
-<!--                </table>-->
-<!--                <my-pagination-->
-<!--                        :page-size="paginationOneTable.pageSize"-->
-<!--                        :current-page="paginationOneTable.currentPage"-->
-<!--                        :totalPages="paginationOneTable.totalPages"-->
-<!--                        :totalElements="paginationOneTable.totalElements"-->
-<!--                        @onCurrentChange="onCurrentChangeOneTable"-->
-<!--                        @onSizeChange="onSizeChangeOneTable"/>-->
-<!--                <el-button @click="showTableTab" style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">Назад</el-button>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
 </template>
 
@@ -208,7 +188,7 @@
     export default {
         name: "patternTableAllViewOne",
         components: {MyPagination},
-        props:["sourceId"],
+        props:["sourceId", "access"],
         data() {
             return {
                 allTable: true,

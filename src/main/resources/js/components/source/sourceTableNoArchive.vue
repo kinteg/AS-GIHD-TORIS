@@ -535,8 +535,8 @@
                 }
             },
 
-            deleteSource(id){
-                AXIOS.get("source/archive/" + id).then(response => {
+            deleteSource(id) {
+                AXIOS.get("source/archive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Источник был архивирован','success');
                         this.updatePage();
@@ -544,20 +544,33 @@
                         this.notify('Ошибка','Источник не был архивирован','error');
                     }
                 });
+
             },
 
-            deleteOneSource(id){
-                this.deleteSource(id);
-                AXIOS.get("pattern/archivePatterns/" + id);
-                AXIOS.get("tableCreator/archivePatternsBySource/" + id);
+            deleteOneSource(id) {
+                AXIOS.get("user/isChangeSource/" + getToken() + "/" + id).then(response=>{
+                    if(response.data) {
+                        this.deleteSource(id);
+                        AXIOS.get("pattern/archivePatterns/" + id + "/" + getToken());
+                        AXIOS.get("tableCreator/archivePatternsBySource/" + id + "/" + getToken());
+                    } else {
+                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                    }
+                });
             },
 
-            deleteSomeSource(){
+            deleteSomeSource() {
                 if(this.source.check.length !== 0){
                     for(let i = 0; i < this.source.check.length; i++){
-                        this.deleteSource(this.source.check[i]);
-                        AXIOS.get("pattern/archivePatterns/" + i  + "/" + getToken());
-                        AXIOS.get("tableCreator/archivePatternsBySource/" + i + "/" + getToken());
+                        AXIOS.get("user/isChangeSource/" + getToken() + "/" + i).then(response=>{
+                            if(response.data) {
+                                AXIOS.get("pattern/archivePatterns/" + i);
+                                AXIOS.get("tableCreator/archivePatternsBySource/" + i);
+                                this.deleteSource(this.source.check[i]);
+                            } else {
+                                this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                            }
+                        });
                     }
                     this.updatePage();
                 } else {

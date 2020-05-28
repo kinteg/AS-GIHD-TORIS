@@ -7,6 +7,7 @@
 <script>
     import {AXIOS} from "../../AXIOS/http-common";
     import {getToken} from "../../modules/auth";
+    import router from "../../router/router";
 
     export default {
         name: "login",
@@ -20,10 +21,10 @@
         },
 
         mounted() {
-            console.log(getToken());
-            AXIOS.get("/user/isAdmin/" + getToken()).then(response=>{
+            AXIOS.get("user/acceptToken/" + getToken()).then(response => {
                 console.log(response);
-            })
+                router.push({name:"show"})
+            });
         }
     }
 </script>

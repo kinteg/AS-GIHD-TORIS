@@ -168,7 +168,7 @@
                         <div v-if="!pattern.sourceArchive">
                             <span v-if="pattern.isArchive">
                                 <el-button
-                                        @click="deArchiveOnePattern(pattern.id)"
+                                        @click="deArchiveOnePattern(pattern.id, pattern.sourceId)"
                                         style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                         type="primary"
                                         size="mini"
@@ -176,7 +176,7 @@
                             </span>
                             <span v-else>
                                 <el-button
-                                        @click="deleteOnePattern(pattern.id)"
+                                        @click="deleteOnePattern(pattern.id, pattern.sourceId)"
                                         style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                         type="primary"
                                         size="mini"
@@ -375,35 +375,30 @@
                 }
             },
 
-            deArchiveSomePattern(){
-                if(this.pattern.check.length !== 0){
-                    for(let i = 0; i < this.pattern.check.length; i++){
-                        this.deArchivePattern(this.pattern.check[i]);
-                    }
-                    this.updatePage();
-                } else {
-                    this.notify('Ошибка','Выберите источники которые хотите сделать активным','error');
-                }
-            },
-
-            deleteSomePattern() {
-                if(this.pattern.check.length !== 0){
-                    for(let i = 0; i < this.pattern.check.length; i++){
-                        this.deletePattern(this.pattern.check[i]);
-                        AXIOS.get("tableCreator/archivePatterns/" + i + "/" + getToken())
-                    }
-                    this.updatePage();
-                } else {
-                    this.notify('Ошибка','Выберите источники которые хотите архивировать','error');
-                }
-            },
-
             notify(title,message,type) {
                 this.$notify({
                     title: title,
                     message: message,
                     type: type
                 });
+            },
+
+            deleteSomePattern() {
+                if(this.pattern.check.length !== 0){
+                    for(let i = 0; i < this.pattern.check.length; i++){
+                        AXIOS.get("user/isChangeSource/" + getToken() + "/" + i).then(response=> {
+                            if (response.data) {
+                                this.deletePattern(this.pattern.check[i]);
+                                AXIOS.get("tableCreator/archivePatterns/" + i + "/" + getToken())
+                            } else {
+                                this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                            }
+                        });
+                    }
+                    this.updatePage();
+                } else {
+                    this.notify('Ошибка','Выберите источники которые хотите архивировать','error');
+                }
             },
 
             deletePattern(id) {
@@ -417,9 +412,32 @@
                 });
             },
 
-            deleteOnePattern(id) {
-                this.deletePattern(id);
-                AXIOS.get("tableCreator/archivePatterns/" + id + "/" + getToken())
+            deleteOnePattern(id, sourceId) {
+                AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=> {
+                    if (response.data) {
+                        this.deletePattern(id);
+                        AXIOS.get("tableCreator/archivePatterns/" + id + "/" + getToken())
+                    } else {
+                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                    }
+                });
+            },
+
+            deArchiveSomePattern(){
+                if(this.pattern.check.length !== 0){
+                    for(let i = 0; i < this.pattern.check.length; i++){
+                        AXIOS.get("user/isChangeSource/" + getToken() + "/" + i).then(response=> {
+                            if (response.data) {
+                                this.deArchivePattern(this.pattern.check[i]);
+                            } else {
+                                this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                            }
+                        });
+                    }
+                    this.updatePage();
+                } else {
+                    this.notify('Ошибка','Выберите источники которые хотите сделать активным','error');
+                }
             },
 
             deArchivePattern(id){
@@ -433,8 +451,14 @@
                 });
             },
 
-            deArchiveOnePattern(id){
-                this.deArchivePattern(id);
+            deArchiveOnePattern(id, sourceId){
+                AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=> {
+                    if (response.data) {
+                        this.deArchivePattern(id, sourceId);
+                    } else {
+                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                    }
+                });
             },
 
             sort(key){
@@ -718,7 +742,6 @@
             }
         },
         mounted() {
-            //TODO тупой axios переделать потом
             AXIOS.get("pattern/getAll").then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;

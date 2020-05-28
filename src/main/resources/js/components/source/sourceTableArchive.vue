@@ -531,30 +531,46 @@
                 }
             },
 
-            deArchiveSource(id) {
-                AXIOS.get("source/deArchive/" + id  + "/" + getToken()).then(response => {
-                    if(response.data.name !== "") {
-                        this.notify('Успешно','Источник был активирован','success');
+            deArchiveSource(id){
+                AXIOS.get("source/deArchive/" + id + "/" + getToken()).then(response => {
+                    if (response.data.name !== "") {
+                        this.notify('Успешно', 'Источник был активирован', 'success');
                         this.updatePage();
                     } else {
-                        this.notify('Ошибка','Источник не был активирован','error');
+                        this.notify('Ошибка', 'Источник не был активирован', 'error');
                     }
                 });
             },
 
             deArchiveOneSource(id){
-                this.deArchiveSource(id);
+                AXIOS.get("user/isChangeSource/" + getToken() + "/" + id).then(response=> {
+                    if (response.data) {
+                        this.deArchiveSource(id);
+                    } else {
+                        this.notify('Ошибка', 'Источник не был архивирован', 'error');
+                    }
+                });
             },
 
             deArchiveSomeSource(){
                 if(this.source.check.length !== 0){
                     for(let i = 0; i < this.source.check.length; i++){
-                        this.deArchiveSource(this.source.check[i]);
+                        AXIOS.get("user/isChangeSource/" + getToken() + "/" + i).then(response=>{
+                            if(response.data) {
+                                this.deArchiveSource(this.source.check[i]);
+                            } else {
+                                this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                            }
+                        });
                     }
                     this.updatePage();
                 } else {
                     this.notify('Ошибка','Выберите источники которые хотите сделать активным','error');
                 }
+                this.$message({
+                    type: 'warning',
+                    message: 'Источник архивирован вместе с шаблонами'
+                });
             },
 
             onCurrentChange(value) {

@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ import ru.iac.ASGIHDTORIS.spring.service.patterTable.PatternTableService;
 import ru.iac.ASGIHDTORIS.spring.service.user.UserService;
 
 import java.util.List;
-
+@Slf4j
 @RequestMapping("api/tableCreator/")
 @RestController
 public class PatternTableController {
@@ -142,7 +143,7 @@ public class PatternTableController {
             @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAll/{patternId}")
@@ -168,14 +169,14 @@ public class PatternTableController {
             @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @PostMapping("/getAllBySourceSort/{sourceId}")
     public Page<PatternTable> getAllBySourceIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllArchive")
@@ -192,7 +193,7 @@ public class PatternTableController {
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
         pattern.getHelpModel().setIsArchive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllArchive/{patternId}")
@@ -210,7 +211,7 @@ public class PatternTableController {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllArchiveBySourceId/{sourceId}")
@@ -228,7 +229,7 @@ public class PatternTableController {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(true);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllNotArchive")
@@ -245,7 +246,7 @@ public class PatternTableController {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllNotArchive/{patternId}")
@@ -263,7 +264,7 @@ public class PatternTableController {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/getAllNotArchiveBySourceId/{sourceId}")
@@ -282,7 +283,7 @@ public class PatternTableController {
         pattern.setHelpModel(helpModel);
         pattern.getHelpModel().setIsArchive(false);
         pattern.setIsActive(true);
-        return patternTableRepo2.findAllSourceByQuery(pageable, pattern);
+        return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @GetMapping("/archive/{id}/{token}")

@@ -76,6 +76,7 @@
                                     </el-row>
                                 </div>
                                 <el-button
+                                        v-if="userAccess"
                                         @click="updateSource"
                                         style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
                                     Редактировать
@@ -131,7 +132,9 @@
                                             </div>
                                         </el-col>
                                     </el-row>
-                                    <el-button @click="updatePattern"
+                                    <el-button
+                                               v-if="userAccess"
+                                               @click="updatePattern"
                                                style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                                type="primary">
                                         Редактировать
@@ -182,11 +185,13 @@
                                 <p style="font-size: 20px">Таблицы
                                     <span v-if="isMainPage">
                                         <el-button
+                                                v-if="userAccess"
                                                 @click="addTableTab"
                                                 style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                                 type="primary"
                                                 icon="el-icon-plus"/>
                                         <el-upload
+                                                v-if="userAccess"
                                                 style="float: right; margin-right: 10px;"
                                                 class="upload-demo"
                                                 ref="upload"
@@ -195,6 +200,7 @@
                                                 :on-change="sendFiles"
                                                 :auto-upload="false">
                                             <el-button
+                                                    v-if="userAccess"
                                                     slot="trigger"
                                                     style="background-color: #1ab394; border-color: #1ab394"
                                                     size="small"
@@ -292,6 +298,7 @@
                                                         </router-link>
                                                         <span v-if="table.isArchive">
                                                 <el-button
+                                                        v-if="userAccess"
                                                         @click="deArchiveOneTable(table.id)"
                                                         style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                                         type="primary" size="mini"
@@ -299,6 +306,7 @@
                                             </span>
                                                         <span v-else>
                                                 <el-button
+                                                        v-if="userAccess"
                                                         @click="deleteOneTable(table.id)"
                                                         style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                                         type="primary"
@@ -397,7 +405,7 @@
                     </div>
                 </div>
             </el-col>
-            <el-col :span="8">
+            <el-col v-if="isAdmin" :span="8">
                 <div v-if="activeName === 'patternInfo'">
                     <pattern-log-card :pattern-id="patternId"/>
                 </div>
@@ -487,6 +495,8 @@
         components: {PatternTableViewByPatternId, PatternTableLogCard, SourceLogCard, PatternLogCard, MyPagination},
         data(){
             return{
+                isAdmin:"",
+                userAccess:"",
                 sourceArchive:"",
                 primaryKey:"",
                 tableName:"",
@@ -1170,6 +1180,10 @@
         },
 
         mounted() {
+            AXIOS.get("/user/isAdmin/" + getToken()).then(response=>{
+                this.isAdmin = response.data;
+            });
+
             this.patternId = this.$route.params.id;
             AXIOS.get("pattern/" + this.patternId).then(response => {
                 if(response.data === ""){
@@ -1177,6 +1191,10 @@
                 } else {
                     this.pattern = response.data;
                     this.sourceId = response.data.sourceId;
+
+                    AXIOS.get("user/isChangeSource/" + getToken() + "/" + this.sourceId).then(response=>{
+                        this.userAccess = response.data;
+                    });
 
                     AXIOS.get("source/" + this.sourceId).then(response => {
                         this.source = response.data;

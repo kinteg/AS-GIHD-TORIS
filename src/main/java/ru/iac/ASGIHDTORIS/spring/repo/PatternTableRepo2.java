@@ -9,6 +9,6 @@ import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
 @Repository
 public interface PatternTableRepo2 {
 
-    Page<PatternTable> findAllSourceByQuery(Pageable pageable, PatternTableModel patternTable);
+    Page<PatternTable> findAllPatternTableByQuery(Pageable pageable, PatternTableModel patternTable);
 
 }

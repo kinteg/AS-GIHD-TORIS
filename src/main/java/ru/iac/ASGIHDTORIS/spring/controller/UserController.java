@@ -1,6 +1,7 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import ru.iac.ASGIHDTORIS.spring.service.user.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Slf4j
 @RequestMapping("api/user/")
 @RestController
 public class UserController {
@@ -61,10 +62,15 @@ public class UserController {
             @PathVariable String token, @PathVariable Long sourceId, @PathVariable String secret) {
 
         if (isAdmin(token) && sourceRepo.existsById(sourceId) && userRepo.existsBySecretKey(secret)) {
+            long id = userRepo.findBySecretKey(secret).getId();
+            if(sourceSetRepo.existsBySourceIdAndUserId(sourceId, id)) {
+                return false;
+            }
+
             sourceSetRepo.save(
                     SourceSet
                             .builder()
-                            .userId(userRepo.findBySecretKey(secret).getId())
+                            .userId(id)
                             .sourceId(sourceId)
                             .build());
             return true;
@@ -78,7 +84,8 @@ public class UserController {
             @PathVariable String token, @PathVariable Long sourceId, @PathVariable String secret) {
 
         if (isAdmin(token) && sourceRepo.existsById(sourceId) && userRepo.existsBySecretKey(secret)) {
-            sourceSetRepo.deleteBySourceIdAndUserId(sourceId, userRepo.findBySecretKey(secret).getId());
+            SourceSet sourceSet = sourceSetRepo.findBySourceIdAndUserId(sourceId, userRepo.findBySecretKey(secret).getId());
+            sourceSetRepo.delete(sourceSet);
             return true;
         }
 

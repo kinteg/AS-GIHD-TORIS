@@ -540,6 +540,7 @@
         components: {MyPagination},
         data() {
             return {
+                access: false,
                 options: [{
                     value: '',
                     label: ''
@@ -641,6 +642,12 @@
             }
         },
         methods:{
+            userAccess(sourceId){
+                AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=>{
+                    this.access = response.data;
+                });
+            },
+
             hiddenAll(){
                 document.getElementById("check").click();
                 document.getElementById("check1").click();
@@ -673,23 +680,35 @@
 
             deArchiveSource(id){
                 AXIOS.get("source/deArchive/" + id + "/" + getToken()).then(response => {
-                    if(response.data.name !== ""){
-                        this.notify('Успешно','Источник был активирован','success');
+                    if (response.data.name !== "") {
+                        this.notify('Успешно', 'Источник был активирован', 'success');
                         this.updatePage();
                     } else {
-                        this.notify('Ошибка','Источник не был активирован','error');
+                        this.notify('Ошибка', 'Источник не был активирован', 'error');
                     }
                 });
             },
 
             deArchiveOneSource(id){
-                this.deArchiveSource(id);
+                AXIOS.get("user/isChangeSource/" + getToken() + "/" + id).then(response=> {
+                    if (response.data) {
+                        this.deArchiveSource(id);
+                    } else {
+                        this.notify('Ошибка', 'Источник не был архивирован', 'error');
+                    }
+                });
             },
 
             deArchiveSomeSource(){
                 if(this.source.check.length !== 0){
                     for(let i = 0; i < this.source.check.length; i++){
-                        this.deArchiveSource(this.source.check[i]);
+                        AXIOS.get("user/isChangeSource/" + getToken() + "/" + i).then(response=>{
+                            if(response.data) {
+                                this.deArchiveSource(this.source.check[i]);
+                            } else {
+                                this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                            }
+                        });
                     }
                     this.updatePage();
                 } else {
@@ -710,20 +729,33 @@
                         this.notify('Ошибка','Источник не был архивирован','error');
                     }
                 });
+
             },
 
             deleteOneSource(id) {
-                this.deleteSource(id);
-                AXIOS.get("pattern/archivePatterns/" + id + "/" + getToken());
-                AXIOS.get("tableCreator/archivePatternsBySource/" + id + "/" + getToken());
+                AXIOS.get("user/isChangeSource/" + getToken() + "/" + id).then(response=>{
+                    if(response.data) {
+                        this.deleteSource(id);
+                        AXIOS.get("pattern/archivePatterns/" + id + "/" + getToken());
+                        AXIOS.get("tableCreator/archivePatternsBySource/" + id + "/" + getToken());
+                    } else {
+                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                    }
+                });
             },
 
             deleteSomeSource() {
                 if(this.source.check.length !== 0){
                     for(let i = 0; i < this.source.check.length; i++){
-                        AXIOS.get("pattern/archivePatterns/" + i);
-                        AXIOS.get("tableCreator/archivePatternsBySource/" + i);
-                        this.deleteSource(this.source.check[i]);
+                        AXIOS.get("user/isChangeSource/" + getToken() + "/" + i).then(response=>{
+                            if(response.data) {
+                                AXIOS.get("pattern/archivePatterns/" + i);
+                                AXIOS.get("tableCreator/archivePatternsBySource/" + i);
+                                this.deleteSource(this.source.check[i]);
+                            } else {
+                                this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                            }
+                        });
                     }
                     this.updatePage();
                 } else {
@@ -879,7 +911,13 @@
             },
 
             updateSource(id) {
-                router.push('update/'+ id);
+                AXIOS.get("user/isChangeSource/" + getToken() + "/" + id).then(response=>{
+                    if(response.data) {
+                        router.push('update/'+ id);
+                    } else {
+                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                    }
+                });
             },
 
             sourceView(id) {

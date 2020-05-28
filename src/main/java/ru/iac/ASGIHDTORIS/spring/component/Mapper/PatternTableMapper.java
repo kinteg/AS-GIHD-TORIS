@@ -29,7 +29,7 @@ public class PatternTableMapper implements Mapper<List<PatternTable>> {
                 .nameFile(rs.getString("name_file"))
                 .nameTable(rs.getString("name_table"))
                 .patternId(rs.getLong("pattern_id"))
-                .patternId(rs.getLong("source_id"))
+                .sourceId(rs.getLong("source_id"))
                 .dateCreation(rs.getTimestamp("date_creation") == null ? null : rs.getTimestamp("date_creation").toLocalDateTime())
                 .dateDeactivation(rs.getTimestamp("date_deactivation") == null ? null : rs.getTimestamp("date_deactivation").toLocalDateTime())
                 .dateActivation(rs.getTimestamp("date_activation") == null ? null : rs.getTimestamp("date_activation").toLocalDateTime())

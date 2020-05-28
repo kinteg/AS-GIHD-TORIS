@@ -44,7 +44,6 @@ public class SourceController {
             "getAllSourceNotArchive"},
             allEntries = true)
     public Source createSource(@ModelAttribute Source source, String token) {
-        log.info(token);
         return sourceService.createSource(source, userService.loginUser(token));
     }
 

@@ -41,7 +41,7 @@ public class PatternTableRepo2Impl implements PatternTableRepo2 {
     }
 
     @Override
-    public Page<PatternTable> findAllSourceByQuery(Pageable pageable, PatternTableModel pattern) {
+    public Page<PatternTable> findAllPatternTableByQuery(Pageable pageable, PatternTableModel pattern) {
         queryCreator.makeQuery(pattern, pageable);
 
         String selectQuery = queryCreator.getSelectQuery();

@@ -1,4 +1,4 @@
-    <template>
+<template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <div v-if="allTable">
             <el-breadcrumb separator="/">
@@ -106,51 +106,51 @@
                         </td>
                         <td v-if="hidden.dateCreation">
                             <div class="block">
-                            <el-date-picker
-                                    value-format="yyyy-MM-dd"
-                                    v-model="patternTable.dateCreation"
-                                    type="daterange"
-                                    range-separator="To"
-                                    start-placeholder="Start date"
-                                    end-placeholder="End date">
-                            </el-date-picker>
-                        </div>
+                                <el-date-picker
+                                        value-format="yyyy-MM-dd"
+                                        v-model="patternTable.dateCreation"
+                                        type="daterange"
+                                        range-separator="To"
+                                        start-placeholder="Start date"
+                                        end-placeholder="End date">
+                                </el-date-picker>
+                            </div>
                         </td>
                         <td v-if="hidden.dateDeactivation">
                             <div class="block">
-                            <el-date-picker
-                                    value-format="yyyy-MM-dd"
-                                    v-model="patternTable.dateDeactivation"
-                                    type="daterange"
-                                    range-separator="To"
-                                    start-placeholder="Start date"
-                                    end-placeholder="End date">
-                            </el-date-picker>
-                        </div>
+                                <el-date-picker
+                                        value-format="yyyy-MM-dd"
+                                        v-model="patternTable.dateDeactivation"
+                                        type="daterange"
+                                        range-separator="To"
+                                        start-placeholder="Start date"
+                                        end-placeholder="End date">
+                                </el-date-picker>
+                            </div>
                         </td>
                         <td v-if="hidden.dateActivation">
                             <div class="block">
-                            <el-date-picker
-                                    value-format="yyyy-MM-dd"
-                                    v-model="patternTable.dateActivation"
-                                    type="daterange"
-                                    range-separator="To"
-                                    start-placeholder="Start date"
-                                    end-placeholder="End date">
-                            </el-date-picker>
-                        </div>
+                                <el-date-picker
+                                        value-format="yyyy-MM-dd"
+                                        v-model="patternTable.dateActivation"
+                                        type="daterange"
+                                        range-separator="To"
+                                        start-placeholder="Start date"
+                                        end-placeholder="End date">
+                                </el-date-picker>
+                            </div>
                         </td>
                         <td v-if="hidden.lastUpdate">
                             <div class="block">
-                            <el-date-picker
-                                    value-format="yyyy-MM-dd"
-                                    v-model="patternTable.lastUpdate"
-                                    type="daterange"
-                                    range-separator="To"
-                                    start-placeholder="Start date"
-                                    end-placeholder="End date">
-                            </el-date-picker>
-                        </div>
+                                <el-date-picker
+                                        value-format="yyyy-MM-dd"
+                                        v-model="patternTable.lastUpdate"
+                                        type="daterange"
+                                        range-separator="To"
+                                        start-placeholder="Start date"
+                                        end-placeholder="End date">
+                                </el-date-picker>
+                            </div>
                         </td>
                     </tr>
                     <tbody v-for="table in patternTableData">
@@ -169,15 +169,15 @@
                             <div v-if="!table.patternArchive">
                             <span v-if="table.isArchive">
                             <el-button
-                                    @click="deArchiveOneTable(table.id)"
+                                    @click="deArchiveOneTable(table.id, table.sourceId)"
                                     style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                     type="primary"
                                     size="mini"
                                     icon="el-icon-upload2"/>
                         </span>
-                            <span v-else>
+                                <span v-else>
                             <el-button
-                                    @click="deleteOneTable(table.id)"
+                                    @click="deleteOneTable(table.id, table.sourceId)"
                                     style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                     type="primary"
                                     size="mini"
@@ -185,7 +185,7 @@
                         </span>
                             </div>
                         </td>
-<!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
+                        <!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
                         <td v-if="hidden.id">
                             {{table.id}}
                         </td>
@@ -389,8 +389,31 @@
                 document.getElementById("check7").click();
             },
 
+            deArchiveTable(id){
+                AXIOS.get("/tableCreator/deArchive/" + id + "/" + getToken()).then(response => {
+                    if(response.data.name !== ""){
+                        this.notify('Успешно','Таблица была активирована','success');
+                        this.updatePage();
+                    } else {
+                        this.notify('Ошибка','Таблица не была активирована','error');
+                    }
+                });
+            },
+
+            deArchiveOneTable(id, sourceId){
+                console.log(this.patternTableData);
+                AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=>{
+                    if(response.data) {
+                        this.deArchiveTable(id);
+                    } else {
+                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                    }
+                });
+                console.log(sourceId);
+            },
+
             deleteTable(id) {
-                AXIOS.get("tableCreator/archive/" + id + "/" + getToken()).then(response => {
+                AXIOS.get("/tableCreator/archive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была архивирована','success');
                         this.updatePage();
@@ -400,8 +423,15 @@
                 });
             },
 
-            deleteOneTable(id) {
-                this.deleteTable(id);
+            deleteOneTable(id, sourceId) {
+                console.log(this.patternTableData);
+                AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=>{
+                    if(response.data) {
+                        this.deleteTable(id);
+                    } else {
+                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                    }
+                });
             },
 
             updatePage(){
@@ -465,20 +495,6 @@
                 })
             },
 
-            deArchiveTable(id){
-                AXIOS.get("tableCreator/deArchive/" + id + "/" + getToken()).then(response => {
-                    if(response.data.name !== ""){
-                        this.notify('Успешно','Таблица была активирована','success');
-                        this.updatePage();
-                    } else {
-                        this.notify('Ошибка','Таблица не была активирована','error');
-                    }
-                });
-            },
-
-            deArchiveOneTable(id){
-                this.deArchiveTable(id);
-            },
 
             onCurrentChange(value) {
                 this.pagination.currentPage = value;
@@ -688,7 +704,6 @@
         },
 
         mounted() {
-            //TODO доделать вывод кнопок
             AXIOS.get("tableCreator/getAll").then(response => {
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;

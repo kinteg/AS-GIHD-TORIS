@@ -1,9 +1,9 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <p v-if="!createPattern" style="font-size: 20px">Шаблоны
-            <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
-            <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
-            <el-button class="plus" @click="addPattern" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
+            <el-button v-if="access" class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
+            <el-button v-if="access" @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
+            <el-button v-if="access" class="plus" @click="addPattern" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
             <el-dropdown style="float: right" :hide-on-click="false">
                 <el-button
                         style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; "
@@ -190,6 +190,7 @@
                                 icon="el-icon-view"/>
                         <span v-if="pattern.isArchive">
                              <el-button
+                                     v-if="access"
                                      @click="deArchiveOnePattern(pattern.id)"
                                      style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                      type="primary"
@@ -198,6 +199,7 @@
                          </span>
                         <span v-else>
                             <el-button
+                                    v-if="access"
                                     @click="deleteOnePattern(pattern.id)"
                                     style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                     type="primary"
@@ -247,7 +249,7 @@
     import {getToken} from "../../modules/auth";
     export default {
         name: "patternBySource",
-        props:['sourceId'],
+        props:['sourceId',"access"],
         components: {PatternCreate, MyPagination},
         data() {
             return {

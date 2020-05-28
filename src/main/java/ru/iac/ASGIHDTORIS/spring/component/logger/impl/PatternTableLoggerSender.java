@@ -131,6 +131,7 @@ public class PatternTableLoggerSender implements LoggerSender<PatternTable> {
                 .patternTableId(object.getId())
                 .actions(actionsRepo.findById(5))
                 .dateCreation(LocalDateTime.now())
+                .usrId(user)
                 .build();
 
         return patternTableLoggerRepo.save(patternLogger).getId();

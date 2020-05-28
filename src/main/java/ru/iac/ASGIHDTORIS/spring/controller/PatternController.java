@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.iac.ASGIHDTORIS.common.model.domain.HelpModel;
 import ru.iac.ASGIHDTORIS.common.model.domain.PatternModel;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
-import ru.iac.ASGIHDTORIS.spring.domain.User;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo2;
 import ru.iac.ASGIHDTORIS.spring.service.pattern.PatternService;
+import ru.iac.ASGIHDTORIS.spring.service.user.UserService;
 
 import java.util.List;
 
@@ -23,15 +23,19 @@ public class PatternController {
     private final PatternRepo patternRepo;
     private final PatternRepo2 patternRepo2;
     private final PatternService patternService;
+    private final UserController userController;
+    private final UserService userService;
 
     public PatternController(
             PatternRepo patternRepo,
             PatternRepo2 patternRepo2,
-            PatternService patternService
-    ) {
+            PatternService patternService,
+            UserController userController, UserService userService) {
         this.patternRepo = patternRepo;
         this.patternRepo2 = patternRepo2;
         this.patternService = patternService;
+        this.userController = userController;
+        this.userService = userService;
     }
 
     @PostMapping("/create")
@@ -43,8 +47,12 @@ public class PatternController {
             "getAllPatternNotArchive",
             "getAllPatternNotArchiveBySourceId"},
             allEntries = true)
-    public Pattern createPattern(@ModelAttribute Pattern pattern, User user) {
-        return patternService.createPattern(pattern, user);
+    public Pattern createPattern(@ModelAttribute Pattern pattern, String token) {
+        if (userController.isChangeSource(token, pattern.getSourceId())) {
+            return patternService.createPattern(pattern, userService.loginUser(token));
+        }
+
+        return null;
     }
 
     @GetMapping("/{id}")
@@ -157,8 +165,11 @@ public class PatternController {
             "getAllPatternNotArchive",
             "getAllPatternNotArchiveBySourceId"},
             allEntries = true)
-    public Pattern archivePattern(@PathVariable Long id, User user) {
-        return patternService.archivePattern(id, user);
+    public Pattern archivePattern(@PathVariable Long id, String token) {
+        if (userController.isChangeSource(token, patternRepo.findById((long) id).getSourceId())) {
+            return patternService.archivePattern(id, userService.loginUser(token));
+        }
+        return null;
     }
 
     @GetMapping("/deArchive/{id}")
@@ -170,8 +181,11 @@ public class PatternController {
             "getAllPatternNotArchive",
             "getAllPatternNotArchiveBySourceId"},
             allEntries = true)
-    public Pattern deArchivePattern(@PathVariable Long id, User user) {
-        return patternService.deArchivePattern(id, user);
+    public Pattern deArchivePattern(@PathVariable Long id, String token) {
+        if (userController.isChangeSource(token, patternRepo.findById((long) id).getSourceId())) {
+            return patternService.deArchivePattern(id, userService.loginUser(token));
+        }
+        return null;
     }
 
     @GetMapping("/archivePatterns/{sourceId}")
@@ -183,8 +197,11 @@ public class PatternController {
             "getAllPatternNotArchive",
             "getAllPatternNotArchiveBySourceId"},
             allEntries = true)
-    public List<Pattern> archivePatterns(@PathVariable Long sourceId, User user) {
-        return patternService.archivePatterns(sourceId, user);
+    public List<Pattern> archivePatterns(@PathVariable Long sourceId, String token) {
+        if (userController.isChangeSource(token, sourceId)) {
+            return patternService.archivePatterns(sourceId, userService.loginUser(token));
+        }
+        return null;
     }
 
     @GetMapping("/deArchivePatterns/{sourceId}")
@@ -196,8 +213,11 @@ public class PatternController {
             "getAllPatternNotArchive",
             "getAllPatternNotArchiveBySourceId"},
             allEntries = true)
-    public List<Pattern> deArchivePatterns(@PathVariable Long sourceId, User user) {
-        return patternService.deArchivePatterns(sourceId, user);
+    public List<Pattern> deArchivePatterns(@PathVariable Long sourceId, String token) {
+        if (userController.isChangeSource(token, sourceId)) {
+            return patternService.deArchivePatterns(sourceId, userService.loginUser(token));
+        }
+        return null;
     }
 
     @PostMapping("/update")
@@ -209,8 +229,11 @@ public class PatternController {
             "getAllPatternNotArchive",
             "getAllPatternNotArchiveBySourceId"},
             allEntries = true)
-    public Pattern update(@ModelAttribute Pattern pattern, User user) {
-        return patternService.updatePattern(pattern, user);
+    public Pattern update(@ModelAttribute Pattern pattern, String token) {
+        if (userController.isChangeSource(token, pattern.getSourceId())) {
+            return patternService.updatePattern(pattern, userService.loginUser(token));
+        }
+        return null;
     }
 
     @GetMapping("/isArchive/{id}")

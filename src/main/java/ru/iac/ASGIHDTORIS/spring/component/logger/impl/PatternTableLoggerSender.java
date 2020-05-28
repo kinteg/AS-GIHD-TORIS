@@ -44,7 +44,8 @@ public class PatternTableLoggerSender implements LoggerSender<PatternTable> {
                 .statuses(status)
                 .patternTableId(object.getId())
                 .actions(actionsRepo.findById(4))
-                .dateCreation(LocalDateTime.now()).usrId(user)
+                .dateCreation(LocalDateTime.now())
+                .usrId(user)
                 .build();
 
         return patternTableLoggerRepo.save(patternLogger).getId();
@@ -68,6 +69,7 @@ public class PatternTableLoggerSender implements LoggerSender<PatternTable> {
                 .patternTableId(object.getId())
                 .actions(actionsRepo.findById(2))
                 .dateCreation(LocalDateTime.now())
+                .usrId(user)
                 .build();
 
         return patternTableLoggerRepo.save(patternLogger).getId();
@@ -98,6 +100,7 @@ public class PatternTableLoggerSender implements LoggerSender<PatternTable> {
                 .patternTableId(object.getId())
                 .actions(actionsRepo.findById(3))
                 .dateCreation(LocalDateTime.now())
+                .usrId(user)
                 .build();
 
         return patternTableLoggerRepo.save(patternLogger).getId();

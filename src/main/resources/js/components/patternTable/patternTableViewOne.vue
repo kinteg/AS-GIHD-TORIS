@@ -511,7 +511,7 @@
                 formData.append("lastUpdate2",this.patternTable.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
-                AXIOS.post("/tableCreator/getAllSort/",
+                AXIOS.post("/tableCreator/getAllBySourceSort/"  + this.sourceId,
                     formData,
                     {
                         headers: {
@@ -589,7 +589,7 @@
                 formData.append("lastUpdate2",this.patternTable.lastUpdate2);
                 formData.append("size",this.pagination.pageSize);
                 formData.append("page",this.pagination.currentPage - 1);
-                AXIOS.post("/tableCreator/getAllSort/",
+                AXIOS.post("/tableCreator/getAllBySourceSort/" + this.sourceId,
                     formData,
                     {
                         headers: {

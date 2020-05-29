@@ -2,7 +2,7 @@ import './widget'
 import { setToken } from './cookies'
 import {AXIOS} from "../../AXIOS/http-common";
 import response from "vue-resource/src/http/response";
-
+import Cookies from 'js-cookie'
 export * from './cookies'
 
 export function defaultConfig (store, router, error, success) {
@@ -52,8 +52,10 @@ export function torisInit ({ config, success, error }) {
   window.addEventListener('TORISWidgetInitComplete', () =>
       window.TORIS.userProfile(result => {
         window.TORIS._info('Профиль пользователя:', result);
+        AXIOS.get("/user/isAdmin/" + result.data.AISTOKEN).then(response=>{
+          Cookies.set('isAdmin', response.data+"");
+        });
         AXIOS.get("user/acceptToken/" + result.data.AISTOKEN).then(response => {
-          console.log(response);
         });
         if (result && result.data) {
           success(result.data)

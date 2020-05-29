@@ -1,5 +1,6 @@
 package ru.iac.ASGIHDTORIS.spring.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,7 @@ import ru.iac.ASGIHDTORIS.spring.service.pattern.PatternService;
 import ru.iac.ASGIHDTORIS.spring.service.user.UserService;
 
 import java.util.List;
-
+@Slf4j
 @RequestMapping("api/pattern/")
 @RestController
 public class PatternController {
@@ -86,6 +87,7 @@ public class PatternController {
             @PageableDefault Pageable pageable,
             @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
+        log.info(pattern.toString());
         return patternRepo2.findAllSourceByQuery(pageable, pattern);
     }
 

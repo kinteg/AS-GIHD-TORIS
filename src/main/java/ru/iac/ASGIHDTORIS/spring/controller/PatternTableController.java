@@ -169,11 +169,13 @@ public class PatternTableController {
             @ModelAttribute HelpModel helpModel) {
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
+        log.info(pattern.toString());
         return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
     @PostMapping("/getAllBySourceSort/{sourceId}")
     public Page<PatternTable> getAllBySourceIdSort(@ModelAttribute PatternTableModel pattern, @PageableDefault Pageable pageable, @ModelAttribute HelpModel helpModel) {
+        log.info(pattern.toString());
         pattern.setHelpModel(helpModel);
         pattern.setIsActive(true);
         return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);

@@ -102,7 +102,7 @@
                             </router-link>
                             <span v-if="table.isArchive">
                             <el-button
-                                    @click="deArchiveOneTable(table.id)"
+                                    @click="deArchiveOneTable(table.id, table.sourceId)"
                                     style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                     type="primary"
                                     size="mini"
@@ -110,7 +110,7 @@
                         </span>
                             <span v-else>
                             <el-button
-                                    @click="deleteOneTable(table.id)"
+                                    @click="deleteOneTable(table.id, table.sourceId)"
                                     style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                     type="primary"
                                     size="mini"
@@ -302,8 +302,14 @@
                 });
             },
 
-            deleteOneTable(id) {
-                this.deleteTable(id);
+            deleteOneTable(id, sourceId) {
+                AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=>{
+                    if(response.data) {
+                        this.deleteTable(id);
+                    } else {
+                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                    }
+                });
             },
 
             updatePage(){
@@ -378,8 +384,14 @@
                 });
             },
 
-            deArchiveOneTable(id){
-                this.deArchiveTable(id);
+            deArchiveOneTable(id, sourceId){
+                AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=>{
+                    if(response.data) {
+                        this.deArchiveTable(id);
+                    } else {
+                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                    }
+                });
             },
 
             onCurrentChange(value) {

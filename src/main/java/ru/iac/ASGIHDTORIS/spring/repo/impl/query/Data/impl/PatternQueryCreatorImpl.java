@@ -87,7 +87,7 @@ public class PatternQueryCreatorImpl implements QueryCreator<PatternModel> {
     }
 
     private String makeSourceIdQuery() {
-        return " source_id = :sourceId";
+        return " source_id = cast(:sourceId as bigint)";
     }
 
     private String makeDescriptionQuery() {

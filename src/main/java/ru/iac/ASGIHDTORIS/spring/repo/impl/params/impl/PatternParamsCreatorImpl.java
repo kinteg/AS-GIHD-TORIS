@@ -68,7 +68,7 @@ public class PatternParamsCreatorImpl implements ParamsCreator<PatternModel> {
     }
 
     private String makeSourceIdParam(PatternModel pattern) {
-        return "%" + pattern.getSourceId() + "%";
+        return pattern.getSourceId().toString();
     }
 
     private String makeDescriptionParam(PatternModel pattern) {

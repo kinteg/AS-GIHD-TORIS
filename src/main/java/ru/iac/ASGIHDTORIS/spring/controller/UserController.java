@@ -41,6 +41,7 @@ public class UserController {
 
     @GetMapping("isAdmin/{token}")
     public boolean isAdmin(@PathVariable String token) {
+        System.out.println(token);
         return userRepo.findBySecretKey(userService.loginUser(token).getSecretKey()).getRoles().contains(Role.ADMIN);
     }
 

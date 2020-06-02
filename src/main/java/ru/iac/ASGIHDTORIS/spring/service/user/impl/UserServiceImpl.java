@@ -79,6 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private User register(User user, String token) {
+        System.out.println();
         if (!userRepo.existsBySecretKey(user.getSecretKey())) {
             try {
                 user.setRoles(getRoles(token));

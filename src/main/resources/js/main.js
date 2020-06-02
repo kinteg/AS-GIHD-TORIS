@@ -22,8 +22,7 @@ torisInit(
         config: {
             sys_id: "urn-eis-toris-gihd-uzd-2020",
             domain: "test.toris.gov.spb.ru",
-            domain_proto: "https:",
-            login_redirect_url: "http://localhost:8082/source/show"
+            domain_proto: "https:"
         },
 
         error(){

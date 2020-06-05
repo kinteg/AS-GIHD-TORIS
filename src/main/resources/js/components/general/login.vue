@@ -22,7 +22,6 @@
 
         mounted() {
             AXIOS.get("user/acceptToken/" + getToken()).then(response => {
-                console.log(response);
                 router.push({name:"show"})
             });
         }

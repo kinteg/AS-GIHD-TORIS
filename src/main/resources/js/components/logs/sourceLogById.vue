@@ -82,7 +82,6 @@
 
         mounted() {
             this.sourceLogId = this.$route.params.id;
-            // /getAll/beforeAfter/
             AXIOS.get("sourceLogger/getAll/beforeAfter/" + this.sourceLogId).then(response => {
                 this.sourceLog = response.data.content;
             });

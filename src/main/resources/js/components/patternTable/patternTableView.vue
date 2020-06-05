@@ -370,12 +370,12 @@
                 AXIOS({
                     url: 'fileUnLoader/getPatternTableFile/'+fileName,
                     method: 'GET',
-                    responseType: 'blob', // important
+                    responseType: 'blob',
                 }).then((response) => {
                     const url = window.URL.createObjectURL(new Blob([response.data]));
                     const link = document.createElement('a');
                     link.href = url;
-                    link.setAttribute('download', fileName); //or any other extension
+                    link.setAttribute('download', fileName);
                     document.body.appendChild(link);
                     link.click();
                 });
@@ -458,7 +458,6 @@
                     router.push({name:'NotFoundPages'})
                 } else {
                     AXIOS.get("/user/isChangeSource/" + getToken() + "/" + response.data.sourceId).then(response => {
-                        console.log(response.data);
                         this.userAccess = response.data;
                     });
                     this.patternTable = response.data;

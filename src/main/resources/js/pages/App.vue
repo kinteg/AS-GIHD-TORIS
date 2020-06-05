@@ -95,4 +95,5 @@
     #sidebar{
         -webkit-animation: 220ms;
     }
+
 </style>

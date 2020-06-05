@@ -26,9 +26,8 @@ import UploadDataToAnotherSystem from "../pages/uploadData/UploadDataToAnotherSy
 import UploadDataForm from "../pages/uploadData/UploadDataForm.vue";
 import NotFoundPages from "../pages/NotFoundPages.vue";
 import LoginPage from "../pages/LoginPage.vue";
-import {AXIOS} from "../AXIOS/http-common";
-import {getToken} from "../modules/auth";
 import Cookies from 'js-cookie'
+
 let hidden;
 hidden = Cookies.get('isAdmin') !== "true";
 const routes = [

@@ -61,7 +61,6 @@
         },
 
         mounted() {
-            console.log(this.patternId);
             AXIOS.get("patternLogger/getAll/"+this.patternId +"?size=" + this.pagination.pageSize).then(response => {
                 this.patternLog = response.data.content;
                 this.pagination.totalPages = response.data.totalPages;

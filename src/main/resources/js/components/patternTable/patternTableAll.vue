@@ -185,7 +185,6 @@
                         </span>
                             </div>
                         </td>
-                        <!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
                         <td v-if="hidden.id">
                             {{table.id}}
                         </td>
@@ -409,7 +408,6 @@
                         this.notify('Ошибка', 'У вас недостаточно прав', 'error');
                     }
                 });
-                console.log(sourceId);
             },
 
             deleteTable(id) {
@@ -424,7 +422,6 @@
             },
 
             deleteOneTable(id, sourceId) {
-                console.log(this.patternTableData);
                 AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=>{
                     if(response.data) {
                         this.deleteTable(id);

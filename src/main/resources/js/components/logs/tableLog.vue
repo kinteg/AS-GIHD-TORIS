@@ -103,7 +103,6 @@
         },
         mounted() {
             AXIOS.get("patternTableLogger/getAll").then(response => {
-                console.log(response);
                 this.tableLog = response.data.content;
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;

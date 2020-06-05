@@ -270,7 +270,6 @@
 
             deleteUser(secretKey){
                 AXIOS.get("/user/deleteUserInSource/" + getToken() + "/" + this.$route.params.id + "/" + secretKey).then(response=>{
-                    console.log(response);
                     this.notify("Успешно", "Оператор был удален", "success");
                     this.updateUserTable();
                 })
@@ -313,7 +312,6 @@
         mounted() {
             AXIOS.get("/user/isChangeSource/" + getToken() + "/" + this.$route.params.id).then(response=>{
                 this.userAccess = response.data;
-                console.log(this.userAccess);
             });
 
             AXIOS.get("/user/isAdmin/" + getToken()).then(response=>{

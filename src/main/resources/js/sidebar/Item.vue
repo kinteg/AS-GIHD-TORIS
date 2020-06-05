@@ -18,7 +18,6 @@ export default {
     const vnodes = []
 
     if (icon) {
-        console.log(icon);
       vnodes.push(<i class={icon}></i>)
         // vnodes.push(icon);
     }

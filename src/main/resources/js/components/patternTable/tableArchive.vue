@@ -351,7 +351,6 @@
             },
 
             deleteOneTable(id, sourceId) {
-                console.log(this.patternTableData);
                 AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=>{
                     if(response.data) {
                         this.deleteTable(id);
@@ -432,7 +431,6 @@
             },
 
             deArchiveOneTable(id, sourceId){
-                console.log(this.patternTableData);
                 AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=>{
                     if(response.data) {
                         this.deArchiveTable(id);
@@ -440,7 +438,6 @@
                         this.notify('Ошибка', 'У вас недостаточно прав', 'error');
                     }
                 });
-                console.log(sourceId);
             },
 
             onCurrentChange(value) {

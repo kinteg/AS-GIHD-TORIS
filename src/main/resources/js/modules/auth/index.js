@@ -52,11 +52,13 @@ export function torisInit ({ config, success, error }) {
   window.addEventListener('TORISWidgetInitComplete', () =>
       window.TORIS.userProfile(result => {
         window.TORIS._info('Профиль пользователя:', result);
-        AXIOS.get("/user/isAdmin/" + result.data.AISTOKEN).then(response=>{
-          Cookies.set('isAdmin', response.data+"");
-        });
+
         AXIOS.get("user/acceptToken/" + result.data.AISTOKEN).then(response => {
+          AXIOS.get("/user/isAdmin/" + result.data.AISTOKEN).then(response=>{
+            Cookies.set('isAdmin', response.data+"");
+          });
         });
+
         if (result && result.data) {
           success(result.data)
         } else if (result.code === 103) {

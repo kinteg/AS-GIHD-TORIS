@@ -13,17 +13,17 @@ task buildFront(type: YarnTask) {
 	args = ['build']
 }
 
-yarn_install.dependsOn(yarn_cache_clean)
-buildFront.dependsOn(yarn_install)
-processResources.dependsOn(buildFront)
-
-sourceSets {
-	main {
-		resources {
-			exclude 'js'
-		}
-	}
-}
+//yarn_install.dependsOn(yarn_cache_clean)
+//buildFront.dependsOn(yarn_install)
+//processResources.dependsOn(buildFront)
+//
+//sourceSets {
+//	main {
+//		resources {
+//			exclude 'js'
+//		}
+//	}
+//}
 
 configurations {
 	developmentOnly

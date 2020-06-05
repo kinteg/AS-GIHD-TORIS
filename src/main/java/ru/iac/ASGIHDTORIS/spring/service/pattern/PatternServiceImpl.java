@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.common.validator.validator.Validator;
 import ru.iac.ASGIHDTORIS.spring.domain.Pattern;
-import ru.iac.ASGIHDTORIS.spring.domain.User;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.service.pattern.logger.PatternLoggerService;
 
@@ -30,45 +29,45 @@ public class PatternServiceImpl implements PatternService {
     }
 
     @Override
-    public Pattern createPattern(Pattern pattern, User user) {
+    public Pattern createPattern(Pattern pattern) {
         pattern.setCreate();
-        return buildCreatePattern(pattern, user);
+        return buildCreatePattern(pattern);
     }
 
     @Override
-    public Pattern archivePattern(Long id, User user) {
-        return buildArchivePattern(id, user);
+    public Pattern archivePattern(Long id) {
+        return buildArchivePattern(id);
     }
 
     @Override
-    public Pattern deArchivePattern(Long id, User user) {
-        return buildDeArchivePattern(id, user);
+    public Pattern deArchivePattern(Long id) {
+        return buildDeArchivePattern(id);
     }
 
     @Override
-    public List<Pattern> archivePatterns(Long sourceId, User user) {
-        return buildArchivePatterns(sourceId, user);
+    public List<Pattern> archivePatterns(Long sourceId) {
+        return buildArchivePatterns(sourceId);
     }
 
     @Override
-    public List<Pattern> deArchivePatterns(Long sourceId, User user) {
-        return buildDeArchivePatterns(sourceId, user);
+    public List<Pattern> deArchivePatterns(Long sourceId) {
+        return buildDeArchivePatterns(sourceId);
     }
 
     @Override
-    public Pattern updatePattern(Pattern pattern, User user) {
-        return buildUpdatePattern(pattern, user);
+    public Pattern updatePattern(Pattern pattern) {
+        return buildUpdatePattern(pattern);
     }
 
-    private Pattern buildUpdatePattern(Pattern pattern, User user) {
+    private Pattern buildUpdatePattern(Pattern pattern) {
         if (!invalid(pattern)) {
-            return saveUpdatePattern(pattern, user);
+            return saveUpdatePattern(pattern);
         } else {
-            return buildInvalidPattern(pattern, user);
+            return buildInvalidPattern(pattern);
         }
     }
 
-    private Pattern buildInvalidPattern(Pattern pattern, User user) {
+    private Pattern buildInvalidPattern(Pattern pattern) {
         Pattern afterUpdate;
         Pattern beforeUpdate;
 
@@ -83,19 +82,19 @@ public class PatternServiceImpl implements PatternService {
             beforeUpdate = afterUpdate;
         }
 
-        patternLoggerService.createLogPatternUpdate(beforeUpdate, afterUpdate, user);
+        patternLoggerService.createLogPatternUpdate(beforeUpdate, afterUpdate);
 
         return afterUpdate;
     }
 
-    private Pattern saveUpdatePattern(Pattern pattern, User user) {
+    private Pattern saveUpdatePattern(Pattern pattern) {
         Pattern beforeUpdate = new Pattern(patternRepo.findById((long) pattern.getId()));
 
         pattern.setUpdate(beforeUpdate);
 
         Pattern afterUpdate = patternRepo.save(pattern);
 
-        patternLoggerService.createLogPatternUpdate(beforeUpdate, afterUpdate, user);
+        patternLoggerService.createLogPatternUpdate(beforeUpdate, afterUpdate);
 
         return afterUpdate;
     }
@@ -107,17 +106,17 @@ public class PatternServiceImpl implements PatternService {
     }
 
     @Override
-    public void incrementFiles(List<Long> id, User user) {
+    public void incrementFiles(List<Long> id) {
         List<Pattern> patternTables = id.stream().map(v -> patternRepo.findById((long) v)).collect(Collectors.toList());
 
         for (Pattern pattern :
                 patternTables) {
-            incrementFiles(pattern.getId(), pattern.getArchiveFileCount(), user);
+            incrementFiles(pattern.getId(), pattern.getArchiveFileCount());
         }
     }
 
     @Override
-    public void incrementFiles(Long id, int count, User user) {
+    public void incrementFiles(Long id, int count) {
         Pattern afterUpdate;
         Pattern beforeUpdate;
 
@@ -133,21 +132,21 @@ public class PatternServiceImpl implements PatternService {
             patternRepo.save(afterUpdate);
         }
 
-        patternLoggerService.createLogIncrement(beforeUpdate, afterUpdate, user);
+        patternLoggerService.createLogIncrement(beforeUpdate, afterUpdate);
     }
 
     @Override
-    public void decrementFiles(List<Long> id, User user) {
+    public void decrementFiles(List<Long> id) {
         List<Pattern> patternTables = id.stream().map(v -> patternRepo.findById((long) v)).collect(Collectors.toList());
 
         for (Pattern pattern :
                 patternTables) {
-            decrementFiles(pattern.getId(), pattern.getFileCount(), user);
+            decrementFiles(pattern.getId(), pattern.getFileCount());
         }
     }
 
     @Override
-    public void decrementFiles(Long id, int count, User user) {
+    public void decrementFiles(Long id, int count) {
         Pattern afterUpdate;
         Pattern beforeUpdate;
 
@@ -163,54 +162,54 @@ public class PatternServiceImpl implements PatternService {
             patternRepo.save(afterUpdate);
         }
 
-        patternLoggerService.createLogDecrement(beforeUpdate, afterUpdate, user);
+        patternLoggerService.createLogDecrement(beforeUpdate, afterUpdate);
     }
 
-    private Pattern buildCreatePattern(Pattern pattern, User user) {
+    private Pattern buildCreatePattern(Pattern pattern) {
         if (patternValidator.isValid(pattern)) {
             patternRepo.save(pattern);
         } else {
             pattern = Pattern.getBadIdPattern(-1);
         }
 
-        patternLoggerService.createLogCreate(pattern, user);
+        patternLoggerService.createLogCreate(pattern);
 
         return pattern;
     }
 
-    private Pattern buildArchivePattern(long id, User user) {
+    private Pattern buildArchivePattern(long id) {
         if (patternRepo.existsById(id)) {
-            return saveArchive(id, user);
+            return saveArchive(id);
         } else {
-            return buildBadIdArchive(user);
+            return buildBadIdArchive();
         }
     }
 
-    private Pattern buildDeArchivePattern(long id, User user) {
+    private Pattern buildDeArchivePattern(long id) {
         if (patternRepo.existsById(id)) {
-            return saveDeArchive(id, user);
+            return saveDeArchive(id);
         } else {
-            return buildBadIdDeArchive(user);
+            return buildBadIdDeArchive();
         }
     }
 
-    private List<Pattern> buildArchivePatterns(long sourceId, User user) {
+    private List<Pattern> buildArchivePatterns(long sourceId) {
         if (patternRepo.existsBySourceId(sourceId)) {
-            return saveArchives(sourceId, user);
+            return saveArchives(sourceId);
         } else {
-            return buildBadIdArchives(user);
+            return buildBadIdArchives();
         }
     }
 
-    private List<Pattern> buildDeArchivePatterns(long sourceId, User user) {
+    private List<Pattern> buildDeArchivePatterns(long sourceId) {
         if (patternRepo.existsBySourceId(sourceId)) {
-            return saveDeArchives(sourceId, user);
+            return saveDeArchives(sourceId);
         } else {
-            return buildBadIdDeArchives(user);
+            return buildBadIdDeArchives();
         }
     }
 
-    private Pattern saveArchive(long id, User user) {
+    private Pattern saveArchive(long id) {
         Pattern patternAfter = patternRepo.findById(id);
         Pattern patternBefore = Pattern.getArchiveInfo(patternAfter);
 
@@ -218,12 +217,12 @@ public class PatternServiceImpl implements PatternService {
 
         patternRepo.save(patternAfter);
 
-        patternLoggerService.createLogPatternArchive(patternBefore, patternAfter, user);
+        patternLoggerService.createLogPatternArchive(patternBefore, patternAfter);
 
         return patternAfter;
     }
 
-    private List<Pattern> saveArchives(long sourceId, User user) {
+    private List<Pattern> saveArchives(long sourceId) {
         List<Pattern> patternsBefore = patternRepo
                 .findAllBySourceId(sourceId)
                 .stream()
@@ -238,12 +237,12 @@ public class PatternServiceImpl implements PatternService {
 
         patternRepo.saveAll(patternsAfter);
 
-        patternLoggerService.createLogPatternsArchive(patternsBefore, patternsAfter, user);
+        patternLoggerService.createLogPatternsArchive(patternsBefore, patternsAfter);
 
         return patternsAfter;
     }
 
-    private Pattern saveDeArchive(long id, User user) {
+    private Pattern saveDeArchive(long id) {
         Pattern patternAfter = patternRepo.findById(id);
         Pattern patternBefore = Pattern.getDeArchiveInfo(patternAfter);
 
@@ -251,12 +250,12 @@ public class PatternServiceImpl implements PatternService {
 
         patternRepo.save(patternAfter);
 
-        patternLoggerService.createLogPatternDeArchive(patternBefore, patternAfter, user);
+        patternLoggerService.createLogPatternDeArchive(patternBefore, patternAfter);
 
         return patternAfter;
     }
 
-    private List<Pattern> saveDeArchives(long sourceId, User user) {
+    private List<Pattern> saveDeArchives(long sourceId) {
         List<Pattern> patternsBefore = patternRepo
                 .findAllBySourceId(sourceId)
                 .stream()
@@ -271,43 +270,43 @@ public class PatternServiceImpl implements PatternService {
 
         patternRepo.saveAll(patternsAfter);
 
-        patternLoggerService.createLogPatternsDeArchive(patternsBefore, patternsAfter, user);
+        patternLoggerService.createLogPatternsDeArchive(patternsBefore, patternsAfter);
 
         return patternsAfter;
     }
 
-    private Pattern buildBadIdArchive(User user) {
+    private Pattern buildBadIdArchive() {
         Pattern patternAfter = Pattern.getBadIdPattern(-3);
         Pattern patternBefore = Pattern.getBadIdPattern(-3);
 
-        patternLoggerService.createLogPatternArchive(patternBefore, patternAfter, user);
+        patternLoggerService.createLogPatternArchive(patternBefore, patternAfter);
 
         return patternAfter;
     }
 
-    private List<Pattern> buildBadIdArchives(User user) {
+    private List<Pattern> buildBadIdArchives() {
         List<Pattern> patternsAfter = Collections.singletonList(Pattern.getBadIdPattern(-3));
         List<Pattern> patternBefore = Collections.singletonList(Pattern.getBadIdPattern(-3));
 
-        patternLoggerService.createLogPatternArchive(patternBefore.get(0), patternsAfter.get(0), user);
+        patternLoggerService.createLogPatternArchive(patternBefore.get(0), patternsAfter.get(0));
 
         return patternsAfter;
     }
 
-    private Pattern buildBadIdDeArchive(User user) {
+    private Pattern buildBadIdDeArchive() {
         Pattern patternAfter = Pattern.getBadIdPattern(-3);
         Pattern patternBefore = Pattern.getBadIdPattern(-3);
 
-        patternLoggerService.createLogPatternDeArchive(patternBefore, patternAfter, user);
+        patternLoggerService.createLogPatternDeArchive(patternBefore, patternAfter);
 
         return patternAfter;
     }
 
-    private List<Pattern> buildBadIdDeArchives(User user) {
+    private List<Pattern> buildBadIdDeArchives() {
         List<Pattern> patternsAfter = Collections.singletonList(Pattern.getBadIdPattern(-3));
         List<Pattern> patternBefore = Collections.singletonList(Pattern.getBadIdPattern(-3));
 
-        patternLoggerService.createLogPatternDeArchive(patternBefore.get(0), patternsAfter.get(0), user);
+        patternLoggerService.createLogPatternDeArchive(patternBefore.get(0), patternsAfter.get(0));
 
         return patternsAfter;
     }

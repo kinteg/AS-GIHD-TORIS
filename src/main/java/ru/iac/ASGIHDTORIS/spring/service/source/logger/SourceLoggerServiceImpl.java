@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.iac.ASGIHDTORIS.spring.component.ba.BeforeAfter;
 import ru.iac.ASGIHDTORIS.spring.component.logger.LoggerSender;
 import ru.iac.ASGIHDTORIS.spring.domain.Source;
-import ru.iac.ASGIHDTORIS.spring.domain.User;
 
 @Service
 public class SourceLoggerServiceImpl implements SourceLoggerService {
@@ -22,8 +21,8 @@ public class SourceLoggerServiceImpl implements SourceLoggerService {
     }
 
     @Override
-    public void createLogSourceCreate(Source sourceAfter, User user) {
-        long loggerId = sourceLoggerSender.afterCreate(sourceAfter, user);
+    public void createLogSourceCreate(Source sourceAfter) {
+        long loggerId = sourceLoggerSender.afterCreate(sourceAfter);
 
         if (sourceAfter != null && sourceAfter.getId() > 0) {
             sourceBeforeAfter.afterCreate(sourceAfter, loggerId);
@@ -32,9 +31,9 @@ public class SourceLoggerServiceImpl implements SourceLoggerService {
     }
 
     @Override
-    public void createLogSourceArchive(Source sourceBefore, Source sourceAfter, User user) {
+    public void createLogSourceArchive(Source sourceBefore, Source sourceAfter) {
 
-        long loggerId = sourceLoggerSender.afterArchive(sourceAfter, user);
+        long loggerId = sourceLoggerSender.afterArchive(sourceAfter);
 
         if (sourceAfter.getId() > 0) {
             sourceBeforeAfter.afterArchive(sourceBefore, sourceAfter, loggerId);
@@ -43,9 +42,9 @@ public class SourceLoggerServiceImpl implements SourceLoggerService {
     }
 
     @Override
-    public void createLogSourceDeArchive(Source sourceBefore, Source sourceAfter, User user) {
+    public void createLogSourceDeArchive(Source sourceBefore, Source sourceAfter) {
 
-        long loggerId = sourceLoggerSender.afterDeArchive(sourceAfter, user);
+        long loggerId = sourceLoggerSender.afterDeArchive(sourceAfter);
 
         if (sourceAfter.getId() > 0) {
             sourceBeforeAfter.afterDeArchive(sourceBefore, sourceAfter, loggerId);
@@ -54,9 +53,9 @@ public class SourceLoggerServiceImpl implements SourceLoggerService {
     }
 
     @Override
-    public void createLogSourceUpdate(Source sourceBefore, Source sourceAfter, User user) {
+    public void createLogSourceUpdate(Source sourceBefore, Source sourceAfter) {
 
-        long loggerId = sourceLoggerSender.afterUpdate(sourceAfter, user);
+        long loggerId = sourceLoggerSender.afterUpdate(sourceAfter);
 
         if (sourceBefore.getId() > 0) {
             sourceBeforeAfter.afterUpdate(sourceBefore, sourceAfter, loggerId);

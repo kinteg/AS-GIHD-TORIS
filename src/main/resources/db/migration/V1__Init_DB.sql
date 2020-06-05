@@ -1,19 +1,5 @@
 create sequence hibernate_sequence start 1 increment 1;
 
-create table user_role
-(
-    user_id int8 not null,
-    roles   varchar(255)
-);
-
-create table usr
-(
-    id         int8 not null,
-    fio        text not null,
-    secret_key text not null,
-    primary key (id)
-);
-
 create table if not exists source
 (
     id                int8      not null,
@@ -122,7 +108,6 @@ create table source_logger
     error_id      int8      not null,
     source_id     int8      not null,
     date_creation timestamp not null default current_timestamp,
-    usr_id        int8,
     primary key (id),
     foreign key (action_id) references actions (id)
         on delete cascade
@@ -132,8 +117,7 @@ create table source_logger
         on update cascade,
     foreign key (error_id) references errors (id)
         on delete cascade
-        on update cascade,
-    foreign key (usr_id) references usr (id)
+        on update cascade
 );
 
 create table before_after_source
@@ -157,7 +141,6 @@ create table pattern_logger
     error_id      int8      not null,
     pattern_id    int8      not null,
     date_creation timestamp not null default current_timestamp,
-    usr_id        int8,
     primary key (id),
     foreign key (action_id) references actions (id)
         on delete cascade
@@ -167,8 +150,7 @@ create table pattern_logger
         on update cascade,
     foreign key (error_id) references errors (id)
         on delete cascade
-        on update cascade,
-    foreign key (usr_id) references usr (id)
+        on update cascade
 );
 
 create table before_after_pattern
@@ -192,7 +174,6 @@ create table pattern_table_logger
     error_id         int8      not null,
     pattern_table_id int8      not null,
     date_creation    timestamp not null default current_timestamp,
-    usr_id           int8,
     primary key (id),
     foreign key (action_id) references actions (id)
         on delete cascade
@@ -202,8 +183,7 @@ create table pattern_table_logger
         on update cascade,
     foreign key (error_id) references errors (id)
         on delete cascade
-        on update cascade,
-    foreign key (usr_id) references usr (id)
+        on update cascade
 );
 
 create table before_after_pattern_table
@@ -242,21 +222,3 @@ create table pattern_table_file
         on delete cascade
         on update cascade
 );
-
-create table source_set
-(
-    id        int8 not null,
-    usr_id    int8 not null,
-    source_id int8 not null,
-    primary key (id),
-    foreign key (usr_id) references usr (id)
-        on delete cascade
-        on update cascade,
-    foreign key (source_id) references source (id)
-        on delete cascade
-        on update cascade
-);
-
-alter table if exists user_role
-    add constraint user_role_user_fk
-        foreign key (user_id) references usr;

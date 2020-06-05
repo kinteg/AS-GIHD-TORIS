@@ -16,13 +16,12 @@ import ru.iac.ASGIHDTORIS.common.model.serch.SearchModel;
 import ru.iac.ASGIHDTORIS.common.model.table.PatternTableModelStatus;
 import ru.iac.ASGIHDTORIS.lib.lib.common.model.TableModel;
 import ru.iac.ASGIHDTORIS.spring.domain.PatternTable;
-import ru.iac.ASGIHDTORIS.spring.repo.PatternRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo;
 import ru.iac.ASGIHDTORIS.spring.repo.PatternTableRepo2;
 import ru.iac.ASGIHDTORIS.spring.service.patterTable.PatternTableService;
-import ru.iac.ASGIHDTORIS.spring.service.user.UserService;
 
 import java.util.List;
+
 @Slf4j
 @RequestMapping("api/tableCreator/")
 @RestController
@@ -31,21 +30,14 @@ public class PatternTableController {
     private final PatternTableRepo patternTableRepo;
     private final PatternTableRepo2 patternTableRepo2;
     private final PatternTableService patternTableService;
-    private final UserController userController;
-    private final PatternRepo patternRepo;
-    private final UserService userService;
 
     public PatternTableController(
             PatternTableRepo patternTableRepo,
             PatternTableRepo2 patternTableRepo2,
-            PatternTableService patternTableService,
-            UserController userController, PatternRepo patternRepo, UserService userService) {
+            PatternTableService patternTableService) {
         this.patternTableRepo = patternTableRepo;
         this.patternTableRepo2 = patternTableRepo2;
         this.patternTableService = patternTableService;
-        this.userController = userController;
-        this.patternRepo = patternRepo;
-        this.userService = userService;
     }
 
     @PostMapping("/create")
@@ -66,13 +58,9 @@ public class PatternTableController {
     public PatternTableModelStatus createPatternTable(
             @ModelAttribute TableModel tableModel,
             @ModelAttribute DataModelList dataModelList,
-            @RequestParam Long patternId, String token
+            @RequestParam Long patternId
     ) {
-        if (userController.isChangeSource(token, patternRepo.findById((long) patternId).getSourceId())) {
-            return patternTableService.createPatternTable(tableModel, dataModelList, patternId, userService.loginUser(token));
-        }
-
-        return null;
+        return patternTableService.createPatternTable(tableModel, dataModelList, patternId);
     }
 
     @PostMapping("/update")
@@ -93,13 +81,9 @@ public class PatternTableController {
     public PatternTableModelStatus updatePatternTable(
             @ModelAttribute TableModel tableModel,
             @ModelAttribute DataModelList dataModelList,
-            @RequestParam Long patternTableId, String token
+            @RequestParam Long patternTableId
     ) {
-        if (userController.isChangeSource(token, patternTableRepo.findById((long) patternTableId).getSourceId())) {
-            return patternTableService.updatePatternTable(tableModel, dataModelList, patternTableId, userService.loginUser(token));
-        }
-
-        return null;
+        return patternTableService.updatePatternTable(tableModel, dataModelList, patternTableId);
     }
 
     @PostMapping("/getTable")
@@ -288,7 +272,7 @@ public class PatternTableController {
         return patternTableRepo2.findAllPatternTableByQuery(pageable, pattern);
     }
 
-    @GetMapping("/archive/{id}/{token}")
+    @GetMapping("/archive/{id}")
     @CacheEvict(value = {
             "getTable", "getByPatternTableId",
             "getAllPatternTable",
@@ -302,14 +286,11 @@ public class PatternTableController {
             "getAllPatternTableNotArchiveBySourceId",
             "existByPatternTableName"},
             allEntries = true)
-    public PatternTable archivePattern(@PathVariable Long id, @PathVariable String token) {
-        if (userController.isChangeSource(token, patternTableRepo.findById((long) id).getSourceId())) {
-            return patternTableService.archivePatternTable(id, userService.loginUser(token));
-        }
-        return null;
+    public PatternTable archivePattern(@PathVariable Long id) {
+        return patternTableService.archivePatternTable(id);
     }
 
-    @GetMapping("/deArchive/{id}/{token}")
+    @GetMapping("/deArchive/{id}")
     @CacheEvict(value = {
             "getTable", "getByPatternTableId",
             "getAllPatternTable",
@@ -323,14 +304,11 @@ public class PatternTableController {
             "getAllPatternTableNotArchiveBySourceId",
             "existByPatternTableName"},
             allEntries = true)
-    public PatternTable deArchivePattern(@PathVariable Long id,@PathVariable String token) {
-        if (userController.isChangeSource(token, patternTableRepo.findById((long) id).getSourceId())) {
-            return patternTableService.deArchivePatternTable(id, userService.loginUser(token));
-        }
-        return null;
+    public PatternTable deArchivePattern(@PathVariable Long id) {
+        return patternTableService.deArchivePatternTable(id);
     }
 
-    @GetMapping("/archivePatterns/{id}/{token}")
+    @GetMapping("/archivePatterns/{id}")
     @CacheEvict(value = {
             "getTable", "getByPatternTableId",
             "getAllPatternTable",
@@ -344,15 +322,11 @@ public class PatternTableController {
             "getAllPatternTableNotArchiveBySourceId",
             "existByPatternTableName"},
             allEntries = true)
-    public List<PatternTable> archivePatterns(@PathVariable Long id, @PathVariable String token) {
-        if (userController.isChangeSource(token, patternRepo.findById((long) id).getSourceId())) {
-            return patternTableService.archivePatternTablesByPatternId(id, userService.loginUser(token));
-        }
-
-        return null;
+    public List<PatternTable> archivePatterns(@PathVariable Long id) {
+        return patternTableService.archivePatternTablesByPatternId(id);
     }
 
-    @GetMapping("/deArchivePatterns/{id}/{token}")
+    @GetMapping("/deArchivePatterns/{id}")
     @CacheEvict(value = {
             "getTable", "getByPatternTableId",
             "getAllPatternTable",
@@ -366,15 +340,11 @@ public class PatternTableController {
             "getAllPatternTableNotArchiveBySourceId",
             "existByPatternTableName"},
             allEntries = true)
-    public List<PatternTable> deArchivePatterns(@PathVariable Long id, @PathVariable String token) {
-        if (userController.isChangeSource(token, patternRepo.findById((long) id).getSourceId())) {
-            return patternTableService.deArchivePatternTablesByPatternId(id, userService.loginUser(token));
-        }
-
-        return null;
+    public List<PatternTable> deArchivePatterns(@PathVariable Long id) {
+        return patternTableService.deArchivePatternTablesByPatternId(id);
     }
 
-    @GetMapping("/archivePatternsBySource/{id}/{token}")
+    @GetMapping("/archivePatternsBySource/{id}")
     @CacheEvict(value = {
             "getTable", "getByPatternTableId",
             "getAllPatternTable",
@@ -388,15 +358,11 @@ public class PatternTableController {
             "getAllPatternTableNotArchiveBySourceId",
             "existByPatternTableName"},
             allEntries = true)
-    public List<PatternTable> archivePatternsBySource(@PathVariable Long id, @PathVariable String token) {
-        if (userController.isChangeSource(token, id)) {
-            return patternTableService.archivePatternTablesBySourceId(id, userService.loginUser(token));
-        }
-
-        return null;
+    public List<PatternTable> archivePatternsBySource(@PathVariable Long id) {
+        return patternTableService.archivePatternTablesBySourceId(id);
     }
 
-    @GetMapping("/deArchivePatternTablesBySource/{id}/{token}")
+    @GetMapping("/deArchivePatternTablesBySource/{id}")
     @CacheEvict(value = {
             "getTable", "getByPatternTableId",
             "getAllPatternTable",
@@ -410,12 +376,8 @@ public class PatternTableController {
             "getAllPatternTableNotArchiveBySourceId",
             "existByPatternTableName"},
             allEntries = true)
-    public List<PatternTable> deArchivePatternsBySource(@PathVariable Long id, @PathVariable String token) {
-        if (userController.isChangeSource(token, id)) {
-            return patternTableService.deArchivePatternTablesBySourceId(id, userService.loginUser(token));
-        }
-
-        return null;
+    public List<PatternTable> deArchivePatternsBySource(@PathVariable Long id) {
+        return patternTableService.deArchivePatternTablesBySourceId(id);
     }
 
 }

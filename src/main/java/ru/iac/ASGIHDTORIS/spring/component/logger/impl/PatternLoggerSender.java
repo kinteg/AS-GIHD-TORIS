@@ -28,7 +28,7 @@ public class PatternLoggerSender implements LoggerSender<Pattern> {
     }
 
     @Override
-    public Long afterCreate(Pattern object, User user) {
+    public Long afterCreate(Pattern object) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -45,14 +45,13 @@ public class PatternLoggerSender implements LoggerSender<Pattern> {
                 .patternId(object.getId())
                 .actions(actionsRepo.findById(4))
                 .dateCreation(LocalDateTime.now())
-                .usrId(user)
                 .build();
 
         return patternLoggerRepo.save(patternLogger).getId();
     }
 
     @Override
-    public Long afterArchive(Pattern object, User user) {
+    public Long afterArchive(Pattern object) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -69,21 +68,20 @@ public class PatternLoggerSender implements LoggerSender<Pattern> {
                 .patternId(object.getId())
                 .actions(actionsRepo.findById(2))
                 .dateCreation(LocalDateTime.now())
-                .usrId(user)
                 .build();
 
         return patternLoggerRepo.save(patternLogger).getId();
     }
 
     @Override
-    public List<Long> afterArchive(List<Pattern> object, User user) {
+    public List<Long> afterArchive(List<Pattern> object) {
         return object.stream()
-                .map(v -> afterArchive(v, user))
+                .map(this::afterArchive)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Long afterDeArchive(Pattern object, User user) {
+    public Long afterDeArchive(Pattern object) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -100,21 +98,20 @@ public class PatternLoggerSender implements LoggerSender<Pattern> {
                 .patternId(object.getId())
                 .actions(actionsRepo.findById(3))
                 .dateCreation(LocalDateTime.now())
-                .usrId(user)
                 .build();
 
         return patternLoggerRepo.save(patternLogger).getId();
     }
 
     @Override
-    public List<Long> afterDeArchive(List<Pattern> object, User user) {
+    public List<Long> afterDeArchive(List<Pattern> object) {
         return object.stream()
-                .map(v -> afterDeArchive(v, user))
+                .map(this::afterDeArchive)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Long afterUpdate(Pattern object, User user) {
+    public Long afterUpdate(Pattern object) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -131,7 +128,6 @@ public class PatternLoggerSender implements LoggerSender<Pattern> {
                 .patternId(object.getId())
                 .actions(actionsRepo.findById(5))
                 .dateCreation(LocalDateTime.now())
-                .usrId(user)
                 .build();
 
         return patternLoggerRepo.save(patternLogger).getId();

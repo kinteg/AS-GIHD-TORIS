@@ -28,7 +28,7 @@ public class SourceLoggerSender implements LoggerSender<Source> {
     }
 
     @Override
-    public Long afterCreate(Source object, User user) {
+    public Long afterCreate(Source object) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -45,14 +45,13 @@ public class SourceLoggerSender implements LoggerSender<Source> {
                 .sourceId(object.getId())
                 .actions(actionsRepo.findById(4))
                 .dateCreation(LocalDateTime.now())
-                .usrId(user)
                 .build();
 
         return sourceLoggerRepo.save(sourceLogger).getId();
     }
 
     @Override
-    public Long afterArchive(Source object, User user) {
+    public Long afterArchive(Source object) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -69,21 +68,20 @@ public class SourceLoggerSender implements LoggerSender<Source> {
                 .sourceId(object.getId())
                 .actions(actionsRepo.findById(2))
                 .dateCreation(LocalDateTime.now())
-                .usrId(user)
                 .build();
 
         return sourceLoggerRepo.save(sourceLogger).getId();
     }
 
     @Override
-    public List<Long> afterArchive(List<Source> object, User user) {
+    public List<Long> afterArchive(List<Source> object) {
         return object.stream()
-                .map(v -> afterArchive(v, user))
+                .map(this::afterArchive)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Long afterDeArchive(Source object, User user) {
+    public Long afterDeArchive(Source object) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -100,21 +98,20 @@ public class SourceLoggerSender implements LoggerSender<Source> {
                 .sourceId(object.getId())
                 .actions(actionsRepo.findById(3))
                 .dateCreation(LocalDateTime.now())
-                .usrId(user)
                 .build();
 
         return sourceLoggerRepo.save(sourceLogger).getId();
     }
 
     @Override
-    public List<Long> afterDeArchive(List<Source> object, User user) {
+    public List<Long> afterDeArchive(List<Source> object) {
         return object.stream()
-                .map(v -> afterDeArchive(v, user))
+                .map(this::afterDeArchive)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Long afterUpdate(Source object, User user) {
+    public Long afterUpdate(Source object) {
         Errors error = errorCreator.errorCreator(object.getId());
         Statuses status;
 
@@ -131,7 +128,6 @@ public class SourceLoggerSender implements LoggerSender<Source> {
                 .sourceId(object.getId())
                 .actions(actionsRepo.findById(5))
                 .dateCreation(LocalDateTime.now())
-                .usrId(user)
                 .build();
 
         return sourceLoggerRepo.save(sourceLogger).getId();

@@ -8,4 +8,6 @@ public interface UserService {
 
     User loginUser(String token);
 
+    User getUserInfo(String token);
+
 }

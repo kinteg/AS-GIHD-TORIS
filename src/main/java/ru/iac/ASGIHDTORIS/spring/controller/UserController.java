@@ -41,18 +41,18 @@ public class UserController {
 
     @GetMapping("isAdmin/{token}")
     public boolean isAdmin(@PathVariable String token) {
-        System.out.println(token);
-        return userRepo.findBySecretKey(userService.loginUser(token).getSecretKey()).getRoles().contains(Role.ADMIN);
+        System.out.println(userService.getUserInfo(token));
+        return userRepo.findBySecretKey(userService.getUserInfo(token).getSecretKey()).getRoles().contains(Role.ADMIN);
     }
 
     @GetMapping("isUser/{token}")
     public boolean isUser(@PathVariable String token) {
-        return userRepo.existsBySecretKey(userService.loginUser(token).getSecretKey());
+        return userRepo.existsBySecretKey(userService.getUserInfo(token).getSecretKey());
     }
 //может ли юзер менять сурс
     @GetMapping("isChangeSource/{token}/{sourceId}")
     public boolean isChangeSource(@PathVariable String token, @PathVariable Long sourceId) {
-        User user = userService.loginUser(token);
+        User user = userService.getUserInfo(token);
 
         return user.getRoles().contains(Role.ADMIN) ||
                 sourceSetRepo.existsBySourceIdAndUserId(sourceId, user.getId());

@@ -41,7 +41,8 @@ public class UserServiceImpl implements UserService {
         return register(user, token);
     }
 
-    private User getUserInfo(String token) {
+    @Override
+    public User getUserInfo(String token) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<User> entity = new HttpEntity<>(createHeader(token));
 
@@ -79,7 +80,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private User register(User user, String token) {
-        System.out.println();
         if (!userRepo.existsBySecretKey(user.getSecretKey())) {
             try {
                 user.setRoles(getRoles(token));

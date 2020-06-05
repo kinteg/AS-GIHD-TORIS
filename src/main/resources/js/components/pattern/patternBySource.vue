@@ -495,7 +495,6 @@
                     this.pattern.key = key;
                     this.pattern.sort = "asc";
                 }
-                console.log(this.sourceId);
                 let formData = new FormData();
                 formData.append("isArchive",this.value);
                 formData.append("sort",this.pattern.sort);

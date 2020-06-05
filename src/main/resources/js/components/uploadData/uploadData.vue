@@ -38,7 +38,7 @@
 
                         <div v-for="oneTable in tables.table">
                             <p class="nameTable" @click="viewTable(oneTable)">{{oneTable}}</p>
-                            <select @change="changeSelect(oneTable)" v-if="allFiles !== ['-']" class="select" :id="oneTable">
+                            <select v-if="allFiles !== ['-']" class="select" :id="oneTable">
                                 <option class="option" v-for="pole in allFiles" :value="pole">{{pole}}</option>
                             </select>
                             <hr style="color: #DCDFE6">
@@ -123,22 +123,6 @@
             }
         },
         methods: {
-            changeSelect(id){
-                // let selInd = document.getElementById(id).options.selectedIndex;
-                // console.log(id);
-                // console.log(this.allFiles);
-                // document.getElementById(id).options.disabled = false;
-                // document.getElementById(id).options[selInd].disabled = true;
-
-
-                // let selInd = document.getElementById(id).options.selectedIndex;
-                // let file = document.getElementById(id).options[selInd].value;
-                // this.selectedFile.push(file);
-                // this.select = file;
-                // let indSelect = this.allFiles.indexOf(file);
-                // this.allFiles.splice(indSelect, 1);
-            },
-
             viewFile(name){
                 this.dialogFileVisible = true;
                 let formData = new FormData();
@@ -186,7 +170,6 @@
                     check = 0;
                 }
                 if(validate){
-                    console.log(files.indexOf("q.csv"));
                     let formData = new FormData();
                     formData.append("file",this.file);
                     formData.append("URL", this.dataBase.url);
@@ -248,15 +231,12 @@
                 let formData = new FormData();
                 formData.append("file",file.raw);
                 AXIOS.post("/fileLoaderAnotherDb/getAllFileNames", formData).then(response=>{
-                    // this.allFiles = response.data;
-                    // this.allFiles.push("-");
                     this.viewFiles = response.data;
                     let first = [];
                     first.push("-");
                     let mas = response.data;
 
                     this.allFiles = first.concat(mas);
-                    console.log(this.allFiles);
                 })
             },
 

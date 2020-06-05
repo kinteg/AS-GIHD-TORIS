@@ -99,7 +99,6 @@
         mounted() {
             AXIOS.get("sourceLogger/getAll").then(response => {
                 this.sourceLog = response.data.content;
-                console.log(response);
                 this.pagination.totalPages = response.data.totalPages;
                 this.pagination.totalElements = response.data.totalElements;
             });

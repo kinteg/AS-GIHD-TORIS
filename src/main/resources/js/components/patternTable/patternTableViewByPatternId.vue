@@ -117,7 +117,6 @@
                                     icon="el-icon-delete"/>
                         </span>
                         </td>
-                        <!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
                         <td v-if="hidden.id">{{table.id}}</td>
                         <td v-if="hidden.nameTable">{{table.nameTable}}</td>
                         <td v-if="hidden.nameFile">{{table.nameFile}}</td>

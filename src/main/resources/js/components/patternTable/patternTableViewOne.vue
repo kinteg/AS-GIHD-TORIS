@@ -2,8 +2,6 @@
     <div>
         <div>
             <p style="font-size: 20px">Все таблицы
-                <!--                <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
-                <!--                <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
                 <el-dropdown style="float: right" :hide-on-click="false">
                     <el-button style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; " type="primary" icon="el-icon-s-tools">
                     </el-button>
@@ -152,7 +150,6 @@
                                     icon="el-icon-delete"/>
                         </span>
                         </td>
-                        <!--                        <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>-->
                         <td v-if="hidden.id">{{table.id}}</td>
                         <td v-if="hidden.nameTable">{{table.nameTable}}</td>
                         <td v-if="hidden.nameFile">{{table.nameFile}}</td>

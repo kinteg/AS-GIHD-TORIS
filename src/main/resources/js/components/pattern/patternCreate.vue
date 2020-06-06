@@ -117,7 +117,7 @@
                 formData.append("direction",this.pattern.direction);
                 formData.append("management",this.pattern.management);
                 formData.append("sourceId",this.sourceId);
-                formData.append("token", getToken());
+                // formData.append("token", getToken());
                 AXIOS.post("/pattern/create",
                     formData,
                     {

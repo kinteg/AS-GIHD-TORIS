@@ -6,6 +6,7 @@ import VueRouter from "vue-router";
 import routes from "../router/routes";
 Vue.use(Vuex);
 export default new Vuex.Store({
+
     state: {
         sidebarMenu: {
             opened: !+Cookies.get('sidebarStatus'),
@@ -30,8 +31,5 @@ export default new Vuex.Store({
             state.sidebarMenu.withoutAnimation = false
         }
     },
-    actions: {
-
-    }
 
 })

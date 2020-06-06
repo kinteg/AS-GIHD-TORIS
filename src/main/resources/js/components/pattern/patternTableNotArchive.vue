@@ -351,7 +351,8 @@
                 if(this.pattern.check.length !== 0){
                     for(let i = 0; i < this.pattern.check.length; i++){
                         this.deletePattern(this.pattern.check[i]);
-                        AXIOS.get("tableCreator/archivePatterns/" + i + "/" + getToken())
+                        // AXIOS.get("tableCreator/archivePatterns/" + i + "/" + getToken())
+                        AXIOS.get("tableCreator/archivePatterns/" + i )
                     }
                     this.updatePage();
                 } else {
@@ -368,7 +369,8 @@
             },
 
             deletePattern(id) {
-                AXIOS.get("pattern/archive/" + id  + "/" + getToken()).then(response => {
+                AXIOS.get("pattern/archive/" + id ).then(response => {
+                // AXIOS.get("pattern/archive/" + id  + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был архивирован','success');
                         this.updatePage();

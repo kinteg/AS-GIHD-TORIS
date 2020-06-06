@@ -1,6 +1,5 @@
 <template>
     <div>
-        <p>rtr</p>
     </div>
 </template>
 

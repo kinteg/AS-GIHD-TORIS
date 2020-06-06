@@ -90,6 +90,7 @@
                 if(response.data === ""){
                     router.push({name:'NotFoundPages'})
                 } else {
+                    console.log(response);
                     this.sourceLogInfo = response.data;
                 }
             })

@@ -72,7 +72,12 @@
                                         style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
                                     Назад
                                 </el-button>
-                                <el-button v-if="userAccess"
+<!--                                <el-button v-if="userAccess"-->
+<!--                                           @click="update"-->
+<!--                                           style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">-->
+<!--                                    Редактировать-->
+<!--                                </el-button>-->
+                                <el-button
                                            @click="update"
                                            style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
                                     Редактировать
@@ -80,9 +85,12 @@
                             </el-tab-pane>
                             <el-tab-pane label="Шаблоны" name="patternInfo">
                                 <span v-if="hiddenTable"  style="background-color: white;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
+<!--                                    <pattern-by-source-->
+<!--                                            style="padding: 0 5px 0 0; box-shadow: none "-->
+<!--                                            :access="userAccess"-->
+<!--                                            :source-id="this.$route.params.id"/>-->
                                     <pattern-by-source
                                             style="padding: 0 5px 0 0; box-shadow: none "
-                                            :access="userAccess"
                                             :source-id="this.$route.params.id"/>
                                 </span>
                                 <div v-else>
@@ -95,13 +103,15 @@
                                 </div>
                             </el-tab-pane>
                             <el-tab-pane label="Таблицы" name="tableInfo">
-                                <pattern-table-all-view-one :access="userAccess" :source-id="this.$route.params.id"/>
+<!--                                <pattern-table-all-view-one :access="userAccess" :source-id="this.$route.params.id"/>-->
+                                <pattern-table-all-view-one  :source-id="this.$route.params.id"/>
                             </el-tab-pane>
                         </el-tabs>
                     </div>
                 </div>
             </el-col>
-            <el-col v-if="userAccess" :span="8">
+<!--            <el-col v-if="userAccess" :span="8">-->
+            <el-col :span="8">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
                     <p style="font-size: 20px">История изменений источника</p>
                     <table style="overflow-x: auto; ">
@@ -129,50 +139,50 @@
                 </div>
             </el-col>
         </el-row>
-        <el-row :gutter="20">
-            <el-col :span="16">
-                <div v-if="isAdmin" style="background-color: white; padding: 30px; margin-top: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
-                    <p style="font-size: 20px">Права доступа</p>
-                    <el-form :inline="true" :model="operators" class="demo-form-inline">
-                        <el-form-item label="ID оператора в ЕСОВ">
-                            <el-input v-model="operators.USER_ESOV_UID" placeholder="USER_ESOV_UID"></el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button v-if="operators.USER_ESOV_UID !== ''"
-                                       @click="addUser"
-                                       style="background-color: #1ab394; border-color: #1ab394; color: white;">
-                                Добавить оператора
-                            </el-button>
-                        </el-form-item>
-                    </el-form>
-                    <div v-if="user === null">
-                        <p>Для этого источника никто не назначен</p>
-                    </div>
-                    <div v-else>
-                        <table>
-                            <tr>
-                                <th></th>
-                                <th>ФИО</th>
-                                <th>ЕСОВ id</th>
-                            </tr>
-                            <tr v-for="oneUser in user">
-                                <td>
-                                    <el-button
-                                            @click="deleteUser(oneUser.secretKey)"
-                                            style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "
-                                            type="primary"  icon="el-icon-delete">
-                                    </el-button>
-                                </td>
-                                <td>{{oneUser.fio}}</td>
-                                <td>{{oneUser.secretKey}}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </el-col>
-            <el-col :span="8">
-            </el-col>
-        </el-row>
+<!--        <el-row :gutter="20">-->
+<!--            <el-col :span="16">-->
+<!--                <div v-if="isAdmin" style="background-color: white; padding: 30px; margin-top: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >-->
+<!--                    <p style="font-size: 20px">Права доступа</p>-->
+<!--                    <el-form :inline="true" :model="operators" class="demo-form-inline">-->
+<!--                        <el-form-item label="ID оператора в ЕСОВ">-->
+<!--                            <el-input v-model="operators.USER_ESOV_UID" placeholder="USER_ESOV_UID"></el-input>-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item>-->
+<!--                            <el-button v-if="operators.USER_ESOV_UID !== ''"-->
+<!--                                       @click="addUser"-->
+<!--                                       style="background-color: #1ab394; border-color: #1ab394; color: white;">-->
+<!--                                Добавить оператора-->
+<!--                            </el-button>-->
+<!--                        </el-form-item>-->
+<!--                    </el-form>-->
+<!--                    <div v-if="user === null">-->
+<!--                        <p>Для этого источника никто не назначен</p>-->
+<!--                    </div>-->
+<!--                    <div v-else>-->
+<!--                        <table>-->
+<!--                            <tr>-->
+<!--                                <th></th>-->
+<!--                                <th>ФИО</th>-->
+<!--                                <th>ЕСОВ id</th>-->
+<!--                            </tr>-->
+<!--                            <tr v-for="oneUser in user">-->
+<!--                                <td>-->
+<!--                                    <el-button-->
+<!--                                            @click="deleteUser(oneUser.secretKey)"-->
+<!--                                            style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "-->
+<!--                                            type="primary"  icon="el-icon-delete">-->
+<!--                                    </el-button>-->
+<!--                                </td>-->
+<!--                                <td>{{oneUser.fio}}</td>-->
+<!--                                <td>{{oneUser.secretKey}}</td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </el-col>-->
+<!--            <el-col :span="8">-->
+<!--            </el-col>-->
+<!--        </el-row>-->
     </div>
 </template>
 
@@ -251,7 +261,7 @@
 
         methods:{
             update(){
-                router.push({name:'sourceUpdate'});
+                router.push("/source/update/" + this.$route.params.id);
             },
 
             updateUserTable(){
@@ -268,23 +278,23 @@
                 });
             },
 
-            deleteUser(secretKey){
-                AXIOS.get("/user/deleteUserInSource/" + getToken() + "/" + this.$route.params.id + "/" + secretKey).then(response=>{
-                    this.notify("Успешно", "Оператор был удален", "success");
-                    this.updateUserTable();
-                })
-            },
+            // deleteUser(secretKey){
+            //     AXIOS.get("/user/deleteUserInSource/" + getToken() + "/" + this.$route.params.id + "/" + secretKey).then(response=>{
+            //         this.notify("Успешно", "Оператор был удален", "success");
+            //         this.updateUserTable();
+            //     })
+            // },
 
-            addUser(){
-                AXIOS.get("/user/setUserInSource/" + getToken() + "/" + this.$route.params.id + "/" + this.operators.USER_ESOV_UID).then(response=>{
-                    if(response.data){
-                        this.notify("Успешно", "Оператор был добавлен", "success");
-                        this.updateUserTable();
-                    } else {
-                        this.notify("Ошибка", "Ошибка при добавлении оператора. Проверьте введенные данные. Возможно он уже добавлен", "error");
-                    }
-                })
-            },
+            // addUser(){
+            //     AXIOS.get("/user/setUserInSource/" + getToken() + "/" + this.$route.params.id + "/" + this.operators.USER_ESOV_UID).then(response=>{
+            //         if(response.data){
+            //             this.notify("Успешно", "Оператор был добавлен", "success");
+            //             this.updateUserTable();
+            //         } else {
+            //             this.notify("Ошибка", "Ошибка при добавлении оператора. Проверьте введенные данные. Возможно он уже добавлен", "error");
+            //         }
+            //     })
+            // },
 
             back(){
                 router.push({name:'show'});
@@ -310,17 +320,17 @@
         },
 
         mounted() {
-            AXIOS.get("/user/isChangeSource/" + getToken() + "/" + this.$route.params.id).then(response=>{
-                this.userAccess = response.data;
-            });
+            // AXIOS.get("/user/isChangeSource/" + getToken() + "/" + this.$route.params.id).then(response=>{
+            //     this.userAccess = response.data;
+            // });
 
-            AXIOS.get("/user/isAdmin/" + getToken()).then(response=>{
-                this.isAdmin = response.data;
-            });
+            // AXIOS.get("/user/isAdmin/" + getToken()).then(response=>{
+            //     this.isAdmin = response.data;
+            // });
 
-            AXIOS.get("/user/getAllUserWithSource/" + this.$route.params.id).then(response=>{
-                this.user = response.data;
-            });
+            // AXIOS.get("/user/getAllUserWithSource/" + this.$route.params.id).then(response=>{
+            //     this.user = response.data;
+            // });
 
             AXIOS.get("source/" + this.$route.params.id).then(response => {
                 if(response.data === ""){

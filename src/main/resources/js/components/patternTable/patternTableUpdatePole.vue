@@ -9,8 +9,18 @@
         <p style="font-size: 20px">{{patternTable.tableName}}</p>
 
         <div>
+<!--            <el-upload-->
+<!--                    v-if="userAccess"-->
+<!--                    class="upload-demo"-->
+<!--                    ref="upload"-->
+<!--                    action=""-->
+<!--                    :limit="1"-->
+<!--                    :on-remove="clearForm"-->
+<!--                    :on-change="onChange"-->
+<!--                    :auto-upload="false">-->
+<!--                <el-button slot="trigger" style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394" size="small" type="primary">Выберите файл для обновления полей</el-button>-->
+<!--            </el-upload>-->
             <el-upload
-                    v-if="userAccess"
                     class="upload-demo"
                     ref="upload"
                     action=""
@@ -63,7 +73,8 @@
                 Назад
             </el-button>
         </router-link>
-        <el-button v-if="userAccess" @click="updateTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
+        <el-button  @click="updateTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>
+<!--        <el-button v-if="userAccess" @click="updateTable" style="background-color: #1ab394; border-color: #1ab394; color: white;">Сохранить</el-button>-->
     </div>
 
 </template>
@@ -126,7 +137,7 @@
                     formData.append("types", type );
                     formData.append("primaries", primary );
                     formData.append("patternTableId", this.patternTableId);
-                    formData.append("token", getToken());
+                    // formData.append("token", getToken());
 
                     AXIOS.get("/tableCreator/exist/"+tableName).then(response => {
                         existingTable = response.data;
@@ -212,12 +223,11 @@
 
         mounted() {
             this.patternTableId = this.$route.params.id;
-            AXIOS.get("/tableCreator/" + this.patternTableId).then(response => {
-                AXIOS.get("/user/isChangeSource/" + getToken() + "/" + response.data.sourceId).then(response => {
-                    console.log(response.data);
-                    this.userAccess = response.data;
-                });
-            });
+            // AXIOS.get("/tableCreator/" + this.patternTableId).then(response => {
+            //     AXIOS.get("/user/isChangeSource/" + getToken() + "/" + response.data.sourceId).then(response => {
+            //         this.userAccess = response.data;
+            //     });
+            // });
 
             let formData = new FormData();
             formData.append("id", this.patternTableId);

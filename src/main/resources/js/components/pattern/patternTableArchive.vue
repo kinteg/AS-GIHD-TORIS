@@ -376,7 +376,8 @@
             },
 
             deletePattern(id) {
-                AXIOS.get("pattern/archive/" + id + "/" + getToken()).then(response => {
+                // AXIOS.get("pattern/archive/" + id + "/" + getToken()).then(response => {
+                AXIOS.get("pattern/archive/" + id ).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был архивирован','success');
                         this.updatePage();
@@ -391,7 +392,8 @@
             },
 
             deArchivePattern(id){
-                AXIOS.get("pattern/deArchive/" + id + "/" + getToken()).then(response => {
+                AXIOS.get("pattern/deArchive/" + id).then(response => {
+                // AXIOS.get("pattern/deArchive/" + id + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был активирован','success');
                         this.updatePage();

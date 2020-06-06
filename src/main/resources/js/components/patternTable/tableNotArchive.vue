@@ -337,13 +337,13 @@
             },
 
             deleteOneTable(id, sourceId) {
-                AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=>{
-                    if(response.data) {
+                // AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=>{
+                //     if(response.data) {
                         this.deleteTable(id);
-                    } else {
-                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
-                    }
-                });
+                //     } else {
+                //         this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                //     }
+                // });
             },
 
             updatePage(){
@@ -407,7 +407,8 @@
             },
 
             deArchiveTable(id){
-                AXIOS.get("tableCreator/deArchive/" + id + "/" + getToken()).then(response => {
+                // AXIOS.get("tableCreator/deArchive/" + id + "/" + getToken()).then(response => {
+                AXIOS.get("tableCreator/deArchive/" + id).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была активирована','success');
                         this.updatePage();
@@ -418,13 +419,13 @@
             },
 
             deArchiveOneTable(id, sourceId){
-                AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=>{
-                    if(response.data) {
+                // AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=>{
+                //     if(response.data) {
                         this.deArchiveTable(id);
-                    } else {
-                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
-                    }
-                });
+                //     } else {
+                //         this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                //     }
+                // });
             },
 
             onCurrentChange(value) {

@@ -532,7 +532,8 @@
             },
 
             deArchiveSource(id){
-                AXIOS.get("source/deArchive/" + id + "/" + getToken()).then(response => {
+                // AXIOS.get("source/deArchive/" + id + "/" + getToken()).then(response => {
+                AXIOS.get("source/deArchive/" + id).then(response => {
                     if (response.data.name !== "") {
                         this.notify('Успешно', 'Источник был активирован', 'success');
                         this.updatePage();
@@ -543,25 +544,25 @@
             },
 
             deArchiveOneSource(id){
-                AXIOS.get("user/isChangeSource/" + getToken() + "/" + id).then(response=> {
-                    if (response.data) {
+                // AXIOS.get("user/isChangeSource/" + getToken() + "/" + id).then(response=> {
+                //     if (response.data) {
                         this.deArchiveSource(id);
-                    } else {
-                        this.notify('Ошибка', 'Источник не был архивирован', 'error');
-                    }
-                });
+                //     } else {
+                //         this.notify('Ошибка', 'Источник не был архивирован', 'error');
+                //     }
+                // });
             },
 
             deArchiveSomeSource(){
                 if(this.source.check.length !== 0){
                     for(let i = 0; i < this.source.check.length; i++){
-                        AXIOS.get("user/isChangeSource/" + getToken() + "/" + i).then(response=>{
-                            if(response.data) {
+                        // AXIOS.get("user/isChangeSource/" + getToken() + "/" + i).then(response=>{
+                        //     if(response.data) {
                                 this.deArchiveSource(this.source.check[i]);
-                            } else {
-                                this.notify('Ошибка', 'У вас недостаточно прав', 'error');
-                            }
-                        });
+                        //     } else {
+                        //         this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                        //     }
+                        // });
                     }
                     this.updatePage();
                 } else {

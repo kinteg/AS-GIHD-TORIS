@@ -1,9 +1,13 @@
 <template>
     <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
         <p v-if="!createPattern" style="font-size: 20px">Шаблоны
-            <el-button v-if="access" class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
-            <el-button v-if="access" @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
-            <el-button v-if="access" class="plus" @click="addPattern" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
+<!--            <el-button v-if="access" class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>-->
+<!--            <el-button v-if="access" @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>-->
+<!--            <el-button v-if="access" class="plus" @click="addPattern" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>-->
+            <el-button class="trt" @click="deleteSomePattern"  style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-delete"></el-button>
+            <el-button @click="deArchiveSomePattern"  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary"  icon="el-icon-upload2"></el-button>
+            <el-button class="plus" @click="addPattern" style="float: right; margin-bottom: 15px; background-color: #1ab394; border-color: #1ab394 "  type="primary" icon="el-icon-plus"></el-button>
+
             <el-dropdown style="float: right" :hide-on-click="false">
                 <el-button
                         style="float: right; margin-left: 10px; background-color: #1ab394; border-color: #1ab394; "
@@ -189,8 +193,14 @@
                                 size="mini"
                                 icon="el-icon-view"/>
                         <span v-if="pattern.isArchive">
+<!--                             <el-button-->
+<!--                                     v-if="access"-->
+<!--                                     @click="deArchiveOnePattern(pattern.id)"-->
+<!--                                     style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
+<!--                                     type="primary"-->
+<!--                                     size="mini"-->
+<!--                                     icon="el-icon-upload2"/>-->
                              <el-button
-                                     v-if="access"
                                      @click="deArchiveOnePattern(pattern.id)"
                                      style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                      type="primary"
@@ -198,13 +208,19 @@
                                      icon="el-icon-upload2"/>
                          </span>
                         <span v-else>
-                            <el-button
-                                    v-if="access"
-                                    @click="deleteOnePattern(pattern.id)"
-                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
-                                    type="primary"
-                                    size="mini"
-                                    icon="el-icon-delete"/>
+<!--                            <el-button-->
+<!--                                    v-if="access"-->
+<!--                                    @click="deleteOnePattern(pattern.id)"-->
+<!--                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
+<!--                                    type="primary"-->
+<!--                                    size="mini"-->
+<!--                                    icon="el-icon-delete"/>-->
+                             <el-button
+                                     @click="deleteOnePattern(pattern.id)"
+                                     style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                     type="primary"
+                                     size="mini"
+                                     icon="el-icon-delete"/>
                          </span>
                     </td>
                     <td> <el-checkbox @change="check(pattern.id)"></el-checkbox></td>
@@ -249,7 +265,8 @@
     import {getToken} from "../../modules/auth";
     export default {
         name: "patternBySource",
-        props:['sourceId',"access"],
+        props:['sourceId'],
+        // props:['sourceId',"access"],
         components: {PatternCreate, MyPagination},
         data() {
             return {
@@ -415,7 +432,7 @@
             },
 
             deletePattern(id) {
-                AXIOS.get("pattern/archive/" + id + "/" + getToken()).then(response => {
+                AXIOS.get("pattern/archive/" + id ).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был архивирован','success');
                         this.updatePage();
@@ -427,11 +444,11 @@
 
             deleteOnePattern(id) {
                 this.deletePattern(id);
-                AXIOS.get("tableCreator/archivePatterns/" + id  + "/" + getToken())
+                AXIOS.get("tableCreator/archivePatterns/" + id)
             },
 
             deArchivePattern(id){
-                AXIOS.get("pattern/deArchive/" + id  + "/" + getToken()).then(response => {
+                AXIOS.get("pattern/deArchive/" + id ).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был активирован','success');
                         this.updatePage();

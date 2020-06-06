@@ -75,8 +75,13 @@
                                         </el-col>
                                     </el-row>
                                 </div>
+<!--                                <el-button-->
+<!--                                        v-if="userAccess"-->
+<!--                                        @click="updateSource"-->
+<!--                                        style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">-->
+<!--                                    Редактировать-->
+<!--                                </el-button>-->
                                 <el-button
-                                        v-if="userAccess"
                                         @click="updateSource"
                                         style="margin-top: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
                                     Редактировать
@@ -132,11 +137,17 @@
                                             </div>
                                         </el-col>
                                     </el-row>
+<!--                                    <el-button-->
+<!--                                               v-if="userAccess"-->
+<!--                                               @click="updatePattern"-->
+<!--                                               style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
+<!--                                               type="primary">-->
+<!--                                        Редактировать-->
+<!--                                    </el-button>-->
                                     <el-button
-                                               v-if="userAccess"
-                                               @click="updatePattern"
-                                               style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
-                                               type="primary">
+                                            @click="updatePattern"
+                                            style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                            type="primary">
                                         Редактировать
                                     </el-button>
                                 </div>
@@ -184,14 +195,35 @@
                             <el-tab-pane label="Таблицы" name="tableInfo">
                                 <p style="font-size: 20px">Таблицы
                                     <span v-if="isMainPage">
-                                        <el-button
-                                                v-if="userAccess"
-                                                @click="addTableTab"
-                                                style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
-                                                type="primary"
-                                                icon="el-icon-plus"/>
+<!--                                        <el-button-->
+<!--                                                v-if="userAccess"-->
+<!--                                                @click="addTableTab"-->
+<!--                                                style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
+<!--                                                type="primary"-->
+<!--                                                icon="el-icon-plus"/>-->
+<!--                                        <el-upload-->
+<!--                                                v-if="userAccess"-->
+<!--                                                style="float: right; margin-right: 10px;"-->
+<!--                                                class="upload-demo"-->
+<!--                                                ref="upload"-->
+<!--                                                action=""-->
+<!--                                                :limit="1"-->
+<!--                                                :on-change="sendFiles"-->
+<!--                                                :auto-upload="false">-->
+<!--                                            <el-button-->
+<!--                                                    v-if="userAccess"-->
+<!--                                                    slot="trigger"-->
+<!--                                                    style="background-color: #1ab394; border-color: #1ab394"-->
+<!--                                                    size="small"-->
+<!--                                                    type="primary">-->
+<!--                                                Загрузить данные в таблицы-->
+<!--                                            </el-button>-->
+                                          <el-button
+                                                  @click="addTableTab"
+                                                  style="float: right; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                                  type="primary"
+                                                  icon="el-icon-plus"/>
                                         <el-upload
-                                                v-if="userAccess"
                                                 style="float: right; margin-right: 10px;"
                                                 class="upload-demo"
                                                 ref="upload"
@@ -200,7 +232,6 @@
                                                 :on-change="sendFiles"
                                                 :auto-upload="false">
                                             <el-button
-                                                    v-if="userAccess"
                                                     slot="trigger"
                                                     style="background-color: #1ab394; border-color: #1ab394"
                                                     size="small"
@@ -297,21 +328,32 @@
                                                             <el-button style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
                                                         </router-link>
                                                         <span v-if="table.isArchive">
-                                                <el-button
-                                                        v-if="userAccess"
+<!--                                                <el-button-->
+<!--                                                        v-if="userAccess"-->
+<!--                                                        @click="deArchiveOneTable(table.id)"-->
+<!--                                                        style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
+<!--                                                        type="primary" size="mini"-->
+<!--                                                        icon="el-icon-upload2"/>-->
+                                                    <el-button
                                                         @click="deArchiveOneTable(table.id)"
                                                         style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
                                                         type="primary" size="mini"
                                                         icon="el-icon-upload2"/>
                                             </span>
                                                         <span v-else>
-                                                <el-button
-                                                        v-if="userAccess"
-                                                        @click="deleteOneTable(table.id)"
-                                                        style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
-                                                        type="primary"
-                                                        size="mini"
-                                                        icon="el-icon-delete"/>
+<!--                                                <el-button-->
+<!--                                                        v-if="userAccess"-->
+<!--                                                        @click="deleteOneTable(table.id)"-->
+<!--                                                        style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
+<!--                                                        type="primary"-->
+<!--                                                        size="mini"-->
+<!--                                                        icon="el-icon-delete"/>-->
+                                            <el-button
+                                                    @click="deleteOneTable(table.id)"
+                                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                                    type="primary"
+                                                    size="mini"
+                                                    icon="el-icon-delete"/>
                                             </span>
                                                     </td>
                                                     <td> <el-checkbox @change="check(table.id)"></el-checkbox></td>
@@ -405,7 +447,8 @@
                     </div>
                 </div>
             </el-col>
-            <el-col v-if="isAdmin" :span="8">
+<!--            <el-col v-if="isAdmin" :span="8">-->
+            <el-col :span="8">
                 <div v-if="activeName === 'patternInfo'">
                     <pattern-log-card :pattern-id="patternId"/>
                 </div>
@@ -801,7 +844,7 @@
             },
 
             deleteTable(id) {
-                AXIOS.get("tableCreator/archive/" + id + "/" + getToken()).then(response => {
+                AXIOS.get("tableCreator/archive/" + id).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была активирована','success');
                         this.updatePage();
@@ -816,7 +859,7 @@
             },
 
             deArchiveTable(id){
-                AXIOS.get("tableCreator/deArchive/" + id + "/" + getToken()).then(response => {
+                AXIOS.get("tableCreator/deArchive/" + id ).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была активирована','success');
                         this.updatePage();
@@ -916,7 +959,7 @@
                     formData.append("types", type );
                     formData.append("primaries", primary );
                     formData.append("patternId", this.patternId);
-                    formData.append("token", getToken());
+                    // formData.append("token", getToken());
 
                     AXIOS.get("/tableCreator/exist/"+tableName).then(response => {
                         existingTable = response.data;
@@ -1013,7 +1056,7 @@
                 formData.append("management",this.pattern.management);
                 formData.append("sourceId",this.pattern.sourceId);
                 formData.append("isArchive",this.pattern.isArchive);
-                formData.append("token", getToken());
+                // formData.append("token", getToken());
                 AXIOS.post("/pattern/update",
                     formData,
                     {
@@ -1180,9 +1223,9 @@
         },
 
         mounted() {
-            AXIOS.get("/user/isAdmin/" + getToken()).then(response=>{
-                this.isAdmin = response.data;
-            });
+            // AXIOS.get("/user/isAdmin/" + getToken()).then(response=>{
+            //     this.isAdmin = response.data;
+            // });
 
             this.patternId = this.$route.params.id;
             AXIOS.get("pattern/" + this.patternId).then(response => {
@@ -1192,9 +1235,9 @@
                     this.pattern = response.data;
                     this.sourceId = response.data.sourceId;
 
-                    AXIOS.get("user/isChangeSource/" + getToken() + "/" + this.sourceId).then(response=>{
-                        this.userAccess = response.data;
-                    });
+                    // AXIOS.get("user/isChangeSource/" + getToken() + "/" + this.sourceId).then(response=>{
+                    //     this.userAccess = response.data;
+                    // });
 
                     AXIOS.get("source/" + this.sourceId).then(response => {
                         this.source = response.data;

@@ -16,17 +16,32 @@
                     <p style="font-size: 20px">Просмотр таблицы</p>
                     <p style="font-size: 20px">{{showOnlyOneTable.tableModel.tableName}}
                         <span v-if="patternTable.isActive === true && patternTable.isArchive === false">
-                        <el-upload
-                                v-if="userAccess"
-                                style="float: right;"
-                                class="upload-demo"
-                                ref="upload"
-                                action=""
-                                :limit="1"
-                                :on-change="sendFiles"
-                                :auto-upload="false">
+<!--                        <el-upload-->
+<!--                                v-if="userAccess"-->
+<!--                                style="float: right;"-->
+<!--                                class="upload-demo"-->
+<!--                                ref="upload"-->
+<!--                                action=""-->
+<!--                                :limit="1"-->
+<!--                                :on-change="sendFiles"-->
+<!--                                :auto-upload="false">-->
+<!--                            <el-button-->
+<!--                                    v-if="userAccess"-->
+<!--                                    slot="trigger"-->
+<!--                                    style="background-color: #1ab394; border-color: #1ab394"-->
+<!--                                    size="small"-->
+<!--                                    type="primary">-->
+<!--                                Загрузить данные в таблицу-->
+<!--                            </el-button>-->
+                              <el-upload
+                                      style="float: right;"
+                                      class="upload-demo"
+                                      ref="upload"
+                                      action=""
+                                      :limit="1"
+                                      :on-change="sendFiles"
+                                      :auto-upload="false">
                             <el-button
-                                    v-if="userAccess"
                                     slot="trigger"
                                     style="background-color: #1ab394; border-color: #1ab394"
                                     size="small"
@@ -35,7 +50,7 @@
                             </el-button>
                         </el-upload>
                         <router-link :to="'/patternTable/update/' + this.patternTableId">
-                            <el-button v-if="userAccess" style="float: right; margin-right: 10px; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
+                            <el-button  style="float: right; margin-right: 10px; margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394; color: white;">
                                 Обновить поля
                             </el-button>
                         </router-link>
@@ -79,7 +94,8 @@
                     </div>
                 </div>
             </el-col>
-            <el-col v-if="userAccess" :span="8">
+<!--            <el-col v-if="userAccess" :span="8">-->
+            <el-col :span="8">
                 <div style="background-color: white; padding: 30px;  border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" >
                     <p style="font-size: 20px">История изменений</p>
                     <table style="overflow-x: auto; ">
@@ -457,9 +473,9 @@
                 if(response.data === ""){
                     router.push({name:'NotFoundPages'})
                 } else {
-                    AXIOS.get("/user/isChangeSource/" + getToken() + "/" + response.data.sourceId).then(response => {
-                        this.userAccess = response.data;
-                    });
+                    // AXIOS.get("/user/isChangeSource/" + getToken() + "/" + response.data.sourceId).then(response => {
+                    //     this.userAccess = response.data;
+                    // });
                     this.patternTable = response.data;
                 }
             });

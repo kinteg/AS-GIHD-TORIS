@@ -28,8 +28,8 @@ import NotFoundPages from "../pages/NotFoundPages.vue";
 import LoginPage from "../pages/LoginPage.vue";
 import Cookies from 'js-cookie'
 
-let hidden;
-hidden = Cookies.get('isAdmin') !== "true";
+// let hidden;
+// hidden = Cookies.get('isAdmin') !== "true";
 const routes = [
     {
         path:'/source',
@@ -149,7 +149,7 @@ const routes = [
             title: 'Логи',
             icon: 'el-icon-paperclip',
         },
-        hidden: hidden,
+        // hidden: hidden,
         children:[
             {
                 path:'sourceLogs',

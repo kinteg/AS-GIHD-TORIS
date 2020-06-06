@@ -386,14 +386,14 @@
             deleteSomePattern() {
                 if(this.pattern.check.length !== 0){
                     for(let i = 0; i < this.pattern.check.length; i++){
-                        AXIOS.get("user/isChangeSource/" + getToken() + "/" + i).then(response=> {
-                            if (response.data) {
+                        // AXIOS.get("user/isChangeSource/" + getToken() + "/" + i).then(response=> {
+                        //     if (response.data) {
                                 this.deletePattern(this.pattern.check[i]);
-                                AXIOS.get("tableCreator/archivePatterns/" + i + "/" + getToken())
-                            } else {
-                                this.notify('Ошибка', 'У вас недостаточно прав', 'error');
-                            }
-                        });
+                                AXIOS.get("tableCreator/archivePatterns/" + i )
+                            // } else {
+                            //     this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                            // }
+                        // });
                     }
                     this.updatePage();
                 } else {
@@ -402,7 +402,8 @@
             },
 
             deletePattern(id) {
-                AXIOS.get("pattern/archive/" + id  + "/" + getToken()).then(response => {
+                AXIOS.get("pattern/archive/" + id).then(response => {
+                // AXIOS.get("pattern/archive/" + id  + "/" + getToken()).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был архивирован','success');
                         this.updatePage();
@@ -413,26 +414,27 @@
             },
 
             deleteOnePattern(id, sourceId) {
-                AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=> {
-                    if (response.data) {
+                // AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=> {
+                //     if (response.data) {
                         this.deletePattern(id);
-                        AXIOS.get("tableCreator/archivePatterns/" + id + "/" + getToken())
-                    } else {
-                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
-                    }
-                });
+                        AXIOS.get("tableCreator/archivePatterns/" + id );
+                        // AXIOS.get("tableCreator/archivePatterns/" + id + "/" + getToken())
+                //     } else {
+                //         this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                //     }
+                // });
             },
 
             deArchiveSomePattern(){
                 if(this.pattern.check.length !== 0){
                     for(let i = 0; i < this.pattern.check.length; i++){
-                        AXIOS.get("user/isChangeSource/" + getToken() + "/" + i).then(response=> {
-                            if (response.data) {
+                        // AXIOS.get("user/isChangeSource/" + getToken() + "/" + i).then(response=> {
+                        //     if (response.data) {
                                 this.deArchivePattern(this.pattern.check[i]);
-                            } else {
-                                this.notify('Ошибка', 'У вас недостаточно прав', 'error');
-                            }
-                        });
+                        //     } else {
+                        //         this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                        //     }
+                        // });
                     }
                     this.updatePage();
                 } else {
@@ -441,7 +443,8 @@
             },
 
             deArchivePattern(id){
-                AXIOS.get("pattern/deArchive/" + id + "/" + getToken()).then(response => {
+                // AXIOS.get("pattern/deArchive/" + id + "/" + getToken()).then(response => {
+                AXIOS.get("pattern/deArchive/" + id ).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Шаблон был активирован','success');
                         this.updatePage();
@@ -452,13 +455,13 @@
             },
 
             deArchiveOnePattern(id, sourceId){
-                AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=> {
-                    if (response.data) {
+                // AXIOS.get("user/isChangeSource/" + getToken() + "/" + sourceId).then(response=> {
+                //     if (response.data) {
                         this.deArchivePattern(id, sourceId);
-                    } else {
-                        this.notify('Ошибка', 'У вас недостаточно прав', 'error');
-                    }
-                });
+                //     } else {
+                //         this.notify('Ошибка', 'У вас недостаточно прав', 'error');
+                //     }
+                // });
             },
 
             sort(key){

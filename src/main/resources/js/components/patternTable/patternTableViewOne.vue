@@ -134,20 +134,32 @@
                                 <el-button style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "  type="primary" size="mini" icon="el-icon-view"></el-button>
                             </router-link>
                             <span v-if="table.isArchive">
-                            <el-button v-if="access"
-                                    @click="deArchiveOneTable(table.id)"
-                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
-                                    type="primary"
-                                    size="mini"
-                                    icon="el-icon-upload2"/>
+<!--                            <el-button v-if="access"-->
+<!--                                    @click="deArchiveOneTable(table.id)"-->
+<!--                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
+<!--                                    type="primary"-->
+<!--                                    size="mini"-->
+<!--                                    icon="el-icon-upload2"/>-->
+                                 <el-button
+                                            @click="deArchiveOneTable(table.id)"
+                                            style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                            type="primary"
+                                            size="mini"
+                                            icon="el-icon-upload2"/>
                         </span>
                             <span v-else>
-                            <el-button v-if="access"
-                                    @click="deleteOneTable(table.id)"
-                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
-                                    type="primary"
-                                    size="mini"
-                                    icon="el-icon-delete"/>
+<!--                            <el-button v-if="access"-->
+<!--                                    @click="deleteOneTable(table.id)"-->
+<!--                                    style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "-->
+<!--                                    type="primary"-->
+<!--                                    size="mini"-->
+<!--                                    icon="el-icon-delete"/>-->
+                                 <el-button
+                                            @click="deleteOneTable(table.id)"
+                                            style="margin-bottom: 10px; background-color: #1ab394; border-color: #1ab394 "
+                                            type="primary"
+                                            size="mini"
+                                            icon="el-icon-delete"/>
                         </span>
                         </td>
                         <td v-if="hidden.id">{{table.id}}</td>
@@ -185,7 +197,8 @@
     export default {
         name: "patternTableAllViewOne",
         components: {MyPagination},
-        props:["sourceId", "access"],
+        // props:["sourceId", "access"],
+        props:["sourceId"],
         data() {
             return {
                 allTable: true,
@@ -303,7 +316,8 @@
             },
 
             deleteTable(id) {
-                AXIOS.get("tableCreator/archive/" + id + "/" + getToken()).then(response => {
+                // AXIOS.get("tableCreator/archive/" + id + "/" + getToken()).then(response => {
+                AXIOS.get("tableCreator/archive/" + id ).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была архивирована','success');
                         this.updatePage();
@@ -379,7 +393,8 @@
             },
 
             deArchiveTable(id){
-                AXIOS.get("tableCreator/deArchive/" + id + "/" + getToken()).then(response => {
+                // AXIOS.get("tableCreator/deArchive/" + id + "/" + getToken()).then(response => {
+                AXIOS.get("tableCreator/deArchive/" + id ).then(response => {
                     if(response.data.name !== ""){
                         this.notify('Успешно','Таблица была архивирована','success');
                         this.updatePage();

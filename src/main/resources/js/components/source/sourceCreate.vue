@@ -314,7 +314,7 @@
                 formData.append("providerLink",this.source.providerLink);
                 formData.append("dataSource",this.source.dataSource);
                 formData.append("isArchive",false);
-                formData.append("token",getToken());
+                // formData.append("token",getToken());
 
                 AXIOS.post("/source/create",
                     formData,

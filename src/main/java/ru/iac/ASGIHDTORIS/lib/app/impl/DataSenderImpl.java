@@ -50,7 +50,7 @@ public class DataSenderImpl implements DataSender {
         }
 
         TableModel tableModel = buildTableModel(filename, tableName);
-        Reader reader = createReader(file);
+        Reader reader = createReader(findFile);
 
         boolean result = senderRepo.insert(reader, tableModel);
 
